@@ -1,0 +1,5 @@
+Meshes:
+
+Training pole: CC-BY-SA p0ss http://opengameart.org/content/wooden-training-pole
+Kobold - CC0 - http://opengameart.org/forumtopic/cc0-scraps
+Tilesets (Gold, Dirt, Water, Lava) : CC-BY-SA 3.0 Skorpio http://opengameart.org/users/skorpio
