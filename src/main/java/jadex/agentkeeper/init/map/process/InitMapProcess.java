@@ -41,6 +41,8 @@ import jadex.agentkeeper.ai.pathfinding.*;
 
 /**
  * Environment process for creating wastes.
+ * 
+ * @author Philip Willuweit p.willuweit@gmx.de
  */
 public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IMap, ISpaceObjectStrings
 {

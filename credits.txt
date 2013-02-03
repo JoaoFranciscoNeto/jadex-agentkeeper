@@ -4,6 +4,8 @@ Training pole: CC-BY-SA p0ss http://opengameart.org/content/wooden-training-pole
 Kobold - CC0 - http://opengameart.org/forumtopic/cc0-scraps
 Tilesets (Gold, Dirt, Water, Lava) : CC-BY-SA 3.0 Skorpio http://opengameart.org/users/skorpio
 Warlock: CC-BY-SA Clement Wu, Nikolaus & Botanic : http://opengameart.org/users/botanic
+Dungeonheart, Library, Training Buddy: CC-BY 3.0 Jannik Staub jannikstaub@gmail.com
+
 
 GUI:
 
