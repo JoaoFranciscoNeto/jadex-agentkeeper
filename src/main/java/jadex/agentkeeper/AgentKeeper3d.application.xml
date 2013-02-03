@@ -122,6 +122,10 @@
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
+				<env:objecttype name="portalcenter">
+					<env:property name="status" class="String">"Nothing"</env:property>
+					<env:property name="neighborhood" class="String"></env:property>
+				</env:objecttype>
 				<env:objecttype name="trainingroom">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
@@ -415,12 +419,12 @@
 						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
 						modelpath="models/buildings/dungeonheart/dungeonheart.j3o" 
 						 />
-						
-						
-<!-- 						<env:object3d width="1" height="1" depth="1" x="0" y="1.25" z="0"  -->
-<!-- 						modelpath="models/buildings/dungeonheart/Sphere.j3o" hasLightMaterials="true" > -->
-<!-- 							<env:animation name="my_animation" channel="chanA" loop="true"/> -->
-<!-- 						</env:object3d> -->
+					</env:drawable3d>
+					
+					<env:drawable3d objecttype="portalcenter" width="1" height="1" depth="1" isDynamic="true">
+						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
+						modelpath="models/buildings/portal/portal.j3o" 
+						 />
 
 					</env:drawable3d>
 
