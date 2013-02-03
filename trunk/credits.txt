@@ -7,6 +7,9 @@ Warlock: CC-BY-SA Clement Wu, Nikolaus & Botanic : http://opengameart.org/users/
 Dungeonheart, Portal, Library, Training Buddy: CC-BY 3.0 Jannik Staub jannikstaub@gmail.com
 Farm (Hatchery) : CC-BY-SA bei cgcookie http://www.blendswap.com/user/cgcookie
 
+Small Stuff
+Chickens: Tim Cooper CC-BY-SA http://opengameart.org/content/posable-poultry
+
 GUI:
 
 Basic GUI Buttons: CC-BY-SA josepzin http://opengameart.org/users/josepzin
