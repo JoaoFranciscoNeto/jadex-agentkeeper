@@ -10,3 +10,4 @@ Dungeonheart, Library, Training Buddy: CC-BY 3.0 Jannik Staub jannikstaub@gmail.
 GUI:
 
 Basic GUI Buttons: CC-BY-SA josepzin http://opengameart.org/users/josepzin
+Mana Bottle: CC-BY-SA 3.0 Clint Ballanger http://opengameart.org/users/clint-bellanger
