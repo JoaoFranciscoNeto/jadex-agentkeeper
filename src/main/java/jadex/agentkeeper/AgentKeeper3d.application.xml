@@ -417,8 +417,11 @@
 					
 					<env:drawable3d objecttype="dungeonheartcenter" width="1" height="1" depth="1" isDynamic="true">
 						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
-						modelpath="models/buildings/dungeonheart/dungeonheart.j3o" 
-						 />
+						modelpath="models/buildings/dungeonheart/dungeonheart.j3o" >
+						 	<env:materialfile part="plate" path="models/buildings/dungeonheart/dungeonheart_ground.j3m" />
+							<env:materialfile part="units" path="models/buildings/dungeonheart/dungeonheart.j3m" />
+							<env:materialfile part="stuff" path="models/buildings/dungeonheart/dungeonheart.j3m" />
+						 </env:object3d>
 					</env:drawable3d>
 					
 					<env:drawable3d objecttype="portalcenter" width="1" height="1" depth="1" isDynamic="true">
@@ -429,7 +432,9 @@
 					</env:drawable3d>
 
 					<env:drawable3d objecttype="dungeonheart" width="1.0" height="1.0" depth="1.0" isDynamic="false">
-						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" modelpath="models/tilesets/claimed/Claimedpath.j3o"/>
+						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
+						modelpath="models/tilesets/claimed/Claimedpath.j3o"/>
+
 					</env:drawable3d>
 					
 					<env:drawable3d objecttype="hatchery" width="1.0" height="1.0" depth="1.0" isDynamic="false">
@@ -442,6 +447,11 @@
 						<env:object3d width="1" height="1" depth="1" x="0" y="0" z="0" 
 							modelpath="models/tilesets/buildings/border/Default_?.j3o"
 							materialpath="models/tilesets/buildings/border/default.j3m">
+						</env:object3d>
+						
+						<env:object3d width="0.3" height="0.3" depth="0.3" x="0" y="0" z="0" 
+							modelpath="models/creatures/chicken/chicken.j3o"
+							materialpath="models/creatures/chicken/chicken-Material.j3m">
 						</env:object3d>
 						
 					</env:drawable3d>

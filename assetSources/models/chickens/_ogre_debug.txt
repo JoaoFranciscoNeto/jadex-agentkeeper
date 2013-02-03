@@ -1,0 +1,20 @@
+21:55:26: Creating resource group General
+21:55:26: Creating resource group Internal
+21:55:26: Creating resource group Autodetect
+21:55:26: Registering ResourceManager for type Mesh
+21:55:26: Registering ResourceManager for type Material
+21:55:26: Registering ResourceManager for type Skeleton
+21:55:27: XMLSkeletonSerializer: reading XML data from C:\Users\Flipflop\mavenProjekte\agentkeeper\assetSources\models\chickens\Cube.006.skeleton.xml...
+21:55:27: XMLSkeletonSerializer: Reading Bones name...
+21:55:27: XMLSkeletonSerializer: Reading Hierarchy data...
+21:55:27: XMLSkeletonSerializer: Reading Bones data...
+21:55:27: XMLSkeletonSerializer: Reading Animations data...
+21:55:27: XMLSkeletonSerializer: Finished. Running SkeletonSerializer...
+21:55:27: Exporting bones..
+21:55:27: Bones exported.
+21:55:27: Exporting animations, count=1
+21:55:27: Exporting animation: my_animation
+21:55:27: Animation exported.
+21:55:27: Unregistering ResourceManager for type Skeleton
+21:55:27: Unregistering ResourceManager for type Material
+21:55:27: Unregistering ResourceManager for type Mesh
