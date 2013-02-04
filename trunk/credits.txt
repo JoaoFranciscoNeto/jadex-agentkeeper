@@ -1,8 +1,11 @@
-Meshes:
+Lots of the Assets shown here are original created for the OpenDungeons-Community: http://opendungeons.sourceforge.net/
 
+Meshes:
 Training pole: CC-BY-SA p0ss http://opengameart.org/content/wooden-training-pole
 Kobold - CC0 - http://opengameart.org/forumtopic/cc0-scraps
 Tilesets (Gold, Dirt, Water, Lava) : CC-BY-SA 3.0 Skorpio http://opengameart.org/users/skorpio
+Treasury,Orc: CC-BY-SA 3.0 Skorpio http://opengameart.org/users/skorpio
+DungeonTemple (first Version in the Demo, now we use the one from Jannik Staub) : CC-BY-SA 3.0 Skorpio http://opengameart.org/users/skorpio
 Warlock: CC-BY-SA Clement Wu, Nikolaus & Botanic : http://opengameart.org/users/botanic
 Dungeonheart, Portal, Library, Training Buddy: CC-BY 3.0 Jannik Staub jannikstaub@gmail.com
 Farm (Hatchery) : CC-BY-SA bei cgcookie http://www.blendswap.com/user/cgcookie
@@ -14,3 +17,9 @@ GUI:
 
 Basic GUI Buttons: CC-BY-SA josepzin http://opengameart.org/users/josepzin
 Mana Bottle: CC-BY-SA 3.0 Clint Ballanger http://opengameart.org/users/clint-bellanger
+
+Sound:
+
+Effects: Sounds Svenskmand CC-BY-SA 3.0
+
+Game-Music: "The Snow Queen" by Kevin MacLeod under CC Attribution 3.0.: incompetech.com/music/royalty-free/
