@@ -8,7 +8,7 @@
 	        classpath="ant-googlecode-0.0.3.jar" name="gcupload"/>
 		<gcupload username="${user}" password="${pass}"
 		    projectname="jadex-agentkeeper" filename="target/jadex-agentkeeper-0.0.1-SNAPSHOT-agentkeeper.zip"
-		    targetfilename="jadex-agentkeeper-snapshot.zip" summary="Playable nightly build."
-		    labels="Featured, Type-Package, OpSys-All" />
+		    targetfilename="jadex-agentkeeper-snapshot-${BUILD_ID}.zip" summary="Playable nightly build."
+		    labels="Type-Package, OpSys-All" />
 	</target>
 </project>
