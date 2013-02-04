@@ -18,6 +18,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
@@ -40,6 +43,7 @@ import javax.swing.SwingUtilities;
 public class ObserverCenterWindow extends JFrame
 {
 
+	
 	/** The menubar. */
 	private JMenuBar	menubar;
 
@@ -81,8 +85,19 @@ public class ObserverCenterWindow extends JFrame
 	public ObserverCenterWindow(String title)
 	{
 		super(title);
+		
+		final JFrame me = this;
 
 		this.knownpluginviews = new HashSet();
+		
+		this.addWindowListener(new WindowAdapter() {
+		    public void windowClosing(WindowEvent evt) {
+		        int Answer = JOptionPane.showConfirmDialog(me, "You want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		        if (Answer == JOptionPane.YES_OPTION) {
+		            System.exit(0);
+		        }
+		    }
+		});
 
 		Runnable runnable = new Runnable()
 		{
@@ -263,6 +278,8 @@ public class ObserverCenterWindow extends JFrame
 		disposed = true;
 		super.dispose();
 	}
+	
+
 
 
 	/**
