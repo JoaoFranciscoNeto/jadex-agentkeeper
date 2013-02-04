@@ -1,0 +1,14 @@
+<!--
+	Build script to upload distribution zip to google code.
+	Set google account as $user and googlecode.com password $pass from outside.
+ -->
+<project name="AgentKeeper" default="upload" basedir=".">
+	<target name="upload">
+	    <taskdef classname="net.bluecow.googlecode.ant.GoogleCodeUploadTask"
+	        classpath="ant-googlecode-0.0.3.jar" name="gcupload"/>
+		<gcupload username="${user}" password="${pass}"
+		    projectname="jadex-agentkeeper" filename="target/jadex-agentkeeper-0.0.1-SNAPSHOT-agentkeeper.zip"
+		    targetfilename="jadex-agentkeeper-snapshot.zip" summary="Playable nightly build."
+		    labels="Featured, Type-Package, OpSys-All" />
+	</target>
+</project>
