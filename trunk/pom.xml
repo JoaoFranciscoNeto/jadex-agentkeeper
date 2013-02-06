@@ -34,7 +34,7 @@
 				</excludes>
 			</resource>
 			<resource>
-				<directory>src/main/assets</directory>
+				<directory>assets</directory>
 				<excludes>
 					<exclude>**/.svn/*</exclude>
 				</excludes>
