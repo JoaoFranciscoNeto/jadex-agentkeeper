@@ -1,6 +1,10 @@
 Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
     MaterialParameters {
         DiffuseMap : Flip textures/rooms/portal/portal_model_0.jpg
+        Specular : 0.0 0.0 0.0 0.0
+        Diffuse : 1.0 1.0 1.0 1.0
+        Ambient : 1.5 1.5 1.5 1.0
+        UseMaterialColors : true
     }
     AdditionalRenderState {
       FaceCull Back
