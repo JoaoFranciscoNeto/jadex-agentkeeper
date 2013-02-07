@@ -50,7 +50,6 @@ public class AgentKeeperStandalone
 				jargs.add(args[i]);
 			}
 			
-			boolean test = Math.random() > 0.5;
 		}
 		
 		String[] defargs = new String[]
