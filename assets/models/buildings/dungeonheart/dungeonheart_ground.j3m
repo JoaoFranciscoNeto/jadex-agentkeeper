@@ -5,6 +5,7 @@ Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
         Diffuse : 1.0 1.0 1.0 1.0
         Ambient : 1.5 1.5 1.5 1.0
         UseMaterialColors : true
+        VertexLighting : true
     }
     AdditionalRenderState {
       FaceCull Back

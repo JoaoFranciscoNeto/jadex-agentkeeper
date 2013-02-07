@@ -1,10 +1,11 @@
 Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
     MaterialParameters {
-        DiffuseMap : textures/buildings/dungeonheart/dungeonheart_model.jpg
+        DiffuseMap : textures/rooms/dungeonheart/dungeonheart_model.jpg
         Specular : 0.0 0.0 0.0 0.0
         Diffuse : 1.0 1.0 1.0 1.0
         Ambient : 0.4 0.4 0.4 1.0
         UseMaterialColors : true
+        VertexLighting : true
     }
     AdditionalRenderState {
       FaceCull Back
