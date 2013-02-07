@@ -8,6 +8,7 @@ Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
         Specular : 0.0 0.0 0.0 1.0
         Diffuse : 1.0 1.0 1.0 1.0
         Ambient : 1.0 1.0 1.0 1.0
+        VertexLighting : true
     }
     AdditionalRenderState {
       FaceCull Back

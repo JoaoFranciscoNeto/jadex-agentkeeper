@@ -29,6 +29,7 @@ public class AgentKeeperStandalone
 	
 	/**
 	 *  Launch platform and backup components.
+	 *  
 	 */
 	public static void main(String[] args)
 	{
