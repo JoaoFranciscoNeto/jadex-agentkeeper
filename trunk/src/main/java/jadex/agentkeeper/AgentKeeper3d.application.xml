@@ -32,8 +32,6 @@
 			<env:property name="tile" class="Double">0.795</env:property>
 			<env:property name="gameSpeed" class="Double">1.0</env:property>
 			<env:property name="auftraege" />
-			<env:property name="gold" />
-			<env:property name="schatztruhen" />
 
 			<env:objecttypes>
 				<env:objecttype name="rock">
@@ -157,48 +155,16 @@
 				</env:objecttype>
 				<env:objecttype name="goblin">
 					<env:property name="position" />
-					<env:property name="geschlagen">false</env:property>
-					<env:property name="direction">0.0</env:property>
-					<env:property name="level" class="int">1</env:property>
-					<env:property name="maxleben" class="int">50</env:property>
-					<env:property name="leben" class="int">50</env:property>
-					<env:property name="loyalitaet" class="double">5.0
-					</env:property>
-					<env:property name="abklingzeit" class="int">2
-					</env:property>
-					<env:property name="status" class="String">"Walk"
-					</env:property>
 				</env:objecttype>
 				<env:objecttype name="troll">
 					<env:property name="position" />
-					<env:property name="geschlagen">false</env:property>
-					<env:property name="direction">0.0</env:property>
-					<env:property name="level" class="int">1</env:property>
-					<env:property name="maxleben" class="int">50</env:property>
-					<env:property name="leben" class="int">50</env:property>
-					<env:property name="loyalitaet" class="double">5.0
-					</env:property>
-					<env:property name="abklingzeit" class="int">2
-					</env:property>
-					<env:property name="status" class="String">"Walk"
-					</env:property>
 				</env:objecttype>
 				<env:objecttype name="warlock">
 					<env:property name="position" />
-					<env:property name="geschlagen">false</env:property>
-					<env:property name="direction">0.0</env:property>
-					<env:property name="level" class="int">1
-					</env:property>
-					<env:property name="maxleben" class="int">30</env:property>
-					<env:property name="leben" class="int">30</env:property>
-					<env:property name="loyalitaet" class="double">5.0
-					</env:property>
-					<env:property name="abklingzeit" class="int">2
-					</env:property>
-					<env:property name="status" class="String">"Walk"
-					</env:property>
 				</env:objecttype>
-
+				<env:objecttype name="thief">
+					<env:property name="position" />
+				</env:objecttype>
 				<env:objecttype name="spielprozesse">
 					<env:property name="position" />
 					<env:property name="direction">0.0</env:property>
@@ -223,6 +189,7 @@
 				<env:avatarmapping componenttype="Goblin" objecttype="goblin" createcomponent="true"/> 
 				<env:avatarmapping componenttype="Troll" objecttype="troll" createcomponent="true"/> 
 				<env:avatarmapping componenttype="Warlock" objecttype="warlock" createcomponent="true"/>
+				<env:avatarmapping componenttype="Thief" objecttype="thief" createcomponent="true"/>
 <!-- 				<env:avatarmapping componenttype="SpielProzesse" objecttype="spielprozesse" createcomponent="true"/>  -->
 			</env:avatarmappings>
 
@@ -232,6 +199,10 @@
 					<env:property name="direction" class="double" />
 				</env:actiontype>
 			</env:actiontypes>
+
+
+
+
 
 			<env:perspectives>
 				<env:perspective3d name="Complex3D" class="Perspective3D" camera="Iso" ambientOcclusion="false" guiCreatorPath="jadex.agentkeeper.view.CustomControllerCreator">
@@ -448,7 +419,7 @@
 							materialpath="models/tilesets/buildings/border/default.j3m">
 						</env:object3d>
 						
-						<env:object3d width="0.3" height="0.3" depth="0.3" x="0" y="0" z="0" 
+						<env:object3d width="0.6" height="0.6" depth="0.6" x="0" y="0" z="0" 
 							modelpath="models/creatures/chicken/chicken.j3o"
 							materialpath="models/creatures/chicken/chicken-Material.j3m">
 						</env:object3d>
@@ -533,23 +504,55 @@
 					</env:sound3d>
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="warlock" width="1"
-						height="1" depth="1" isDynamic="true">
-						<env:object3d width="0.06" height="0.06" depth="0.06"
-							x="0" y="1.5" z="0"
-							modelpath="jadex3d/models/characters/medieval/mage/mage.j3o"
-							hasLightMaterials="true">
+					<env:drawable3d objecttype="warlock" width="1" height="1" depth="1" isDynamic="true">
+					
+						<env:object3d 
+						width="0.06" height="0.06" depth="0.06"
+						x="0" y="1.5" z="0"
+						modelpath="jadex3d/models/characters/medieval/mage/mage.j3o"
+						hasLightMaterials="true">
+						
 							<env:animation name="Walk" channel="chanA" loop="true" speed="1.5">
 								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
 							</env:animation>
+							
 							<env:animation name="Idle" channel="chanA" loop="true">
 								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
 							</env:animation>
+							
 							<env:animation name="Hit" channel="chanA" loop="true" speed="0.1">
 								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
 							</env:animation>
+							
 						</env:object3d>
+						
 					</env:drawable3d>
+					
+					
+					<env:drawable3d objecttype="thief" width="1" height="1" depth="1" isDynamic="true">
+					
+						<env:object3d 
+						width="1" height="1" depth="1"
+						x="0" y="0" z="0"
+						modelpath="models/heroes/thief/Adventurer.j3o"
+						>
+						
+							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
+								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
+							</env:animation>
+							
+							<env:animation name="Idle" channel="chanA" loop="true">
+								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
+							</env:animation>
+							
+							<env:animation name="Attack1" channel="chanA" loop="true" speed="1">
+								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
+							</env:animation>
+							
+						</env:object3d>
+						
+					</env:drawable3d>
+					
 
 					<env:drawable3d objecttype="goblin" width="1"
 						height="1" depth="1">
@@ -606,6 +609,7 @@
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
+		<componenttype name="Thief" filename="ai/heroes/thief/ThiefBDI.class" />
 			
 <!-- 		<componenttype name="Goblin" filename="ai/AbstractBeingBDI.class" /> -->
 <!-- 		<componenttype name="Orc" filename="ai/AbstractBeingBDI.class" /> -->
@@ -633,6 +637,28 @@
 					<env:observers>
 						<env:observer name="world" dataview="view_all"  
 						class="jadex.agentkeeper.view.observer.AgentKeeperObserverCenter"
+							perspective="main">
+							
+						</env:observer>
+					</env:observers>
+				</env:envspace>
+			</extensions>
+		</configuration>
+		
+	<configuration name="Startmap Platform">
+			<extensions>
+				<env:envspace name="mygc2dspace" type="gc2dspace"
+					width="40" height="40">
+					<env:processes>
+						<env:process type="init">
+							<env:property name="mapfile">"level/startmap.map"
+							</env:property>
+						</env:process>
+					</env:processes>
+					<env:process type="genmana"></env:process>
+
+					<env:observers>
+						<env:observer name="world" dataview="view_all"  
 							perspective="main">
 							
 						</env:observer>
