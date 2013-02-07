@@ -25,8 +25,7 @@
 	</imports>
 
 	<extensiontypes>
-		<env:envspacetype name="gc2dspace" width="1" height="1"
-			class="Grid2D">
+		<env:envspacetype name="gc2dspace" width="1" height="1" class="Grid2D">
 
 			<env:property name="neighborhood">Grid2D.NEIGHBORHOOD_MOORE</env:property>
 			<env:property name="tile" class="Double">0.795</env:property>
