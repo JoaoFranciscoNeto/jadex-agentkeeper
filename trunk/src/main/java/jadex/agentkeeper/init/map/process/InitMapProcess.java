@@ -89,7 +89,12 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess,
 							Map<String, Object> props = new HashMap<String, Object>();
 							props.put("bearbeitung", new Integer(0));
 							props.put("clicked", false);
-							if (type != null) {
+							
+							//Null Check
+							type = type == null? "unknown" : type;
+							
+							
+							
 								if (type == GOLD) {
 									props.put("amount", 30);
 									complexNPos.add(new SimpleMapType(aktPos,
@@ -176,15 +181,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess,
 								props.put("neighborhood", "00000000");
 								props.put(Space2D.PROPERTY_POSITION, aktPos);
 								grid.createSpaceObject(type, props, null);
-
-							}
-
-							else {
-								props.put("neighborhood", "00000000");
-								props.put(Space2D.PROPERTY_POSITION, aktPos);
-								grid.createSpaceObject(IMPENETRABLE_ROCK,
-										props, null);
-							}
 						}
 
 					}

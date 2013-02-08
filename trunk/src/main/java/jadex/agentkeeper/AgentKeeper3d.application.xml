@@ -140,6 +140,9 @@
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
 				
+				<!--  If the Object is created in the MapEditor but not implemented yet -->
+				<env:objecttype name="unknown"/>
+				
 				
 				<env:objecttype name="imp">
 					<env:property name="position" />
@@ -589,6 +592,11 @@
 								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
 							</env:animation>
 						</env:object3d>
+					</env:drawable3d>
+					
+					<env:drawable3d objecttype="unknown" width="1" height="1" depth="1">
+					<env:box color="#FF0000" width="0.9" height="0.2" depth="0.9" ></env:box>
+
 					</env:drawable3d>
 				</env:perspective3d>
 			</env:perspectives>

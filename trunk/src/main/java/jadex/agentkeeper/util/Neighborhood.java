@@ -105,9 +105,12 @@ public class Neighborhood
 		{
 			IVector2 ziel = zielpos.copy().add(simpleDirections[i]);
 			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
-			if(InitMapProcess.MOVEABLES.contains(thatsme.getType()))
+			if(thatsme != null)
 			{
-				return true;
+				if(InitMapProcess.MOVEABLES.contains(thatsme.getType()))
+				{
+					return true;
+				}
 			}
 		}
 		return ret;
@@ -123,14 +126,18 @@ public class Neighborhood
 			
 			//TODO: how to handle null pointer?
 			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
-			if(InitMapProcess.MOVEABLES.contains(thatsme.getType()))
+			if(thatsme != null)
 			{
-				return true;
+				if(InitMapProcess.MOVEABLES.contains(thatsme.getType()))
+				{
+					return true;
+				}
+				else if(thatsme.getProperty("clicked").equals(true))
+				{
+					return true;
+				}
 			}
-			else if(thatsme.getProperty("clicked").equals(true))
-			{
-				return true;
-			}
+
 		}
 		return ret;
 	}
