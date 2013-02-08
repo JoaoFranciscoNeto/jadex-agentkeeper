@@ -292,7 +292,7 @@
 						<env:materialfile part="Dirt" path="models/tilesets/claimed/Claimedpath.j3m"/>
 						</env:object3d>
 						
-						<env:effect x="0" y="0.001" z="0" predefinedid="shockwave01" startsize="0" endsize="10">
+						<env:effect x="0" y="0.001" z="0" predefinedid="jadex.agentkeeper.view.effects.ShockwaveEffect" startsize="0" endsize="10">
 							<env:drawcondition>$object.getProperty("status").equals("byImpCreated")</env:drawcondition>
 						</env:effect>
 						
@@ -318,12 +318,12 @@
 						materialpath="models/tilesets/DirtPath.j3m"
 						hasLightMaterials="true">
 						</env:object3d>
-						<env:effect x="0" y="1" z="0" predefinedid="debris01" startsize="2.5" endsize="2.5">
+						<env:effect x="0" y="1" z="0" predefinedid="jadex.agentkeeper.view.effects.DebrisEffect" startsize="2.5" endsize="2.5">
 							<env:drawcondition>
 								$object.getProperty("status").equals("byImpCreated")
 							</env:drawcondition>
 						</env:effect>
-						<env:effect x="0" y="2" z="0" predefinedid="smoke01" startsize="20" endsize="30">
+						<env:effect x="0" y="2" z="0" predefinedid="jadex.agentkeeper.view.effects.SmokeEffect" startsize="20" endsize="30">
 							<env:drawcondition>
 								$object.getProperty("status").equals("byImpCreated")
 							</env:drawcondition>
