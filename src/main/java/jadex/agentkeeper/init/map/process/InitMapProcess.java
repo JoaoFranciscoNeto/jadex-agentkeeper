@@ -279,8 +279,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess,
 								br.readLine());
 						while (stok.hasMoreTokens()) {
 							String type = stok.nextToken().toLowerCase();
-							int x = Integer.parseInt(stok.nextToken());
-							int y = Integer.parseInt(stok.nextToken());
+							int x = Integer.parseInt(stok.nextToken())-1;
+							int y = Integer.parseInt(stok.nextToken())-1;
 
 							String level = stok.nextToken();
 
