@@ -43,8 +43,6 @@ public class MoveToGridSectorPlan
 	private AStarSearch				astar;
 
 	private Iterator<Vector2Int>	path_iterator;
-
-	Vector2Double					myloc;
 	
 	private ISpaceObject spaceObject;
 
@@ -112,10 +110,6 @@ public class MoveToGridSectorPlan
 		if(it.hasNext())
 		{
 			Vector2Int nextTarget = it.next();
-			
-//			capa.getUpdatedPosition(); 
-			// Hack to Update the Belief-Position to
-			// Trigger the GoalTargetCondition
 
 			oneStepToTarget(nextTarget).addResultListener(new DelegationResultListener<Void>(ret)
 			{

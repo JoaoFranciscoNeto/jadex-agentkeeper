@@ -5,6 +5,7 @@ package jadex.agentkeeper.ai;
 import jadex.agentkeeper.ai.base.IdlePlan;
 import jadex.agentkeeper.ai.base.MoveToGridSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
+import jadex.agentkeeper.util.ISpaceObjectStrings;
 import jadex.bdiv3.BDIAgent;
 import jadex.bdiv3.annotation.Belief;
 import jadex.bdiv3.annotation.Body;
@@ -43,7 +44,7 @@ import jadex.micro.annotation.AgentCreated;
 
 
 })
-public class AbstractBeingBDI
+public abstract class AbstractBeingBDI
 {
 	/** The bdi agent. Automatically injected */
 	@Agent
@@ -59,6 +60,10 @@ public class AbstractBeingBDI
 	/** The position of the "Being". */
 	@Belief(dynamic=true)
 	protected Vector2Double	myPosition = mySpaceObject==null? null: (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
+	
+	/** The int-position of the "Being". */
+	@Belief(dynamic=true)
+	protected Vector2Int myIntPosition = mySpaceObject==null? null: (Vector2Int)mySpaceObject.getProperty(ISpaceObjectStrings.PROPERTY_INTPOSITION);
 
 //	public Vector2Double getUpdatedPosition()
 //	{
@@ -68,6 +73,12 @@ public class AbstractBeingBDI
 	
 	/** The speed of the "Being". */
 	protected float	mySpeed	= 1;
+	
+	/** The level of the "Being". */
+	protected int	myLevel	= 1;
+	
+	/** The hitpoints of the "Being". */
+	protected float	myHitpoints	= 25;
 
 	/**
 	 *  Initialize the agent.
@@ -83,6 +94,9 @@ public class AbstractBeingBDI
 			public void customResultAvailable(IExtensionInstance ext)
 			{
 				environment	= (Grid2D)ext;
+				
+				System.out.println("agent.getComponentDescription()" + agent.getComponentDescription());
+				System.out.println("agent.getModel().getFullName()" + agent.getModel().getFullName());
 				setMySpaceObject(environment.getAvatar(agent.getComponentDescription(), agent.getModel().getFullName()));
 //				myPosition = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
 				ret.setResult(null);
