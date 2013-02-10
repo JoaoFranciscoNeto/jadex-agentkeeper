@@ -18,6 +18,7 @@ import java.util.List;
 
 
 @SuppressWarnings("serial")
+@Deprecated
 public class TrainierenPlan extends MonsterPlan {
 	public static int TRAINIERZEIT = 50;
 

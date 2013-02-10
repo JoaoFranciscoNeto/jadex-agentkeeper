@@ -21,6 +21,7 @@ import jadex.bdi.runtime.IGoal;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class Rumbewegplan extends AbstractRumbewegplan {
 
 	private GegnerVerwalter _gegnerverwalter;

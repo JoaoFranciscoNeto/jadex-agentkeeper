@@ -11,6 +11,7 @@ import jadex.bdi.runtime.IGoal;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class RumbewegplanGoblin extends AbstractRumbewegplan {
 
 

@@ -15,6 +15,7 @@ import java.util.LinkedList;
  * @author 8reichel
  * 
  */
+@Deprecated
 public class GegnerVerwalter implements IGegnerVerwalter {
 	private boolean _istBesiegt;
 	Auftragsliste _auftraege[];

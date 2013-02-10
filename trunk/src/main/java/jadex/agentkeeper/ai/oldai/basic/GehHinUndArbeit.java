@@ -24,6 +24,7 @@ import jadex.extension.envsupport.math.Vector2Int;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public abstract class GehHinUndArbeit extends KreaturenPlan {
 	
 	protected Auftrag _auf;

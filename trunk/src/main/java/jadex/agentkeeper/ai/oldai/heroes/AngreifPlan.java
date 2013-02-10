@@ -10,6 +10,7 @@ import jadex.agentkeeper.game.state.missions.IAuftragsverwalter;
 import jadex.bdi.runtime.GoalFailureException;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class AngreifPlan extends KreaturenPlan {
 	public static String ABKLINGZEIT = "abklingzeit";
 
