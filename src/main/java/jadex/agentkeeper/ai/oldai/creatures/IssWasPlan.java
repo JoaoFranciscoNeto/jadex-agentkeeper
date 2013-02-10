@@ -22,6 +22,7 @@ import java.util.List;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class IssWasPlan extends MonsterPlan {
 	public static int ESSZEIT = 45;
 

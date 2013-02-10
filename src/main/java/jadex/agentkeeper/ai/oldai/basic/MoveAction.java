@@ -21,6 +21,7 @@ import java.util.Set;
 /**
  * The move action.
  */
+@Deprecated
 public class MoveAction extends SimplePropertyObject implements ISpaceAction {
 	public static Set<String> ALLOWFIELDS;
 

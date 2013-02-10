@@ -13,6 +13,7 @@ import java.util.List;
 
 
 @SuppressWarnings("serial")
+@Deprecated
 public abstract class MonsterPlan extends GehHinUndArbeit{
 
 	@Override

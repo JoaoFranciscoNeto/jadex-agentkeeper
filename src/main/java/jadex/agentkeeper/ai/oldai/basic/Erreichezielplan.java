@@ -21,6 +21,7 @@ import java.util.Stack;
 
 
 @SuppressWarnings("serial")
+@Deprecated
 public class Erreichezielplan extends KreaturenPlan {
 	boolean _direkt;
 	protected Auftragsverwalter _auftragsverwalter;

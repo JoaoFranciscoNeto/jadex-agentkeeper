@@ -17,6 +17,7 @@ import java.util.Stack;
 
 
 @SuppressWarnings("serial")
+@Deprecated
 public class ErreicheEinheitPlan extends KreaturenPlan {
 
 	AStarSearch _suche;

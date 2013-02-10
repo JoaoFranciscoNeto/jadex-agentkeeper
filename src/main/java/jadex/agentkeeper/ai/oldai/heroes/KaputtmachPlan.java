@@ -6,6 +6,7 @@ import jadex.agentkeeper.game.state.missions.IAuftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class KaputtmachPlan extends GehHinUndArbeit {
 	public static int BESETZDAUER = 15;
 

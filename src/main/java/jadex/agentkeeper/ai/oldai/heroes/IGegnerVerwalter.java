@@ -10,6 +10,7 @@ import jadex.agentkeeper.game.state.missions.IAuftragsverwalter;
  * Besiegtbedingungen etc. unterscheiden
  * 
  */
+@Deprecated
 public interface IGegnerVerwalter extends IAuftragsverwalter 
 {
 	/**

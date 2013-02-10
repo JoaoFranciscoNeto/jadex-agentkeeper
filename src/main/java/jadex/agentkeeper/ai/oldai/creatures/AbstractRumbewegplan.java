@@ -1,7 +1,7 @@
 package jadex.agentkeeper.ai.oldai.creatures;
 
 
-
+@Deprecated
 public abstract class AbstractRumbewegplan extends KreaturenPlan {
 
 

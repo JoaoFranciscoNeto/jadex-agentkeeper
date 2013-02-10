@@ -12,6 +12,7 @@ import java.util.List;
 
 
 @SuppressWarnings("serial")
+@Deprecated
 public class SchlafenPlan extends MonsterPlan {
 	public static int SCHLAFZEIT = 120;
 

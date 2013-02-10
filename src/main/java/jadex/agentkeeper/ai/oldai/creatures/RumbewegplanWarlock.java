@@ -11,6 +11,7 @@ import jadex.bdi.runtime.IGoal;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class RumbewegplanWarlock extends AbstractRumbewegplan {
 
 	public static double STANDARDVERBRAUCH = 0.01;

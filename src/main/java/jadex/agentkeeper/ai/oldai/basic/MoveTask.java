@@ -20,6 +20,7 @@ import java.util.Set;
 /**
  *  Move an object towards a destination.
  */
+@Deprecated
 public class MoveTask extends AbstractTask
 {
 	//-------- constants --------

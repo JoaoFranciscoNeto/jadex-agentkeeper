@@ -25,6 +25,7 @@ import java.util.Map;
  * The imp agent.
  */
 @Properties(@NameValue(name = "space", clazz = IFuture.class, value = "$component.getParentAccess().getExtension(\"mygc2dspace\")"))
+@Deprecated
 public class GegnerAgent extends MicroAgent {
 	// -------- methods --------
 

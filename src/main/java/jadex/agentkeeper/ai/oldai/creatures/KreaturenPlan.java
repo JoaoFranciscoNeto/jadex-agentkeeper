@@ -27,6 +27,7 @@ import jadex.bridge.IExternalAccess;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public abstract class KreaturenPlan extends Plan {
 
 	public static double STANDARDVERBRAUCH = 0.01;

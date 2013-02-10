@@ -23,9 +23,6 @@ import jadex.micro.annotation.AgentBody;
 @Plans({
 
 @Plan(trigger=@Trigger(goals=TrollBDI.PerformPatrol.class), body=@Body(PatrolPlan.class))
-
-
-
 })
 public class TrollBDI extends AbstractCreatureBDI
 {
