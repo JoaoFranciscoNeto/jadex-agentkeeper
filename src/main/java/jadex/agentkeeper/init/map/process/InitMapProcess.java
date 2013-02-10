@@ -287,13 +287,13 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess,
 							String owner = stok.nextToken();
 
 							HashMap<String, Object> props = new HashMap<String, Object>();
-							props.put("type", type);
+
 							// props.put(AngreifPlan.ABKLINGZEIT, new
 							// Integer(0));
 							props.put(Space2D.PROPERTY_POSITION,
 									new Vector2Double(x, y));
 
-							props.put("intPos", new Vector2Int(x, y));
+							props.put(ISpaceObjectStrings.PROPERTY_INTPOSITION, new Vector2Int(x, y));
 							// props.put("auftragsverwalter", gegnerauftraege);
 
 							if (type.equals("spielprozesse")) {
@@ -301,10 +301,13 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess,
 							} else {
 								props.put("spieler", new Integer(1));
 								creatureState.addCreature(type);
+								
 							}
 
 							// todo: level, owner
 							grid.createSpaceObject(type, props, null);
+							System.out.println("type: " + type);
+							System.out.println("props: " + props);
 						}
 					}
 				}

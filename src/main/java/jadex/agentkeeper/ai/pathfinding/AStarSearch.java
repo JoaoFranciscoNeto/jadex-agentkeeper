@@ -36,7 +36,10 @@ public class AStarSearch {
 	private boolean _direkt;
 	Stack<Vector2Int> _pfad;
 
+
 	public AStarSearch(IVector2 start, IVector2 ziel, Grid2D space, boolean direkt) {
+		
+//		System.out.println("new astar search");
 		
 		_space = space;
 		_direkt = direkt;
