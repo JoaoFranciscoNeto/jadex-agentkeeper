@@ -29,7 +29,7 @@ import jadex.micro.annotation.AgentCreated;
 
 @Plan(trigger=@Trigger(goals=ImpBDI.PerformImpPatrol.class), body=@Body(PatrolPlan.class))
 })
-public class ImpBDI extends AbstractCreatureBDI
+public class ImpBDI extends AbstractBeingBDI
 {
 	
 	/** The workingspeed of the "Imp". */
