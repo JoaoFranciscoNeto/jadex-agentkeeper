@@ -64,8 +64,8 @@ public class PatrolPlan {
 		Vector2Int posi = new Vector2Int(pos.getXAsInteger(),
 				pos.getYAsInteger());
 
-		rplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi))
-				.addResultListener(
+		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi));
+		fut.addResultListener(
 						new ExceptionDelegationResultListener<AbstractBeingBDI.AchieveMoveToSector, Void>(
 								ret) {
 							public void customResultAvailable(
@@ -75,5 +75,17 @@ public class PatrolPlan {
 						});
 
 		return ret;
+		
+		
+//		rplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi))
+//		.addResultListener(
+//				new ExceptionDelegationResultListener<AbstractBeingBDI.AchieveMoveToSector, Void>(
+//						ret) {
+//					public void customResultAvailable(
+//							AchieveMoveToSector mtg) {
+//						ret.setResult(null);
+//					}
+//				});
+
 	}
 }
