@@ -98,7 +98,8 @@ public abstract class AbstractBeingBDI
 				System.out.println("agent.getComponentDescription()" + agent.getComponentDescription());
 				System.out.println("agent.getModel().getFullName()" + agent.getModel().getFullName());
 				setMySpaceObject(environment.getAvatar(agent.getComponentDescription(), agent.getModel().getFullName()));
-//				myPosition = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
+				myPosition = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
+				myIntPosition = (Vector2Int)mySpaceObject.getProperty(ISpaceObjectStrings.PROPERTY_INTPOSITION);
 				ret.setResult(null);
 			}
 		});
