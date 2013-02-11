@@ -41,12 +41,14 @@ public class ImpBDI extends AbstractBeingBDI
 	public void body()
 	{
 		agent.dispatchTopLevelGoal(new PerformImpPatrol());
-//		agent.dispatchTopLevelGoal(new AchieveMoveToSector(new Vector2Int(9,18)));
 	}
 	
 	/**
 	 *  Initialize the agent.
 	 *  Called at startup.
+	 *  
+	 *  Imp have double Walkspeed from startup
+	 *  
 	 */
 	@AgentCreated
 	@Override
