@@ -140,7 +140,6 @@ public class MoveToGridSectorPlan
 		Map props = new HashMap();
 		props.put(MoveTask.PROPERTY_DESTINATION, nextTarget);
 		props.put(MoveTask.PROPERTY_SPEED, capa.getMySpeed());
-		props.put(MoveTask.PROPERTY_AGENT, capa);
 
 		Object mtaskid = capa.getEnvironment().createObjectTask(MoveTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
 		capa.getEnvironment().addTaskListener(mtaskid, capa.getMySpaceObject().getId(), new ExceptionDelegationResultListener<Object, Void>(ret)
