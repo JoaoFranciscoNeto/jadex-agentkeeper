@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import jadex.agentkeeper.ai.oldai.heroes.GegnerVerwalter;
-import jadex.agentkeeper.game.state.buildings.SimpleBuildingState;
+import jadex.agentkeeper.game.state.buildings.SimpleBuildingMapState;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.missions.Gebaudeverwalter;
@@ -17,6 +17,7 @@ import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.UserEingabenManager;
 import jadex.agentkeeper.util.ISpaceObjectStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SimplePropertyObject;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -27,7 +28,8 @@ import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
-public abstract class AInitMapProcess extends SimplePropertyObject implements ISpaceProcess, IMap, ISpaceObjectStrings {
+public abstract class AInitMapProcess extends SimplePropertyObject implements
+		ISpaceProcess, IMap, ISpaceObjectStrings {
 
 	public static final String GEBAEUDELISTE = "gebaeudeliste";
 
@@ -38,17 +40,22 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 	public static int monsteressverbrauch;
 
 	public static Vector2Double portalort;
-	
+
 	public SimpleCreatureState creatureState;
-	
-	public SimpleBuildingState buildingState;
-	
+
+	public SimpleBuildingMapState buildingState;
+
 	public SimplePlayerState playerState;
-	
+
 	public UserEingabenManager uem;
 	public MissionsVerwalter mv;
-
+	public static final Map<String, Class<?>> TILE_MAP = new HashMap<String, Class<?>>();
 	static {
+
+		{
+			TILE_MAP.put(HATCHERY, HatcheryInfo.class);
+		}
+
 		gebaeuedeverwalter = new Gebaudeverwalter();
 		portalort = new Vector2Double(12, 19);
 		monsteressverbrauch = 4;
@@ -78,7 +85,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 
 		imagenames.put("1L", LIBRARY);
 		imagenames.put("1X", TORTURE);
-		
+
 		NEIGHBOR_RELATIONS.put(ROCK, ROCK_NEIGHBORS);
 		NEIGHBOR_RELATIONS.put(GOLD, GOLD_NEIGHBORS);
 		NEIGHBOR_RELATIONS.put(REINFORCED_WALL, REINFORCED_WALL_NEIGHBORS);
@@ -91,29 +98,23 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		NEIGHBOR_RELATIONS.put(TORTURE, BUILDING_TYPES);
 		NEIGHBOR_RELATIONS.put(HATCHERY, BUILDING_TYPES);
 		NEIGHBOR_RELATIONS.put(TREASURY, BUILDING_TYPES);
-		
-		
-		
-		for(int i = 0; i<FIELD_TYPES.length; i++ )
-		{
+
+		for (int i = 0; i < FIELD_TYPES.length; i++) {
 			FIELD_SET.add(FIELD_TYPES[i]);
 		}
-		
-		for(int i = 0; i<BUILDING_TYPES.length; i++ )
-		{
+
+		for (int i = 0; i < BUILDING_TYPES.length; i++) {
 			BUILDING_SET.add(BUILDING_TYPES[i]);
 		}
-		
-		for(int i = 0; i<BREAKABLE_FIELD.length; i++ )
-		{
+
+		for (int i = 0; i < BREAKABLE_FIELD.length; i++) {
 			BREAKABLE_FIELD_TYPES.add(BREAKABLE_FIELD[i]);
 		}
-		
-		for(int i = 0; i<MOVE_TYPES.length; i++ )
-		{
+
+		for (int i = 0; i < MOVE_TYPES.length; i++) {
 			MOVEABLES.add(MOVE_TYPES[i]);
 		}
-		
+
 		CENTER_TYPES.put(HATCHERY, HATCHERYCENTER);
 		CENTER_TYPES.put(PORTAL, PORTALCENTER);
 		CENTER_TYPES.put(TRAININGROOM, TRAININGROOMCENTER);
@@ -126,41 +127,33 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 
 	/** The last tick. */
 	protected double lasttick;
-	
-	
+
 	protected void loadAndSetupMissions(Grid2D grid) {
 		// grid.getBorderMode();
 		// Initialize the field.
 		try {
 			Auftragsverwalter auftragsverwalter = new Auftragsverwalter(grid);
 
-
-
 			grid.setProperty("auftraege", auftragsverwalter);
-			
 
-			
 			uem = new UserEingabenManager(grid);
 			mv = new MissionsVerwalter();
 
 			grid.setProperty("missionsverwalter", mv);
 			grid.setProperty("uem", uem);
-			
+
 			this.creatureState = new SimpleCreatureState();
-			this.buildingState = new SimpleBuildingState();
+			this.buildingState = new SimpleBuildingMapState();
 			this.playerState = new SimplePlayerState(1);
 			grid.setProperty(ISpaceStrings.CREATURE_STATE, this.creatureState);
 			grid.setProperty(ISpaceStrings.BUILDING_STATE, this.buildingState);
 			grid.setProperty(ISpaceStrings.PLAYER_STATE, this.playerState);
 
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		 catch (Exception e) {
-				e.printStackTrace();
-			}
 	}
-	
-	
-	
+
 	/**
 	 * This method will be executed by the object before the process is removed
 	 * from the execution queue.
@@ -171,7 +164,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 	 *            The space this process is running in.
 	 */
 	public void shutdown(IEnvironmentSpace space) {
-		 System.out.println("- - - Init Map Process done - - -");
+		System.out.println("- - - Init Map Process done - - -");
 	}
 
 	/**
@@ -186,76 +179,64 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		// System.out.println("process called: " + space);
 	}
 
-	public static Vector2Int convertToIntPos(IVector2 pos )
-	{
-		int xrund = (int)Math.round( pos.getXAsDouble() );
-		int yrund = (int)Math.round( pos.getYAsDouble() );
-		Vector2Int temp = new Vector2Int( xrund, yrund );
+	public static Vector2Int convertToIntPos(IVector2 pos) {
+		int xrund = (int) Math.round(pos.getXAsDouble());
+		int yrund = (int) Math.round(pos.getYAsDouble());
+		Vector2Int temp = new Vector2Int(xrund, yrund);
 		return temp;
 	}
 
 	public static Set<SpaceObject> getNeighborBlocksInRange(IVector2 ziel,
 			int range, Grid2D grid, String types[]) {
-			if(types!=null)
-			{
-				return grid.getNearGridObjects(ziel, range, types);
-			}
-			return null;
-				
+		if (types != null) {
+			return grid.getNearGridObjects(ziel, range, types);
+		}
+		return null;
 
 	}
-	
-	public static SpaceObject getSolidTypeAtPos(IVector2 pos, Grid2D gridext)
-	{
+
+	public static SpaceObject getSolidTypeAtPos(IVector2 pos, Grid2D gridext) {
 		SpaceObject ret = null;
 		ret = getFieldTypeAtPos(pos, gridext);
-		if(ret == null)
-		{
+		if (ret == null) {
 			ret = getBuildingTypeAtPos(pos, gridext);
 		}
 		return ret;
 	}
-	
-	public static SpaceObject getFieldTypeAtPos(IVector2 pos, Grid2D gridext)
-	{
-		for(int i = 0; i<FIELD_TYPES.length; i++ )
-		{
-			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, FIELD_TYPES[i]);
-			if(sobjs!=null)
-			{
+
+	public static SpaceObject getFieldTypeAtPos(IVector2 pos, Grid2D gridext) {
+		for (int i = 0; i < FIELD_TYPES.length; i++) {
+			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos,
+					FIELD_TYPES[i]);
+			if (sobjs != null) {
 				return (SpaceObject) sobjs.iterator().next();
 			}
-				
-			}
+
+		}
 		return null;
 	}
-	
-	
-	public static SpaceObject getBuildingTypeAtPos(IVector2 pos, Grid2D gridext)
-	{
-		for(int i = 0; i<BUILDING_TYPES.length; i++ )
-		{
-			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, BUILDING_TYPES[i]);
-			if(sobjs!=null)
-			{
+
+	public static SpaceObject getBuildingTypeAtPos(IVector2 pos, Grid2D gridext) {
+		for (int i = 0; i < BUILDING_TYPES.length; i++) {
+			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos,
+					BUILDING_TYPES[i]);
+			if (sobjs != null) {
 				return (SpaceObject) sobjs.iterator().next();
 			}
-				
-			}
+
+		}
 		return null;
 	}
-	
-	public static boolean isMoveable(IVector2 pos, Grid2D gridext)
-	{
-		for(int i = 0; i<MOVE_TYPES.length; i++ )
-		{
-			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, MOVE_TYPES[i]);
-			if(sobjs!=null)
-			{
+
+	public static boolean isMoveable(IVector2 pos, Grid2D gridext) {
+		for (int i = 0; i < MOVE_TYPES.length; i++) {
+			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos,
+					MOVE_TYPES[i]);
+			if (sobjs != null) {
 				return true;
 			}
-				
-			}
+
+		}
 		return false;
 	}
 
