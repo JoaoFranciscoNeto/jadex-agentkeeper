@@ -232,8 +232,8 @@
 						</env:object3d>
 						
 						<env:object3d width="0.79998" height="1.0" depth="0.79998" x="0" y="0" z="0" 
-							modelpath="models/tilesets/DirtHigher.j3o" 
-							materialpath="models/tilesets/DirtPath.j3m"
+						modelpath="models/tilesets/dirt/Dirt.j3o" 
+						materialpath="models/tilesets/DirtPath.j3m"
 							hasLightMaterials="true">
 						</env:object3d>
 
@@ -263,8 +263,8 @@
 							modelpath="models/tilesets/dirt/Dirt_?.j3o" />
 							
 						<env:object3d width="0.79998" height="1.0" depth="0.79998" x="0" y="0" z="0" 
-							modelpath="models/tilesets/DirtHigher.j3o" 
-							materialpath="models/tilesets/DirtPath.j3m"
+						modelpath="models/tilesets/dirt/Dirt.j3o" 
+						materialpath="models/tilesets/DirtPath.j3m"
 							hasLightMaterials="true">
 						</env:object3d>
 					</env:drawable3d>
