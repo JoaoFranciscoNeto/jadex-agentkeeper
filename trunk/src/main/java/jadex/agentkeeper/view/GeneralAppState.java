@@ -95,7 +95,7 @@ public class GeneralAppState extends AbstractAppState
 	public void update(float tpf)
 	{
 		handler.updateHandler();
-		dl.setDirection(monkeyapp.getCamera().getDirection().setY(-0.018f));
+		dl.setDirection(monkeyapp.getCamera().getDirection().setY(-0.00f));
 		
 
 		

@@ -12,45 +12,39 @@ import jadex.extension.envsupport.math.Vector2Int;
  */
 public class Building
 {
-	private int			owner;
+	private String		type;
 
 	private Vector2Int	location;
 
-	private String		type;
-
 	private SpaceObject	spaceobject;
 
-	/**
-	 * @return the owner
-	 */
-	public int getOwner()
-	{
-		return owner;
-	}
 
 	/**
-	 * @param owner the owner to set
+	 * Constructor for pre-Creation (before SpaceObject creation)
+	 * 
+	 * @param location
+	 * @param type
+	 * @param spaceobject
 	 */
-	public void setOwner(int owner)
+	public Building(String type, Vector2Int location)
 	{
-		this.owner = owner;
-	}
-
-	/**
-	 * @return the location
-	 */
-	public Vector2Int getLocation()
-	{
-		return location;
-	}
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(Vector2Int location)
-	{
+		this.type = type;
 		this.location = location;
+		this.spaceobject = null;
 	}
+
+
+	/**
+	 * @param location
+	 * @param type
+	 * @param spaceobject
+	 */
+	public Building(String type, SpaceObject spaceobject)
+	{
+		this.type = type;
+		this.spaceobject = spaceobject;
+	}
+
 
 	/**
 	 * @return the type
@@ -82,6 +76,18 @@ public class Building
 	public void setSpaceobject(SpaceObject spaceobject)
 	{
 		this.spaceobject = spaceobject;
+	}
+
+
+	public Vector2Int getLocation()
+	{
+		return location;
+	}
+
+
+	public void setLocation(Vector2Int location)
+	{
+		this.location = location;
 	}
 
 }

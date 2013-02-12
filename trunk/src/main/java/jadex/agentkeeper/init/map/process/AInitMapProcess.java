@@ -147,6 +147,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 			grid.setProperty("uem", uem);
 			
 			this.creatureState = new SimpleCreatureState();
+			this.buildingState = new SimpleBuildingState();
 			this.playerState = new SimplePlayerState(1);
 			grid.setProperty(ISpaceStrings.CREATURE_STATE, this.creatureState);
 			grid.setProperty(ISpaceStrings.BUILDING_STATE, this.buildingState);
