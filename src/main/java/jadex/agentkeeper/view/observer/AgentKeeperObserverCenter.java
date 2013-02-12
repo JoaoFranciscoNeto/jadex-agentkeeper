@@ -39,6 +39,7 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
@@ -149,6 +150,7 @@ public class AgentKeeperObserverCenter implements IObserverCenter
 				if(disposed)
 					return;
 				mainwindow = new ObserverCenterWindow(title);
+				
 				loadPlugins(cplugins);
 				
 				JMenu refreshMenu = new JMenu("Display");

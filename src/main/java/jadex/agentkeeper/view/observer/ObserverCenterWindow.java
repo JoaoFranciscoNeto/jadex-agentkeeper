@@ -75,6 +75,8 @@ public class ObserverCenterWindow extends JFrame
 	
 	
 	
+	
+	
 
 	/**
 	 * Creates the main window.
@@ -86,16 +88,25 @@ public class ObserverCenterWindow extends JFrame
 	{
 		super(title);
 		
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
 		final JFrame me = this;
 
 		this.knownpluginviews = new HashSet();
 		
 		this.addWindowListener(new WindowAdapter() {
 		    public void windowClosing(WindowEvent evt) {
-		        int Answer = JOptionPane.showConfirmDialog(me, "You want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-		        if (Answer == JOptionPane.YES_OPTION) {
+//		        int Answer = JOptionPane.showConfirmDialog(null, "You want to quit?", "Quit", JOptionPane.YES_NO_OPTION);
+//		        if (Answer == JOptionPane.YES_OPTION) {
+//		        	System.out.println("yes option");
 		            System.exit(0);
-		        }
+//		        }
+//		        else if (Answer == JOptionPane.NO_OPTION) {
+//		        	me.
+//		        	System.out.println("no option");
+		        	
+//		            System.exit(0);
+//		        }
 		    }
 		});
 
@@ -105,6 +116,7 @@ public class ObserverCenterWindow extends JFrame
 			{
 				if(!disposed)
 				{
+					
 					
 					menubar = new JMenuBar();
 					// menubar.add(new JMenu("Test"));

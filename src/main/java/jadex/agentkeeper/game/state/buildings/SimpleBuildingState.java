@@ -1,7 +1,11 @@
 package jadex.agentkeeper.game.state.buildings;
 
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.extension.envsupport.environment.SpaceObject;
+import jadex.extension.envsupport.environment.space2d.Grid2D;
+import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -12,38 +16,30 @@ import java.util.HashMap;
  */
 public class SimpleBuildingState
 {
-	
-	private HashMap<String, Integer> buildings = new HashMap<String, Integer>();
-	
+	private HashMap<String, ArrayList<SpaceObject>> buildingCounter = new HashMap<String, ArrayList<SpaceObject>>();
 	
 	
 	public SimpleBuildingState()
 	{
-
-		for(int i = 0; i<InitMapProcess.CREATURE_TYPES.length; i++ )
+		for(int i = 0; i<InitMapProcess.BUILDING_TYPES.length; i++ )
 		{
-			this.buildings.put(InitMapProcess.CREATURE_TYPES[i], 0);
+			this.buildingCounter.put(InitMapProcess.BUILDING_TYPES[i], new ArrayList<SpaceObject>());
 		}
 
 	}
 
-	public void addBuilding(String type)
+	public void addBuilding(String type, Vector2Int location, SpaceObject sobj)
 	{
-		int counter = buildings.get(type);
-		counter++;
-		buildings.put(type, counter);
+		
+//		buildings.put(location, new Building(type, sobj));
+//		buildingCounter.put(type, buildingCounter.get(type)+1);
+		System.out.println("typecount: " + type + " " + buildingCounter.get(type));
 	}
 	
-	public void removeBuilding(String type)
-	{
-		int counter = buildings.get(type);
-		counter--;
-		buildings.put(type, counter);
-	}
 	
 	public int getBuildingCount(String type)
 	{
-		return buildings.get(type);
+		return buildingCounter.get(type).size();
 	}
 
 	
