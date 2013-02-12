@@ -10,20 +10,20 @@ import java.util.HashMap;
 
 
 /**
- * Just a first pre-implementation of the Building State, mainly for the GUI
+ * Just a first pre-implementation of the Building State, that only holds the Positions for every Building on the Map
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
-public class SimpleBuildingState
+public class SimpleBuildingMapState
 {
-	private HashMap<String, ArrayList<SpaceObject>> buildingCounter = new HashMap<String, ArrayList<SpaceObject>>();
+	private HashMap<String, ArrayList<SpaceObject>> buildings = new HashMap<String, ArrayList<SpaceObject>>();
 	
 	
-	public SimpleBuildingState()
+	public SimpleBuildingMapState()
 	{
 		for(int i = 0; i<InitMapProcess.BUILDING_TYPES.length; i++ )
 		{
-			this.buildingCounter.put(InitMapProcess.BUILDING_TYPES[i], new ArrayList<SpaceObject>());
+			this.buildings.put(InitMapProcess.BUILDING_TYPES[i], new ArrayList<SpaceObject>());
 		}
 
 	}
@@ -33,13 +33,13 @@ public class SimpleBuildingState
 		
 //		buildings.put(location, new Building(type, sobj));
 //		buildingCounter.put(type, buildingCounter.get(type)+1);
-		System.out.println("typecount: " + type + " " + buildingCounter.get(type));
+		System.out.println("typecount: " + type + " " + buildings.get(type));
 	}
 	
 	
 	public int getBuildingCount(String type)
 	{
-		return buildingCounter.get(type).size();
+		return buildings.get(type).size();
 	}
 
 	

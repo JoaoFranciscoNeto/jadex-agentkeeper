@@ -98,6 +98,20 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							type = type == null ? "unknown" : type;
 
 
+							
+//							TileType tmp = TileType.HATCHERY;
+//							TileInfo tile = null;
+							
+//							tile = (TileInfo) TILE_MAP.get(type).newInstance();
+							
+//							SpaceObject obj= null;
+//							if (TileInfo.getTileInfo(obj, TileInfo.class).getClass().equals(HatcheryInfo.class))
+//							{
+								//mach was tolles mit der hatchery
+//							}
+//							TileInfo a = TileInfo.getTileInfo(obj, TileInfo.class);
+							
+//							props.put(ISpaceObjectStrings.PROPERTY_TILEINFO, tile);
 							if(type == GOLD)
 							{
 								props.put("amount", 30);

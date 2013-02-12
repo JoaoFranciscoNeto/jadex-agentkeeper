@@ -1,7 +1,10 @@
 package jadex.agentkeeper.init.map.process;
 
+import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
+
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Constants for field and creature types
@@ -9,6 +12,8 @@ import java.util.HashSet;
  * @author Philip Willuweit p.willuweit@gmx.de
  */
 public interface IMap {
+	
+
 	public static final String IMPENETRABLE_ROCK = "impenetrable_rock";
 	public static final String ROCK = "rock";
 	public static final String REINFORCED_WALL = "reinforced_wall";
@@ -53,7 +58,7 @@ public interface IMap {
 	
 	public static final String[] MOVE_TYPES = {DIRT_PATH, CLAIMED_PATH, GOLD2, LAVA, HERO, TREASURY, HATCHERY, LAIR, PORTAL, TRAININGROOM, LIBRARY, TORTURE, DUNGEONHEART};
 	
-	public static final String[] CREATURE_TYPES ={IMP, GOBLIN, WARLOCK, TROLL, THIEF};
+	public static final String[] CREATURE_TYPES = {IMP, GOBLIN, WARLOCK, TROLL, THIEF};
 	
 	static final String[] BREAKABLE_FIELD = {ROCK, REINFORCED_WALL};
 	
