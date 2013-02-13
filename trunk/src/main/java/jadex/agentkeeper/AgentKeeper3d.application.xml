@@ -157,19 +157,19 @@
 				</env:objecttype>
 				<env:objecttype name="goblin">
 					<env:property name="position" />
+					<env:property name="status" class="String">"Idle"</env:property>
 				</env:objecttype>
 				<env:objecttype name="troll">
 					<env:property name="position" />
+					<env:property name="status" class="String">"Idle"</env:property>
 				</env:objecttype>
 				<env:objecttype name="warlock">
 					<env:property name="position" />
+					<env:property name="status" class="String">"Idle"</env:property>
 				</env:objecttype>
 				<env:objecttype name="thief">
 					<env:property name="position" />
-				</env:objecttype>
-				<env:objecttype name="spielprozesse">
-					<env:property name="position" />
-					<env:property name="direction">0.0</env:property>
+					<env:property name="status" class="String">"Idle"</env:property>
 				</env:objecttype>
 			</env:objecttypes>
 			
@@ -192,7 +192,6 @@
 				<env:avatarmapping componenttype="Troll" objecttype="troll" createcomponent="true"/> 
 				<env:avatarmapping componenttype="Warlock" objecttype="warlock" createcomponent="true"/>
 				<env:avatarmapping componenttype="Thief" objecttype="thief" createcomponent="true"/>
-<!-- 				<env:avatarmapping componenttype="SpielProzesse" objecttype="spielprozesse" createcomponent="true"/>  -->
 			</env:avatarmappings>
 
 			<env:actiontypes>
