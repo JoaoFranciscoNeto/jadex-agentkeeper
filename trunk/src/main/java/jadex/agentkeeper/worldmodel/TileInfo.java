@@ -1,6 +1,7 @@
 package jadex.agentkeeper.worldmodel;
 
-import jadex.agentkeeper.util.ISpaceObjectStrings;
+import jadex.agentkeeper.util.ISObjStrings;
+import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.extension.envsupport.environment.SpaceObject;
 
@@ -12,6 +13,7 @@ public abstract class TileInfo {
 	protected int owner = 0;
 	protected String neighbourhood;
 	protected WalkType walkType;
+	protected NeighbourType neighbourType;
 
 	public TileInfo() {
 		quantity++;
@@ -19,6 +21,7 @@ public abstract class TileInfo {
 		this.owner = 0;
 		this.neighbourhood = "00000000";
 		this.walkType = WalkType.PASSABLE;
+		this.neighbourType = NeighbourType.COMPLEX;
 	}
 
 	/**
@@ -97,7 +100,7 @@ public abstract class TileInfo {
 	}
 
 	public static final <T> T getTileInfo(SpaceObject obj, Class<T> type) {
-		return (T) obj.getProperty(ISpaceObjectStrings.PROPERTY_TILEINFO);
+		return (T) obj.getProperty(ISObjStrings.PROPERTY_TILEINFO);
 	}
 
 	public abstract String[] getNeighbors();

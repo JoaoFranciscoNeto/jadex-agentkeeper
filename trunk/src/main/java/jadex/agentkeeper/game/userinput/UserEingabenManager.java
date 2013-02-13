@@ -249,23 +249,6 @@ public class UserEingabenManager {
 			}
 			
 		}
-//
-
-//		else if (!erreichbar(x, y) && abbreissbar(x, y)) {
-//			Vector2Double[] richtungen = best4Richtungen(x, y);
-//
-//			for (Vector2Double vector : richtungen) {
-//				for (Object o : (_grid.getSpaceObjectsByGridPosition(vector, null))) {
-//					if (o instanceof ISpaceObject) {
-//						ISpaceObject nachbar = (ISpaceObject) o;
-//						if (nachbar.getProperty("clicked").equals(true)) {
-//							blub.setProperty("clicked", true);
-//						}
-//					}
-//				}
-//
-//			}
-//		}
 	}
 
 	private boolean abbreissbar(int x, int y) {

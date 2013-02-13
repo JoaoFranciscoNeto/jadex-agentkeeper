@@ -5,7 +5,7 @@ package jadex.agentkeeper.ai;
 import jadex.agentkeeper.ai.base.IdlePlan;
 import jadex.agentkeeper.ai.base.MoveToGridSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
-import jadex.agentkeeper.util.ISpaceObjectStrings;
+import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.BDIAgent;
 import jadex.bdiv3.annotation.Belief;
 import jadex.bdiv3.annotation.Body;
@@ -41,8 +41,6 @@ import jadex.micro.annotation.AgentCreated;
 @Plan(trigger = @Trigger(goals = AbstractBeingBDI.AchieveMoveToSector.class), body = @Body(MoveToGridSectorPlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(PatrolPlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class))
-
-
 })
 public abstract class AbstractBeingBDI
 {
@@ -63,14 +61,8 @@ public abstract class AbstractBeingBDI
 	
 	/** The int-position of the "Being". */
 	@Belief(dynamic=true)
-	protected Vector2Int myIntPosition = mySpaceObject==null? null: (Vector2Int)mySpaceObject.getProperty(ISpaceObjectStrings.PROPERTY_INTPOSITION);
+	protected Vector2Int myIntPosition = mySpaceObject==null? null: (Vector2Int)mySpaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION);
 
-//	public Vector2Double getUpdatedPosition()
-//	{
-//		myPosition = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
-//		return myPosition;
-//	}
-	
 	/** The speed of the "Being". */
 	protected float	mySpeed	= 1;
 	
@@ -93,13 +85,15 @@ public abstract class AbstractBeingBDI
 		{
 			public void customResultAvailable(IExtensionInstance ext)
 			{
-				environment	= (Grid2D)ext;
-				
-				System.out.println("agent.getComponentDescription()" + agent.getComponentDescription());
-				System.out.println("agent.getModel().getFullName()" + agent.getModel().getFullName());
+				Grid2D g2d= (Grid2D)ext;
+				environment	= g2d;
 				setMySpaceObject(environment.getAvatar(agent.getComponentDescription(), agent.getModel().getFullName()));
+				Vector2Double val1 = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
+				myPosition = val1;
 				myPosition = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
-				myIntPosition = (Vector2Int)mySpaceObject.getProperty(ISpaceObjectStrings.PROPERTY_INTPOSITION);
+				Object o = mySpaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION);
+				Vector2Int val2= (Vector2Int)o;
+				myIntPosition = val2;
 				ret.setResult(null);
 			}
 		});

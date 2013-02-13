@@ -15,7 +15,7 @@ import jadex.agentkeeper.game.state.missions.Gebaudeverwalter;
 import jadex.agentkeeper.game.state.missions.MissionsVerwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.UserEingabenManager;
-import jadex.agentkeeper.util.ISpaceObjectStrings;
+import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
 import jadex.bridge.service.types.clock.IClockService;
@@ -29,7 +29,7 @@ import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
 public abstract class AInitMapProcess extends SimplePropertyObject implements
-		ISpaceProcess, IMap, ISpaceObjectStrings {
+		ISpaceProcess, IMap, ISObjStrings {
 
 	public static final String GEBAEUDELISTE = "gebaeudeliste";
 

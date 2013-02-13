@@ -1,7 +1,7 @@
 package jadex.agentkeeper.init.map.process;
 
 import jadex.agentkeeper.game.state.missions.Mission;
-import jadex.agentkeeper.util.ISpaceObjectStrings;
+import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
-public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IMap, ISpaceObjectStrings
+public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IMap, ISObjStrings
 {
 
 	// -------- ISpaceProcess interface --------
@@ -308,7 +308,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							// Integer(0));
 							props.put(Space2D.PROPERTY_POSITION, new Vector2Double(x, y));
 
-							props.put(ISpaceObjectStrings.PROPERTY_INTPOSITION, new Vector2Int(x, y));
+							props.put(ISObjStrings.PROPERTY_INTPOSITION, new Vector2Int(x, y));
 							// props.put("auftragsverwalter", gegnerauftraege);
 
 							if(type.equals("spielprozesse"))
