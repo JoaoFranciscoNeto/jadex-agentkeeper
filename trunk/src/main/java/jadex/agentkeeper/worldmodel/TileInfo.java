@@ -28,6 +28,8 @@ public abstract class TileInfo {
 		this.neighbourType = NeighbourType.COMPLEX;
 		TileInfo.mapType = mapType;
 	}
+	
+	public abstract MapType[] getNeighbors();
 
 	/**
 	 * @return the quantity
@@ -107,8 +109,6 @@ public abstract class TileInfo {
 	public static final <T> T getTileInfo(SpaceObject obj, Class<T> type) {
 		return (T) obj.getProperty(ISObjStrings.PROPERTY_TILEINFO);
 	}
-
-	public abstract MapType[] getNeighbors();
 
 	/**
 	 * @return the mapType

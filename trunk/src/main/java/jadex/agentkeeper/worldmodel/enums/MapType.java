@@ -1,40 +1,46 @@
 package jadex.agentkeeper.worldmodel.enums;
 
-import jadex.agentkeeper.worldmodel.SolidInfo;
 import jadex.agentkeeper.worldmodel.UnknownInfo;
 import jadex.agentkeeper.worldmodel.buildingtypes.DungeonHeartInfo;
 import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
 import jadex.agentkeeper.worldmodel.buildingtypes.LairInfo;
+import jadex.agentkeeper.worldmodel.buildingtypes.LibraryInfo;
+import jadex.agentkeeper.worldmodel.buildingtypes.PortalInfo;
+import jadex.agentkeeper.worldmodel.buildingtypes.TortureInfo;
 import jadex.agentkeeper.worldmodel.buildingtypes.TrainingRoomInfo;
+import jadex.agentkeeper.worldmodel.buildingtypes.TreasuryInfo;
+import jadex.agentkeeper.worldmodel.solidtypes.DefaultTileInfo;
+import jadex.agentkeeper.worldmodel.solidtypes.DirtInfo;
+import jadex.agentkeeper.worldmodel.solidtypes.WaterInfo;
 
 public enum MapType
 {
+	// Unknown, need for MapEditor issues
 	UNKNOWN("unknown", UnknownInfo.class),
+	
 	// Buildings
 	HATCHERY("hatchery",HatcheryInfo.class), 
-	HATCHERYCENTER("hatcherycenter",HatcheryInfo.class), 
 	LAIR("lair",LairInfo.class), 
+	LIBRARY("library",LibraryInfo.class), 
+	PORTAL("portal",PortalInfo.class), 
+	TORTURE("portal",TortureInfo.class),
+	TREASURY("treasury",TreasuryInfo.class), 
 	DUNGEONHEART("dungeonheart",DungeonHeartInfo.class), 
-	DUNGEONHEARTCENTER("dungeonheartcenter",DungeonHeartInfo.class), 
 	TRAININGROOM("trainingroom",TrainingRoomInfo.class), 
-	TRAININGROOMCENTER("trainingroomcenter",TrainingRoomInfo.class),
 	
 	//Solid Types
-	IMPENETRABLE_ROCK("impenetrable_rock", SolidInfo.class),
-	ROCK("rock", SolidInfo.class),
-	REINFORCED_WALL("reinforced_wall", SolidInfo.class),
-	GOLD("gold", SolidInfo.class),
-	GOLD_DROPED("gold_dropped", SolidInfo.class),
-	DIRT_PATH("dirt_path", SolidInfo.class),
-	CLAIMED_PATH("claimed_path", SolidInfo.class),
-	GEMS("gems", SolidInfo.class),
-	WATER("water", SolidInfo.class),
-	LAVA("lava", SolidInfo.class),
-	HEROTILE("herotile", SolidInfo.class);
-	
-	
-	
-	
+	IMPENETRABLE_ROCK("impenetrable_rock", DirtInfo.class),
+	ROCK("rock", DirtInfo.class),
+	REINFORCED_WALL("reinforced_wall", DirtInfo.class),
+	GOLD("gold", DirtInfo.class),
+	GOLD_DROPED("gold_dropped", DirtInfo.class),
+	DIRT_PATH("dirt_path", DefaultTileInfo.class),
+	CLAIMED_PATH("claimed_path", DefaultTileInfo.class),
+	GEMS("gems", DefaultTileInfo.class),
+	WATER("water", WaterInfo.class),
+	LAVA("lava", WaterInfo.class),
+	HEROTILE("herotile", DefaultTileInfo.class);
+
 	private String name;
 	private Class<?> pojo;
 	
