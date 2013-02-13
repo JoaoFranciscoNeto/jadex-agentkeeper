@@ -1,27 +1,32 @@
 package jadex.agentkeeper.worldmodel;
 
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.extension.envsupport.environment.SpaceObject;
 
 public abstract class TileInfo {
-	public static String TYPE_NAME = "Tile";
+	protected static MapType mapType;
 	private static int quantity;
 	
 	protected int hitpoints;
 	protected int owner = 0;
 	protected String neighbourhood;
 	protected WalkType walkType;
+	protected boolean locked;
 	protected NeighbourType neighbourType;
 
-	public TileInfo() {
+
+	public TileInfo(MapType mapType) {
 		quantity++;
+		this.locked = false;
 		this.hitpoints = 10;
 		this.owner = 0;
 		this.neighbourhood = "00000000";
 		this.walkType = WalkType.PASSABLE;
 		this.neighbourType = NeighbourType.COMPLEX;
+		TileInfo.mapType = mapType;
 	}
 
 	/**
@@ -103,5 +108,37 @@ public abstract class TileInfo {
 		return (T) obj.getProperty(ISObjStrings.PROPERTY_TILEINFO);
 	}
 
-	public abstract String[] getNeighbors();
+	public abstract MapType[] getNeighbors();
+
+	/**
+	 * @return the mapType
+	 */
+	public MapType getMapType()
+	{
+		return mapType;
+	}
+
+	/**
+	 * @param mapType the mapType to set
+	 */
+	public void setMapType(MapType mapType)
+	{
+		this.mapType = mapType;
+	}
+
+	/**
+	 * @return the locked
+	 */
+	public boolean isLocked()
+	{
+		return locked;
+	}
+
+	/**
+	 * @param locked the locked to set
+	 */
+	public void setLocked(boolean locked)
+	{
+		this.locked = locked;
+	}
 }

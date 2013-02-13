@@ -1,18 +1,18 @@
 package jadex.agentkeeper.worldmodel.buildingtypes;
 
+
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 
-public class DungeonHeartInfo extends ACenterBuildingInfo {
-	
 
-	
-	public DungeonHeartInfo(MapType mapType)
+public class PortalInfo extends ACenterBuildingInfo
+{
+
+	public PortalInfo(MapType mapType)
 	{
 		super(mapType);
-		this.hitpoints = isCenter? 1000 : 10;
-		this.neighbourType = NeighbourType.COMPLEX;
+		this.neighbourType = NeighbourType.NONE;
+		this.hitpoints = isCenter ? 3000 : 30;
 	}
-	
 
 }

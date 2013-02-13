@@ -34,6 +34,8 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements
 	public static final String GEBAEUDELISTE = "gebaeudeliste";
 
 	public static Map<String, String> imagenames;
+	
+	public static Map<String, String> loadMapMapping;
 
 	public static Gebaudeverwalter gebaeuedeverwalter;
 
