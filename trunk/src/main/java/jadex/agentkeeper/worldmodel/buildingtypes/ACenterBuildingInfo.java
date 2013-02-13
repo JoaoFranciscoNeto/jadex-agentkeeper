@@ -1,9 +1,15 @@
 package jadex.agentkeeper.worldmodel.buildingtypes;
 
 import jadex.agentkeeper.worldmodel.BuildingInfo;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 
 public abstract class ACenterBuildingInfo extends BuildingInfo
 {
+	public ACenterBuildingInfo(MapType mapType)
+	{
+		super(mapType);
+	}
+
 	protected boolean isCenter;
 
 	/**
@@ -19,4 +25,5 @@ public abstract class ACenterBuildingInfo extends BuildingInfo
 	public void setCenter(boolean isCenter) {
 		this.isCenter = isCenter;
 	}
+
 }
