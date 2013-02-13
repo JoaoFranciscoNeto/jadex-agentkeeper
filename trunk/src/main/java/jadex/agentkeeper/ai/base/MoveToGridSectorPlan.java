@@ -3,10 +3,10 @@ package jadex.agentkeeper.ai.base;
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
-import jadex.agentkeeper.util.ISpaceObjectStrings;
+import jadex.agentkeeper.util.ISObjStrings;
+import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
-import jadex.bdiv3.annotation.PlanPlan;
 import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.future.DelegationResultListener;
@@ -34,7 +34,7 @@ public class MoveToGridSectorPlan
 	@PlanCapability
 	protected AbstractBeingBDI				capa;
 
-	@PlanPlan
+	@PlanAPI
 	protected IPlan					rplan;
 
 	@PlanReason
@@ -83,7 +83,7 @@ public class MoveToGridSectorPlan
 
 			path_iterator = path.iterator();
 			
-			spaceObject.setProperty(ISpaceObjectStrings.PROPERTY_STATUS, "Walk");
+			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Walk");
 
 			moveToNextSector(path_iterator).addResultListener(new DelegationResultListener<Void>(ret));
 		}

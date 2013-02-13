@@ -1,11 +1,11 @@
 package jadex.agentkeeper.ai.base;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
-import jadex.agentkeeper.util.ISpaceObjectStrings;
+import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
-import jadex.bdiv3.annotation.PlanPlan;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.Future;
@@ -23,7 +23,7 @@ public class IdlePlan
 	@PlanCapability
 	protected AbstractBeingBDI	capa;
 
-	@PlanPlan
+	@PlanAPI
 	protected IPlan rplan;
 	
 	ISpaceObject spaceObject;
@@ -50,7 +50,7 @@ public class IdlePlan
 	
 		String status = random > 0.5f ? "Idle" : "Dance";
 		
-		spaceObject.setProperty(ISpaceObjectStrings.PROPERTY_STATUS, status);
+		spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, status);
 		
 		long waittime = (long)(5000/(Double)capa.getEnvironment().getProperty(ISpaceStrings.GAME_SPEED) * random);
 		

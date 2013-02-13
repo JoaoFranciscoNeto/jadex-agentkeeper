@@ -2,9 +2,9 @@ package jadex.agentkeeper.ai.base;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
+import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
-import jadex.bdiv3.annotation.PlanPlan;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
@@ -23,7 +23,7 @@ public class PatrolPlan {
 	@PlanCapability
 	protected AbstractBeingBDI capa;
 
-	@PlanPlan
+	@PlanAPI
 	protected IPlan rplan;
 
 	protected Grid2D environment;
