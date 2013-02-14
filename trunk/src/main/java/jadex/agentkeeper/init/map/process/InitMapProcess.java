@@ -90,7 +90,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							Vector2Int aktPos = new Vector2Int(x, y);
 							String key = line.substring(x * 2 + 2, x * 2 + 4);
 							MapType mapType = TILE_MAP.get(key);
-							String type = mapType.toString().toLowerCase();
+							String type = imagenames.get(key);
+//							String type = mapType.toString().toLowerCase();
 
 							
 							
