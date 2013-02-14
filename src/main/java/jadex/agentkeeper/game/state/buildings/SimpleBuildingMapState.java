@@ -47,7 +47,7 @@ public class SimpleBuildingMapState
 	 * Get the Number of the Type from a special Type
 	 * 
 	 * @param type
-	 * @return
+	 * @return the TypeCount
 	 */
 	public int getTypeCount(String type)
 	{
@@ -61,7 +61,7 @@ public class SimpleBuildingMapState
 	 * 
 	 * @param pos
 	 * @param type
-	 * @return
+	 * @return x
 	 */
 	public boolean hasTypeAtPos(Vector2Int pos, String type)
 	{
@@ -74,7 +74,7 @@ public class SimpleBuildingMapState
 	 * 
 	 * @param pos
 	 * @param type
-	 * @return
+	 * @return x
 	 */
 	public boolean hasTypeAtPos(Vector2Int pos, String[] types)
 	{
@@ -97,7 +97,7 @@ public class SimpleBuildingMapState
 	 * Get the Type from a position
 	 * 
 	 * @param pos
-	 * @return
+	 * @return x
 	 */
 	public MapType getTypeAtPos(Vector2Int pos)
 	{

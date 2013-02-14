@@ -1,19 +1,19 @@
 package jadex.agentkeeper.worldmodel.enums;
 
-import jadex.agentkeeper.worldmodel.UnknownInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.DungeonHeartInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.LairInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.LibraryInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.PortalInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.TortureInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.TrainingRoomInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.TreasuryInfo;
-import jadex.agentkeeper.worldmodel.solidtypes.DefaultTileInfo;
-import jadex.agentkeeper.worldmodel.solidtypes.GoldInfo;
-import jadex.agentkeeper.worldmodel.solidtypes.ImpenetrableRockInfo;
-import jadex.agentkeeper.worldmodel.solidtypes.RockInfo;
-import jadex.agentkeeper.worldmodel.solidtypes.WaterInfo;
+import jadex.agentkeeper.worldmodel.structure.UnknownInfo;
+import jadex.agentkeeper.worldmodel.structure.building.DungeonHeartInfo;
+import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
+import jadex.agentkeeper.worldmodel.structure.building.LairInfo;
+import jadex.agentkeeper.worldmodel.structure.building.LibraryInfo;
+import jadex.agentkeeper.worldmodel.structure.building.PortalInfo;
+import jadex.agentkeeper.worldmodel.structure.building.TortureInfo;
+import jadex.agentkeeper.worldmodel.structure.building.TrainingRoomInfo;
+import jadex.agentkeeper.worldmodel.structure.building.TreasuryInfo;
+import jadex.agentkeeper.worldmodel.structure.solid.DefaultTileInfo;
+import jadex.agentkeeper.worldmodel.structure.solid.GoldInfo;
+import jadex.agentkeeper.worldmodel.structure.solid.ImpenetrableRockInfo;
+import jadex.agentkeeper.worldmodel.structure.solid.RockInfo;
+import jadex.agentkeeper.worldmodel.structure.solid.WaterInfo;
 
 public enum MapType
 {

@@ -1,7 +1,7 @@
-package jadex.agentkeeper.worldmodel.buildingtypes;
+package jadex.agentkeeper.worldmodel.structure.building;
 
-import jadex.agentkeeper.worldmodel.BuildingInfo;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.BuildingInfo;
 
 public abstract class ACenterBuildingInfo extends BuildingInfo
 {

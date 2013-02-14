@@ -1,7 +1,7 @@
-package jadex.agentkeeper.worldmodel.solidtypes;
+package jadex.agentkeeper.worldmodel.structure.solid;
 
-import jadex.agentkeeper.worldmodel.SolidInfo;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.SolidInfo;
 
 
 public class GoldInfo extends SolidInfo
