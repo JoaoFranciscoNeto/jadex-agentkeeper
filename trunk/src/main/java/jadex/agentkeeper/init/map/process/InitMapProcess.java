@@ -3,6 +3,7 @@ package jadex.agentkeeper.init.map.process;
 import jadex.agentkeeper.game.state.missions.Mission;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -88,8 +89,11 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 						{
 							Vector2Int aktPos = new Vector2Int(x, y);
 							String key = line.substring(x * 2 + 2, x * 2 + 4);
-							String type = (String)imagenames.get(key);
+							MapType mapType = TILE_MAP.get(key);
+							String type = mapType.toString().toLowerCase();
 
+							
+							
 							Map<String, Object> props = new HashMap<String, Object>();
 							props.put("bearbeitung", new Integer(0));
 							props.put("clicked", false);
@@ -112,8 +116,9 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 //							TileInfo a = TileInfo.getTileInfo(obj, TileInfo.class);
 							
 //							props.put(ISpaceObjectStrings.PROPERTY_TILEINFO, tile);
-							if(type == GOLD)
+							if(mapType == MapType.GOLD)
 							{
+								System.out.println("gold!");
 								props.put("amount", 30);
 								complexNPos.add(new SimpleMapType(aktPos, type));
 							}

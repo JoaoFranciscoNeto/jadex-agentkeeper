@@ -78,6 +78,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		TILE_MAP.put("Oe", MapType.WATER);
 		TILE_MAP.put("Of", MapType.LAVA);
 		TILE_MAP.put("Oh", MapType.HEROTILE);
+		
 
 
 		gebaeuedeverwalter = new Gebaudeverwalter();
@@ -204,7 +205,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 	 */
 	public void execute(IClockService clock, IEnvironmentSpace space)
 	{
-		// System.out.println("process called: " + space);
+		System.out.println("- - - Init Map Process starting - - -");
 	}
 
 	public static Vector2Int convertToIntPos(IVector2 pos)

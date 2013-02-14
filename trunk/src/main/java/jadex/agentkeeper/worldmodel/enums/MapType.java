@@ -16,48 +16,36 @@ import jadex.agentkeeper.worldmodel.solidtypes.WaterInfo;
 public enum MapType
 {
 	// Unknown, need for MapEditor issues
-	UNKNOWN("unknown", UnknownInfo.class),
+	UNKNOWN(UnknownInfo.class),
 	
 	// Buildings
-	HATCHERY("hatchery",HatcheryInfo.class), 
-	LAIR("lair",LairInfo.class), 
-	LIBRARY("library",LibraryInfo.class), 
-	PORTAL("portal",PortalInfo.class), 
-	TORTURE("portal",TortureInfo.class),
-	TREASURY("treasury",TreasuryInfo.class), 
-	DUNGEONHEART("dungeonheart",DungeonHeartInfo.class), 
-	TRAININGROOM("trainingroom",TrainingRoomInfo.class), 
+	HATCHERY(HatcheryInfo.class), 
+	LAIR(LairInfo.class), 
+	LIBRARY(LibraryInfo.class), 
+	PORTAL(PortalInfo.class), 
+	TORTURE(TortureInfo.class),
+	TREASURY(TreasuryInfo.class), 
+	DUNGEONHEART(DungeonHeartInfo.class), 
+	TRAININGROOM(TrainingRoomInfo.class), 
 	
 	//Solid Types
-	IMPENETRABLE_ROCK("impenetrable_rock", DirtInfo.class),
-	ROCK("rock", DirtInfo.class),
-	REINFORCED_WALL("reinforced_wall", DirtInfo.class),
-	GOLD("gold", DirtInfo.class),
-	GOLD_DROPED("gold_dropped", DirtInfo.class),
-	DIRT_PATH("dirt_path", DefaultTileInfo.class),
-	CLAIMED_PATH("claimed_path", DefaultTileInfo.class),
-	GEMS("gems", DefaultTileInfo.class),
-	WATER("water", WaterInfo.class),
-	LAVA("lava", WaterInfo.class),
-	HEROTILE("herotile", DefaultTileInfo.class);
+	IMPENETRABLE_ROCK(DirtInfo.class),
+	ROCK(DirtInfo.class),
+	REINFORCED_WALL(DirtInfo.class),
+	GOLD(DirtInfo.class),
+	GOLD_DROPED(DirtInfo.class),
+	DIRT_PATH(DefaultTileInfo.class),
+	CLAIMED_PATH(DefaultTileInfo.class),
+	GEMS(DefaultTileInfo.class),
+	WATER(WaterInfo.class),
+	LAVA(WaterInfo.class),
+	HEROTILE(DefaultTileInfo.class);
 
-	private String name;
 	private Class<?> pojo;
 	
-	private MapType(String name, Class<?> pojo)
+	private MapType(Class<?> pojo)
 	{
-		this.name = name;
 		this.pojo = pojo;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(String name)
-	{
-		this.name = name;
 	}
 
 	public Class< ? > getPojo()
