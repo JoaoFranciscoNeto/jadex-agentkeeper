@@ -28,5 +28,4 @@ public class LairInfo extends BuildingInfo {
 	}
 
 
-
 }

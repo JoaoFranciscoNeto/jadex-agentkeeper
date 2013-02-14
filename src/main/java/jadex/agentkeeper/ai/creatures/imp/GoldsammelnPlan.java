@@ -3,15 +3,11 @@ package jadex.agentkeeper.ai.creatures.imp;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
-import jadex.agentkeeper.game.state.missions.Gebaeude;
-import jadex.agentkeeper.game.state.missions.Gebaudeverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.bdi.runtime.IGoal;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Double;
-
-import java.util.List;
 
 
 
@@ -114,23 +110,23 @@ public class GoldsammelnPlan extends ImpPlan {
 	
 	//TODO: Auslagern?
 	private IVector2 findeNaechsteSchatztruhe(IVector2 mypos) {
-		Gebaudeverwalter g = (Gebaudeverwalter)grid.getProperty( InitMapProcess.GEBAEUDELISTE );
-		List<Gebaeude> truen = g.gibGebaeude( InitMapProcess.TREASURY );
+//		Gebaudeverwalter g = (Gebaudeverwalter)grid.getProperty( InitMapProcess.GEBAEUDELISTE );
+//		List<Gebaeude> truen = g.gibGebaeude( InitMapProcess.TREASURY );
 
 		AStarSearch suche;
 		int minGKosten = Integer.MAX_VALUE;
 		int gKosten;
 		IVector2 tmp, minKostenPunkt = null;
-		for (int i = 0; i < truen.size(); i++) {
-			suche = new AStarSearch( mypos, truen.get(i).gibPos(), grid, false);
-			gKosten = suche.gibPfadKosten();
-			tmp = truen.get(i).gibPos();
-			if (gKosten < minGKosten) {
-				minGKosten = gKosten;
-				minKostenPunkt = tmp;
-			}
-		}
-		return minKostenPunkt;
+//		for (int i = 0; i < truen.size(); i++) {
+//			suche = new AStarSearch( mypos, truen.get(i).gibPos(), grid, false);
+//			gKosten = suche.gibPfadKosten();
+//			tmp = truen.get(i).gibPos();
+//			if (gKosten < minGKosten) {
+//				minGKosten = gKosten;
+//				minKostenPunkt = tmp;
+//			}
+//		}
+		return null;
 	}
 	
 	@Override

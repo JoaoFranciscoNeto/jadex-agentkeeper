@@ -34,7 +34,7 @@ public class SpielerAktionen {
 				ISpaceObject feld = (ISpaceObject) o;
 				String type = (String) feld.getProperty("type");
 				if (type.equals(InitMapProcess.CLAIMED_PATH)) {
-					InitMapProcess.gebaeuedeverwalter.machGebaeude( (Vector2Int) zielpos, typ );
+
 					if (typ.equals(InitMapProcess.LAIR)) {
 						
 //						InitMapProcess.lairliste.add((Vector2Double) zielpos);

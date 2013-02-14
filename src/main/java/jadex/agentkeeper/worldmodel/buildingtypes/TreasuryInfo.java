@@ -6,6 +6,7 @@ import jadex.agentkeeper.worldmodel.enums.MapType;
 
 public class TreasuryInfo extends ACenterBuildingInfo
 {
+	
 	public static final int MAX_AMOUNT = 3000;
 	private int amount = 0;
 

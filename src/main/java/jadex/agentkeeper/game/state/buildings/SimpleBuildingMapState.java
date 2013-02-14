@@ -1,48 +1,122 @@
 package jadex.agentkeeper.game.state.buildings;
 
-import jadex.agentkeeper.init.map.process.InitMapProcess;
-import jadex.extension.envsupport.environment.SpaceObject;
-import jadex.extension.envsupport.environment.space2d.Grid2D;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.math.Vector2Int;
+import jadex.rules.rulesystem.rules.functions.Length;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 
 /**
- * Just a first pre-implementation of the Building State, that only holds the Positions for every Building on the Map
+ * Just a first pre-implementation of the Type State, that only holds the
+ * Positions for every Type on the Map
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
 public class SimpleBuildingMapState
 {
-	private HashMap<String, ArrayList<SpaceObject>> buildings = new HashMap<String, ArrayList<SpaceObject>>();
-	
-	
+	private HashMap<MapType, ArrayList<Vector2Int>>	typesList	= new HashMap<MapType, ArrayList<Vector2Int>>();
+
+
 	public SimpleBuildingMapState()
 	{
-		for(int i = 0; i<InitMapProcess.BUILDING_TYPES.length; i++ )
+		for(MapType type : MapType.values())
 		{
-			this.buildings.put(InitMapProcess.BUILDING_TYPES[i], new ArrayList<SpaceObject>());
+			this.typesList.put(type, new ArrayList<Vector2Int>());
 		}
-
 	}
 
-	public void addBuilding(String type, Vector2Int location, SpaceObject sobj)
+	/**
+	 * add a specific Type
+	 * 
+	 * @param location
+	 * @param type
+	 */
+	public void addType(Vector2Int location, MapType type)
 	{
+		ArrayList<Vector2Int> myList = this.typesList.get(type);
+		myList.add(location);
+//		System.out.println("typecount: " + type + " " + typesList.get(type).size());
+	}
+
+
+	/**
+	 * Get the Number of the Type from a special Type
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public int getTypeCount(String type)
+	{
+		return typesList.get(type).size();
+	}
+
+	
+	/**
+	 * 
+	 * Check if a special Type is at an position
+	 * 
+	 * @param pos
+	 * @param type
+	 * @return
+	 */
+	public boolean hasTypeAtPos(Vector2Int pos, String type)
+	{
+		return typesList.get(type).contains(pos);
+	}
+	
+	/**
+	 * 
+	 * Check if one Types of a set of Types is at an position
+	 * 
+	 * @param pos
+	 * @param type
+	 * @return
+	 */
+	public boolean hasTypeAtPos(Vector2Int pos, String[] types)
+	{
+		boolean ret = false;
+		for(int i = 0; i < types.length; i++)
+		{
+			ret = typesList.get(types[i]).contains(pos);
+			if(ret == true)
+			{
+				continue;
+			}
+		}
+		return ret;
 		
-//		buildings.put(location, new Building(type, sobj));
-//		buildingCounter.put(type, buildingCounter.get(type)+1);
-		System.out.println("typecount: " + type + " " + buildings.get(type));
 	}
 	
 	
-	public int getBuildingCount(String type)
+	/**
+	 * 
+	 * Get the Type from a position
+	 * 
+	 * @param pos
+	 * @return
+	 */
+	public MapType getTypeAtPos(Vector2Int pos)
 	{
-		return buildings.get(type).size();
+		Iterator<Entry<MapType, ArrayList<Vector2Int>>> it = typesList.entrySet().iterator();
+		
+		while(it.hasNext())
+		{
+			Entry<MapType, ArrayList<Vector2Int>> entry = it.next();
+			
+			ArrayList<Vector2Int> list = entry.getValue();
+			if(list.contains(pos))
+			{
+				return entry.getKey();
+			}
+			
+			
+		}
+		return null;
 	}
 
-	
-	
 
 }

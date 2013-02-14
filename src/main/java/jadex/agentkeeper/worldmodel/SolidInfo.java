@@ -6,9 +6,9 @@ import jadex.agentkeeper.worldmodel.enums.MapType;
 public abstract class SolidInfo extends TileInfo
 {
 
-	protected static MapType[]	NEIGHBORS	= new MapType[]{mapType};
+	protected MapType[]	neighbours	= new MapType[]{mapType};
 
-	private boolean					isBreakable	= false;
+	protected boolean					isBreakable	= false;
 
 
 	public SolidInfo(MapType mapType)
@@ -19,7 +19,7 @@ public abstract class SolidInfo extends TileInfo
 
 	public MapType[] getNeighbors()
 	{
-		return NEIGHBORS;
+		return neighbours;
 	}
 
 	/**

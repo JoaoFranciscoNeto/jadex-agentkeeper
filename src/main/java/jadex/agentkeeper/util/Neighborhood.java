@@ -5,7 +5,6 @@ import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
-import jadex.extension.envsupport.math.Vector1Int;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
@@ -16,94 +15,19 @@ import java.util.Set;
 
 /**
  * 
- * Class that implements the Neighborhood calculation
+ * Class that implements Neighborhood related calculations
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  *
  */
 public class Neighborhood
 {
-
-	public static final int				pos1				= 1;
-
-	public static final int				pos2				= 2;
-
-	public static final int				pos3				= 4;
-
-	public static final int				pos4				= 8;
-
-	public static final int				pos5				= 16;
-
-	public static final int				pos6				= 32;
-
-	public static final int				pos7				= 64;
-
-	public static final int				pos8				= 128;
-
-	public static final Vector2Int		case1				= new Vector2Int(-1, -1);
-
-	public static final Vector2Int		case2				= new Vector2Int(0, -1);
-
-	public static final Vector2Int		case3				= new Vector2Int(1, -1);
-
-	public static final Vector2Int		case4				= new Vector2Int(1, 0);
-
-	public static final Vector2Int		case5				= new Vector2Int(1, 1);
-
-	public static final Vector2Int		case6				= new Vector2Int(0, 1);
-
-	public static final Vector2Int		case7				= new Vector2Int(-1, 1);
-
-	public static final Vector2Int		case8				= new Vector2Int(-1, 0);
-
-
-	public static final Vector2Int		bigcase1			= new Vector2Int(-2, -2);
-
-	public static final Vector2Int		bigcase2			= new Vector2Int(-2, -1);
-
-	public static final Vector2Int		bigcase3			= new Vector2Int(-2, 0);
-
-	public static final Vector2Int		bigcase4			= new Vector2Int(-2, 1);
-
-	public static final Vector2Int		bigcase5			= new Vector2Int(-2, 2);
-
-	public static final Vector2Int		bigcase6			= new Vector2Int(-1, -2);
-
-	public static final Vector2Int		bigcase7			= new Vector2Int(-1, 2);
-
-	public static final Vector2Int		bigcase8			= new Vector2Int(0, -2);
-
-	public static final Vector2Int		bigcase9			= new Vector2Int(0, 2);
-
-	public static final Vector2Int		bigcase10			= new Vector2Int(1, -2);
-
-	public static final Vector2Int		bigcase11			= new Vector2Int(1, 2);
-
-	public static final Vector2Int		bigcase12			= new Vector2Int(2, -2);
-
-	public static final Vector2Int		bigcase13			= new Vector2Int(2, -1);
-
-	public static final Vector2Int		bigcase14			= new Vector2Int(2, 0);
-
-	public static final Vector2Int		bigcase15			= new Vector2Int(2, 1);
-
-	public static final Vector2Int		bigcase16			= new Vector2Int(2, 2);
-
-	public static final Vector2Int[]	cases				= {case1, case2, case3, case4, case5, case6, case7, case8};
-
-	public static final Vector2Int[]	simpleDirections	= {case2, case4, case6, case8};
-
-	public static final Vector2Int[]	complexDirections	= {case1, case2, case3, case4, case5, case6, case7, case8, bigcase1, bigcase2, bigcase3, bigcase4,
-			bigcase5, bigcase6, bigcase7, bigcase8, bigcase9, bigcase10, bigcase11, bigcase12, bigcase13, bigcase14, bigcase15, bigcase16};
-
-
-
 	public static boolean isReachable(IVector2 zielpos, Grid2D grid)
 	{
 		boolean ret = false;
-		for(int i = 0; i < simpleDirections.length; i++)
+		for(Neighborcase neighborcase : Neighborcase.getSimple())
 		{
-			IVector2 ziel = zielpos.copy().add(simpleDirections[i]);
+			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
 			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
 			if(thatsme != null)
 			{
@@ -120,9 +44,9 @@ public class Neighborhood
 	public static boolean isReachableForDestroy(IVector2 zielpos, Grid2D grid)
 	{
 		boolean ret = false;
-		for(int i = 0; i < simpleDirections.length; i++)
+		for(Neighborcase neighborcase : Neighborcase.getSimple())
 		{
-			IVector2 ziel = zielpos.copy().add(simpleDirections[i]);
+			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
 			
 			//TODO: how to handle null pointer?
 			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
@@ -144,10 +68,10 @@ public class Neighborhood
 
 	public static void updateMyNeighborsSimpleField(IVector2 zielpos, Grid2D grid)
 	{
-		for(int i = 0; i < simpleDirections.length; i++)
+		for(Neighborcase neighborcase : Neighborcase.getSimple())
 		{
 
-			IVector2 ziel = zielpos.copy().add(simpleDirections[i]);
+			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
 			SpaceObject thatsme = InitMapProcess.getFieldTypeAtPos(ziel, grid);
 			updateMyNeighborvalueBasedOnMyNeighborhood(ziel, thatsme, grid);
 		}
@@ -156,9 +80,9 @@ public class Neighborhood
 
 	public static void updateMyNeighborsComplexField(IVector2 zielpos, Grid2D grid)
 	{
-		for(int i = 0; i < cases.length; i++)
+		for(Neighborcase neighborcase : Neighborcase.getDefault())
 		{
-			IVector2 ziel = zielpos.copy().add(cases[i]);
+			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
 			SpaceObject thatsme = InitMapProcess.getFieldTypeAtPos(ziel, grid);
 			updateMyNeighborvalueBasedOnMyNeighborhood(ziel, thatsme, grid);
 
@@ -168,10 +92,10 @@ public class Neighborhood
 
 	public static void updateMyNeighborsSimpleBuilding(IVector2 zielpos, Grid2D grid)
 	{
-		for(int i = 0; i < simpleDirections.length; i++)
+		for(Neighborcase neighborcase : Neighborcase.getSimple())
 		{
 
-			IVector2 ziel = zielpos.copy().add(simpleDirections[i]);
+			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
 			SpaceObject thatsme = InitMapProcess.getBuildingTypeAtPos(ziel, grid);
 			updateMyNeighborvalueBasedOnMyNeighborhood(ziel, thatsme, grid);
 		}
@@ -181,9 +105,9 @@ public class Neighborhood
 
 	public static void updateMyNeighborsComplexBuilding(IVector2 zielpos, Grid2D grid)
 	{
-		for(int i = 0; i < cases.length; i++)
+		for(Neighborcase neighborcase : Neighborcase.getDefault())
 		{
-			IVector2 ziel = zielpos.copy().add(cases[i]);
+			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
 			SpaceObject thatsme = InitMapProcess.getBuildingTypeAtPos(ziel, grid);
 			updateMyNeighborvalueBasedOnMyNeighborhood(ziel, thatsme, grid);
 
@@ -238,7 +162,7 @@ public class Neighborhood
 		boolean alternatives = true;
 		int ret = 0;
 		SpaceObject thatsme = null;
-		ArrayList<Integer> neighborcases = new ArrayList<Integer>();
+		ArrayList<Neighborcase> neighborcases = new ArrayList<Neighborcase>();
 		Iterator<SpaceObject> it = nearFields.iterator();
 
 		// Calculate all the neihborcases
@@ -261,46 +185,50 @@ public class Neighborhood
 				Vector2Double subtract = (Vector2Double)sobjpos.copy().subtract(myPos);
 
 				// We save all the cases in a List.
-				Integer wert = calculateNeighborcase(subtract);
-				neighborcases.add(wert);
+				Neighborcase wert = getNeighbor(subtract);
+				if(wert!=null)
+				{
+					neighborcases.add(wert);
+				}
+				
 			}
 
 		}
 
 		// Remove execptions
-		if(neighborcases.contains(new Integer(3)))
+		if(neighborcases.contains(Neighborcase.CASE3))
 		{
-			if(!neighborcases.contains(new Integer(2)) || !neighborcases.contains(new Integer(4)))
+			if(!neighborcases.contains(Neighborcase.CASE2) || !neighborcases.contains(Neighborcase.CASE4))
 			{
-				neighborcases.remove(new Integer(3));
+				neighborcases.remove(Neighborcase.CASE3);
 
 			}
 
 		}
 
-		if(neighborcases.contains(new Integer(5)))
+		if(neighborcases.contains(Neighborcase.CASE5))
 		{
-			if(!neighborcases.contains(new Integer(4)) || !neighborcases.contains(new Integer(6)))
+			if(!neighborcases.contains(Neighborcase.CASE4) || !neighborcases.contains(Neighborcase.CASE6))
 			{
-				neighborcases.remove(new Integer(5));
+				neighborcases.remove(Neighborcase.CASE5);
 			}
 
 		}
 
-		if(neighborcases.contains(new Integer(7)))
+		if(neighborcases.contains(Neighborcase.CASE7))
 		{
-			if(!neighborcases.contains(new Integer(6)) || !neighborcases.contains(new Integer(8)))
+			if(!neighborcases.contains(Neighborcase.CASE6) || !neighborcases.contains(Neighborcase.CASE8))
 			{
-				neighborcases.remove(new Integer(7));
+				neighborcases.remove(Neighborcase.CASE7);
 			}
 
 		}
 
-		if(neighborcases.contains(new Integer(1)))
+		if(neighborcases.contains(Neighborcase.CASE1))
 		{
-			if(!(neighborcases.contains(new Integer(2))) || !(neighborcases.contains(new Integer(8))))
+			if(!(neighborcases.contains(Neighborcase.CASE2)) || !(neighborcases.contains(Neighborcase.CASE8)))
 			{
-				neighborcases.remove(new Integer(1));
+				neighborcases.remove(Neighborcase.CASE1);
 			}
 
 		}
@@ -308,9 +236,9 @@ public class Neighborhood
 		// System.out.println("neighborcases" + neighborcases.toString());
 
 		// Now we adress the concrete Tiles:
-		for(Integer ncase : neighborcases)
+		for(Neighborcase ncase : neighborcases)
 		{
-			ret = ret ^ getNeighborValue(ncase);
+			ret = ret ^ ncase.getValue();
 		}
 
 
@@ -358,51 +286,19 @@ public class Neighborhood
 		return neighborhood;
 	}
 
-	private static Integer calculateNeighborcase(Vector2Double diff)
-	{
-		if(diff.equals(case1))
-			return 1;
-		else if(diff.equals(case2))
-			return 2;
-		else if(diff.equals(case3))
-			return 3;
-		else if(diff.equals(case4))
-			return 4;
-		else if(diff.equals(case5))
-			return 5;
-		else if(diff.equals(case6))
-			return 6;
-		else if(diff.equals(case7))
-			return 7;
-		else if(diff.equals(case8))
-			return 8;
-		return -1;
-	}
 
-	private static int getNeighborValue(int pos)
+	private static Neighborcase getNeighbor(Vector2Double diff)
 	{
-		switch(pos)
+		for(Neighborcase neighborcase : Neighborcase.getDefault())
 		{
-			case 1:
-				return pos1;
-			case 2:
-				return pos2;
-			case 3:
-				return pos3;
-			case 4:
-				return pos4;
-			case 5:
-				return pos5;
-			case 6:
-				return pos6;
-			case 7:
-				return pos7;
-			case 8:
-				return pos8;
-			default:
-				return 0;
-
+			if(neighborcase.getVector().equals(diff))
+			{
+				return neighborcase;
+			}
+			
 		}
+		return null;
+
 
 	}
 

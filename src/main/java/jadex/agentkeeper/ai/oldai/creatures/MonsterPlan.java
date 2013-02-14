@@ -4,8 +4,6 @@ import jadex.agentkeeper.ai.oldai.basic.GehHinUndArbeit;
 import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.missions.Gebaeude;
-import jadex.agentkeeper.game.state.missions.Gebaudeverwalter;
-import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.bdi.runtime.IGoal;
 
 import java.util.List;
@@ -36,10 +34,10 @@ public abstract class MonsterPlan extends GehHinUndArbeit{
 	 * @return
 	 */
 	protected List<Gebaeude> gibNaechstesGebaeude( String typ ) {
-		Gebaudeverwalter g = (Gebaudeverwalter)grid.getProperty( InitMapProcess.GEBAEUDELISTE );
-		List<Gebaeude> gebaeude = g.gibGebaeude( typ );
+//		Gebaudeverwalter g = (Gebaudeverwalter)grid.getProperty( InitMapProcess.GEBAEUDELISTE );
+//		List<Gebaeude> gebaeude = g.gibGebaeude( typ );
 		
-		return gebaeude;
+		return null;
 	}
 
 }

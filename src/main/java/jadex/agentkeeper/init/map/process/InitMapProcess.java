@@ -1,9 +1,11 @@
 package jadex.agentkeeper.init.map.process;
 
-import jadex.agentkeeper.game.state.missions.Mission;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
+import jadex.agentkeeper.worldmodel.TileInfo;
+import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.TypeVariant;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -13,9 +15,11 @@ import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +35,7 @@ import java.util.StringTokenizer;
 public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IMap, ISObjStrings
 {
 
+	private Map<String, Object> tmpProps;
 	// -------- ISpaceProcess interface --------
 
 	/**
@@ -45,6 +50,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		final Grid2D grid = (Grid2D)space;
 
 		loadAndSetupMissions(grid);
+		
+		
 
 		try
 		{
@@ -92,35 +99,23 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							MapType mapType = TILE_MAP.get(key);
 							String type = imagenames.get(key);
 //							String type = mapType.toString().toLowerCase();
+							
+							tmpProps = new HashMap<String, Object>();
+							createMapElement(aktPos, mapType);
 
+							tmpProps.put(PROPERTY_CLICKED, false);
 							
-							
-							Map<String, Object> props = new HashMap<String, Object>();
-							props.put("bearbeitung", new Integer(0));
-							props.put("clicked", false);
+							//TODO: thats shit!
+							tmpProps.put("bearbeitung", 0);
 
 							// Null Check
 							type = type == null ? "unknown" : type;
 
 
 							
-//							TileType tmp = TileType.HATCHERY;
-//							TileInfo tile = null;
-							
-//							tile = (TileInfo) TILE_MAP.get(type).newInstance();
-							
-//							SpaceObject obj= null;
-//							if (TileInfo.getTileInfo(obj, TileInfo.class).getClass().equals(HatcheryInfo.class))
-//							{
-								//mach was tolles mit der hatchery
-//							}
-//							TileInfo a = TileInfo.getTileInfo(obj, TileInfo.class);
-							
-//							props.put(ISpaceObjectStrings.PROPERTY_TILEINFO, tile);
+
 							if(mapType == MapType.GOLD)
 							{
-								System.out.println("gold!");
-								props.put("amount", 30);
 								complexNPos.add(new SimpleMapType(aktPos, type));
 							}
 							if(BUILDING_SET.contains(type))
@@ -199,9 +194,9 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 
 							
 							
-							props.put("neighborhood", "00000000");
-							props.put(Space2D.PROPERTY_POSITION, aktPos);
-							grid.createSpaceObject(type, props, null);
+							tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
+							tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
+							grid.createSpaceObject(type, tmpProps, null);
 							
 							
 						}
@@ -336,20 +331,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 					}
 				}
 
-				if("MISSIONEN".equals(data))
-				{
-					int cnt = Integer.parseInt(br.readLine().trim());
-					for(int i = 0; i < cnt; i++)
-					{
-						StringTokenizer stok = new StringTokenizer(br.readLine());
-						while(stok.hasMoreTokens())
-						{
-							String typ = stok.nextToken();
-							int menge = Integer.parseInt(stok.nextToken());
-							mv.neueMission(new Mission(typ, menge, uem));
-						}
-					}
-				}
 			}
 			br.close();
 		}
@@ -357,27 +338,67 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		{
 			e.printStackTrace();
 		}
-		int gold = gebaeuedeverwalter.gibGebaeude(InitMapProcess.TREASURY).size() * 150;
-		// int gold = schatztruhenliste.size() * 150;
 
-		int mana = 450;
-
-		int forschung = 14;
-
-		grid.setProperty("gold", gold);
-		grid.setProperty("mana", mana);
-		grid.setProperty("forschung", forschung);
-
-		grid.setProperty(GEBAEUDELISTE, gebaeuedeverwalter);
-		// grid.setProperty("schatztruhen", schatztruhenliste);
-		// grid.setProperty("lairliste", lairliste);
-		// grid.setProperty("hatcheryliste", hatcheryliste);
-		// grid.setProperty("trainingliste", trainingliste);
-		// grid.setProperty("libraryliste", libraryliste);
-		// grid.setProperty("tortureliste", tortureliste);
 
 		space.removeSpaceProcess(getProperty(ISpaceProcess.ID));
 
+	}
+
+	private void createMapElement(Vector2Int aktPos, MapType mapType)
+	{
+		if(mapType.getVariant()==TypeVariant.BUILDING)
+		{
+			buildingState.addType(aktPos, mapType);
+			buildingState.getTypeAtPos(aktPos);
+		}
+		else if(mapType.getVariant()==TypeVariant.SOLIDMAP)
+		{
+//			mapTypeState.addMapType(aktPos, mapType);
+		}
+
+//		TileType tmp = TileType.HATCHERY;
+		
+		try
+		{
+			Object tile = null;
+			tile = mapType.getPojo().getDeclaredConstructor(MapType.class).newInstance(mapType);
+			tmpProps.put(PROPERTY_TILEINFO, tile);
+//			MapType[] neighbours = ((TileInfo)tile).getNeighbors();
+		}
+		catch(IllegalArgumentException e)
+		{
+			e.printStackTrace();
+		}
+		catch(SecurityException e)
+		{
+			e.printStackTrace();
+		}
+		catch(InstantiationException e)
+		{
+			e.printStackTrace();
+		}
+		catch(IllegalAccessException e)
+		{
+			e.printStackTrace();
+		}
+		catch(InvocationTargetException e)
+		{
+			e.printStackTrace();
+		}
+		catch(NoSuchMethodException e)
+		{
+			e.printStackTrace();
+		}
+		
+//		SpaceObject obj= null;
+//		if (TileInfo.getTileInfo(obj, TileInfo.class).getClass().equals(HatcheryInfo.class))
+//		{
+			//mach was tolles mit der hatchery
+//		}
+//		HatcheryInfo a = HatcheryInfo.getTileInfo(obj, HatcheryInfo.class);
+		
+//		props.put(ISpaceObjectStrings.PROPERTY_TILEINFO, tile);
+		
 	}
 
 }
