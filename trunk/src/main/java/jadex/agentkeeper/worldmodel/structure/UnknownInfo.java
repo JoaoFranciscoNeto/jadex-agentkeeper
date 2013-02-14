@@ -1,16 +1,20 @@
-package jadex.agentkeeper.worldmodel.solidtypes;
+package jadex.agentkeeper.worldmodel.structure;
 
-import jadex.agentkeeper.worldmodel.SolidInfo;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 
-public class DirtPathInfo extends SolidInfo
+public class UnknownInfo extends TileInfo
 {
 
-	public DirtPathInfo(MapType mapType)
+	public UnknownInfo(MapType mapType)
 	{
 		super(mapType);
 		this.neighbourType = NeighbourType.NONE;
+	}
+	
+	public MapType[] getNeighbors()
+	{
+		return null;
 	}
 
 }

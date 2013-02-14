@@ -1,4 +1,4 @@
-package jadex.agentkeeper.worldmodel;
+package jadex.agentkeeper.worldmodel.structure;
 
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;

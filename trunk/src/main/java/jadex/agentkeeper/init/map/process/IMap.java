@@ -1,6 +1,6 @@
 package jadex.agentkeeper.init.map.process;
 
-import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
+import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
 
 import java.util.HashMap;
 import java.util.HashSet;

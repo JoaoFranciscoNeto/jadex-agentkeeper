@@ -1,4 +1,4 @@
-package jadex.agentkeeper.worldmodel.buildingtypes;
+package jadex.agentkeeper.worldmodel.structure.building;
 
 
 import jadex.agentkeeper.worldmodel.enums.MapType;
