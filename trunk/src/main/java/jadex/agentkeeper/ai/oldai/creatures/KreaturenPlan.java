@@ -11,6 +11,7 @@ import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.bdi.runtime.GoalFailureException;
 import jadex.bdi.runtime.IGoal;
@@ -83,8 +84,8 @@ public abstract class KreaturenPlan extends Plan {
 		
 		
 //		System.out.println("..........wir testen von " + zielpos);
-		for(int i = 0; i< Neighborhood.complexDirections.length ; i++ ) {
-			testField(this.grid, (Vector2Int) zielpos.copy().add(Neighborhood.complexDirections[i]));
+		for(Neighborcase neighborcase : Neighborcase.values()) {
+			testField(this.grid, (Vector2Int) zielpos.copy().add(neighborcase.getVector()));
 		}
 	
 		}
@@ -93,8 +94,8 @@ public abstract class KreaturenPlan extends Plan {
 		
 		
 //		System.out.println("..........wir testen von " + zielpos);
-		for(int i = 0; i< Neighborhood.simpleDirections.length ; i++ ) {
-			testField(this.grid, (Vector2Int) zielpos.copy().add(Neighborhood.simpleDirections[i]));
+		for(Neighborcase neighborcase : Neighborcase.getSimple()) {
+			testField(this.grid, (Vector2Int) zielpos.copy().add(neighborcase.getVector()));
 		}
 	
 		}

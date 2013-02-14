@@ -1,6 +1,7 @@
 package jadex.agentkeeper.game.state.missions;
 
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.view.selection.SelectionArea;
 import jadex.extension.envsupport.environment.SpaceObject;
@@ -124,9 +125,9 @@ public class BreakWallList
 
 	public synchronized void updatePosition(IVector2 position)
 	{
-		for(int i = 0; i < Neighborhood.simpleDirections.length; i++)
+		for(Neighborcase neighborcase : Neighborcase.getSimple())
 		{
-			Vector2Int ziel = (Vector2Int)position.copy().add(Neighborhood.simpleDirections[i]);
+			Vector2Int ziel = (Vector2Int)position.copy().add(neighborcase.getVector());
 			if(tiles_notreachable.containsKey(ziel)&&Neighborhood.isReachable(ziel, grid))
 			{
 				Auftrag auf = tiles_notreachable.get(ziel);

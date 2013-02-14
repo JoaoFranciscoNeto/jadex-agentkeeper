@@ -7,7 +7,6 @@ import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 
 public class LibraryInfo extends ACenterBuildingInfo
 {
-
 	public LibraryInfo(MapType mapType)
 	{
 		super(mapType);
@@ -15,5 +14,4 @@ public class LibraryInfo extends ACenterBuildingInfo
 		this.hitpoints = 30;
 		this.hitpoints = isCenter ? 60 : 30;
 	}
-
 }

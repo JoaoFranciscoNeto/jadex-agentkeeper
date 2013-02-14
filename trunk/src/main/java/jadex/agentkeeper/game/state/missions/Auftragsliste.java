@@ -1,5 +1,6 @@
 package jadex.agentkeeper.game.state.missions;
 
+import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.extension.envsupport.math.IVector1;
 import jadex.extension.envsupport.math.Vector1Double;
@@ -63,11 +64,11 @@ public class Auftragsliste extends LinkedList<Auftrag>
 	public synchronized Auftrag checkNeighborfields( Vector2Int position )
 	{
 		
-		for(int i = 0; i< Neighborhood.complexDirections.length ; i++ ) 
+		for(Neighborcase neighborcase : Neighborcase.values()) 
 		{
 			for (Auftrag auf : this ) 
 			{
-				Vector2Int test = (Vector2Int) position.copy().add(Neighborhood.complexDirections[i]);
+				Vector2Int test = (Vector2Int) position.copy().add(neighborcase.getVector());
 
 				if(auf.gibZiel().equals(test))
 						{

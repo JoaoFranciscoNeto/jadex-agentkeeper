@@ -6,9 +6,8 @@ import jadex.agentkeeper.worldmodel.enums.WalkType;
 
 public abstract class BuildingInfo extends TileInfo
 {
-
-	protected static MapType[]	NEIGHBORS	= new MapType[]{mapType};
-
+	protected MapType[]	neighbours	= new MapType[]{mapType}; 
+	
 	public BuildingInfo(MapType mapType)
 	{
 		super(mapType);
@@ -18,6 +17,7 @@ public abstract class BuildingInfo extends TileInfo
 
 	public MapType[] getNeighbors()
 	{
-		return NEIGHBORS;
+		return neighbours;
 	}
+
 }

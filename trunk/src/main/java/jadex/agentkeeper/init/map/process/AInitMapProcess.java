@@ -2,15 +2,12 @@ package jadex.agentkeeper.init.map.process;
 
 import jadex.agentkeeper.game.state.buildings.SimpleBuildingMapState;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
+import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
-import jadex.agentkeeper.game.state.missions.Gebaudeverwalter;
-import jadex.agentkeeper.game.state.missions.MissionsVerwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.UserEingabenManager;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
-import jadex.agentkeeper.worldmodel.buildingtypes.DungeonHeartInfo;
-import jadex.agentkeeper.worldmodel.buildingtypes.HatcheryInfo;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SimplePropertyObject;
@@ -37,8 +34,6 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 
 	public static Map<String, String>			loadMapMapping;
 
-	public static Gebaudeverwalter				gebaeuedeverwalter;
-
 	public static int							monsteressverbrauch;
 
 	public static Vector2Double					portalort;
@@ -46,12 +41,12 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 	public SimpleCreatureState					creatureState;
 
 	public SimpleBuildingMapState				buildingState;
+	
+	public SimpleMapState						mapTypeState;
 
 	public SimplePlayerState					playerState;
 
 	public UserEingabenManager					uem;
-
-	public MissionsVerwalter					mv;
 
 	public static final Map<String, MapType>	TILE_MAP		= new HashMap<String, MapType>();
 	static
@@ -80,8 +75,6 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		TILE_MAP.put("Oh", MapType.HEROTILE);
 		
 
-
-		gebaeuedeverwalter = new Gebaudeverwalter();
 		portalort = new Vector2Double(12, 19);
 		monsteressverbrauch = 4;
 
@@ -166,16 +159,16 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 			grid.setProperty("auftraege", auftragsverwalter);
 
 			uem = new UserEingabenManager(grid);
-			mv = new MissionsVerwalter();
 
-			grid.setProperty("missionsverwalter", mv);
 			grid.setProperty("uem", uem);
 
 			this.creatureState = new SimpleCreatureState();
 			this.buildingState = new SimpleBuildingMapState();
+			this.mapTypeState = new SimpleMapState();
 			this.playerState = new SimplePlayerState(1);
 			grid.setProperty(ISpaceStrings.CREATURE_STATE, this.creatureState);
 			grid.setProperty(ISpaceStrings.BUILDING_STATE, this.buildingState);
+			grid.setProperty(ISpaceStrings.MAPTYPE_STATE, this.mapTypeState);
 			grid.setProperty(ISpaceStrings.PLAYER_STATE, this.playerState);
 
 		}
