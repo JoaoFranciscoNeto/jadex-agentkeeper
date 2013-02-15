@@ -35,6 +35,7 @@ import com.jme3.scene.Spatial.CullHint;
 import com.jme3.scene.control.UpdateControl;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Line;
+import com.jme3.water.WaterFilter;
 
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
@@ -95,7 +96,7 @@ public class GeneralAppState extends AbstractAppState
 	public void update(float tpf)
 	{
 		handler.updateHandler();
-		dl.setDirection(monkeyapp.getCamera().getDirection().setY(-0.00f));
+		dl.setDirection(monkeyapp.getCamera().getDirection().setY(-0.0f));
 		
 
 		
@@ -126,6 +127,30 @@ public class GeneralAppState extends AbstractAppState
 		// al.setColor(new ColorRGBA(1.7f,2.2f,3.2f,1f));
 		al.setColor(ColorRGBA.White.multLocal(0.4f));
 		this.app.getRootNode().addLight(al);
+		
+		
+		//Water Filter:
+		Vector3f lightDir = new Vector3f(1f, -2f, 1f);
+		WaterFilter water = new WaterFilter(rootNode, lightDir);
+		water.setWaterHeight(-2.5f);
+		water.setUseFoam(false);
+		water.setUseRipples(true);
+		water.setDeepWaterColor(ColorRGBA.Black.mult(0.1f));
+		water.setWaterColor(ColorRGBA.Black.mult(0.15f));
+		water.setWaterTransparency(0.001f);
+		water.setMaxAmplitude(0.3f);
+		water.setReflectionDisplace(0.2f);
+		water.setWaveScale(0.008f);
+		water.setSpeed(0.1f);
+		water.setShoreHardness(1.0f);
+		water.setRefractionConstant(0.2f);
+
+		water.setShininess(0.3f);
+		water.setSunScale(1.1f);
+
+		water.setLightColor(ColorRGBA.Red.mult(0.1f).set(ColorRGBA.Orange.mult(0.1f).r, ColorRGBA.Orange.mult(0.1f).g, ColorRGBA.Orange.mult(0.1f).b, 0.01f));
+		water.setColorExtinction(new Vector3f(10.0f, 20.0f, 30.0f));
+		this.app.getFpp().addFilter(water);
 	}
 
 

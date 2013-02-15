@@ -278,7 +278,7 @@
 					<env:drawable3d objecttype="water" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/water/Water_?.j3o" hasLightMaterials="true">
-						<env:materialfile part="Water" path="models/tilesets/water/Water-Water.j3m" useAlpha="true"/>
+						<env:materialfile part="Water" path="models/tilesets/water/Water-Water.j3m" useAlpha="true" specialAction="delete"/>
 						<env:materialfile part="Dirt" path="models/tilesets/water/Water-Dirt.j3m"/>
 						</env:object3d>
 					</env:drawable3d>

@@ -25,7 +25,7 @@ public interface IMap {
 	
 	public static final String WATER = "water";
 	public static final String LAVA = "lava";
-	public static final String HERO = "hero";
+	public static final String HEROTILE = "hero";
 
 	public static final String DUNGEONHEART = "dungeonheart";
 	public static final String DUNGEONHEARTCENTER = "dungeonheartcenter";
@@ -52,11 +52,11 @@ public interface IMap {
 	public static final String TROLL = "troll";
 	public static final String THIEF = "thief";
 	
-	public static final String[] FIELD_TYPES = {DIRT_PATH, ROCK, GOLD, REINFORCED_WALL, GOLD2, CLAIMED_PATH,  GEMS, WATER, LAVA, HERO,  IMPENETRABLE_ROCK};
+	public static final String[] FIELD_TYPES = {DIRT_PATH, ROCK, GOLD, REINFORCED_WALL, GOLD2, CLAIMED_PATH,  GEMS, WATER, LAVA, HEROTILE,  IMPENETRABLE_ROCK};
 	
 	public static final String[] BUILDING_TYPES = {DUNGEONHEART, DUNGEONHEARTCENTER, TREASURY, HATCHERY, HATCHERYCENTER, LAIR,  PORTAL, PORTALCENTER, TRAININGROOM, TRAININGROOMCENTER, LIBRARY,  TORTURE};
 	
-	public static final String[] MOVE_TYPES = {DIRT_PATH, CLAIMED_PATH, GOLD2, LAVA, HERO, TREASURY, HATCHERY, LAIR, PORTAL, TRAININGROOM, LIBRARY, TORTURE, DUNGEONHEART};
+	public static final String[] MOVE_TYPES = {DIRT_PATH, CLAIMED_PATH, GOLD2, LAVA, HEROTILE, TREASURY, HATCHERY, LAIR, PORTAL, TRAININGROOM, LIBRARY, TORTURE, DUNGEONHEART};
 	
 	public static final String[] CREATURE_TYPES = {IMP, GOBLIN, WARLOCK, TROLL, THIEF};
 	

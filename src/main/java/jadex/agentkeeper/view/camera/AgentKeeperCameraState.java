@@ -197,6 +197,9 @@ public class AgentKeeperCameraState extends AbstractAppState
 		view_map.setClearFlags(true, true, true);
 		view_map.attachScene(rootNode);
 		view_map.setBackgroundColor(ColorRGBA.White);
+		
+//		this.app.getFpp().removeAllFilters();
+		
 
 		cam_map.update();
 
