@@ -37,7 +37,7 @@ public class MoveAction extends SimplePropertyObject implements ISpaceAction {
 		ALLOWFIELDS.add(InitMapProcess.PORTAL);
 		ALLOWFIELDS.add(InitMapProcess.TRAININGROOM);
 		ALLOWFIELDS.add(InitMapProcess.LIBRARY);
-		ALLOWFIELDS.add(InitMapProcess.HERO);
+		ALLOWFIELDS.add(InitMapProcess.HEROTILE);
 	}
 
 	/**

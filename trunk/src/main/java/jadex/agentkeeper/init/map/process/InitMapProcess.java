@@ -34,6 +34,126 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 {
 
 	private Map<String, Object> tmpProps;
+	
+	private ArrayList<SimpleMapType> complexNPos = new ArrayList<SimpleMapType>();
+
+	// Building Positions for setting the Centers
+	private ArrayList<Vector2Int> center_building_pos = new ArrayList<Vector2Int>();
+
+	private int dungeon_heart_counter = 0;
+	
+	private Grid2D grid;
+	
+	
+	private void readOneElementOnMap(String key, Vector2Int aktPos)
+	{
+		
+		MapType mapType = TILE_MAP.get(key);
+		String type = imagenames.get(key);
+		
+		tmpProps = new HashMap<String, Object>();
+		createMapElement(aktPos, mapType);
+
+		tmpProps.put(PROPERTY_CLICKED, false);
+		
+		//TODO: thats shit!
+		tmpProps.put("bearbeitung", 0);
+
+		// Null Check
+		type = type == null ? "unknown" : type;
+
+
+		
+
+		if(mapType == MapType.GOLD)
+		{
+			complexNPos.add(new SimpleMapType(aktPos, type));
+		}
+		if(BUILDING_SET.contains(type))
+		{
+			if(type == TREASURY)
+			{
+				complexNPos.add(new SimpleMapType(aktPos, type));
+			}
+			else if(type == HATCHERY)
+			{
+				center_building_pos.add(aktPos);
+				complexNPos.add(new SimpleMapType(aktPos, type));
+				playerState.addClaimedSector();
+			}
+			else if(type.equals(DUNGEONHEART))
+			{
+				dungeon_heart_counter++;
+				if(dungeon_heart_counter == 13)
+				{
+					type = DUNGEONHEARTCENTER;
+				}
+			}
+			else if(type == LAIR)
+			{
+				complexNPos.add(new SimpleMapType(aktPos, type));
+				playerState.addClaimedSector();
+			}
+
+			else if(type == TRAININGROOM)
+			{
+				center_building_pos.add(aktPos);
+				complexNPos.add(new SimpleMapType(aktPos, type));
+				playerState.addClaimedSector();
+			}
+
+			else if(type == LIBRARY)
+			{
+				center_building_pos.add(aktPos);
+				complexNPos.add(new SimpleMapType(aktPos, type));
+				playerState.addClaimedSector();
+			}
+
+			else if(type == TORTURE)
+			{
+				center_building_pos.add(aktPos);
+				complexNPos.add(new SimpleMapType(aktPos, type));
+				playerState.addClaimedSector();
+			}
+			else if(type == PORTAL)
+			{
+				center_building_pos.add(aktPos);
+				playerState.addClaimedSector();
+			}
+		}
+
+		else if(type == ROCK)
+		{
+			complexNPos.add(new SimpleMapType(aktPos, type));
+		}
+		else if(type == REINFORCED_WALL)
+		{
+			complexNPos.add(new SimpleMapType(aktPos, type));
+		}
+		else if(type == IMPENETRABLE_ROCK)
+		{
+			complexNPos.add(new SimpleMapType(aktPos, type));
+		}
+		else if(type == WATER || type == LAVA)
+		{
+			complexNPos.add(new SimpleMapType(aktPos, type));
+		}
+		else if(type == CLAIMED_PATH)
+		{
+			playerState.addClaimedSector();
+		}
+
+		
+		
+		tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
+		tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
+		grid.createSpaceObject(type, tmpProps, null);
+		
+		
+		
+	}
+	
+	
 	// -------- ISpaceProcess interface --------
 
 	/**
@@ -45,7 +165,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 	 */
 	public void start(IClockService clock, IEnvironmentSpace space)
 	{
-		final Grid2D grid = (Grid2D)space;
+		this.grid = (Grid2D)space;
 
 		loadAndSetupMissions(grid);
 		
@@ -77,14 +197,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 					int sizey = Integer.parseInt(ystr.trim()) - 2;
 
 					grid.setAreaSize(new Vector2Int(sizex, sizey));
-
-					ArrayList<SimpleMapType> complexNPos = new ArrayList<SimpleMapType>();
-
-					// Building Positions for setting the Centers
-					ArrayList<Vector2Int> center_building_pos = new ArrayList<Vector2Int>();
-
-					int dungeon_heart_counter = 0;
-
+					
 					// Now init the field
 					String line = br.readLine();
 					for(int y = 0; y < sizey; y++)
@@ -94,113 +207,13 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 						{
 							Vector2Int aktPos = new Vector2Int(x, y);
 							String key = line.substring(x * 2 + 2, x * 2 + 4);
-							MapType mapType = TILE_MAP.get(key);
-							String type = imagenames.get(key);
-//							String type = mapType.toString().toLowerCase();
 							
-							tmpProps = new HashMap<String, Object>();
-							createMapElement(aktPos, mapType);
-
-							tmpProps.put(PROPERTY_CLICKED, false);
-							
-							//TODO: thats shit!
-							tmpProps.put("bearbeitung", 0);
-
-							// Null Check
-							type = type == null ? "unknown" : type;
-
-
-							
-
-							if(mapType == MapType.GOLD)
-							{
-								complexNPos.add(new SimpleMapType(aktPos, type));
-							}
-							if(BUILDING_SET.contains(type))
-							{
-								if(type == TREASURY)
-								{
-									complexNPos.add(new SimpleMapType(aktPos, type));
-								}
-								else if(type == HATCHERY)
-								{
-									center_building_pos.add(aktPos);
-									complexNPos.add(new SimpleMapType(aktPos, type));
-									playerState.addClaimedSector();
-								}
-								else if(type.equals(DUNGEONHEART))
-								{
-									dungeon_heart_counter++;
-									if(dungeon_heart_counter == 13)
-									{
-										type = DUNGEONHEARTCENTER;
-									}
-								}
-								else if(type == LAIR)
-								{
-									complexNPos.add(new SimpleMapType(aktPos, type));
-									playerState.addClaimedSector();
-								}
-
-								else if(type == TRAININGROOM)
-								{
-									center_building_pos.add(aktPos);
-									complexNPos.add(new SimpleMapType(aktPos, type));
-									playerState.addClaimedSector();
-								}
-
-								else if(type == LIBRARY)
-								{
-									center_building_pos.add(aktPos);
-									complexNPos.add(new SimpleMapType(aktPos, type));
-									playerState.addClaimedSector();
-								}
-
-								else if(type == TORTURE)
-								{
-									center_building_pos.add(aktPos);
-									complexNPos.add(new SimpleMapType(aktPos, type));
-									playerState.addClaimedSector();
-								}
-								else if(type == PORTAL)
-								{
-									center_building_pos.add(aktPos);
-									playerState.addClaimedSector();
-								}
-							}
-
-							else if(type == ROCK)
-							{
-								complexNPos.add(new SimpleMapType(aktPos, type));
-							}
-							else if(type == REINFORCED_WALL)
-							{
-								complexNPos.add(new SimpleMapType(aktPos, type));
-							}
-							else if(type == IMPENETRABLE_ROCK)
-							{
-								complexNPos.add(new SimpleMapType(aktPos, type));
-							}
-							else if(type == WATER || type == LAVA)
-							{
-								complexNPos.add(new SimpleMapType(aktPos, type));
-							}
-							else if(type == CLAIMED_PATH)
-							{
-								playerState.addClaimedSector();
-							}
-
-							
-							
-							tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
-							tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
-							grid.createSpaceObject(type, tmpProps, null);
-							
-							
+							readOneElementOnMap(key, aktPos);
 						}
-
 					}
 
+					
+					
 					// The map is complete loaded, so now we generate Neighbor
 					// dependencies
 					// Stuff
@@ -341,6 +354,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		space.removeSpaceProcess(getProperty(ISpaceProcess.ID));
 
 	}
+
+	
 
 	private void createMapElement(Vector2Int aktPos, MapType mapType)
 	{

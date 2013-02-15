@@ -89,7 +89,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		imagenames.put("1A", CLAIMED_PATH);
 		imagenames.put("Oe", WATER);
 		imagenames.put("Of", LAVA);
-		imagenames.put("Oh", HERO);
+		imagenames.put("Oh", HEROTILE);
 
 		imagenames.put("1G", DUNGEONHEART);
 		imagenames.put("1Z", DUNGEONHEARTCENTER);
