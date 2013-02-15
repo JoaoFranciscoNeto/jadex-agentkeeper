@@ -13,6 +13,7 @@ import jadex.extension.envsupport.environment.SpaceObject;
  * @author Philip Willuweit p.willuweit@gmx.de
  *
  */
+@Deprecated
 public class VerstaerkeWandPlan extends ImpPlan {
 	public static int VERSTAERKDAUER = 20;
 	

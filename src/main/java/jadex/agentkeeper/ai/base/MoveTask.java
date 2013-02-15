@@ -1,25 +1,13 @@
 package jadex.agentkeeper.ai.base;
 
-import jadex.agentkeeper.ai.AbstractBeingBDI;
-import jadex.agentkeeper.ai.creatures.troll.TrollBDI;
 import jadex.agentkeeper.util.ISpaceStrings;
-import jadex.bdi.runtime.IBDIExternalAccess;
-import jadex.bdi.runtime.IBDIInternalAccess;
-import jadex.bridge.IComponentStep;
-import jadex.bridge.IInternalAccess;
 import jadex.bridge.service.types.clock.IClockService;
-import jadex.commons.future.IFuture;
-import jadex.commons.transformation.annotations.Classname;
 import jadex.extension.envsupport.environment.AbstractTask;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
-import jadex.extension.envsupport.math.Vector1Double;
 import jadex.extension.envsupport.math.Vector2Double;
-
-import java.util.Iterator;
-import java.util.Set;
 
 
 /**

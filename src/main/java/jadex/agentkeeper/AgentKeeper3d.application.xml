@@ -402,9 +402,7 @@
 					
 					<env:drawable3d objecttype="portalcenter" width="1" height="1" depth="1" isDynamic="true">
 						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
-						modelpath="models/buildings/portal/portal.j3o" 
-						 />
-
+						modelpath="models/buildings/portal/portal.j3o"  />
 					</env:drawable3d>
 
 					

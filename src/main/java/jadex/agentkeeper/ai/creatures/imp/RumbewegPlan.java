@@ -24,6 +24,7 @@ import jadex.bdi.runtime.IGoal;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class RumbewegPlan extends AbstractRumbewegplan {
 
 	public RumbewegPlan() {
