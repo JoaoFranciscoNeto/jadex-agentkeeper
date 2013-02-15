@@ -35,7 +35,7 @@ public class MoveToGridSectorPlan
 	protected AbstractBeingBDI				capa;
 
 	@PlanAPI
-	protected IPlan					rplan;
+	protected IPlan					iplan;
 
 	@PlanReason
 	protected AchieveMoveToSector	goal;
@@ -137,7 +137,7 @@ public class MoveToGridSectorPlan
 	private IFuture<Void> oneStepToTarget(Vector2Int nextTarget)
 	{
 		final Future<Void> ret = new Future<Void>();
-		Map props = new HashMap();
+		Map<String, Object> props = new HashMap<String, Object>();
 		props.put(MoveTask.PROPERTY_DESTINATION, nextTarget);
 		props.put(MoveTask.PROPERTY_SPEED, capa.getMySpeed());
 

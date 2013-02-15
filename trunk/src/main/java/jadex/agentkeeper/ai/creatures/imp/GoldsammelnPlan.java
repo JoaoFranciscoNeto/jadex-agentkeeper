@@ -19,6 +19,7 @@ import jadex.extension.envsupport.math.Vector2Double;
  * 
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class GoldsammelnPlan extends ImpPlan {
 
 	public static final int ABBAUZEIT = 15;

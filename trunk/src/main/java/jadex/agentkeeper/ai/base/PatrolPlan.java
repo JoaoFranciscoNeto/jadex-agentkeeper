@@ -14,26 +14,29 @@ import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
+
 /**
  * Patrol to random Points
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
-public class PatrolPlan {
+public class PatrolPlan
+{
 	@PlanCapability
-	protected AbstractBeingBDI capa;
+	protected AbstractBeingBDI	capa;
 
 	@PlanAPI
-	protected IPlan rplan;
+	protected IPlan				iplan;
 
-	protected Grid2D environment;
+	protected Grid2D			environment;
 
 	// -------- constructors --------
 
 	/**
 	 * Create a new plan.
 	 */
-	public PatrolPlan() {
+	public PatrolPlan()
+	{
 		// getLogger().info("Created: "+this);
 	}
 
@@ -43,49 +46,36 @@ public class PatrolPlan {
 	 * The plan body.
 	 */
 	@PlanBody
-	public IFuture<Void> body() {
+	public IFuture<Void> body()
+	{
 		environment = capa.getEnvironment();
 
 		final Future<Void> ret = new Future<Void>();
 
 		IVector2 rndpos = environment.getRandomGridPosition(Vector2Int.ZERO);
 
-		moveToLocation(rndpos).addResultListener(
-				new DelegationResultListener<Void>(ret));
+		moveToLocation(rndpos).addResultListener(new DelegationResultListener<Void>(ret));
 		return ret;
 	}
 
 	/**
 	 * 
 	 */
-	protected IFuture<Void> moveToLocation(final IVector2 pos) {
+	protected IFuture<Void> moveToLocation(final IVector2 pos)
+	{
 		final Future<Void> ret = new Future<Void>();
 
-		Vector2Int posi = new Vector2Int(pos.getXAsInteger(),
-				pos.getYAsInteger());
+		Vector2Int posi = new Vector2Int(pos.getXAsInteger(), pos.getYAsInteger());
 
-		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi));
-		fut.addResultListener(
-						new ExceptionDelegationResultListener<AbstractBeingBDI.AchieveMoveToSector, Void>(
-								ret) {
-							public void customResultAvailable(
-									AchieveMoveToSector mtg) {
-								ret.setResult(null);
-							}
-						});
+		IFuture<AchieveMoveToSector> fut = iplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi));
+		fut.addResultListener(new ExceptionDelegationResultListener<AbstractBeingBDI.AchieveMoveToSector, Void>(ret)
+		{
+			public void customResultAvailable(AchieveMoveToSector mtg)
+			{
+				ret.setResult(null);
+			}
+		});
 
 		return ret;
-		
-		
-//		rplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi))
-//		.addResultListener(
-//				new ExceptionDelegationResultListener<AbstractBeingBDI.AchieveMoveToSector, Void>(
-//						ret) {
-//					public void customResultAvailable(
-//							AchieveMoveToSector mtg) {
-//						ret.setResult(null);
-//					}
-//				});
-
 	}
 }

@@ -7,6 +7,7 @@ import jadex.agentkeeper.ai.oldai.basic.GehHinUndArbeit;
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
+@Deprecated
 public abstract class ImpPlan extends GehHinUndArbeit
 {
 	public abstract void aktion();

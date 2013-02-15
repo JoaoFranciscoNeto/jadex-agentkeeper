@@ -8,9 +8,11 @@ package jadex.agentkeeper.ai.creatures.imp;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.agentkeeper.worldmodel.structure.solid.DirtPathInfo;
 import jadex.extension.envsupport.environment.SpaceObject;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class BesetzefeldPlan extends ImpPlan {
 
 	public static int BESETZDAUER = 10;
@@ -38,6 +40,13 @@ public class BesetzefeldPlan extends ImpPlan {
 			if(!((Boolean)field.getProperty("locked")))
 			{
 			field.setProperty("locked", true);
+			
+			DirtPathInfo a = DirtPathInfo.getTileInfo(field, DirtPathInfo.class);
+			if(a!=null)
+			{
+				System.out.println("a " + a.getNeighbourhood() + " " + DirtPathInfo.getQuantity());
+			}
+			
 				
 			erreicheZiel(_zielpos, true);
 

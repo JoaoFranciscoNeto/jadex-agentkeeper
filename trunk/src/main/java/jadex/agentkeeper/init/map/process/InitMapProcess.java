@@ -4,8 +4,6 @@ import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.TypeVariant;
-import jadex.agentkeeper.worldmodel.structure.TileInfo;
-import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -265,7 +263,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 
 								if(thatsme != null)
 								{
-									Map properties = thatsme.getProperties();
+									Map<String, Object> properties = thatsme.getProperties();
 
 									grid.createSpaceObject(CENTER_TYPES.get(thatsme.getType()), properties, null);
 									grid.destroySpaceObject(thatsme.getId());

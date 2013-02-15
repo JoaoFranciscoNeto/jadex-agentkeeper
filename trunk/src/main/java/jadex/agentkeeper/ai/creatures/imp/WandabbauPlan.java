@@ -1,11 +1,11 @@
 package jadex.agentkeeper.ai.creatures.imp;
 
-import jadex.extension.envsupport.environment.ISpaceObject;
-import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.bdi.runtime.IGoal;
+import jadex.extension.envsupport.environment.ISpaceObject;
+import jadex.extension.envsupport.environment.SpaceObject;
 
 /**
  * TODO: Refractor in English and as BDIv3 Agent-Plan
@@ -13,6 +13,7 @@ import jadex.bdi.runtime.IGoal;
  * @author Philip Willuweit p.willuweit@gmx.de
  *
  */
+@Deprecated
 public class WandabbauPlan extends ImpPlan
 {
 	public static int	ABBAUZEIT	= 45;
@@ -37,6 +38,8 @@ public class WandabbauPlan extends ImpPlan
 		if(!((Boolean)field.getProperty("locked")))
 		{
 			field.setProperty("locked", true);
+			
+
 
 			erreicheZiel(_zielpos, false);
 

@@ -10,6 +10,7 @@ import jadex.agentkeeper.worldmodel.structure.building.TortureInfo;
 import jadex.agentkeeper.worldmodel.structure.building.TrainingRoomInfo;
 import jadex.agentkeeper.worldmodel.structure.building.TreasuryInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.DefaultTileInfo;
+import jadex.agentkeeper.worldmodel.structure.solid.DirtPathInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.GoldInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.ImpenetrableRockInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.RockInfo;
@@ -36,7 +37,7 @@ public enum MapType
 	REINFORCED_WALL(TypeVariant.SOLIDMAP, RockInfo.class),
 	GOLD(TypeVariant.SOLIDMAP, GoldInfo.class),
 	GOLD_DROPED(TypeVariant.SOLIDMAP, GoldInfo.class),
-	DIRT_PATH(TypeVariant.SOLIDMAP, DefaultTileInfo.class),
+	DIRT_PATH(TypeVariant.SOLIDMAP, DirtPathInfo.class),
 	CLAIMED_PATH(TypeVariant.SOLIDMAP, DefaultTileInfo.class),
 	GEMS(TypeVariant.SOLIDMAP, DefaultTileInfo.class),
 	WATER(TypeVariant.SOLIDMAP, WaterInfo.class),
