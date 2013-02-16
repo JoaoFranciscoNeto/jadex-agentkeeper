@@ -168,6 +168,20 @@
 								<text id="troll_total" style="nifty-label" align="right"
 									color="#777f" text="00" />
 							</panel>
+							
+							<panel id="thief_panel" height="75px" width="50px"
+								margin="0px,10px,0px,0px" childLayout="vertical"
+								backgroundImage="/gui/images/monster/thief_item.png">
+								<effect>
+									<onHover name="hint" hintText="Troll" hintDelay="1000" />
+								</effect>
+								<text id="thief_busy" style="nifty-label" align="right"
+									color="#ffff" text="0" visible="false" />
+								<text id="thief_fighting" style="nifty-label" align="right"
+									color="#ffff" text="0" visible="false" />
+								<text id="thief_total" style="nifty-label" align="right"
+									color="#777f" text="00" />
+							</panel>
 
 						</panel>
 

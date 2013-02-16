@@ -69,18 +69,13 @@ public class Neighborhood
 		return ret;
 	}
 
-	public static void updateMyNeighborsSimpleField(IVector2 zielpos, Grid2D grid)
-	{
-		for(Neighborcase neighborcase : Neighborcase.getSimple())
-		{
 
-			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
-			SpaceObject thatsme = InitMapProcess.getFieldTypeAtPos(ziel, grid);
-			updateMyNeighborvalueBasedOnMyNeighborhood(ziel, thatsme, grid);
-		}
-
-	}
-
+	/**
+	 * Until now called only by GehHinUndArbeit
+	 * 
+	 * @param zielpos
+	 * @param grid
+	 */
 	public static void updateMyNeighborsComplexField(IVector2 zielpos, Grid2D grid)
 	{
 		for(Neighborcase neighborcase : Neighborcase.getDefault())
@@ -93,17 +88,6 @@ public class Neighborhood
 	}
 
 
-	public static void updateMyNeighborsSimpleBuilding(IVector2 zielpos, Grid2D grid)
-	{
-		for(Neighborcase neighborcase : Neighborcase.getSimple())
-		{
-
-			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
-			SpaceObject thatsme = InitMapProcess.getBuildingTypeAtPos(ziel, grid);
-			updateMyNeighborvalueBasedOnMyNeighborhood(ziel, thatsme, grid);
-		}
-
-	}
 
 	public static void updateNeighborHood(IVector2 zielpos, Grid2D grid)
 	{

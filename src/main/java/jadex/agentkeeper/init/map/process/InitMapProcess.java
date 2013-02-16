@@ -60,7 +60,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		tmpProps.put("status", "Nothing");
 
 
-		if(mapType.getVariant() == TypeVariant.BUILDING && mapType == MapType.CLAIMED_PATH)
+		if(mapType.getVariant() == TypeVariant.BUILDING || mapType == MapType.CLAIMED_PATH)
 		{
 			playerState.addClaimedSector();
 		}
