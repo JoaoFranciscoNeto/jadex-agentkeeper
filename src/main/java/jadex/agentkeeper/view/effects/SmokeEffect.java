@@ -13,7 +13,7 @@ public class SmokeEffect extends ParticleEmitter
 
 	public SmokeEffect(AssetManager assetManager)
 	{
-		super("Smoke", Type.Triangle, 10);
+		super("Smoke", Type.Triangle, 5);
 		Material material = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
 		material.setTexture("Texture", assetManager.loadTexture("textures/effects/explosion/flame.png"));
 		material.setFloat("Softness", 6f); //

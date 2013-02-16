@@ -23,22 +23,6 @@ import java.util.Set;
  */
 @Deprecated
 public class MoveAction extends SimplePropertyObject implements ISpaceAction {
-	public static Set<String> ALLOWFIELDS;
-
-	static {
-		ALLOWFIELDS = new HashSet<String>();
-		ALLOWFIELDS.add(InitMapProcess.DIRT_PATH);
-		ALLOWFIELDS.add(InitMapProcess.CLAIMED_PATH);
-		ALLOWFIELDS.add(InitMapProcess.WATER);
-		ALLOWFIELDS.add(InitMapProcess.LAVA);
-		ALLOWFIELDS.add(InitMapProcess.LAIR);
-		ALLOWFIELDS.add(InitMapProcess.HATCHERY);
-		ALLOWFIELDS.add(InitMapProcess.GOLD2);
-		ALLOWFIELDS.add(InitMapProcess.PORTAL);
-		ALLOWFIELDS.add(InitMapProcess.TRAININGROOM);
-		ALLOWFIELDS.add(InitMapProcess.LIBRARY);
-		ALLOWFIELDS.add(InitMapProcess.HEROTILE);
-	}
 
 	/**
 	 * Perform an action.

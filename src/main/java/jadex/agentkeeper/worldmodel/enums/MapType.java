@@ -9,12 +9,15 @@ import jadex.agentkeeper.worldmodel.structure.building.PortalInfo;
 import jadex.agentkeeper.worldmodel.structure.building.TortureInfo;
 import jadex.agentkeeper.worldmodel.structure.building.TrainingRoomInfo;
 import jadex.agentkeeper.worldmodel.structure.building.TreasuryInfo;
+import jadex.agentkeeper.worldmodel.structure.solid.ClaimedPathInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.DefaultTileInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.DirtPathInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.GoldInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.ImpenetrableRockInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.RockInfo;
 import jadex.agentkeeper.worldmodel.structure.solid.WaterInfo;
+
+import java.util.EnumSet;
 
 public enum MapType
 {
@@ -38,7 +41,7 @@ public enum MapType
 	GOLD(TypeVariant.SOLIDMAP, GoldInfo.class),
 	GOLD_DROPED(TypeVariant.SOLIDMAP, GoldInfo.class),
 	DIRT_PATH(TypeVariant.SOLIDMAP, DirtPathInfo.class),
-	CLAIMED_PATH(TypeVariant.SOLIDMAP, DefaultTileInfo.class),
+	CLAIMED_PATH(TypeVariant.SOLIDMAP, ClaimedPathInfo.class),
 	GEMS(TypeVariant.SOLIDMAP, DefaultTileInfo.class),
 	WATER(TypeVariant.SOLIDMAP, WaterInfo.class),
 	LAVA(TypeVariant.SOLIDMAP, WaterInfo.class),
@@ -51,6 +54,32 @@ public enum MapType
 	{
 		this.variant = variant;
 		this.pojo = pojo;
+	}
+	
+	/**
+	 * @return  get an enum subset of the Movables
+	 */
+	public static EnumSet<MapType> getOnlyMovables()
+	{
+		EnumSet<MapType> set1 = getOnlyBuildings();
+		set1.addAll(EnumSet.of(DIRT_PATH, GEMS));
+	    return set1;
+	}
+	
+	/**
+	 * @return  get an enum subset of the Solids
+	 */
+	public static EnumSet<MapType> getOnlySolids()
+	{
+	    return EnumSet.range(IMPENETRABLE_ROCK, HEROTILE);
+	}
+	
+	 /**
+	   * @return  get an enum subset of the Buildings
+	   */
+	public static EnumSet<MapType> getOnlyBuildings()
+	{
+	    return EnumSet.range(HATCHERY, TRAININGROOM);
 	}
 
 	public Class< ? > getPojo()

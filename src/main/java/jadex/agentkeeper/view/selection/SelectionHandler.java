@@ -1,11 +1,11 @@
 package jadex.agentkeeper.view.selection;
 
-import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.view.GeneralAppState;
+import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.math.IVector3;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
-
 
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.MouseButtonTrigger;
@@ -22,10 +22,10 @@ import com.jme3.scene.debug.WireBox;
 
 
 /**
- * Class that contains the SelectionLogic of the Selection-Helper-Box in the Viewport
+ * Class that contains the SelectionLogic of the Selection-Helper-Box in the
+ * Viewport
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
- *
  */
 public class SelectionHandler
 {
@@ -35,7 +35,7 @@ public class SelectionHandler
 
 	private float							appScaled;
 
-	/* Visuals for Selection*/
+	/* Visuals for Selection */
 	private SelectionBox					visualSelectionBox;
 
 	private Geometry						wireBoxGeo;
@@ -52,7 +52,7 @@ public class SelectionHandler
 	protected Vector2f						selectionStart	= new Vector2f(Vector2f.ZERO);
 
 
-	protected String						selectedStringType;
+	// protected String selectedStringType;
 
 	private SelectionHandlingKeyListener	selectionListener;
 
@@ -93,8 +93,7 @@ public class SelectionHandler
 		if(id instanceof String)
 		{
 			String idString = (String)id;
-			if(Character.isDigit(idString.charAt(0)))
-				;
+			if(Character.isDigit(idString.charAt(0)));
 			{
 				try
 				{
@@ -121,11 +120,18 @@ public class SelectionHandler
 			{
 				SpaceObject selected = mystate.getSpaceObjectById(idlong);
 
-				selectedStringType = selected.getType();
+				
+				TileInfo info = TileInfo.getTileInfo(selected, TileInfo.class);
+				MapType type = info.getMapType();
+				
+				if(selected.getType().equals("dirt_path"))
+				{
+					System.out.println("dirt path!!");
+				}
+				
+				mystate.updateInfoText(selected.getType() + " x " + type.toString());
 
-				mystate.updateInfoText(selectedStringType);
-
-				if(selectedStringType.equals(InitMapProcess.ROCK) || selectedStringType.equals(InitMapProcess.REINFORCED_WALL))
+				if(type == MapType.ROCK || type == MapType.REINFORCED_WALL)
 				{
 
 					if(getSelectionArea() != null)
@@ -196,7 +202,7 @@ public class SelectionHandler
 	protected SelectionArea getSelectionArea()
 	{
 
-		if(isOnView()&&getRounded2dMousePos() != null)
+		if(isOnView() && getRounded2dMousePos() != null)
 		{
 			if(getRounded2dMousePos().x < selectionStart.x)
 			{
@@ -272,21 +278,21 @@ public class SelectionHandler
 		mystate.userSubmit(selectionArea);
 	}
 
-	/**
-	 * @return the selectedStringType
-	 */
-	public String getSelectedStringType()
-	{
-		return selectedStringType;
-	}
-
-	/**
-	 * @param selectedStringType the selectedStringType to set
-	 */
-	public void setSelectedStringType(String selectedStringType)
-	{
-		this.selectedStringType = selectedStringType;
-	}
+	// /**
+	// * @return the selectedStringType
+	// */
+	// public String getSelectedStringType()
+	// {
+	// return selectedStringType;
+	// }
+	//
+	// /**
+	// * @param selectedStringType the selectedStringType to set
+	// */
+	// public void setSelectedStringType(String selectedStringType)
+	// {
+	// this.selectedStringType = selectedStringType;
+	// }
 
 	/**
 	 * @return the selectionListener

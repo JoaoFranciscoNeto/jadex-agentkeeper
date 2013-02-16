@@ -10,8 +10,8 @@ public enum Neighborcase
 	//Default
 	CASE1(new Vector2Int(-1, -1), 1),
 	CASE2(new Vector2Int(0, -1), 2),
-	CASE3(new Vector2Int(1, -1), 4),
-	CASE4(new Vector2Int(1, 0), 8),
+	CASE3(new Vector2Int(1, -1), 4 ),
+	CASE4(new Vector2Int(1, 0), 8 ),
 	CASE5(new Vector2Int(1, 1), 16),
 	CASE6(new Vector2Int(0, 1), 32),
 	CASE7(new Vector2Int(-1, 1), 64),

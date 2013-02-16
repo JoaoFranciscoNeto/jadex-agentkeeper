@@ -127,6 +127,7 @@ public class GeneralAppState extends AbstractAppState
 		// al.setColor(new ColorRGBA(1.7f,2.2f,3.2f,1f));
 		al.setColor(ColorRGBA.White.multLocal(0.4f));
 		this.app.getRootNode().addLight(al);
+
 		
 		
 		//Water Filter:

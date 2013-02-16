@@ -1,22 +1,21 @@
 package jadex.agentkeeper.ai.oldai.creatures;
 
 
+import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
+import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.Neighborcase;
+import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
+import jadex.bdi.runtime.GoalFailureException;
+import jadex.bdi.runtime.IGoal;
+import jadex.bdi.runtime.Plan;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
-import jadex.extension.envsupport.math.Vector1Int;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
-import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
-import jadex.agentkeeper.init.map.process.InitMapProcess;
-import jadex.agentkeeper.util.Neighborcase;
-import jadex.agentkeeper.util.Neighborhood;
-import jadex.bdi.runtime.GoalFailureException;
-import jadex.bdi.runtime.IGoal;
-import jadex.bdi.runtime.Plan;
-import jadex.bridge.IExternalAccess;
 
 /**
  * Abstrakter Plan fuer Monster, von dem jeder Monsterplan erben sollte.
@@ -108,11 +107,16 @@ public abstract class KreaturenPlan extends Plan {
 		SpaceObject sobj = InitMapProcess.getFieldTypeAtPos(zielpos, gridme);
 		if(sobj != null)
 		{
-			if (sobj.getType().equals(InitMapProcess.DIRT_PATH)&&!(Boolean)sobj.getProperty("locked"))  {
+			TileInfo info = TileInfo.getTileInfo(sobj, TileInfo.class);
+			MapType type = info.getMapType();
+			
+//			System.out.println("variant " + type.getVariant());
+			//TODO: locked from info
+			if (type == MapType.DIRT_PATH &&!info.isLocked())  {
 				auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, zielpos);
 			}
 
-			if (sobj.getType().equals(InitMapProcess.ROCK)&&!(Boolean)sobj.getProperty("locked")) {
+			if (type == MapType.ROCK &&!info.isLocked()) {
 				auftragsverwalter.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, zielpos);
 			}
 			else

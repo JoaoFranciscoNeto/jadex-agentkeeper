@@ -3,6 +3,7 @@ package jadex.agentkeeper.ai.creatures.imp;
 import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bdi.runtime.IGoal;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
@@ -39,8 +40,6 @@ public class WandabbauPlan extends ImpPlan
 		{
 			field.setProperty("locked", true);
 			
-
-
 			erreicheZiel(_zielpos, false);
 
 			_avatar.setProperty("status", "Dig");
@@ -61,9 +60,9 @@ public class WandabbauPlan extends ImpPlan
 			}
 		}
 
-		if(isCorrectField(_zielpos, InitMapProcess.GOLD))
+		if(isCorrectField(_zielpos, MapType.GOLD))
 		{
-			setze(_zielpos, InitMapProcess.GOLD2, true);
+			setze(_zielpos, MapType.GOLD_DROPED, true);
 
 			IGoal sammele = createGoal(Auftragsverwalter.GOLDSAMMELN);
 			Auftrag auf = new Auftrag(Auftragsverwalter.GOLDSAMMELN, _zielpos);
@@ -72,7 +71,7 @@ public class WandabbauPlan extends ImpPlan
 		}
 		else
 		{
-			setze(_zielpos, InitMapProcess.DIRT_PATH, true);
+			setze(_zielpos, MapType.DIRT_PATH, true);
 			auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, _zielpos);
 		}
 

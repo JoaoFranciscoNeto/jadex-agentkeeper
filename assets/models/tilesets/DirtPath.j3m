@@ -2,13 +2,13 @@ Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
     MaterialParameters {
         DiffuseMap : textures/dirt/Dirt_darkE.png
         SpecularMap : textures/dirt/Dirt_spec4.png
-        Shininess : 0
-        Specular : 1.0 1.0 1.0 1.0
+        Specular : 0.0 0.0 0.0 1.0
         Diffuse : 1.0 1.0 1.0 1.0
         Ambient : 2.4 2.4 2.4 1.0
         GlowColor : 0.0 0.0 0.0 1.0
         UseMaterialColors : true
         VertexLighting : false
+        NormalMap : textures/dirt/Dirt_dark_nor3.png
     }
      AdditionalRenderState {
       FaceCull Back

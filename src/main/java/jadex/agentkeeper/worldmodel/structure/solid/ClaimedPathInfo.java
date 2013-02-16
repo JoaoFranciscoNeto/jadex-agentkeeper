@@ -5,12 +5,12 @@ import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.agentkeeper.worldmodel.structure.SolidInfo;
 
-public class DirtPathInfo extends SolidInfo
+public class ClaimedPathInfo extends SolidInfo
 {
 	
 	private static int myQuantity;
 
-	public DirtPathInfo(MapType mapType)
+	public ClaimedPathInfo(MapType mapType)
 	{
 		super(mapType);
 		myQuantity++;
@@ -32,7 +32,7 @@ public class DirtPathInfo extends SolidInfo
 	 */
 	public static void setMyQuantity(int myQuantity)
 	{
-		DirtPathInfo.myQuantity = myQuantity;
+		ClaimedPathInfo.myQuantity = myQuantity;
 	}
 
 }

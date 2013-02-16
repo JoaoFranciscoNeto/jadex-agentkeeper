@@ -6,108 +6,110 @@ import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.extension.envsupport.environment.SpaceObject;
 
-public abstract class TileInfo {
-	protected static MapType mapType;
-	private static int quantity;
-	
-	protected int hitpoints;
-	protected int owner = 0;
-	protected String neighbourhood;
-	protected WalkType walkType;
-	protected boolean locked;
-	protected NeighbourType neighbourType;
+
+public abstract class TileInfo
+{
+	protected  MapType	mapType;
+
+	protected boolean			hasOwner;
+
+	protected int				hitpoints;
+
+	protected int				owner	= 0;
+
+	protected String			neighbourhood;
+
+	protected WalkType			walkType;
+
+	protected boolean			locked;
+
+	protected NeighbourType		neighbourType;
 
 
-	public TileInfo(MapType mapType) {
-		quantity++;
+	public TileInfo(MapType mapType)
+	{
+		this.hasOwner = false;
 		this.locked = false;
 		this.hitpoints = 10;
 		this.owner = 0;
 		this.neighbourhood = "00000000";
 		this.walkType = WalkType.PASSABLE;
 		this.neighbourType = NeighbourType.COMPLEX;
-		TileInfo.mapType = mapType;
+		this.mapType = mapType;
 	}
-	
+
 	public abstract MapType[] getNeighbors();
-
-	/**
-	 * @return the quantity
-	 */
-	public static int getQuantity() {
-		return quantity;
-	}
-
-	/**
-	 * @param quantity
-	 *            the quantity to set
-	 */
-	public static void setQuantity(int quantity) {
-		TileInfo.quantity = quantity;
-	}
 
 	/**
 	 * @return the hitpoints
 	 */
-	public int getHitpoints() {
+	public int getHitpoints()
+	{
 		return hitpoints;
 	}
 
 	/**
-	 * @param hitpoints
-	 *            the hitpoints to set
+	 * @param hitpoints the hitpoints to set
 	 */
-	public void setHitpoints(int hitpoints) {
+	public void setHitpoints(int hitpoints)
+	{
 		this.hitpoints = hitpoints;
 	}
 
 	/**
 	 * @return the owner
 	 */
-	public int getOwner() {
+	public int getOwner()
+	{
 		return owner;
 	}
 
 	/**
-	 * @param owner
-	 *            the owner to set
+	 * @param owner the owner to set
 	 */
-	public void setOwner(int owner) {
+	public void setOwner(int owner)
+	{
 		this.owner = owner;
 	}
 
 	/**
 	 * @return the neighbourhood
 	 */
-	public String getNeighbourhood() {
+	public String getNeighbourhood()
+	{
 		return neighbourhood;
 	}
 
 	/**
-	 * @param neighbourhood
-	 *            the neighbourhood to set
+	 * @param neighbourhood the neighbourhood to set
 	 */
-	public void setNeighbourhood(String neighbourhood) {
+	public void setNeighbourhood(String neighbourhood)
+	{
 		this.neighbourhood = neighbourhood;
 	}
 
 	/**
 	 * @return the walkType
 	 */
-	public WalkType getWalkType() {
+	public WalkType getWalkType()
+	{
 		return walkType;
 	}
 
 	/**
-	 * @param walkType
-	 *            the walkType to set
+	 * @param walkType the walkType to set
 	 */
-	public void setWalkType(WalkType walkType) {
+	public void setWalkType(WalkType walkType)
+	{
 		this.walkType = walkType;
 	}
 
-	public static final <T> T getTileInfo(SpaceObject obj, Class<T> type) {
-		return (T) obj.getProperty(ISObjStrings.PROPERTY_TILEINFO);
+	public static final <T> T getTileInfo(SpaceObject obj, Class<T> type)
+	{
+		// System.out.println("obk " + obj.getType());
+		T ret = null;
+		ret = (T)obj.getProperty(ISObjStrings.PROPERTY_TILEINFO);
+		return ret;
 	}
 
 	/**
@@ -140,5 +142,21 @@ public abstract class TileInfo {
 	public void setLocked(boolean locked)
 	{
 		this.locked = locked;
+	}
+
+	/**
+	 * @return the hasOwner
+	 */
+	public boolean isHasOwner()
+	{
+		return hasOwner;
+	}
+
+	/**
+	 * @param hasOwner the hasOwner to set
+	 */
+	public void setHasOwner(boolean hasOwner)
+	{
+		this.hasOwner = hasOwner;
 	}
 }

@@ -8,6 +8,7 @@ package jadex.agentkeeper.ai.creatures.imp;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.solid.DirtPathInfo;
 import jadex.extension.envsupport.environment.SpaceObject;
 
@@ -28,7 +29,7 @@ public class BesetzefeldPlan extends ImpPlan {
 		ladAuftrag();
 
 		// Wurde es schon bebaut..?
-		if (isCorrectField(_zielpos, InitMapProcess.DIRT_PATH)) {
+		if (isCorrectField(_zielpos, MapType.DIRT_PATH)) {
 			
 			SpaceObject field = InitMapProcess.getFieldTypeAtPos(_zielpos, grid);
 			
@@ -40,21 +41,14 @@ public class BesetzefeldPlan extends ImpPlan {
 			if(!((Boolean)field.getProperty("locked")))
 			{
 			field.setProperty("locked", true);
-			
-			DirtPathInfo a = DirtPathInfo.getTileInfo(field, DirtPathInfo.class);
-			if(a!=null)
-			{
-				System.out.println("a " + a.getNeighbourhood() + " " + DirtPathInfo.getQuantity());
-			}
-			
-				
+
 			erreicheZiel(_zielpos, true);
 
 			_avatar.setProperty("status", "Idle");
 			
 			bearbeite(_zielpos, BESETZDAUER);
 
-			setze(_zielpos, InitMapProcess.CLAIMED_PATH, false);
+			setze(_zielpos, MapType.CLAIMED_PATH, false);
 			SimplePlayerState state = (SimplePlayerState)grid.getProperty(ISpaceStrings.PLAYER_STATE);
 			
 			state.addClaimedSector();

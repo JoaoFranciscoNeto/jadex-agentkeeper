@@ -22,6 +22,9 @@
 		<import>jadex.agentkeeper.init.map.*</import>
 		<import>jadex.agentkeeper.init.map.process.*</import>
 		<import>jadex.agentkeeper.game.process.*</import>
+		<import>jadex.agentkeeper.worldmodel.structure.building.*</import>
+		<import>jadex.agentkeeper.worldmodel.enums.*</import>
+		
 	</imports>
 
 	<extensiontypes>
@@ -33,109 +36,94 @@
 			<env:property name="auftraege" />
 
 			<env:objecttypes>
-				<env:objecttype name="rock">
+				<env:objecttype name="ROCK">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 					<env:property name="active" class="boolean">false</env:property>
 					<env:property name="locked" class="boolean">false</env:property>
 					<env:property name="tilefit" class="Double">$space.getProperty("tile")</env:property>
 				</env:objecttype>
-				<env:objecttype name="dirt_path">
-					<env:property name="status" class="String">"Nothing"</env:property>
-					<env:property name="active" class="boolean">false</env:property>
-					<env:property name="locked" class="boolean">false</env:property>
-					<env:property name="neighborhood" class="String"></env:property>
-				</env:objecttype>
-				<env:objecttype name="impenetrable_rock">
+				<env:objecttype name="DIRT_PATH">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="locked" class="boolean">false</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="reinforced_wall">
+				<env:objecttype name="IMPENETRABLE_ROCK">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="locked" class="boolean">false</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="gold">
+				<env:objecttype name="REINFORCED_WALL">
+					<env:property name="status" class="String">"Nothing"</env:property>
+					<env:property name="locked" class="boolean">false</env:property>
+					<env:property name="neighborhood" class="String"></env:property>
+				</env:objecttype>
+				<env:objecttype name="GOLD">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="locked" class="boolean">false</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 					<env:property name="amount" class="int">3000</env:property>
 				</env:objecttype>
-				<env:objecttype name="golddroped">
+				<env:objecttype name="GOLDDROPED">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="locked" class="boolean">false</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="gems">
+				<env:objecttype name="GEMS">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="locked" class="boolean">false</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="claimed_path">
+				<env:objecttype name="CLAIMED_PATH">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="locked" class="boolean">false</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="water">
+				<env:objecttype name="WATER">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="lava">
+				<env:objecttype name="LAVA">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="hero">
+				<env:objecttype name="HERO">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="dungeonheart">
+				<env:objecttype name="DUNGEONHEART">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="dungeonheartcenter">
+				<env:objecttype name="TREASURY">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="treasury">
-					<env:property name="status" class="String">"Nothing"</env:property>
-					<env:property name="neighborhood" class="String"></env:property>
-				</env:objecttype>
-				<env:objecttype name="hatchery">
+				<env:objecttype name="HATCHERY">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 					<env:property dynamic="false" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
 				</env:objecttype>
-				<env:objecttype name="hatcherycenter">
-					<env:property name="status" class="String">"Nothing"</env:property>
-					<env:property name="neighborhood" class="String"></env:property>	
-				</env:objecttype>
-				<env:objecttype name="lair">
+				<env:objecttype name="LAIR">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 					<env:property dynamic="false" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
 				</env:objecttype>
-				<env:objecttype name="portal">
+				<env:objecttype name="PORTAL">
+					<env:property name="status" class="String">"Nothing"</env:property>
+					<env:property name="neighborhood" class="String"></env:property>
+					<env:property dynamic="false" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
+				</env:objecttype>
+				<env:objecttype name="TRAININGROOM">
+					<env:property name="status" class="String">"Nothing"</env:property>
+					<env:property name="neighborhood" class="String"></env:property>
+					<env:property dynamic="false" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
+				</env:objecttype>
+				<env:objecttype name="LIBRARY">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
-				<env:objecttype name="portalcenter">
-					<env:property name="status" class="String">"Nothing"</env:property>
-					<env:property name="neighborhood" class="String"></env:property>
-				</env:objecttype>
-				<env:objecttype name="trainingroom">
-					<env:property name="status" class="String">"Nothing"</env:property>
-					<env:property name="neighborhood" class="String"></env:property>
-				</env:objecttype>
-				<env:objecttype name="trainingroomcenter">
-					<env:property name="status" class="String">"Nothing"</env:property>
-					<env:property name="neighborhood" class="String"></env:property>
-				</env:objecttype>
-				<env:objecttype name="library">
-					<env:property name="status" class="String">"Nothing"</env:property>
-					<env:property name="neighborhood" class="String"></env:property>
-				</env:objecttype>
-				<env:objecttype name="torture">
+				<env:objecttype name="TORTURE">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 				</env:objecttype>
@@ -217,7 +205,7 @@
 					
 					
 					
-					<env:drawable3d objecttype="rock" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="ROCK" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 							modelpath="models/tilesets/dirt/Dirt_?.j3o"
 							materialpath="models/tilesets/dirt/DirtClicked.j3m">
@@ -238,7 +226,7 @@
 
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="reinforced_wall" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="REINFORCED_WALL" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 							materialpath="models/tilesets/claimed/Claimedwall.j3m"
 							modelpath="models/tilesets/dirt/Dirt_?.j3o">
@@ -251,10 +239,15 @@
 							<env:drawcondition>$object.getProperty("clicked")</env:drawcondition>
 						</env:object3d>
 						
+						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
+						modelpath="models/tilesets/dirt/Dirt.j3o" 
+						materialpath="models/tilesets/DirtPath.j3m">
+						</env:object3d>
+						
 					</env:drawable3d>
 					
 					
-					<env:drawable3d objecttype="gold" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="GOLD" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d 
 							width="0.79998" height="1" depth="0.79998" 
 							x="0" y="0" z="0" 
@@ -269,13 +262,13 @@
 					</env:drawable3d>
 					
 					
-					<env:drawable3d objecttype="impenetrable_rock" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="IMPENETRABLE_ROCK" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 							<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 							materialpath="models/tilesets/dirt/Dirt.j3m"
 							modelpath="models/tilesets/dirt/Dirt_?.j3o" />
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="water" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="WATER" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/water/Water_?.j3o" hasLightMaterials="true">
 						<env:materialfile part="Water" path="models/tilesets/water/Water-Water.j3m" useAlpha="true" specialAction="delete"/>
@@ -283,11 +276,9 @@
 						</env:object3d>
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="claimed_path" width="1.0" height="1.0" depth="1.0" isDynamic="false" >
+					<env:drawable3d objecttype="CLAIMED_PATH" width="1.0" height="1.0" depth="1.0" isDynamic="false" >
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
-						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
-						materialpath="models/tilesets/claimed/Claimedpath.j3m" 
-						 >
+						modelpath="models/tilesets/dirt/Dirt.j3o">
 						<env:materialfile part="Dirt" path="models/tilesets/claimed/Claimedpath.j3m"/>
 						</env:object3d>
 						
@@ -302,7 +293,7 @@
 						</env:sound3d>
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="lava" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="LAVA" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/water/Water_?.j3o" hasLightMaterials="true">
 						<env:materialfile part="Water" path="models/tilesets/water/Water-Lava.j3m"/>
@@ -311,17 +302,11 @@
 					</env:drawable3d>
 
 
-					<env:drawable3d objecttype="dirt_path" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="DIRT_PATH" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/dirt/Dirt.j3o" 
-						materialpath="models/tilesets/DirtPath.j3m"
-						hasLightMaterials="true">
+						materialpath="models/tilesets/DirtPath.j3m">
 						</env:object3d>
-						<env:effect x="0" y="1" z="0" predefinedid="jadex.agentkeeper.view.effects.DebrisEffect" startsize="2.5" endsize="2.5">
-							<env:drawcondition>
-								$object.getProperty("status").equals("byImpCreated")
-							</env:drawcondition>
-						</env:effect>
 						<env:effect x="0" y="2" z="0" predefinedid="jadex.agentkeeper.view.effects.SmokeEffect" startsize="20" endsize="30">
 							<env:drawcondition>
 								$object.getProperty("status").equals("byImpCreated")
@@ -340,7 +325,7 @@
 					
 					-->
 					
-					<env:drawable3d objecttype="treasury" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="TREASURY" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 					<env:property dynamic="true" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
 					
 					<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
@@ -366,7 +351,7 @@
 					</env:drawable3d>
 
 					
-					<env:drawable3d objecttype="lair" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="LAIR" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 					
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
@@ -387,55 +372,61 @@
 						
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="dungeonheartcenter" width="1" height="1" depth="1" isDynamic="true">
+					<env:drawable3d objecttype="DUNGEONHEART" width="1" height="1" depth="1" isDynamic="true">
+						
 						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
 						modelpath="models/buildings/dungeonheart/dungeonheart.j3o" >
+						<env:drawcondition>
+							((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+						
 						 	<env:materialfile part="plate" path="models/buildings/dungeonheart/dungeonheart_ground.j3m" />
 							<env:materialfile part="units" path="models/buildings/dungeonheart/dungeonheart.j3m" />
 							<env:materialfile part="stuff" path="models/buildings/dungeonheart/dungeonheart.j3m" />
+
 						 </env:object3d>
 						 
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
-						modelpath="models/buildings/dungeonheart/border.j3o"/>
+						modelpath="models/buildings/dungeonheart/border.j3o">
+						
+						<env:drawcondition>
+							((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+						</env:object3d>
 												
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="portalcenter" width="1" height="1" depth="1" isDynamic="true">
+					<env:drawable3d objecttype="PORTAL" width="1" height="1" depth="1" isDynamic="true">
 						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
-						modelpath="models/buildings/portal/portal.j3o"  />
+						modelpath="models/buildings/portal/portal.j3o"  >
+						<env:drawcondition>
+							((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+						</env:object3d>
 					</env:drawable3d>
 
 					
-					<env:drawable3d objecttype="hatchery" width="1.0" height="1.0" depth="1.0" isDynamic="false">
-					<env:property dynamic="true" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>	
+					<env:drawable3d objecttype="HATCHERY" width="1.0" height="1.0" depth="1.0" isDynamic="false">			
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
-						materialpath="models/buildings/hatchery/HatcheryPlanks.j3m"/>
-						
+						materialpath="models/buildings/hatchery/HatcheryPlanks.j3m" />
 						
 						<env:object3d width="1" height="1" depth="1" x="0" y="0" z="0" 
 							modelpath="models/tilesets/buildings/border/Default_?.j3o"
 							materialpath="models/tilesets/buildings/border/default.j3m">
 						</env:object3d>
 						
-						<env:object3d width="0.6" height="0.6" depth="0.6" x="0" y="0" z="0" 
-							modelpath="models/creatures/chicken/chicken.j3o"
-							materialpath="models/creatures/chicken/chicken-Material.j3m">
-						</env:object3d>
-						
-					</env:drawable3d>
-					
-					<env:drawable3d objecttype="hatcherycenter" width="1.0" height="1.0" depth="1.0" isDynamic="false">			
-						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
-						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
-						materialpath="models/buildings/hatchery/HatcheryPlanks.j3m" />
 						<env:object3d width="0.65" height="0.65" depth="0.65" x="0" y="0" z="0" 
 						modelpath="models/buildings/hatchery/farm.j3o" 
 						materialpath="models/buildings/hatchery/farm.j3m"
-						rotation="rota" />
+						rotation="rota" >
+						<env:drawcondition>
+							((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+						</env:object3d>
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="trainingroom" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:drawable3d objecttype="TRAININGROOM" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 					<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
 						materialpath="models/buildings/training/TrainingGround.j3m"
@@ -447,19 +438,15 @@
 							materialpath="models/tilesets/buildings/border/default.j3m">
 						</env:object3d>
 						
-					</env:drawable3d>
-					
-					<env:drawable3d objecttype="trainingroomcenter" width="1.0" height="1.0" depth="1.0" isDynamic="false">
-					<env:property dynamic="true" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
-					
-					<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
-						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
-						materialpath="models/buildings/training/TrainingGround.j3m"/>
-									
 						<env:object3d width="0.3" height="0.3" depth="0.3" x="0" y="0" z="0" 
 						modelpath="models/buildings/training/trainingpole.j3o" 
 						materialpath="models/buildings/training/trainingpole.j3m" 
-						rotation="rota" />			
+						rotation="rota" >
+						<env:drawcondition>
+							((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+						</env:object3d>	
+						
 					</env:drawable3d>
 					
 					

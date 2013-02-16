@@ -1,14 +1,16 @@
 package jadex.agentkeeper.ai.creatures.imp;
 
-import jadex.extension.envsupport.environment.ISpaceObject;
-import jadex.extension.envsupport.environment.space2d.Grid2D;
-import jadex.extension.envsupport.math.Vector2Int;
 import jadex.agentkeeper.ai.oldai.creatures.AbstractRumbewegplan;
 import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.bdi.runtime.GoalFailureException;
 import jadex.bdi.runtime.IGoal;
+import jadex.extension.envsupport.environment.SpaceObject;
+import jadex.extension.envsupport.environment.space2d.Grid2D;
+import jadex.extension.envsupport.math.Vector2Int;
 
 /**
  * Der rumbewegplan besch�ftigt sich mit den IMPs die gerade keinen Auftrag
@@ -88,27 +90,25 @@ public class RumbewegPlan extends AbstractRumbewegplan {
 	public void testUmgebung(Grid2D space, Vector2Int zielpos) {
 		
 		
-		
-		String t = null;
-		for (Object o : space.getSpaceObjectsByGridPosition(zielpos, t)) {
-			if (o instanceof ISpaceObject) {
-				ISpaceObject feld = (ISpaceObject) o;
-				Object property = feld.getProperty("type");
-				if (property instanceof String) {
-					String propstring = (String) property;
-					if (propstring.equals(InitMapProcess.DIRT_PATH)) {
-						auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, zielpos);
-					}
-
-					if (propstring.equals(InitMapProcess.ROCK)) {
-						auftragsverwalter.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, zielpos);
-					}
-				}
+		SpaceObject sobj = InitMapProcess.getFieldTypeAtPos(zielpos, space);
+		if(sobj != null)
+		{
+			TileInfo info = TileInfo.getTileInfo(sobj, TileInfo.class);
+			MapType type = info.getMapType();
+			//TODO: locked from info
+			if (type == MapType.DIRT_PATH &&!(Boolean)sobj.getProperty("locked"))  {
+				auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, zielpos);
 			}
-			else {
-				// System.out.println("Kein Spaceobject...");
+
+			if (type == MapType.ROCK &&!(Boolean)sobj.getProperty("locked")) {
+				auftragsverwalter.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, zielpos);
+			}
+			else
+			{
+				
 			}
 		}
+
 	}
 
 	private Vector2Int[] best4Richtungen( Vector2Int eigpos ) {

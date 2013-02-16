@@ -1,13 +1,12 @@
 package jadex.agentkeeper.game.userinput;
 
-import java.util.Map;
-
-
-
 import jadex.agentkeeper.ai.oldai.basic.MoveAction;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.view.selection.SelectionArea;
+import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.WalkType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
@@ -17,12 +16,15 @@ import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.Map;
+
 /**
  * Verwaltet die Nutzereingaben und leitet sie weiter, z.B. an Bauobject
  * Singleton-Entwurfsmuster, da es nur einmal vorhanden sein wird
  * @author 8reichel
  *
  */
+@Deprecated
 public class UserEingabenManager {
 	public static final int ABREISSEN = 0;
 	public static final int BAUTRAINING = 1;
@@ -37,7 +39,6 @@ public class UserEingabenManager {
 	private IEnvironmentSpace _space;
 	private Space2D _space2D;
 	private Grid2D _grid;
-	private SpielerAktionen _bauer;
 	private int _gold;
 	private int _mana;
 	private int _forschung;
@@ -47,7 +48,6 @@ public class UserEingabenManager {
 		_space2D = (Space2D) _space;
 		_grid = (Grid2D) _space2D;
 		_auftraege = (Auftragsverwalter) _space.getProperty("auftraege");
-		_bauer = new SpielerAktionen((Grid2D) _space);
 	}
 
 
@@ -69,16 +69,6 @@ public class UserEingabenManager {
 		case ABREISSEN:
 			abreissen(x, y);
 			break;
-		case BAUTRAINING:
-			return bauAktion(x, y, 0);
-		case BAULAIR:
-			return bauAktion(x, y, 1);
-		case BAUHATCHERY:
-			return bauAktion(x, y, 2);
-		case BAULIBRARY:
-			return bauAktion(x, y, 3);
-		case BAUTORTURE:
-			return bauAktion(x, y, 4);
 		case ZAUBERIMP:
 			return zauberImp(x, y);
 		}
@@ -90,70 +80,7 @@ public class UserEingabenManager {
 		_auftraege.newBreakWalls(area);
 	}
 
-	private String bauAktion(int x, int y, int aktion) {
-		Vector2Int pos = new Vector2Int(x, y);
-		
-		String ausgabe = "";
-		switch (aktion) {
-		case 0: {
-			if (_gold >= 50) {
-				_bauer.bauGebauede(pos, InitMapProcess.TRAININGROOM, 50);
-				ausgabe = "Bauen: Training";
-			}
-			else {
-				ausgabe = "Nicht genug Gold!";
-			}
-			break;
-		}
-		case 1: {
 
-			if (_gold >= 25) {
-				_bauer.bauGebauede(pos, InitMapProcess.LAIR, 25);
-				ausgabe = "Bauen: Schlafen";
-			}
-			else {
-				ausgabe = "Nicht genug Gold!";
-			}
-			break;
-		}
-		case 2: {
-
-			if (_gold >= 35) {
-				_bauer.bauGebauede(pos, InitMapProcess.HATCHERY, 35);
-				ausgabe = "Bauen: Essen";
-			}
-			else {
-				ausgabe = "Nicht genug Gold!";
-			}
-			break;
-		}
-		case 3: {
-
-			if (_gold >= 100) {
-				_bauer.bauGebauede(pos, InitMapProcess.LIBRARY, 100);
-				ausgabe = "Bauen: Bibliothek";
-			}
-			else {
-				ausgabe = "Nicht genug Gold!";
-			}
-			break;
-		}
-
-		case 4: {
-
-			if (_gold >= 150) {
-				_bauer.bauGebauede(pos, InitMapProcess.TORTURE, 150);
-				ausgabe = "Bauen: Folterkammer";
-			}
-			else {
-				ausgabe = "Nicht genug Gold!";
-			}
-			break;
-		}
-		}
-		
-		return ausgabe;
-	}
 
 	/**
 	 * Zaubert einen Imp an die angegebene Koordinate, wenn genug Gold vorhanden ist
@@ -164,7 +91,7 @@ public class UserEingabenManager {
 		IVector2 zielpos = new Vector2Double( x, y );
 		if (_forschung >= 15) {
 			if (_mana >= 500) {
-				_bauer.zauberImp( zielpos, 500);
+//				_bauer.zauberImp( zielpos, 500);
 				return "Neuen IMP erschaffen!";
 			}
 			else {
@@ -184,19 +111,6 @@ public class UserEingabenManager {
 		return _mana;
 	}
 	
-	public int gibGeclaimt() {
-		int anzahl = 0;
-		for (Object o : _space.getSpaceObjectsByType("field")) {
-			if (o instanceof ISpaceObject) {
-				ISpaceObject feld = (ISpaceObject) o;
-				if ( feld.getProperty("type").equals(InitMapProcess.CLAIMED_PATH ) )
-				{
-					++anzahl;
-				}
-			}
-		}
-		return anzahl;
-	}
 	
 	
 	/**
@@ -256,10 +170,13 @@ public class UserEingabenManager {
 		Vector2Double punkt = new Vector2Double(x, y);
 		for (Object o : (_grid.getSpaceObjectsByGridPosition(punkt, null))) {
 			if (o instanceof ISpaceObject) {
-				ISpaceObject blub = (ISpaceObject) o;
-				if (blub.getType().equals(InitMapProcess.GOLD)
-						|| blub.getType().equals(InitMapProcess.ROCK)
-						|| blub.getType().equals(InitMapProcess.REINFORCED_WALL)) {
+				SpaceObject blub = (SpaceObject) o;
+				
+				TileInfo info = TileInfo.getTileInfo(blub, TileInfo.class);
+				
+				if (info.getMapType() == MapType.GOLD
+						|| info.getMapType() == MapType.ROCK
+						|| info.getMapType() == MapType.REINFORCED_WALL) {
 					return true;
 				}
 			}
@@ -268,24 +185,27 @@ public class UserEingabenManager {
 		return false;
 	}
 
-	private boolean begehbar(Vector2Double punkt) {
+	private boolean begehbar(Vector2Int punkt)
+	{
 
-		for (Object o : (_grid.getSpaceObjectsByGridPosition(punkt, null))) {
-			if (o instanceof ISpaceObject) {
-				ISpaceObject type = (ISpaceObject) o;
-				if (MoveAction.ALLOWFIELDS.contains(type.getType())) {
-					return true;
-				}
+		// TODO:: umschreiben
+		for(Object o : _grid.getSpaceObjectsByGridPosition(punkt, null))
+		{
+			if(o instanceof ISpaceObject)
+			{
+				TileInfo info = TileInfo.getTileInfo((SpaceObject)o, TileInfo.class);
+
+				return info.getWalkType() == WalkType.PASSABLE;
+
 			}
 		}
-
 		return false;
 	}
 
 	private boolean erreichbar(int x, int y) {
-		Vector2Double[] richtungen = best4Richtungen(x, y);
+		Vector2Int[] richtungen = best4Richtungen(x, y);
 
-		for (Vector2Double vector : richtungen) {
+		for (Vector2Int vector : richtungen) {
 			if (begehbar(vector)) {
 				return true;
 			}
@@ -294,13 +214,13 @@ public class UserEingabenManager {
 		return false;
 	}
 
-	private Vector2Double[] best4Richtungen(double vect_x, double vect_y) {
-		Vector2Double n = new Vector2Double(vect_x, vect_y - 1);
-		Vector2Double o = new Vector2Double(vect_x + 1, vect_y);
-		Vector2Double s = new Vector2Double(vect_x, vect_y + 1);
-		Vector2Double w = new Vector2Double(vect_x - 1, vect_y);
+	private Vector2Int[] best4Richtungen(int vect_x, int vect_y) {
+		Vector2Int n = new Vector2Int(vect_x, vect_y - 1);
+		Vector2Int o = new Vector2Int(vect_x + 1, vect_y);
+		Vector2Int s = new Vector2Int(vect_x, vect_y + 1);
+		Vector2Int w = new Vector2Int(vect_x - 1, vect_y);
 
-		Vector2Double richtungen[] = { n, o, s, w };
+		Vector2Int richtungen[] = { n, o, s, w };
 
 		return richtungen;
 	}
