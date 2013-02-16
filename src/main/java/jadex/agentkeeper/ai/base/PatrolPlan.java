@@ -72,8 +72,15 @@ public class PatrolPlan
 		{
 			public void customResultAvailable(AchieveMoveToSector mtg)
 			{
+//				System.out.println("patrol plan finished");
 				ret.setResult(null);
 			}
+			
+//			public void exceptionOccurred(Exception e)
+//			{
+//				System.out.println("exception patrol plan");
+//				e.printStackTrace();
+//			}
 		});
 
 		return ret;
