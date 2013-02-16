@@ -9,7 +9,6 @@ import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.agentkeeper.worldmodel.structure.solid.DirtPathInfo;
 import jadex.extension.envsupport.environment.SpaceObject;
 
 @SuppressWarnings("serial")

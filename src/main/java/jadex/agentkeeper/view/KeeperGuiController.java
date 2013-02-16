@@ -6,17 +6,11 @@ import jadex.agentkeeper.game.userinput.UserEingabenManager;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.extension.envsupport.environment.ISpaceController;
-import jadex.extension.envsupport.environment.SpaceObject;
-import jadex.extension.envsupport.math.Vector2Int;
-import jadex.extension.envsupport.math.Vector3Int;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 import jadex.extension.envsupport.observer.graphics.jmonkey.appstate.gui.DefaultGuiController;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.StatsAppState;
-import com.jme3.input.MouseInput;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.scene.Node;
 
 import de.lessvoid.nifty.Nifty;
@@ -38,11 +32,7 @@ public class KeeperGuiController extends DefaultGuiController
 
 	private boolean				toggleStats	= true;
 
-	private SpaceObject			selected;
-
 	private ISpaceController	spaceController;
-
-	private UserEingabenManager	usermanager;
 
 	private MonkeyApp			app;
 
@@ -60,7 +50,6 @@ public class KeeperGuiController extends DefaultGuiController
 		rootNode = this.app.getRootNode();
 
 		this.spaceController = spacecontroller;
-		this.usermanager = (UserEingabenManager)spacecontroller.getProperty("uem");
 		this.creatureState = (SimpleCreatureState)spaceController.getProperty(ISpaceStrings.CREATURE_STATE);
 		this.playerState = (SimplePlayerState)spaceController.getProperty(ISpaceStrings.PLAYER_STATE);
 

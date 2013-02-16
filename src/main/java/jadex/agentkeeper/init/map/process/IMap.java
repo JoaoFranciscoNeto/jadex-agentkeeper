@@ -1,10 +1,5 @@
 package jadex.agentkeeper.init.map.process;
 
-import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Constants for field and creature types

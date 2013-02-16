@@ -1,6 +1,5 @@
 package jadex.agentkeeper.init.map.process;
 
-import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.worldmodel.enums.CenterPattern;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
@@ -9,7 +8,6 @@ import jadex.agentkeeper.worldmodel.enums.TypeVariant;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.extension.envsupport.math.Vector2Int;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

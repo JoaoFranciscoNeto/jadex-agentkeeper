@@ -2,18 +2,14 @@ package jadex.agentkeeper.ai.imp;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.base.PatrolPlan;
-import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
 import jadex.bdiv3.annotation.Body;
 import jadex.bdiv3.annotation.Goal;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.Plans;
 import jadex.bdiv3.annotation.Trigger;
 import jadex.bdiv3.model.MGoal;
-import jadex.bridge.modelinfo.IExtensionInstance;
-import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
-import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 import jadex.micro.annotation.AgentCreated;

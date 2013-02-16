@@ -1,15 +1,13 @@
 package jadex.agentkeeper.ai.pathfinding;
 
-import java.util.*;
-
-
-import jadex.agentkeeper.ai.oldai.basic.MoveAction;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
-import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
-
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
 
 /**
  * Wegfindung nach dem A-Stern algorithmus

@@ -6,7 +6,6 @@ import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;

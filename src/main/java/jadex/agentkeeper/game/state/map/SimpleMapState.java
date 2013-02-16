@@ -2,7 +2,6 @@ package jadex.agentkeeper.game.state.map;
 
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.math.Vector2Int;
-import jadex.rules.rulesystem.rules.functions.Length;
 
 import java.util.ArrayList;
 import java.util.HashMap;
