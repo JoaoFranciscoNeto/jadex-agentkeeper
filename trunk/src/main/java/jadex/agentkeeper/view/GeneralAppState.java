@@ -1,40 +1,20 @@
 package jadex.agentkeeper.view;
 
 import jadex.agentkeeper.game.userinput.UserEingabenManager;
-import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.view.selection.SelectionArea;
-import jadex.agentkeeper.view.selection.SelectionBox;
 import jadex.agentkeeper.view.selection.SelectionHandler;
-import jadex.agentkeeper.view.selection.SelectionHandlingKeyListener;
 import jadex.extension.envsupport.environment.ISpaceController;
 import jadex.extension.envsupport.environment.SpaceObject;
-import jadex.extension.envsupport.math.IVector3;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
-import com.jme3.input.InputManager;
-import com.jme3.input.MouseInput;
-import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
-import com.jme3.material.RenderState.BlendMode;
-import com.jme3.material.RenderState.FaceCullMode;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.ViewPort;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial.CullHint;
-import com.jme3.scene.control.UpdateControl;
-import com.jme3.scene.debug.WireBox;
-import com.jme3.scene.shape.Line;
 import com.jme3.water.WaterFilter;
 
 import de.lessvoid.nifty.elements.Element;
@@ -55,14 +35,6 @@ public class GeneralAppState extends AbstractAppState
 
 	private Node				rootNode;
 
-	private AssetManager		assetManager;
-
-	private AppStateManager		stateManager;
-
-	private InputManager		inputManager;
-
-	private ViewPort			viewPort;
-
 	private DirectionalLight	dl;
 
 	private ISpaceController	spaceController;
@@ -80,10 +52,6 @@ public class GeneralAppState extends AbstractAppState
 		super.initialize(stateManager, app);
 		this.app = (MonkeyApp)app;
 		this.rootNode = this.app.getRootNode();
-		this.assetManager = this.app.getAssetManager();
-		this.stateManager = this.app.getStateManager();
-		this.inputManager = this.app.getInputManager();
-		this.viewPort = this.app.getViewPort();
 		this.monkeyapp = (MonkeyApp)app;
 		this.spaceController = monkeyapp.getSpaceController();
 		this.usermanager = (UserEingabenManager) spaceController.getProperty("uem");

@@ -7,4 +7,6 @@ public interface ISObjStrings {
 	public static final String PROPERTY_INTPOSITION = "intPos";
 	public static final String PROPERTY_TILEINFO = "tileInfo";
 	public static final String PROPERTY_HITPOINTS = "hitpoints";
+	public static final String PROPERTY_LEVEL = "level";
+	public static final String PROPERTY_OWNER = "owner";
 }

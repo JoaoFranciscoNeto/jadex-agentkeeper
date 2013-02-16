@@ -1,10 +1,7 @@
 package jadex.agentkeeper.game.state.missions;
 
 import jadex.agentkeeper.util.Neighborcase;
-import jadex.agentkeeper.util.Neighborhood;
-import jadex.extension.envsupport.math.IVector1;
 import jadex.extension.envsupport.math.Vector1Double;
-import jadex.extension.envsupport.math.Vector1Int;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.LinkedList;

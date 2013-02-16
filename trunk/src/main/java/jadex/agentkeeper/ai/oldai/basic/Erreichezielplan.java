@@ -3,7 +3,6 @@ package jadex.agentkeeper.ai.oldai.basic;
 import jadex.agentkeeper.ai.oldai.creatures.KreaturenPlan;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
-import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.commons.future.IResultListener;
 import jadex.extension.envsupport.environment.ISpaceAction;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
@@ -12,7 +11,6 @@ import jadex.extension.envsupport.environment.space2d.action.GetPosition;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
-
 
 import java.util.HashMap;
 import java.util.Map;

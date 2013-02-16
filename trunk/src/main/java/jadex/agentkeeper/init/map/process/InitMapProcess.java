@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -34,13 +33,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 {
 
 	private Map<String, Object>			tmpProps;
-
-	private ArrayList<SimpleMapType>	complexNPos				= new ArrayList<SimpleMapType>();
-
-	// Building Positions for setting the Centers
-	private ArrayList<Vector2Int>		center_building_pos		= new ArrayList<Vector2Int>();
-
-	private int							dungeon_heart_counter	= 0;
 
 	private Grid2D						grid;
 
@@ -195,12 +187,14 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							String type = stok.nextToken().toLowerCase();
 							int x = Integer.parseInt(stok.nextToken()) - 1;
 							int y = Integer.parseInt(stok.nextToken()) - 1;
+							
+							HashMap<String, Object> props = new HashMap<String, Object>();
 
 							String level = stok.nextToken();
+							props.put(ISObjStrings.PROPERTY_LEVEL, level);
 
 							String owner = stok.nextToken();
-
-							HashMap<String, Object> props = new HashMap<String, Object>();
+							props.put(ISObjStrings.PROPERTY_OWNER, owner);
 
 							// props.put(AngreifPlan.ABKLINGZEIT, new
 							// Integer(0));

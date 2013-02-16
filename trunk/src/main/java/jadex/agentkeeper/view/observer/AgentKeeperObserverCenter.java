@@ -39,7 +39,6 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingUtilities;
@@ -79,7 +78,7 @@ public class AgentKeeperObserverCenter implements IObserverCenter
 	private ClassLoader classloader;
 	
 	/** Additional IDataView objects */
-	private Map externaldataviews;
+	private Map<String, IDataView> externaldataviews;
 	
 	/** Selected dataview name */
 	private String selecteddataviewname;
@@ -99,10 +98,10 @@ public class AgentKeeperObserverCenter implements IObserverCenter
 //	private IVector2 areasize;
 	
 	/** Selected object listeners */
-	protected List selectedObjectListeners;
+	protected List<ChangeListener> selectedObjectListeners;
 	
 	/** The clock listener for sync gui updates. */
-	protected IChangeListener	clocklistener;
+	protected IChangeListener<?>	clocklistener;
 	
 	/** Kill the application on exit. */
 	protected boolean	killonexit;
@@ -122,14 +121,14 @@ public class AgentKeeperObserverCenter implements IObserverCenter
 	 */
 	public void startObserver(final String title, final IEnvironmentSpace space, ClassLoader classloader, List plugins, boolean killonexit)
 	{
-		selectedObjectListeners = Collections.synchronizedList(new ArrayList());
+		selectedObjectListeners = Collections.synchronizedList(new ArrayList<ChangeListener>());
 		this.space = (AbstractEnvironmentSpace)space;
 		this.killonexit	= killonexit;
-		perspectives = Collections.synchronizedMap(new HashMap());
-		externaldataviews = Collections.synchronizedMap(new HashMap());
+		perspectives = Collections.synchronizedMap(new HashMap<String, IPerspective>());
+		externaldataviews = Collections.synchronizedMap(new HashMap<String, IDataView>());
 		final List cplugins = plugins == null? new ArrayList(): plugins;
 		this.classloader = classloader;
-		Map spaceviews = space.getDataViews();
+		Map<String, IDataView> spaceviews = space.getDataViews();
 		if(!spaceviews.isEmpty())
 			selecteddataviewname = (String)spaceviews.keySet().iterator().next();
 		activeplugin = null;
