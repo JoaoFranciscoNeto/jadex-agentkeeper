@@ -153,6 +153,10 @@ public class KeeperGuiController extends DefaultGuiController
 		Element orcT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("troll_total");
 		TextRenderer orcR = orcT.getRenderer(TextRenderer.class);
 		orcR.setText("" + creatureState.getCreatureCount(InitMapProcess.TROLL));
+		
+		Element thiefT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("thief_total");
+		TextRenderer thiefR = thiefT.getRenderer(TextRenderer.class);
+		thiefR.setText("" + creatureState.getCreatureCount(InitMapProcess.THIEF));
 
 	}
 
