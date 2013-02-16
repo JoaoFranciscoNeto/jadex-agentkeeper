@@ -360,6 +360,9 @@
 						<env:object3d width="0.75" height="0.75" depth="0.75" x="0" y="0" z="0" 
 						modelpath="models/buildings/lair/Bed.j3o" 
 						rotation="rota">
+						<env:drawcondition>
+							((LairInfo)$object.getProperty("tileInfo")).getCreatureId() != -1
+						</env:drawcondition>
 							<env:materialfile part="Blanket" path="models/buildings/lair/BedBlanket.j3m" />
 							<env:materialfile part="WhiteCloth" path="models/buildings/lair/BedBlanket.j3m" />
 							<env:materialfile part="Wood" path="models/buildings/lair/BedWood.j3m" />

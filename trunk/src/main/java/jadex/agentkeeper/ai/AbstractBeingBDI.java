@@ -108,7 +108,9 @@ public abstract class AbstractBeingBDI
 	@AgentBody
 	public void body()
 	{
+		
 		agent.dispatchTopLevelGoal(new PerformIdle());
+		
 //		agent.dispatchTopLevelGoal(new AchieveMoveToSector(new Vector2Int(9,18)));
 	}
 
@@ -236,6 +238,8 @@ public abstract class AbstractBeingBDI
 	{
 		this.mySpaceObject = mySpaceObject;
 	}
+	
+
 
 
 }

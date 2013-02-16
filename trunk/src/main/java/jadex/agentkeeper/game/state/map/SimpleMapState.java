@@ -1,12 +1,11 @@
 package jadex.agentkeeper.game.state.map;
 
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.math.Vector2Int;
 
-import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 
 /**
@@ -17,14 +16,15 @@ import java.util.Map.Entry;
  */
 public class SimpleMapState
 {
-	private HashMap<MapType, ArrayList<Vector2Int>>	typesList	= new HashMap<MapType, ArrayList<Vector2Int>>();
+	private HashMap<MapType, HashMap<Vector2Int, Object>> typesList = new HashMap<MapType, HashMap<Vector2Int, Object>>();
 
 
-	public SimpleMapState()
+
+	public SimpleMapState(EnumSet<MapType> enumSetRange)
 	{
-		for(MapType type : MapType.values())
+		for(MapType type : enumSetRange)
 		{
-			this.typesList.put(type, new ArrayList<Vector2Int>());
+			this.typesList.put(type, new HashMap<Vector2Int, Object>());
 		}
 	}
 
@@ -34,72 +34,22 @@ public class SimpleMapState
 	 * @param location
 	 * @param type
 	 */
-	public void addType(Vector2Int location, MapType type)
+	public void addType(Vector2Int location, Object object)
 	{
-		ArrayList<Vector2Int> myList = this.typesList.get(type);
-		myList.add(location);
+		TileInfo info = (TileInfo)object;
+		HashMap<Vector2Int, Object> myList = this.typesList.get(info.getMapType());
+		myList.put(location, object);
 	}
 	
 	/**
-	 * remove a specific Type
-	 * 
-	 * @param location
-	 * @param type
-	 */
-	public void remType(Vector2Int location, MapType type)
-	{
-		ArrayList<Vector2Int> myList = this.typesList.get(type);
-		myList.remove(location);
-//		System.out.println("typecount: " + type + " " + typesList.get(type).size());
-	}
-
-
-	/**
-	 * Get the Number of the Type from a special Type
+	 * Get the specific Informations from a type
 	 * 
 	 * @param type
-	 * @return the TypeCount
+	 * @return the HashMap
 	 */
-	public int getTypeCount(String type)
+	public synchronized HashMap<Vector2Int, Object> getTypes(MapType type)
 	{
-		return typesList.get(type).size();
-	}
-
-	
-	/**
-	 * 
-	 * Check if a special Type is at an position
-	 * 
-	 * @param pos
-	 * @param type
-	 * @return x
-	 */
-	public boolean hasTypeAtPos(Vector2Int pos, String type)
-	{
-		return typesList.get(type).contains(pos);
-	}
-	
-	/**
-	 * 
-	 * Check if one Types of a set of Types is at an position
-	 * 
-	 * @param pos
-	 * @param type
-	 * @return x
-	 */
-	public boolean hasTypeAtPos(Vector2Int pos, String[] types)
-	{
-		boolean ret = false;
-		for(int i = 0; i < types.length; i++)
-		{
-			ret = typesList.get(types[i]).contains(pos);
-			if(ret == true)
-			{
-				continue;
-			}
-		}
-		return ret;
-		
+		return this.typesList.get(type);
 	}
 	
 	
@@ -112,20 +62,7 @@ public class SimpleMapState
 	 */
 	public MapType getTypeAtPos(Vector2Int pos)
 	{
-		Iterator<Entry<MapType, ArrayList<Vector2Int>>> it = typesList.entrySet().iterator();
-		
-		while(it.hasNext())
-		{
-			Entry<MapType, ArrayList<Vector2Int>> entry = it.next();
-			
-			ArrayList<Vector2Int> list = entry.getValue();
-			if(list.contains(pos))
-			{
-				return entry.getKey();
-			}
-			
-			
-		}
+
 		return null;
 	}
 

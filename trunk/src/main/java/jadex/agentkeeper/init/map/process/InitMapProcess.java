@@ -74,7 +74,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		if(mapType.getVariant() == TypeVariant.BUILDING)
 		{
 
-
+			buildingState.addType(aktPos, tileinfo);
 			if(tileinfo != null)
 			{
 

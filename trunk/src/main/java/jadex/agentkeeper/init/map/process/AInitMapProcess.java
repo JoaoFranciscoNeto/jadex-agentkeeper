@@ -32,7 +32,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 
 	public SimpleCreatureState					creatureState;
 
-	public SimpleMapState						mapState;
+	public SimpleMapState						buildingState;
 
 	public SimplePlayerState					playerState;
 
@@ -84,10 +84,10 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 			grid.setProperty("uem", uem);
 
 			this.creatureState = new SimpleCreatureState();
-			this.mapState = new SimpleMapState();
+			this.buildingState = new SimpleMapState(MapType.getOnlyBuildings());
 			this.playerState = new SimplePlayerState(1);
 			grid.setProperty(ISpaceStrings.CREATURE_STATE, this.creatureState);
-			grid.setProperty(ISpaceStrings.BUILDING_STATE, this.mapState);
+			grid.setProperty(ISpaceStrings.BUILDING_STATE, this.buildingState);
 			grid.setProperty(ISpaceStrings.PLAYER_STATE, this.playerState);
 
 		}
