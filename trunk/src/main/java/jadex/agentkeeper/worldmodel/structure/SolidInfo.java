@@ -1,6 +1,7 @@
 package jadex.agentkeeper.worldmodel.structure;
 
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.WalkType;
 
 
 public abstract class SolidInfo extends TileInfo
@@ -14,6 +15,7 @@ public abstract class SolidInfo extends TileInfo
 	public SolidInfo(MapType mapType)
 	{
 		super(mapType);
+		this.walkType = WalkType.IMPASSABLE;
 	}
 
 

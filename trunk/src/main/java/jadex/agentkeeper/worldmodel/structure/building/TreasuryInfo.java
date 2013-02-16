@@ -2,9 +2,10 @@ package jadex.agentkeeper.worldmodel.structure.building;
 
 
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.BuildingInfo;
 
 
-public class TreasuryInfo extends ACenterBuildingInfo
+public class TreasuryInfo extends BuildingInfo
 {
 	
 	public static final int MAX_AMOUNT = 3000;
@@ -14,7 +15,6 @@ public class TreasuryInfo extends ACenterBuildingInfo
 	{
 		super(mapType);
 		this.hitpoints = 30;
-		this.hitpoints = isCenter ? 60 : 30;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package jadex.agentkeeper.worldmodel.structure.building;
 
+import jadex.agentkeeper.worldmodel.enums.CenterPattern;
 import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.agentkeeper.worldmodel.enums.NeighbourType;
 
 public class DungeonHeartInfo extends ACenterBuildingInfo {
 	
@@ -9,6 +9,6 @@ public class DungeonHeartInfo extends ACenterBuildingInfo {
 	{
 		super(mapType);
 		this.hitpoints = isCenter? 1000 : 10;
-		this.neighbourType = NeighbourType.COMPLEX;
+		this.centerPattern = CenterPattern.ONE_BIG_MIDDLE;
 	}
 }

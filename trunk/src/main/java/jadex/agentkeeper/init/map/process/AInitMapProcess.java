@@ -1,6 +1,5 @@
 package jadex.agentkeeper.init.map.process;
 
-import jadex.agentkeeper.game.state.buildings.SimpleBuildingMapState;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
@@ -9,6 +8,8 @@ import jadex.agentkeeper.game.userinput.UserEingabenManager;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.WalkType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SimplePropertyObject;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -16,7 +17,6 @@ import jadex.extension.envsupport.environment.ISpaceProcess;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
-import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.Collection;
@@ -28,31 +28,19 @@ import java.util.Set;
 public abstract class AInitMapProcess extends SimplePropertyObject implements ISpaceProcess, IMap, ISObjStrings
 {
 
-	public static final String					GEBAEUDELISTE	= "gebaeudeliste";
-
-	public static Map<String, String>			imagenames;
-
 	public static Map<String, String>			loadMapMapping;
-
-	public static int							monsteressverbrauch;
-
-	public static Vector2Double					portalort;
 
 	public SimpleCreatureState					creatureState;
 
-	public SimpleBuildingMapState				buildingState;
-	
-	public SimpleMapState						mapTypeState;
+	public SimpleMapState						mapState;
 
 	public SimplePlayerState					playerState;
 
 	public UserEingabenManager					uem;
 
-	public static final Map<String, MapType>	TILE_MAP		= new HashMap<String, MapType>();
+	public static final Map<String, MapType>	TILE_MAP	= new HashMap<String, MapType>();
 	static
 	{
-
-
 		TILE_MAP.put("1F", MapType.HATCHERY);
 		TILE_MAP.put("1G", MapType.DUNGEONHEART);
 		TILE_MAP.put("1C", MapType.TREASURY);
@@ -73,73 +61,6 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		TILE_MAP.put("Oe", MapType.WATER);
 		TILE_MAP.put("Of", MapType.LAVA);
 		TILE_MAP.put("Oh", MapType.HEROTILE);
-		
-
-		portalort = new Vector2Double(12, 19);
-		monsteressverbrauch = 4;
-
-		imagenames = new HashMap<String, String>();
-
-		imagenames.put("Ob", IMPENETRABLE_ROCK);
-		imagenames.put("Oc", ROCK);
-		imagenames.put("1B", REINFORCED_WALL);
-		imagenames.put("Og", GOLD);
-		imagenames.put("Oh", GEMS);
-		imagenames.put("Od", DIRT_PATH);
-		imagenames.put("1A", CLAIMED_PATH);
-		imagenames.put("Oe", WATER);
-		imagenames.put("Of", LAVA);
-		imagenames.put("Oh", HEROTILE);
-
-		imagenames.put("1G", DUNGEONHEART);
-		imagenames.put("1Z", DUNGEONHEARTCENTER);
-		imagenames.put("1C", TREASURY);
-		imagenames.put("1F", HATCHERY);
-		imagenames.put("ZF", HATCHERYCENTER);
-		imagenames.put("1D", LAIR);
-		imagenames.put("1E", PORTAL);
-		imagenames.put("1I", TRAININGROOM);
-		imagenames.put("1L", LIBRARY);
-		imagenames.put("1X", TORTURE);
-
-		NEIGHBOR_RELATIONS.put(ROCK, ROCK_NEIGHBORS);
-		NEIGHBOR_RELATIONS.put(GOLD, GOLD_NEIGHBORS);
-		NEIGHBOR_RELATIONS.put(REINFORCED_WALL, REINFORCED_WALL_NEIGHBORS);
-		NEIGHBOR_RELATIONS.put(IMPENETRABLE_ROCK, IMPENETRABLE_ROCK_NEIGHBORS);
-		NEIGHBOR_RELATIONS.put(WATER, WATER_NEIGHBORS);
-		NEIGHBOR_RELATIONS.put(LAVA, LAVA_NEIGHBORS);
-		NEIGHBOR_RELATIONS.put(LAIR, BUILDING_TYPES);
-		NEIGHBOR_RELATIONS.put(TRAININGROOM, BUILDING_TYPES);
-		NEIGHBOR_RELATIONS.put(LIBRARY, BUILDING_TYPES);
-		NEIGHBOR_RELATIONS.put(TORTURE, BUILDING_TYPES);
-		NEIGHBOR_RELATIONS.put(HATCHERY, BUILDING_TYPES);
-		NEIGHBOR_RELATIONS.put(TREASURY, BUILDING_TYPES);
-
-		for(int i = 0; i < FIELD_TYPES.length; i++)
-		{
-			FIELD_SET.add(FIELD_TYPES[i]);
-		}
-
-		for(int i = 0; i < BUILDING_TYPES.length; i++)
-		{
-			BUILDING_SET.add(BUILDING_TYPES[i]);
-		}
-
-		for(int i = 0; i < BREAKABLE_FIELD.length; i++)
-		{
-			BREAKABLE_FIELD_TYPES.add(BREAKABLE_FIELD[i]);
-		}
-
-		for(int i = 0; i < MOVE_TYPES.length; i++)
-		{
-			MOVEABLES.add(MOVE_TYPES[i]);
-		}
-
-		CENTER_TYPES.put(HATCHERY, HATCHERYCENTER);
-		CENTER_TYPES.put(PORTAL, PORTALCENTER);
-		CENTER_TYPES.put(TRAININGROOM, TRAININGROOMCENTER);
-		CENTER_TYPES.put(LIBRARY, LIBRARYCENTER);
-		CENTER_TYPES.put(PORTAL, PORTALCENTER);
 
 	}
 
@@ -163,12 +84,10 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 			grid.setProperty("uem", uem);
 
 			this.creatureState = new SimpleCreatureState();
-			this.buildingState = new SimpleBuildingMapState();
-			this.mapTypeState = new SimpleMapState();
+			this.mapState = new SimpleMapState();
 			this.playerState = new SimplePlayerState(1);
 			grid.setProperty(ISpaceStrings.CREATURE_STATE, this.creatureState);
-			grid.setProperty(ISpaceStrings.BUILDING_STATE, this.buildingState);
-			grid.setProperty(ISpaceStrings.MAPTYPE_STATE, this.mapTypeState);
+			grid.setProperty(ISpaceStrings.BUILDING_STATE, this.mapState);
 			grid.setProperty(ISpaceStrings.PLAYER_STATE, this.playerState);
 
 		}
@@ -209,16 +128,27 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		return temp;
 	}
 
-	public static Set<SpaceObject> getNeighborBlocksInRange(IVector2 ziel, int range, Grid2D grid, String types[])
+
+	@Deprecated
+	public static Set<SpaceObject> getNeighborBlocksInRange(IVector2 ziel, int range, Grid2D grid, MapType[] types)
 	{
 		if(types != null)
 		{
-			return grid.getNearGridObjects(ziel, range, types);
+			String[] stringtypes = new String[types.length];
+			for(int i = 0; i < types.length; i++)
+			{
+				stringtypes[i] = types[i].toString();
+			}
+			if(stringtypes != null)
+			{
+				return grid.getNearGridObjects(ziel, range, stringtypes);
+			}
 		}
 		return null;
 
 	}
 
+	@Deprecated
 	public static SpaceObject getSolidTypeAtPos(IVector2 pos, Grid2D gridext)
 	{
 		SpaceObject ret = null;
@@ -230,11 +160,12 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		return ret;
 	}
 
+	@Deprecated
 	public static SpaceObject getFieldTypeAtPos(IVector2 pos, Grid2D gridext)
 	{
-		for(int i = 0; i < FIELD_TYPES.length; i++)
+		for(MapType type : MapType.getOnlySolids())
 		{
-			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, FIELD_TYPES[i]);
+			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, type.toString());
 			if(sobjs != null)
 			{
 				return (SpaceObject)sobjs.iterator().next();
@@ -244,11 +175,12 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		return null;
 	}
 
+	@Deprecated
 	public static SpaceObject getBuildingTypeAtPos(IVector2 pos, Grid2D gridext)
 	{
-		for(int i = 0; i < BUILDING_TYPES.length; i++)
+		for(MapType type : MapType.getOnlyBuildings())
 		{
-			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, BUILDING_TYPES[i]);
+			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, type.toString());
 			if(sobjs != null)
 			{
 				return (SpaceObject)sobjs.iterator().next();
@@ -258,17 +190,32 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		return null;
 	}
 
+	@Deprecated
 	public static boolean isMoveable(IVector2 pos, Grid2D gridext)
 	{
-		for(int i = 0; i < MOVE_TYPES.length; i++)
+		SpaceObject ob = InitMapProcess.getSolidTypeAtPos(pos, gridext);
+		if(ob!=null)
 		{
-			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, MOVE_TYPES[i]);
-			if(sobjs != null)
+			TileInfo info = TileInfo.getTileInfo(ob, TileInfo.class);
+			if(info.getWalkType() == WalkType.PASSABLE)
 			{
 				return true;
 			}
-
 		}
+//		for(MapType type : MapType.getOnlyMovables())
+//		{
+//			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, type.toString());
+//			Collection sobjs2 = gridext.getSpaceObjectsByGridPosition(pos, null);
+//			
+//			System.out.println("for type: " + type.toString());
+//			System.out.println("sobjs: " + sobjs);
+//			System.out.println("sobjs2: " + sobjs2);
+//			if(sobjs != null)
+//			{
+//				return true;
+//			}
+//
+//		}
 		return false;
 	}
 

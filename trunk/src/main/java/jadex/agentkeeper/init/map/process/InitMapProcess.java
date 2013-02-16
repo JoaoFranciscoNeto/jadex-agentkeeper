@@ -4,6 +4,7 @@ import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.TypeVariant;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -21,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 
@@ -33,127 +33,70 @@ import java.util.StringTokenizer;
 public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IMap, ISObjStrings
 {
 
-	private Map<String, Object> tmpProps;
-	
-	private ArrayList<SimpleMapType> complexNPos = new ArrayList<SimpleMapType>();
+	private Map<String, Object>			tmpProps;
+
+	private ArrayList<SimpleMapType>	complexNPos				= new ArrayList<SimpleMapType>();
 
 	// Building Positions for setting the Centers
-	private ArrayList<Vector2Int> center_building_pos = new ArrayList<Vector2Int>();
+	private ArrayList<Vector2Int>		center_building_pos		= new ArrayList<Vector2Int>();
 
-	private int dungeon_heart_counter = 0;
-	
-	private Grid2D grid;
-	
-	
+	private int							dungeon_heart_counter	= 0;
+
+	private Grid2D						grid;
+
+	private PreCreatedMultiState		preCreatedState;
+
 	private void readOneElementOnMap(String key, Vector2Int aktPos)
 	{
-		
-		MapType mapType = TILE_MAP.get(key);
-		String type = imagenames.get(key);
-		
-		tmpProps = new HashMap<String, Object>();
-		createMapElement(aktPos, mapType);
 
-		tmpProps.put(PROPERTY_CLICKED, false);
-		
-		//TODO: thats shit!
-		tmpProps.put("bearbeitung", 0);
+		MapType mapType = TILE_MAP.get(key);
+
+		String type = mapType.toString();
 
 		// Null Check
 		type = type == null ? "unknown" : type;
 
 
-		
+		tmpProps = new HashMap<String, Object>();
 
-		if(mapType == MapType.GOLD)
-		{
-			complexNPos.add(new SimpleMapType(aktPos, type));
-		}
-		if(BUILDING_SET.contains(type))
-		{
-			if(type == TREASURY)
-			{
-				complexNPos.add(new SimpleMapType(aktPos, type));
-			}
-			else if(type == HATCHERY)
-			{
-				center_building_pos.add(aktPos);
-				complexNPos.add(new SimpleMapType(aktPos, type));
-				playerState.addClaimedSector();
-			}
-			else if(type.equals(DUNGEONHEART))
-			{
-				dungeon_heart_counter++;
-				if(dungeon_heart_counter == 13)
-				{
-					type = DUNGEONHEARTCENTER;
-				}
-			}
-			else if(type == LAIR)
-			{
-				complexNPos.add(new SimpleMapType(aktPos, type));
-				playerState.addClaimedSector();
-			}
+		Object tileinfo = createPojoElement(aktPos, mapType);
 
-			else if(type == TRAININGROOM)
-			{
-				center_building_pos.add(aktPos);
-				complexNPos.add(new SimpleMapType(aktPos, type));
-				playerState.addClaimedSector();
-			}
+		tmpProps.put(PROPERTY_CLICKED, false);
 
-			else if(type == LIBRARY)
-			{
-				center_building_pos.add(aktPos);
-				complexNPos.add(new SimpleMapType(aktPos, type));
-				playerState.addClaimedSector();
-			}
+		// TODO: thats shit!
+		tmpProps.put("bearbeitung", 0);
+		tmpProps.put("status", "Nothing");
 
-			else if(type == TORTURE)
-			{
-				center_building_pos.add(aktPos);
-				complexNPos.add(new SimpleMapType(aktPos, type));
-				playerState.addClaimedSector();
-			}
-			else if(type == PORTAL)
-			{
-				center_building_pos.add(aktPos);
-				playerState.addClaimedSector();
-			}
-		}
 
-		else if(type == ROCK)
-		{
-			complexNPos.add(new SimpleMapType(aktPos, type));
-		}
-		else if(type == REINFORCED_WALL)
-		{
-			complexNPos.add(new SimpleMapType(aktPos, type));
-		}
-		else if(type == IMPENETRABLE_ROCK)
-		{
-			complexNPos.add(new SimpleMapType(aktPos, type));
-		}
-		else if(type == WATER || type == LAVA)
-		{
-			complexNPos.add(new SimpleMapType(aktPos, type));
-		}
-		else if(type == CLAIMED_PATH)
+		if(mapType.getVariant() == TypeVariant.BUILDING && mapType == MapType.CLAIMED_PATH)
 		{
 			playerState.addClaimedSector();
 		}
 
-		
-		
 		tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
 		tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
-		grid.createSpaceObject(type, tmpProps, null);
-		
-		
-		
+		tmpProps.put(PROPERTY_INTPOSITION, aktPos);
+
+		tmpProps.put(PROPERTY_TILEINFO, tileinfo);
+
+		if(mapType.getVariant() == TypeVariant.BUILDING)
+		{
+
+
+			if(tileinfo != null)
+			{
+
+				preCreatedState.addType(mapType, aktPos, tileinfo, tmpProps);
+			}
+		}
+		else
+		{
+			grid.createSpaceObject(type, tmpProps, null);
+		}
+
 	}
-	
-	
+
+
 	// -------- ISpaceProcess interface --------
 
 	/**
@@ -168,8 +111,9 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		this.grid = (Grid2D)space;
 
 		loadAndSetupMissions(grid);
-		
-		
+
+		preCreatedState = new PreCreatedMultiState(MapType.values());
+
 
 		try
 		{
@@ -197,9 +141,11 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 					int sizey = Integer.parseInt(ystr.trim()) - 2;
 
 					grid.setAreaSize(new Vector2Int(sizex, sizey));
-					
+
 					// Now init the field
 					String line = br.readLine();
+
+
 					for(int y = 0; y < sizey; y++)
 					{
 						line = br.readLine();
@@ -207,92 +153,32 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 						{
 							Vector2Int aktPos = new Vector2Int(x, y);
 							String key = line.substring(x * 2 + 2, x * 2 + 4);
-							
+
 							readOneElementOnMap(key, aktPos);
 						}
 					}
 
-					
-					
-					// The map is complete loaded, so now we generate Neighbor
-					// dependencies
-					// Stuff
-					for(SimpleMapType postype : complexNPos)
+					HashMap<MapType, HashMap<Vector2Int, PreCreatedSpaceObject>> toCreateB = preCreatedState.getPreparedBuildings();
+					for(HashMap<Vector2Int, PreCreatedSpaceObject> hashpre : toCreateB.values())
 					{
-						SpaceObject thatsme = null;
-
-						if(InitMapProcess.FIELD_SET.contains(postype.getType()))
+						for(PreCreatedSpaceObject presobj : hashpre.values())
 						{
-							thatsme = getFieldTypeAtPos(postype.getPosition(), grid);
+							grid.createSpaceObject(presobj.getTypeName(), presobj.getProperties(), null);
 						}
-						else if(InitMapProcess.BUILDING_SET.contains(postype.getType()))
-						{
-							thatsme = getBuildingTypeAtPos(postype.getPosition(), grid);
-						}
-
-						if(thatsme != null)
-						{
-							Set<SpaceObject> nearRocks = InitMapProcess.getNeighborBlocksInRange(postype.getPosition(), 1, grid,
-									InitMapProcess.NEIGHBOR_RELATIONS.get(thatsme.getType()));
-
-							String newNeighborhood = Neighborhood.reCalculateNeighborhood(postype.getPosition(), nearRocks);
-
-							thatsme.setProperty("neighborhood", newNeighborhood);
-						}
-
 					}
 
-					/*
-					 * Calculate Buildings-centers
-					 */
-					ArrayList<Vector2Int> center_closed_pos = new ArrayList<Vector2Int>();
-					int yline = -1;
-					int xcount = 1;
-					for(Vector2Int pos : center_building_pos)
+
+				}
+
+
+				Object[] allSObj = grid.getSpaceObjects();
+				for(int i = 0; i < allSObj.length; i++)
+				{
+					SpaceObject sobj = (SpaceObject)allSObj[i];
+
+					if(TileInfo.getTileInfo(sobj, TileInfo.class) != null)
 					{
-						if(yline == -1 || pos.getYAsInteger() != yline)
-						{
-							yline = pos.getYAsInteger();
-
-						}
-
-						if(xcount == 1)
-						{
-							if(!center_closed_pos.contains(pos))
-							{
-								for(int xv = 0; xv <= 2; xv++)
-								{
-									for(int yv = 0; yv <= 2; yv++)
-									{
-										Vector2Int delta = new Vector2Int(xv, yv);
-
-										center_closed_pos.add((Vector2Int)pos.copy().add(delta));
-									}
-								}
-
-								Vector2Int centerpos = (Vector2Int)pos.copy().add(new Vector2Int(1, 1));
-
-								SpaceObject thatsme = getBuildingTypeAtPos(centerpos, grid);
-
-								if(thatsme != null)
-								{
-									Map<String, Object> properties = thatsme.getProperties();
-
-									grid.createSpaceObject(CENTER_TYPES.get(thatsme.getType()), properties, null);
-									grid.destroySpaceObject(thatsme.getId());
-								}
-
-							}
-
-						}
-
-						xcount++;
-
-						if(xcount > 3)
-						{
-							xcount = 1;
-						}
-
+						Neighborhood.updateMyNeighborvalueBasedOnMyNeighborhood((Vector2Int)sobj.getProperty(PROPERTY_INTPOSITION), sobj, grid);
 					}
 
 				}
@@ -355,28 +241,13 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 
 	}
 
-	
 
-	private void createMapElement(Vector2Int aktPos, MapType mapType)
+	private Object createPojoElement(Vector2Int aktPos, MapType mapType)
 	{
-		if(mapType.getVariant()==TypeVariant.BUILDING)
-		{
-			buildingState.addType(aktPos, mapType);
-			buildingState.getTypeAtPos(aktPos);
-		}
-		else if(mapType.getVariant()==TypeVariant.SOLIDMAP)
-		{
-//			mapTypeState.addMapType(aktPos, mapType);
-		}
-
-//		TileType tmp = TileType.HATCHERY;
-		
+		Object ret = null;
 		try
 		{
-			Object tile = null;
-			tile = mapType.getPojo().getDeclaredConstructor(MapType.class).newInstance(mapType);
-			tmpProps.put(PROPERTY_TILEINFO, tile);
-//			MapType[] neighbours = ((TileInfo)tile).getNeighbors();
+			ret = mapType.getPojo().getDeclaredConstructor(MapType.class).newInstance(mapType);
 		}
 		catch(IllegalArgumentException e)
 		{
@@ -402,16 +273,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		{
 			e.printStackTrace();
 		}
-		
-//		SpaceObject obj= null;
-//		if (TileInfo.getTileInfo(obj, TileInfo.class).getClass().equals(HatcheryInfo.class))
-//		{
-			//mach was tolles mit der hatchery
-//		}
-//		HatcheryInfo a = HatcheryInfo.getTileInfo(obj, HatcheryInfo.class);
-		
-//		props.put(ISpaceObjectStrings.PROPERTY_TILEINFO, tile);
-		
+
+		return ret;
 	}
 
 }

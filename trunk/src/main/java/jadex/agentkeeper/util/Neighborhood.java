@@ -1,6 +1,9 @@
 package jadex.agentkeeper.util;
 
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.WalkType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
@@ -14,11 +17,9 @@ import java.util.Set;
 
 
 /**
- * 
  * Class that implements Neighborhood related calculations
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
- *
  */
 public class Neighborhood
 {
@@ -31,7 +32,8 @@ public class Neighborhood
 			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
 			if(thatsme != null)
 			{
-				if(InitMapProcess.MOVEABLES.contains(thatsme.getType()))
+				TileInfo info = TileInfo.getTileInfo(thatsme, TileInfo.class);
+				if(info.getWalkType() == WalkType.PASSABLE)
 				{
 					return true;
 				}
@@ -39,7 +41,7 @@ public class Neighborhood
 		}
 		return ret;
 	}
-	
+
 
 	public static boolean isReachableForDestroy(IVector2 zielpos, Grid2D grid)
 	{
@@ -47,12 +49,13 @@ public class Neighborhood
 		for(Neighborcase neighborcase : Neighborcase.getSimple())
 		{
 			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
-			
-			//TODO: how to handle null pointer?
+
+			// TODO: how to handle null pointer?
 			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
 			if(thatsme != null)
 			{
-				if(InitMapProcess.MOVEABLES.contains(thatsme.getType()))
+				TileInfo info = TileInfo.getTileInfo(thatsme, TileInfo.class);
+				if(info.getWalkType() == WalkType.PASSABLE)
 				{
 					return true;
 				}
@@ -102,6 +105,18 @@ public class Neighborhood
 
 	}
 
+	public static void updateNeighborHood(IVector2 zielpos, Grid2D grid)
+	{
+		for(Neighborcase neighborcase : Neighborcase.getDefault())
+		{
+			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
+			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
+
+			updateMyNeighborvalueBasedOnMyNeighborhood(ziel, thatsme, grid);
+
+		}
+	}
+
 
 	public static void updateMyNeighborsComplexBuilding(IVector2 zielpos, Grid2D grid)
 	{
@@ -114,15 +129,19 @@ public class Neighborhood
 		}
 	}
 
-	private static void updateMyNeighborvalueBasedOnMyNeighborhood(IVector2 ziel, SpaceObject thatsme, Grid2D grid)
+	public synchronized static void updateMyNeighborvalueBasedOnMyNeighborhood(IVector2 ziel, SpaceObject thatsme, Grid2D grid)
 	{
 		if(thatsme != null)
 		{
 			String tmpneighborhood = (String)thatsme.getProperty("neighborhood");
-			String relations[] = InitMapProcess.NEIGHBOR_RELATIONS.get(thatsme.getType());
-			if(relations != null)
+			// String relations[] =
+			// InitMapProcess.NEIGHBOR_RELATIONS.get(thatsme.getType());
+			
+			TileInfo info = TileInfo.getTileInfo(thatsme, TileInfo.class);
+			MapType[] types = info.getNeighbors();
+			if(types != null)
 			{
-				Set<SpaceObject> nearRocks = InitMapProcess.getNeighborBlocksInRange(ziel, 1, grid, relations);
+				Set<SpaceObject> nearRocks = InitMapProcess.getNeighborBlocksInRange(ziel, 1, grid, types);
 
 				String newneighborhood = Neighborhood.reCalculateNeighborhood(ziel, nearRocks);
 
@@ -130,9 +149,10 @@ public class Neighborhood
 				{
 
 					thatsme.setProperty("neighborhood", newneighborhood);
+
 					SpaceObject thatsmecopy = thatsme;
-					
-					
+
+
 					boolean destroyed = grid.destroyAndVerifySpaceObject(thatsme.getId());
 
 					if(destroyed)
@@ -174,8 +194,11 @@ public class Neighborhood
 			if(sobjpos.equals(myPos))
 			{
 				thatsme = sobj;
-				if(sobj.getType().equals(InitMapProcess.WATER) || sobj.getType().equals(InitMapProcess.LAVA)
-						|| InitMapProcess.BUILDING_SET.contains(sobj.getType()))
+
+				TileInfo info = TileInfo.getTileInfo(thatsme, TileInfo.class);
+				MapType type = info.getMapType();
+				// TODO: hardcoded ugly stuff
+				if(type == MapType.WATER || type == MapType.LAVA || MapType.getOnlyBuildings().contains(type))
 				{
 					alternatives = false;
 				}
@@ -186,11 +209,11 @@ public class Neighborhood
 
 				// We save all the cases in a List.
 				Neighborcase wert = getNeighbor(subtract);
-				if(wert!=null)
+				if(wert != null)
 				{
 					neighborcases.add(wert);
 				}
-				
+
 			}
 
 		}
@@ -295,7 +318,7 @@ public class Neighborhood
 			{
 				return neighborcase;
 			}
-			
+
 		}
 		return null;
 

@@ -1,6 +1,7 @@
 package jadex.agentkeeper.ai.creatures.imp;
 
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.environment.SpaceObject;
 
 
@@ -27,7 +28,7 @@ public class VerstaerkeWandPlan extends ImpPlan {
 //		 System.out.println("beginne Wandverstärkeplan");
 		ladAuftrag();
 
-		if (isCorrectField(_zielpos, InitMapProcess.ROCK)) {
+		if (isCorrectField(_zielpos, MapType.ROCK)) {
 			
 			SpaceObject field = InitMapProcess.getFieldTypeAtPos(_zielpos, grid);
 			
@@ -45,7 +46,7 @@ public class VerstaerkeWandPlan extends ImpPlan {
 			
 				bearbeite(_zielpos, VERSTAERKDAUER);
 
-				setze(_zielpos, InitMapProcess.REINFORCED_WALL, false);
+				setze(_zielpos, MapType.REINFORCED_WALL, false);
 			}
 		}
 		else {
