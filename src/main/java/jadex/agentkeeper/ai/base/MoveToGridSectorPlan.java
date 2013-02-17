@@ -53,7 +53,7 @@ public class MoveToGridSectorPlan
 	 */
 	public MoveToGridSectorPlan()
 	{
-
+		System.out.println("Created " +this);
 		// getLogger().info("Created: "+this);
 	}
 
@@ -69,15 +69,19 @@ public class MoveToGridSectorPlan
 		
 		spaceObject = capa.getMySpaceObject();
 		Vector2Int target = goal.getTarget();
-		Vector2Double myloc = (Vector2Double)spaceObject.getProperty(Space2D.PROPERTY_POSITION);
+//		Vector2Double myloc = (Vector2Double)spaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION);
 		
+		Vector2Int myIntLoc = capa.getMyIntPosition();
 		
+		System.out.println("myloc " + myIntLoc);
 
 		// TODO: refractor AStar-Search
-		astar = new AStarSearch(myloc.copy(), target, capa.getEnvironment(), true);
+		astar = new AStarSearch(myIntLoc, target, capa.getEnvironment(), true);
 
 		if(astar.istErreichbar())
 		{
+			
+			System.out.println("myloc " + myIntLoc + " to " + target + " is reachable");
 
 			ArrayList<Vector2Int> path = astar.gibPfadInverted();
 
@@ -85,10 +89,22 @@ public class MoveToGridSectorPlan
 			
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Walk");
 
-			moveToNextSector(path_iterator).addResultListener(new DelegationResultListener<Void>(ret));
+			moveToNextSector(path_iterator).addResultListener(new DelegationResultListener<Void>(ret)
+			{
+				public void customResultAvailable(Void result)
+				{
+					 System.out.println("normal result (moveToNextSector");
+				}
+				public void exceptionOccurred(Exception e)
+				{
+					 System.out.println("exception move to grid (moveToNextSector");
+					e.printStackTrace();
+				}
+			});
 		}
 		else
 		{
+			System.out.println("not reachable " + target);
 			ret.setException(new RuntimeException("Not reachable: " + target));
 		}
 
@@ -104,8 +120,6 @@ public class MoveToGridSectorPlan
 	 */
 	private IFuture<Void> moveToNextSector(final Iterator<Vector2Int> it)
 	{
-
-
 		final Future<Void> ret = new Future<Void>();
 		if(it.hasNext())
 		{
@@ -123,7 +137,7 @@ public class MoveToGridSectorPlan
 				
 				public void exceptionOccurred(Exception e)
 				{
-					 System.out.println("exception move to grid ");
+					System.out.println("exception move to grid ");
 					e.printStackTrace();
 				}
 			});

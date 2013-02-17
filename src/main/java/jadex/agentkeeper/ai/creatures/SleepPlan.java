@@ -8,6 +8,8 @@ import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
 import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
+import jadex.bridge.IComponentStep;
+import jadex.bridge.IInternalAccess;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
@@ -49,15 +51,59 @@ public class SleepPlan
 		{
 			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
 			{
-				sleep().addResultListener(new DelegationResultListener<Void>(ret));
+				sleepStep().addResultListener(new DelegationResultListener<Void>(ret));
 				
 			}
+
 			public void exceptionOccurred(Exception e)
 			{
 				System.out.println("exception sleep plan ");
 				e.printStackTrace();
 			}
 		});		
+		return ret;
+	}
+	
+	
+	private IFuture<Void> sleepStep()
+	{
+		final Future<Void> ret = new Future<Void>();
+		
+		IComponentStep<Void> loadstep = new IComponentStep<Void>()
+				{
+					public IFuture<Void> execute(IInternalAccess ia) 
+					{
+						final IComponentStep<Void> self = this;
+						
+						double awake = (Double)spaceObject.getProperty(ISObjStrings.PROPERTY_AWAKE);
+						if(capa.getMyPosition().getDistance(capa.getMyLairPosition()).getAsDouble()<0.1 && awake<100.0)
+						{
+							System.out.print(" + 5 ");
+							spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Sleeping");
+							awake	= Math.min(awake + 5, 100.0);
+							spaceObject.setProperty(ISObjStrings.PROPERTY_AWAKE, awake);
+//							capa.setMyAwakeStatus(awake);
+						}
+						if(awake>=100.0)
+						{
+							System.out.println("finished sleep");
+							spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Dancing");
+							ret.setResult(null);
+						}
+						else
+						{
+							rplan.waitFor(100).addResultListener(new DefaultResultListener<Void>()
+							{
+								public void resultAvailable(Void result)
+								{
+									capa.getAgent().scheduleStep(self);
+								}
+							});
+						}
+						return IFuture.DONE;
+					};
+				};
+				capa.getAgent().scheduleStep(loadstep);
 		return ret;
 	}
 	
