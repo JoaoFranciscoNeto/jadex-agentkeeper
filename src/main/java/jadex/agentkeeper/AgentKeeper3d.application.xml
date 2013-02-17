@@ -572,10 +572,10 @@
 							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
 								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
 							</env:animation>
-							<env:animation name="Idle" channel="chanA" loop="true">
+							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
 								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
 							</env:animation>
-							<env:animation name="Idle" channel="chanA" loop="true">
+							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
 								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
 							</env:animation>
 						</env:object3d>
