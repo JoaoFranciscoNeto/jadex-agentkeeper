@@ -1,5 +1,6 @@
 package jadex.agentkeeper.init.map.process;
 
+import jadex.agentkeeper.ai.UpdateStatusTask;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
@@ -8,6 +9,7 @@ import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
+import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.environment.ISpaceProcess;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
@@ -19,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -68,6 +71,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
 		tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
 		tmpProps.put(PROPERTY_INTPOSITION, aktPos);
+		
+
 
 		tmpProps.put(PROPERTY_TILEINFO, tileinfo);
 
@@ -201,6 +206,10 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							props.put(Space2D.PROPERTY_POSITION, new Vector2Double(x, y));
 
 							props.put(ISObjStrings.PROPERTY_INTPOSITION, new Vector2Int(x, y));
+							
+							props.put(PROPERTY_AWAKE, 100.0);
+							props.put(PROPERTY_FED, 100.0);
+							props.put(PROPERTY_HAPPINESS, 100.0);
 							// props.put("auftragsverwalter", gegnerauftraege);
 
 							if(type.equals("spielprozesse"))
@@ -213,9 +222,12 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 								creatureState.addCreature(type);
 
 							}
+							
+							ArrayList<IObjectTask> list = new ArrayList<IObjectTask>();
+							list.add(new UpdateStatusTask());
 
 							// todo: level, owner
-							grid.createSpaceObject(type, props, null);
+							grid.createSpaceObject(type, props, list);
 							System.out.println("type: " + type);
 							System.out.println("props: " + props);
 						}

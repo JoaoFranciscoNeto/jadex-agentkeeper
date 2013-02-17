@@ -60,7 +60,7 @@ public class IdlePlan
 			public void exceptionOccurred(Exception exception)
 			{
 
-				System.out.println("exception wait");
+				System.out.println("exception idlePlan ");
 
 
 				exception.printStackTrace();

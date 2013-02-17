@@ -4,6 +4,7 @@ package jadex.agentkeeper.ai.creatures;
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
+import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.building.LairInfo;
@@ -88,8 +89,6 @@ public class OccupyLairPlan
 		
 		Collections.shuffle(lairposlist);
 		
-		
-
 		Iterator<Vector2Int> it = lairposlist.iterator();
 		Vector2Int tmp = null;
 
@@ -142,9 +141,6 @@ public class OccupyLairPlan
 				e.printStackTrace();
 			}
 		});
-		
-		
-	
 
 		return ret;
 	}
@@ -157,6 +153,9 @@ public class OccupyLairPlan
 		lairInfo.setCreatureId((Long)spaceobject.getId());
 		Collection<SpaceObject> col = environment.getSpaceObjectsByGridPosition(pos, MapType.LAIR.toString());
 		SpaceObject oldlair = col.iterator().next();
+		
+//		spaceobject.setProperty(ISObjStrings.PROPERTY_AWAKE, 100.0);
+		capa.setMyLairPosition(pos);
 		
 		Map<String, Objects> probs = oldlair.getProperties();
 		environment.destroySpaceObject(oldlair.getId());

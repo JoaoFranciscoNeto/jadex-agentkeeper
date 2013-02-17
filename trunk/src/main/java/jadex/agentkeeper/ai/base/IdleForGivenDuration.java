@@ -72,6 +72,9 @@ public class IdleForGivenDuration
 			public void exceptionOccurred(Exception exception)
 			{
 
+			   System.out.println("exception idle for Given Plan ");
+
+
 				exception.printStackTrace();
 				
 			}

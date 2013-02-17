@@ -163,6 +163,7 @@
 			
 			<env:tasktypes>
 				<env:tasktype name="move" class="MoveTask" />
+				<env:tasktype name="updateStatus" class="UpdateStatusTask" />
 			</env:tasktypes>	
 
 			<env:processtypes>
