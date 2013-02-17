@@ -31,9 +31,9 @@ public class TrollBDI extends AbstractCreatureBDI
 	 * The agent body.
 	 */
 	@AgentBody
-	@Override
 	public void body()
 	{
+//		super.body();
 		agent.dispatchTopLevelGoal(new PerformPatrol());
 //		agent.dispatchTopLevelGoal(new AchieveMoveToSector(new Vector2Int(9,18)));
 	}
@@ -47,7 +47,7 @@ public class TrollBDI extends AbstractCreatureBDI
 	{
 		public PerformPatrol()
 		{
-			System.out.println("created: new Perform Patrol Goal");
+			System.out.println("created: new Perform Patrol Goal from Troll");
 		}
 		
 	}

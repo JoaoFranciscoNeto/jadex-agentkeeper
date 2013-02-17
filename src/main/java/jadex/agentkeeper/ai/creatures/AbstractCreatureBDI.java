@@ -1,7 +1,9 @@
 package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
+import jadex.agentkeeper.ai.creatures.troll.TrollBDI.PerformPatrol;
 import jadex.bdiv3.annotation.Body;
+import jadex.bdiv3.annotation.Deliberation;
 import jadex.bdiv3.annotation.Goal;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.Plans;
@@ -36,16 +38,16 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	@Override
 	public void body()
 	{
-		
 		agent.dispatchTopLevelGoal(new PerformOccupyLair());
-//		agent.dispatchTopLevelGoal(new PerformIdle());
-
+		agent.dispatchTopLevelGoal(new PerformIdle());
 	}
 
 	/**
 	 * Goal that lets the Creature occupy a bed.
 	 */
-	@Goal(excludemode = MGoal.EXCLUDE_NEVER, succeedonpassed = false)
+	
+	@Goal(excludemode = MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed = true, 
+			deliberation=@Deliberation(inhibits={PerformIdle.class}))
 	public class PerformOccupyLair
 	{
 	}

@@ -99,7 +99,7 @@ public class PatrolPlan
 		{
 			public void customResultAvailable(AchieveMoveToSector mtg)
 			{
-				System.out.println("patrol plan finished");
+//				System.out.println("patrol plan finished");
 				ret.setResult(null);
 			}
 

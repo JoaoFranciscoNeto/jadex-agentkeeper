@@ -1,6 +1,7 @@
 package jadex.agentkeeper.ai.creatures.goblin;
 
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
+import jadex.micro.annotation.Agent;
 
 
 /**
@@ -8,7 +9,7 @@ import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
-
+@Agent
 public class GoblinBDI extends AbstractCreatureBDI
 {
 

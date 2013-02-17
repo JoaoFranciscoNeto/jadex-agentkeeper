@@ -116,8 +116,15 @@ public class MoveToGridSectorPlan
 
 				public void customResultAvailable(Void result)
 				{
+//					System.out.println("result available in MoveToGrid");
 					spaceObject.setProperty(ISObjStrings.PROPERTY_INTPOSITION, nextTarget);
 					moveToNextSector(path_iterator).addResultListener(new DelegationResultListener<Void>(ret));
+				}
+				
+				public void exceptionOccurred(Exception e)
+				{
+					
+					e.printStackTrace();
 				}
 			});
 		}
@@ -138,6 +145,11 @@ public class MoveToGridSectorPlan
 	private IFuture<Void> oneStepToTarget(Vector2Int nextTarget)
 	{
 		final Future<Void> ret = new Future<Void>();
+		
+		
+		
+//		System.out.println("spaceObject: " + spaceObject.getType() + spaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION));
+		
 		Map<String, Object> props = new HashMap<String, Object>();
 		props.put(MoveTask.PROPERTY_DESTINATION, nextTarget);
 		props.put(MoveTask.PROPERTY_SPEED, capa.getMySpeed());

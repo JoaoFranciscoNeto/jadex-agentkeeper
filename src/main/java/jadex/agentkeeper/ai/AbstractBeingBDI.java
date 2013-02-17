@@ -88,6 +88,7 @@ public class AbstractBeingBDI
 				Grid2D g2d= (Grid2D)ext;
 				environment	= g2d;
 				setMySpaceObject(environment.getAvatar(agent.getComponentDescription(), agent.getModel().getFullName()));
+				
 				Vector2Double val1 = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
 				myPosition = val1;
 				myPosition = (Vector2Double)mySpaceObject.getProperty(Space2D.PROPERTY_POSITION);
@@ -140,12 +141,10 @@ public class AbstractBeingBDI
 		@GoalTargetCondition(events = "myIntPosition")
 		public boolean checkTarget()
 		{
-
 			boolean ret = target.equals(myIntPosition);
 			
-			System.out.print("myIntpos " + myIntPosition + " " );
-//			System.out.print("mypos " + myPosition + " " );
-			System.out.println("target " + target + " " + ret);
+//			System.out.print("myIntpos " + myIntPosition + " " );
+//			System.out.println("target " + target + " " + ret);
 
 			return ret;
 		}
