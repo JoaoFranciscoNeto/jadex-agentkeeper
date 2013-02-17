@@ -47,7 +47,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	 */
 	
 	@Goal(excludemode = MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed = true, 
-			deliberation=@Deliberation(inhibits={PerformIdle.class}))
+			deliberation=@Deliberation(inhibits={PerformIdle.class, PerformPatrol.class}))
 	public class PerformOccupyLair
 	{
 	}

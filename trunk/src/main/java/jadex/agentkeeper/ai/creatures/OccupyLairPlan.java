@@ -56,7 +56,7 @@ public class OccupyLairPlan
 	 */
 	public OccupyLairPlan()
 	{
-		System.out.println("lair plan created");
+//		System.out.println("lair plan created");
 		// getLogger().info("Created: "+this);
 	}
 
@@ -89,7 +89,7 @@ public class OccupyLairPlan
 		while(it.hasNext())
 		{
 			tmp = it.next();
-			System.out.println("whileschritt " + tmp);
+//			System.out.println("whileschritt " + tmp);
 			lairInfo = (LairInfo)lairs.get(tmp);
 			if(lairInfo.getCreatureId() == -1 && !lairInfo.isLocked())
 			{
@@ -114,7 +114,7 @@ public class OccupyLairPlan
 
 		final Vector2Int posi = new Vector2Int(pos.getXAsInteger(), pos.getYAsInteger());
 
-		System.out.println("free lair! move and I am  " + posi + " " + spaceobject.getType());
+//		System.out.println("free lair! move and I am  " + posi + " " + spaceobject.getType());
 		
 
 			
@@ -140,12 +140,13 @@ public class OccupyLairPlan
 	
 	private IFuture<Void> occupyLair(Vector2Int pos)
 	{
-		System.out.println("yeah!");
+//		System.out.println("yeah ! + pos " + pos);
 		final Future<Void> ret = new Future<Void>();
 		
 		lairInfo.setCreatureId((Long)spaceobject.getId());
 		Collection<SpaceObject> col = environment.getSpaceObjectsByGridPosition(pos, MapType.LAIR.toString());
 		SpaceObject oldlair = col.iterator().next();
+		
 		Map<String, Objects> probs = oldlair.getProperties();
 		environment.destroySpaceObject(oldlair.getId());
 		environment.createSpaceObject(MapType.LAIR.toString(), probs, null);
