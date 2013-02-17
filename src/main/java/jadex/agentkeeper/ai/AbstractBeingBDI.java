@@ -2,13 +2,17 @@ package jadex.agentkeeper.ai;
 
 
 
+import jadex.agentkeeper.ai.base.IdleForGivenDuration;
 import jadex.agentkeeper.ai.base.IdlePlan;
 import jadex.agentkeeper.ai.base.MoveToGridSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
+import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.PerformOccupyLair;
+import jadex.agentkeeper.ai.creatures.troll.TrollBDI.PerformPatrol;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.BDIAgent;
 import jadex.bdiv3.annotation.Belief;
 import jadex.bdiv3.annotation.Body;
+import jadex.bdiv3.annotation.Deliberation;
 import jadex.bdiv3.annotation.Goal;
 import jadex.bdiv3.annotation.GoalTargetCondition;
 import jadex.bdiv3.annotation.Plan;
@@ -40,7 +44,9 @@ import jadex.micro.annotation.AgentCreated;
 
 @Plan(trigger = @Trigger(goals = AbstractBeingBDI.AchieveMoveToSector.class), body = @Body(MoveToGridSectorPlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(PatrolPlan.class)),
-@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class))
+@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class)),
+@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdleForTime.class), body=@Body(IdleForGivenDuration.class))
+
 })
 public class AbstractBeingBDI
 {
@@ -109,7 +115,7 @@ public class AbstractBeingBDI
 	@AgentBody
 	public void body()
 	{
-		
+		agent.dispatchTopLevelGoal(new PerformIdleForTime((int)(2000+Math.random()*20000)));
 		agent.dispatchTopLevelGoal(new PerformIdle());
 		
 //		agent.dispatchTopLevelGoal(new AchieveMoveToSector(new Vector2Int(9,18)));
@@ -169,6 +175,39 @@ public class AbstractBeingBDI
 	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false, randomselection=true)
 	public class PerformIdle
 	{
+	}
+	
+	/**
+	 *  Goal that lets the Being perform idle.
+	 *  
+	 *  Because the Goal hast two Plans (IdlePlan and PatrolPlan) and we use randomselection
+	 *  the Agent just Idles or Patrols
+	 */
+	@Goal(excludemode=MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed=true, deliberation=@Deliberation(inhibits={PerformIdle.class, PerformOccupyLair.class, PerformPatrol.class}))
+	public class PerformIdleForTime
+	{
+		private int duration;
+		
+		public PerformIdleForTime(int duration)
+		{
+			this.duration = duration;
+		}
+
+		/**
+		 * @return the duration
+		 */
+		public int getDuration()
+		{
+			return duration;
+		}
+
+		/**
+		 * @param duration the duration to set
+		 */
+		public void setDuration(int duration)
+		{
+			this.duration = duration;
+		}
 	}
 
 
