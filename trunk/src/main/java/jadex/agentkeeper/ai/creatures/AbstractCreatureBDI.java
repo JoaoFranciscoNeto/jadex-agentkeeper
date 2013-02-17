@@ -38,8 +38,8 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	@Override
 	public void body()
 	{
+		super.body();
 		agent.dispatchTopLevelGoal(new PerformOccupyLair());
-		agent.dispatchTopLevelGoal(new PerformIdle());
 	}
 
 	/**

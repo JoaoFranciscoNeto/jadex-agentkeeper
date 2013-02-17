@@ -20,7 +20,9 @@ import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -79,8 +81,16 @@ public class OccupyLairPlan
 		HashMap<Vector2Int, Object> lairs = buildingState.getTypes(MapType.LAIR);
 
 		Set<Vector2Int> lairpos = lairs.keySet();
+		
+		ArrayList<Vector2Int> lairposlist = new ArrayList<Vector2Int>();
+		
+		lairposlist.addAll(lairpos);
+		
+		Collections.shuffle(lairposlist);
+		
+		
 
-		Iterator<Vector2Int> it = lairpos.iterator();
+		Iterator<Vector2Int> it = lairposlist.iterator();
 		Vector2Int tmp = null;
 
 		// boolean freeLair = false;
@@ -128,6 +138,7 @@ public class OccupyLairPlan
 
 			public void exceptionOccurred(Exception e)
 			{
+				System.out.println("exception occupy");
 				e.printStackTrace();
 			}
 		});
