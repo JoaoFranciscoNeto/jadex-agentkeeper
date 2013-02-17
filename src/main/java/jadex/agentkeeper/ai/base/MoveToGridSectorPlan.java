@@ -123,7 +123,7 @@ public class MoveToGridSectorPlan
 				
 				public void exceptionOccurred(Exception e)
 				{
-					
+					 System.out.println("exception move to grid ");
 					e.printStackTrace();
 				}
 			});

@@ -1,5 +1,6 @@
 package jadex.agentkeeper.util;
 
+
 public interface ISObjStrings {
 	public static final String PROPERTY_NEIGHBORHOOD = "neighborhood";
 	public static final String PROPERTY_STATUS = "status";
@@ -9,4 +10,11 @@ public interface ISObjStrings {
 	public static final String PROPERTY_HITPOINTS = "hitpoints";
 	public static final String PROPERTY_LEVEL = "level";
 	public static final String PROPERTY_OWNER = "owner";
+	
+	public static final String PROPERTY_AWAKE = "awake";
+	public static final String PROPERTY_FED = "fed";
+	public static final String PROPERTY_HAPPINESS = "happiness";
+	
+
+	
 }

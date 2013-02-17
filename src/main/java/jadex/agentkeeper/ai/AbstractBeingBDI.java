@@ -101,6 +101,7 @@ public class AbstractBeingBDI
 				Object o = mySpaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION);
 				Vector2Int val2= (Vector2Int)o;
 				myIntPosition = val2;
+
 				ret.setResult(null);
 			}
 		});
@@ -115,7 +116,7 @@ public class AbstractBeingBDI
 	@AgentBody
 	public void body()
 	{
-		agent.dispatchTopLevelGoal(new PerformIdleForTime((int)(2000+Math.random()*20000)));
+		agent.dispatchTopLevelGoal(new PerformIdleForTime((int)(2000+Math.random()*5000)));
 		agent.dispatchTopLevelGoal(new PerformIdle());
 		
 //		agent.dispatchTopLevelGoal(new AchieveMoveToSector(new Vector2Int(9,18)));
@@ -169,7 +170,7 @@ public class AbstractBeingBDI
 	/**
 	 *  Goal that lets the Being perform idle.
 	 *  
-	 *  Because the Goal hast two Plans (IdlePlan and PatrolPlan) and we use randomselection
+	 *  Because the Goal has two Plans (IdlePlan and PatrolPlan) and we use randomselection
 	 *  the Agent just Idles or Patrols
 	 */
 	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false, randomselection=true)
@@ -282,6 +283,46 @@ public class AbstractBeingBDI
 	{
 		this.mySpaceObject = mySpaceObject;
 	}
+
+
+	/**
+	 * @return the myLevel
+	 */
+	public int getMyLevel()
+	{
+		return myLevel;
+	}
+
+
+
+	/**
+	 * @param myLevel the myLevel to set
+	 */
+	public void setMyLevel(int myLevel)
+	{
+		this.myLevel = myLevel;
+	}
+
+
+
+	/**
+	 * @return the myHitpoints
+	 */
+	public float getMyHitpoints()
+	{
+		return myHitpoints;
+	}
+
+
+
+	/**
+	 * @param myHitpoints the myHitpoints to set
+	 */
+	public void setMyHitpoints(float myHitpoints)
+	{
+		this.myHitpoints = myHitpoints;
+	}
+
 	
 
 

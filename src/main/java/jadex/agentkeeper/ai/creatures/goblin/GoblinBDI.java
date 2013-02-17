@@ -12,6 +12,11 @@ import jadex.micro.annotation.Agent;
 @Agent
 public class GoblinBDI extends AbstractCreatureBDI
 {
+	
+	public GoblinBDI()
+	{
+		this.mySpeed = 1;
+	}
 
 
 }
