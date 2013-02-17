@@ -603,9 +603,10 @@
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
-		<componenttype name="Thief" filename="ai/heroes/thief/ThiefBDI.class" />
+		<componenttype name="Thief" filename="ai/AbstractBeingBDI.class" />
+<!-- 		<componenttype name="Thief" filename="ai/heroes/thief/ThiefBDI.class" /> -->
 			
-<!-- 		<componenttype name="Goblin" filename="ai/AbstractBeingBDI.class" /> -->
+		
 <!-- 		<componenttype name="Orc" filename="ai/AbstractBeingBDI.class" /> -->
 <!-- 		<componenttype name="Warlock" filename="ai/AbstractBeingBDI.class" /> -->
 			

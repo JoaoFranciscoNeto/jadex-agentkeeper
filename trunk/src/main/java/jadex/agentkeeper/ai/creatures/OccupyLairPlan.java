@@ -1,5 +1,7 @@
 package jadex.agentkeeper.ai.creatures;
 
+
+import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISpaceStrings;
@@ -18,8 +20,11 @@ import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -69,7 +74,7 @@ public class OccupyLairPlan
 
 		buildingState = (SimpleMapState)environment.getProperty(ISpaceStrings.BUILDING_STATE);
 
-		final Future<Void> ret = new Future<Void>();
+		final Future<Void> retb = new Future<Void>();
 
 		HashMap<Vector2Int, Object> lairs = buildingState.getTypes(MapType.LAIR);
 
@@ -91,12 +96,12 @@ public class OccupyLairPlan
 
 				lairInfo.setLocked(true);
 
-				moveToLocation(tmp).addResultListener(new DelegationResultListener<Void>(ret));
+				moveToLocation(tmp).addResultListener(new DelegationResultListener<Void>(retb));
 				break;
 			}
 		}
 
-		return ret;
+		return retb;
 	}
 
 
@@ -114,26 +119,15 @@ public class OccupyLairPlan
 
 			
 		IFuture<AchieveMoveToSector> fut = iplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi));
-		fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
+		fut.addResultListener(new ExceptionDelegationResultListener<AbstractBeingBDI.AchieveMoveToSector, Void>(ret)
 		{
 			public void customResultAvailable(AchieveMoveToSector mtg)
 			{
-				
-				System.out.println("yeah!");
-				
-//				lairInfo.setCreatureId((Long)spaceobject.getId());
-//				Collection<SpaceObject> col = environment.getSpaceObjectsByGridPosition(posi, MapType.LAIR.toString());
-//				SpaceObject oldlair = col.iterator().next();
-//				Map<String, Objects> probs = oldlair.getProperties();
-//				environment.destroySpaceObject(oldlair.getId());
-//				environment.createSpaceObject(MapType.LAIR.toString(), probs, null);
-
-				ret.setResult(null);
+				occupyLair(posi).addResultListener(new DelegationResultListener<Void>(ret));
 			}
 
 			public void exceptionOccurred(Exception e)
 			{
-				System.out.println("exception");
 				e.printStackTrace();
 			}
 		});
@@ -141,6 +135,23 @@ public class OccupyLairPlan
 		
 	
 
+		return ret;
+	}
+	
+	private IFuture<Void> occupyLair(Vector2Int pos)
+	{
+		System.out.println("yeah!");
+		final Future<Void> ret = new Future<Void>();
+		
+		lairInfo.setCreatureId((Long)spaceobject.getId());
+		Collection<SpaceObject> col = environment.getSpaceObjectsByGridPosition(pos, MapType.LAIR.toString());
+		SpaceObject oldlair = col.iterator().next();
+		Map<String, Objects> probs = oldlair.getProperties();
+		environment.destroySpaceObject(oldlair.getId());
+		environment.createSpaceObject(MapType.LAIR.toString(), probs, null);
+
+		ret.setResult(null);
+		
 		return ret;
 	}
 }

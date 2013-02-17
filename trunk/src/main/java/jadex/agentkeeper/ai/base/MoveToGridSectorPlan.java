@@ -109,13 +109,14 @@ public class MoveToGridSectorPlan
 		final Future<Void> ret = new Future<Void>();
 		if(it.hasNext())
 		{
-			Vector2Int nextTarget = it.next();
+			final Vector2Int nextTarget = it.next();
 
 			oneStepToTarget(nextTarget).addResultListener(new DelegationResultListener<Void>(ret)
 			{
 
 				public void customResultAvailable(Void result)
 				{
+					spaceObject.setProperty(ISObjStrings.PROPERTY_INTPOSITION, nextTarget);
 					moveToNextSector(path_iterator).addResultListener(new DelegationResultListener<Void>(ret));
 				}
 			});

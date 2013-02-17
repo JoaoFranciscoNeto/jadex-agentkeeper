@@ -21,7 +21,7 @@ import jadex.micro.annotation.AgentBody;
  */
 @Agent
 @Plans({
-@Plan(trigger = @Trigger(goals = AbstractCreatureBDI.PerformOccupyBed.class), body = @Body(OccupyLairPlan.class))})
+@Plan(trigger = @Trigger(goals = AbstractCreatureBDI.PerformOccupyLair.class), body = @Body(OccupyLairPlan.class))})
 public class AbstractCreatureBDI extends AbstractBeingBDI
 {
 	/**
@@ -36,16 +36,20 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	@Override
 	public void body()
 	{
-		agent.dispatchTopLevelGoal(new PerformOccupyBed());
+		
+		agent.dispatchTopLevelGoal(new PerformOccupyLair());
+//		agent.dispatchTopLevelGoal(new PerformIdle());
 
 	}
 
 	/**
 	 * Goal that lets the Creature occupy a bed.
 	 */
-	@Goal(excludemode = MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed = true, randomselection = true)
-	public class PerformOccupyBed
+	@Goal(excludemode = MGoal.EXCLUDE_NEVER, succeedonpassed = false)
+	public class PerformOccupyLair
 	{
 	}
+	
+
 
 }

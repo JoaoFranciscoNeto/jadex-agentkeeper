@@ -42,7 +42,7 @@ import jadex.micro.annotation.AgentCreated;
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(PatrolPlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class))
 })
-public abstract class AbstractBeingBDI
+public class AbstractBeingBDI
 {
 	/** The bdi agent. Automatically injected */
 	@Agent
@@ -134,13 +134,19 @@ public abstract class AbstractBeingBDI
 		}
 
 		/**
-		 * The goal is achieved when the position of the cleaner is on the
+		 * The goal is achieved when the position of the being is on the
 		 * target sector position.
 		 */
-		@GoalTargetCondition(events = "myPosition")
+		@GoalTargetCondition(events = "myIntPosition")
 		public boolean checkTarget()
 		{
-			boolean ret = myPosition.equals(target);
+
+			boolean ret = target.equals(myIntPosition);
+			
+			System.out.print("myIntpos " + myIntPosition + " " );
+//			System.out.print("mypos " + myPosition + " " );
+			System.out.println("target " + target + " " + ret);
+
 			return ret;
 		}
 
