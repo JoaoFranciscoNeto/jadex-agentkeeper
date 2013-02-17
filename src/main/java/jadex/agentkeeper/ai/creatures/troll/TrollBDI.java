@@ -45,6 +45,10 @@ public class TrollBDI extends AbstractCreatureBDI
 	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false)
 	public class PerformPatrol
 	{
+		public PerformPatrol()
+		{
+			System.out.println("created: new Perform Patrol Goal");
+		}
 		
 	}
 	
