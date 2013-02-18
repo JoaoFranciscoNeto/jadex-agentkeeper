@@ -2,26 +2,20 @@ package jadex.agentkeeper.ai.base;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
-import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.util.ISObjStrings;
-import jadex.bdi.runtime.PlanFailureException;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanAborted;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
 import jadex.bdiv3.annotation.PlanFailed;
-import jadex.bdiv3.annotation.PlanPassed;
 import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
-import jadex.bdiv3.runtime.impl.RGoal;
-import jadex.bdiv3.runtime.impl.RPlan;
+import jadex.commons.IResultCommand;
 import jadex.commons.future.DelegationResultListener;
-import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.ISpaceObject;
-import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
@@ -75,19 +69,6 @@ public class MoveToGridSectorPlan
 	{
 		final Future<Void> ret = new Future<Void>();
 		
-		dumdidum().addResultListener(new DelegationResultListener<Void>(ret)
-		{
-			public void customResultAvailable(Void result)
-			{
-			}
-			
-			public void exceptionOccurred(Exception exception)
-			{
-//				System.out.println("aborting: "+((RPlan)iplan).getId());
-				ret.setExceptionIfUndone(exception);
-			}
-		});
-		
 		spaceObject = capa.getMySpaceObject();
 		Vector2Int target = goal.getTarget();
 		
@@ -119,29 +100,6 @@ public class MoveToGridSectorPlan
 		}
 
 
-		return ret;
-	}
-
-
-	/**
-	 * Hack because of Task-PlanAborting-Interaction
-	 * 
-	 * @return Future
-	 */
-	public IFuture<Void> dumdidum()
-	{
-		if(((RPlan)iplan).isFinished())
-			return IFuture.DONE;
-		
-//		System.out.println("dum:" +((RPlan)iplan).getId()+" "+((RPlan)iplan).getLifecycleState()+" "+((RGoal)iplan.getReason()).getLifecycleState()+" "+mtaskid);
-		final Future<Void> ret = new Future<Void>();
-		iplan.waitFor(100).addResultListener(new DelegationResultListener<Void>(ret)
-		{
-			public void customResultAvailable(Void result)
-			{
-				dumdidum().addResultListener(new DelegationResultListener<Void>(ret));
-			}
-		});
 		return ret;
 	}
 	
@@ -177,15 +135,6 @@ public class MoveToGridSectorPlan
 	}
 	
 	@PlanFailed
-	public void cleanupMoveTask()
-	{
-		if(mtaskid != null)
-		{
-//			System.out.println("cleanup task failed: "+((RPlan)iplan).getId() + " "+ mtaskid);
-			capa.getEnvironment().removeObjectTask(mtaskid, spaceObject.getId());
-		}
-	}
-
 	@PlanAborted
 	public void cleanupMoveTask2()
 	{
@@ -215,18 +164,16 @@ public class MoveToGridSectorPlan
 		this.mtaskid = capa.getEnvironment().createObjectTask(MoveTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
 		
 //		System.out.println("mtaskt: " + mtaskid + " " + nextTarget + " "+ ((RPlan)iplan).getId());
-		capa.getEnvironment().addTaskListener(mtaskid, capa.getMySpaceObject().getId(), new ExceptionDelegationResultListener<Object, Void>(ret)
+		
+		// wait for task but remain interruptible when goal is abort
+		iplan.invokeInterruptable(new IResultCommand<IFuture<Void>, Void>()
 		{
-			public void customResultAvailable(Object result)
+			public IFuture<Void> execute(Void args)
 			{
-//				System.out.println("cleanup task normal:"+mtaskid + " " + ((RPlan)iplan).getId());
-				if(iplan.isFinished())
-					ret.setException(new PlanFailureException());
-				else
-					ret.setResult(null);
+				return capa.getEnvironment().waitForTask(mtaskid, capa.getMySpaceObject().getId());
 			}
-		});
-
+		}).addResultListener(new DelegationResultListener<Void>(ret));
+		
 		return ret;
 	}
 }
