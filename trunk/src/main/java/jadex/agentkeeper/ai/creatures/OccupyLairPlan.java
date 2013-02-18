@@ -132,12 +132,6 @@ public class OccupyLairPlan
 			{
 				occupyLair(posi).addResultListener(new DelegationResultListener<Void>(ret));
 			}
-
-			public void exceptionOccurred(Exception e)
-			{
-				System.out.println("exception occupy");
-				e.printStackTrace();
-			}
 		});
 
 		return ret;

@@ -29,6 +29,7 @@ public class MoveTask extends AbstractTask
 	public static final String	PROPERTY_SPEED			= "speed";
 
 
+
 	// -------- IObjectTask methods --------
 
 	/**
@@ -49,36 +50,25 @@ public class MoveTask extends AbstractTask
 		double gamespeed = (Double)space.getProperty(ISpaceStrings.GAME_SPEED);
 		
 		double maxdist = progress * gamespeed * speed * 0.001;
+		
 		IVector2 loc = (IVector2)obj.getProperty(Space2D.PROPERTY_POSITION);
-
-		double r = 0;
+		
 		double dist = ((Space2D)space).getDistance(loc, idis).getAsDouble();
 		IVector2 newloc;
-		boolean fin = false;
 
 		Vector2Double destination = new Vector2Double(idis.getXAsDouble(), idis.getYAsDouble());
-
-		if(dist > r)
+		
+		if(dist > 0)
 		{
-
+			
 			// Todo: how to handle border conditions!?
-			newloc = (Vector2Double)(dist <= maxdist ? destination : destination.copy().subtract(loc).normalize().multiply(maxdist).add(loc));
-
+			newloc = (Vector2Double)(dist <= maxdist ? destination.copy() : destination.copy().subtract(loc).normalize().multiply(maxdist).add(loc));
+			
 			((Space2D)space).setPosition(obj.getId(), newloc);
-
 
 		}
 		else
 		{
-
-			fin = true;
-			newloc = loc;
-		}
-
-
-		if(newloc == destination || fin)
-		{
-
 			setFinished(space, obj, true);
 		}
 
