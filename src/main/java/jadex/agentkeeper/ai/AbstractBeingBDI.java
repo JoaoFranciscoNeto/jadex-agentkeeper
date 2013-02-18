@@ -44,7 +44,7 @@ import jadex.micro.annotation.AgentCreated;
 
 @Plan(trigger = @Trigger(goals = AbstractBeingBDI.AchieveMoveToSector.class), body = @Body(MoveToGridSectorPlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(PatrolPlan.class)),
-@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class)),
+//@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdleForTime.class), body=@Body(IdleForGivenDuration.class))
 
 })

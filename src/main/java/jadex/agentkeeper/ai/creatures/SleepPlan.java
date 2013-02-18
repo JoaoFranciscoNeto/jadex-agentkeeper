@@ -51,6 +51,7 @@ public class SleepPlan
 		{
 			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
 			{
+				System.out.println("finished achive move to");
 				sleepStep().addResultListener(new DelegationResultListener<Void>(ret));
 				
 			}

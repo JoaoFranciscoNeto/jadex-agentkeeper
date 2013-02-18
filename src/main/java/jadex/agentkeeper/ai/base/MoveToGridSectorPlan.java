@@ -71,7 +71,7 @@ public class MoveToGridSectorPlan
 		Vector2Int target = goal.getTarget();
 //		Vector2Double myloc = (Vector2Double)spaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION);
 		
-		Vector2Int myIntLoc = capa.getMyIntPosition();
+		Vector2Double myIntLoc = capa.getMyPosition();
 		
 		System.out.println("myloc " + myIntLoc);
 

@@ -4,7 +4,6 @@ package jadex.agentkeeper.ai.creatures;
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
-import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.building.LairInfo;
@@ -27,7 +26,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 
@@ -157,7 +155,7 @@ public class OccupyLairPlan
 //		spaceobject.setProperty(ISObjStrings.PROPERTY_AWAKE, 100.0);
 		capa.setMyLairPosition(pos);
 		
-		Map<String, Objects> probs = oldlair.getProperties();
+		Map<String, Object> probs = oldlair.getProperties();
 		environment.destroySpaceObject(oldlair.getId());
 		environment.createSpaceObject(MapType.LAIR.toString(), probs, null);
 
