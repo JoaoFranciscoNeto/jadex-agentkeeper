@@ -59,7 +59,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	{
 		super.body();
 		agent.dispatchTopLevelGoal(new PerformOccupyLair());
-//		agent.dispatchTopLevelGoal(new MaintainCreatureAwake());
+		agent.dispatchTopLevelGoal(new MaintainCreatureAwake());
 	}
 
 	/**
