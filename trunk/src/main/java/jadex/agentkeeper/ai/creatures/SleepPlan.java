@@ -67,10 +67,10 @@ public class SleepPlan
 	{
 		
 		final Future<Void> ret = new Future<Void>();
-		if(capa.getMyAwakeStatus() <= 100.0)
+		if(capa.getMyAwakeStatus() < 100.0)
 		{
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Sleeping");
-			rplan.waitFor(100).addResultListener(new DefaultResultListener<Void>()
+			rplan.waitFor(500).addResultListener(new DefaultResultListener<Void>()
 			{
 				public void resultAvailable(Void result)
 				{

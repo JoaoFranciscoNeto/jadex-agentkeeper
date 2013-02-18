@@ -56,8 +56,16 @@ public class PatrolPlan
 		environment = capa.getEnvironment();
 
 		final Future<Void> ret = new Future<Void>();
+		
+		iplan.waitFor(100).addResultListener(new DelegationResultListener<Void>(ret)
+		{
+			public void customResultAvailable(Void result)
+			{
+				findRndPos().addResultListener(new DelegationResultListener<Void>(ret));
+			}
+		});
 
-		findRndPos().addResultListener(new DelegationResultListener<Void>(ret));
+		
 
 		
 		return ret;

@@ -28,7 +28,8 @@ public class MoveTask extends AbstractTask
 	/** The speed property of the moving object (units per second). */
 	public static final String	PROPERTY_SPEED			= "speed";
 
-
+	/** Backup Exit for Problems */
+	private int					maxCounter = 0;
 
 	// -------- IObjectTask methods --------
 
@@ -43,27 +44,28 @@ public class MoveTask extends AbstractTask
 	 */
 	public void execute(IEnvironmentSpace space, ISpaceObject obj, long progress, IClockService clock)
 	{
+
 		IVector2 idis = (IVector2)getProperty(PROPERTY_DESTINATION);
 
 		double speed = ((Number)getProperty(PROPERTY_SPEED)).doubleValue();
-		
+
 		double gamespeed = (Double)space.getProperty(ISpaceStrings.GAME_SPEED);
-		
+
 		double maxdist = progress * gamespeed * speed * 0.001;
-		
+
 		IVector2 loc = (IVector2)obj.getProperty(Space2D.PROPERTY_POSITION);
-		
+
 		double dist = ((Space2D)space).getDistance(loc, idis).getAsDouble();
 		IVector2 newloc;
 
 		Vector2Double destination = new Vector2Double(idis.getXAsDouble(), idis.getYAsDouble());
-		
+
 		if(dist > 0)
 		{
-			
+
 			// Todo: how to handle border conditions!?
 			newloc = (Vector2Double)(dist <= maxdist ? destination.copy() : destination.copy().subtract(loc).normalize().multiply(maxdist).add(loc));
-			
+
 			((Space2D)space).setPosition(obj.getId(), newloc);
 
 		}
@@ -71,6 +73,15 @@ public class MoveTask extends AbstractTask
 		{
 			setFinished(space, obj, true);
 		}
+
+		if(maxCounter>50)
+		{
+			setFinished(space, obj, true);
+		}
+		
+
+		maxCounter++;
+
 
 	}
 }
