@@ -31,11 +31,6 @@ public class SleepPlan
 	
 	protected SpaceObject spaceObject;
 	
-	public SleepPlan()
-	{
-		System.out.println("sleep plan constructor!!");
-	}
-	
 	/**
 	 *  The plan body.
 	 */
@@ -51,7 +46,7 @@ public class SleepPlan
 		{
 			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
 			{
-				System.out.println("finished achive move to");
+//				System.out.println("|- | - - - - start sleeping - - - - | - |");
 				sleep().addResultListener(new DelegationResultListener<Void>(ret));
 				
 			}
@@ -70,11 +65,12 @@ public class SleepPlan
 	 */
 	private IFuture<Void> sleep()
 	{
+		
 		final Future<Void> ret = new Future<Void>();
 		if(capa.getMyAwakeStatus() <= 100.0)
 		{
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Sleeping");
-			rplan.waitFor(1000).addResultListener(new DefaultResultListener<Void>()
+			rplan.waitFor(100).addResultListener(new DefaultResultListener<Void>()
 			{
 				public void resultAvailable(Void result)
 				{
@@ -84,7 +80,7 @@ public class SleepPlan
 		}
 		else
 		{
-			System.out.println("finished sleeping");
+//			System.out.println("- - - - - finished sleeping - - - - - ");
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 			ret.setResult(null);
 		}
@@ -92,46 +88,4 @@ public class SleepPlan
 		return ret;
 	}
 	
-	
-	private IFuture<Void> sleepStep()
-	{
-		final Future<Void> ret = new Future<Void>();
-		
-		IComponentStep<Void> loadstep = new IComponentStep<Void>()
-				{
-					public IFuture<Void> execute(IInternalAccess ia) 
-					{
-						final IComponentStep<Void> self = this;
-						
-						double awake = (Double)spaceObject.getProperty(ISObjStrings.PROPERTY_AWAKE);
-						if(capa.getMyPosition().getDistance(capa.getMyLairPosition()).getAsDouble()<0.1 && awake<100.0)
-						{
-							System.out.print(" + 5 ");
-							spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Sleeping");
-							awake	= Math.min(awake + 5, 100.0);
-							spaceObject.setProperty(ISObjStrings.PROPERTY_AWAKE, awake);
-//							capa.setMyAwakeStatus(awake);
-						}
-						if(awake>=100.0)
-						{
-							System.out.println("finished sleep");
-							spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Dancing");
-							ret.setResult(null);
-						}
-						else
-						{
-							rplan.waitFor(100).addResultListener(new DefaultResultListener<Void>()
-							{
-								public void resultAvailable(Void result)
-								{
-									capa.getAgent().scheduleStep(self);
-								}
-							});
-						}
-						return IFuture.DONE;
-					};
-				};
-				capa.getAgent().scheduleStep(loadstep);
-		return ret;
-	}
 }

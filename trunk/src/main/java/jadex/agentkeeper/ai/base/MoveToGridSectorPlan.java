@@ -62,7 +62,6 @@ public class MoveToGridSectorPlan
 	 */
 	public MoveToGridSectorPlan()
 	{
-		System.out.println("-----------------> Created " +this);
 		// getLogger().info("Created: "+this);
 	}
 

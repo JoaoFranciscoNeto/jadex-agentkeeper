@@ -6,6 +6,7 @@ import jadex.agentkeeper.ai.base.IdleForGivenDuration;
 import jadex.agentkeeper.ai.base.IdlePlan;
 import jadex.agentkeeper.ai.base.MoveToGridSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
+import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.PerformOccupyLair;
 import jadex.agentkeeper.ai.creatures.troll.TrollBDI.PerformPatrol;
 import jadex.agentkeeper.util.ISObjStrings;
@@ -44,7 +45,7 @@ import jadex.micro.annotation.AgentCreated;
 
 @Plan(trigger = @Trigger(goals = AbstractBeingBDI.AchieveMoveToSector.class), body = @Body(MoveToGridSectorPlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(PatrolPlan.class)),
-//@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class)),
+@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdleForTime.class), body=@Body(IdleForGivenDuration.class))
 
 })
@@ -168,9 +169,13 @@ public class AbstractBeingBDI
 	 *  Because the Goal has two Plans (IdlePlan and PatrolPlan) and we use randomselection
 	 *  the Agent just Idles or Patrols
 	 */
-	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false)
+	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false, randomselection=true)
 	public class PerformIdle
 	{
+		public PerformIdle()
+		{
+//			System.out.println("new perform idle");
+		}
 	}
 	
 	/**
@@ -179,7 +184,7 @@ public class AbstractBeingBDI
 	 *  Because the Goal hast two Plans (IdlePlan and PatrolPlan) and we use randomselection
 	 *  the Agent just Idles or Patrols
 	 */
-	@Goal(excludemode=MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed=true, deliberation=@Deliberation(inhibits={PerformIdle.class, PerformOccupyLair.class, PerformPatrol.class}))
+	@Goal(excludemode=MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed=true, deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class, PerformOccupyLair.class, PerformPatrol.class}))
 	public class PerformIdleForTime
 	{
 		private int duration;

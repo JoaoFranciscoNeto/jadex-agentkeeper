@@ -56,6 +56,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	public void body()
 	{
 		super.body();
+//		agent.dispatchTopLevelGoal(new PerformIdle());
 		agent.dispatchTopLevelGoal(new PerformOccupyLair());
 		agent.dispatchTopLevelGoal(new MaintainCreatureAwake());
 	}
@@ -65,7 +66,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	 */
 	
 	@Goal(excludemode = MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed = true, 
-			deliberation=@Deliberation(inhibits={PerformIdle.class, PerformPatrol.class}))
+			deliberation=@Deliberation(inhibits={PerformIdle.class, PerformPatrol.class, MaintainCreatureAwake.class}))
 	public class PerformOccupyLair
 	{
 	}
@@ -77,13 +78,13 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	public class MaintainCreatureAwake
 	{
 		/**
-		 *  When the AwakeStatus is below 10.0
+		 *  When the AwakeStatus is below 5.0
 		 *  the Creature will activate this goal.
 		 */
 		@GoalMaintainCondition(events="myAwakeStatus")
 		public boolean checkMaintain()
 		{
-			return myAwakeStatus>35.0;
+			return myAwakeStatus>5.0;
 		}
 		
 		/**

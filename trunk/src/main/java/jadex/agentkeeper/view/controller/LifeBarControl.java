@@ -50,7 +50,7 @@ import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
 import java.io.IOException;
 
-public class TestControl extends AbstractControl {
+public class LifeBarControl extends AbstractControl {
 
     private Matrix3f orient;
     private Vector3f look;
@@ -83,7 +83,7 @@ public class TestControl extends AbstractControl {
         AxialZ;
     }
 
-    public TestControl() {
+    public LifeBarControl() {
         super();
         orient = new Matrix3f();
         look = new Vector3f();
@@ -92,7 +92,7 @@ public class TestControl extends AbstractControl {
     }
 
     public Control cloneForSpatial(Spatial spatial) {
-        TestControl control = new TestControl();
+        LifeBarControl control = new LifeBarControl();
         control.alignment = this.alignment;
         control.setSpatial(spatial);
         return control;

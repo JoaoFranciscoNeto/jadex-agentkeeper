@@ -15,7 +15,7 @@ public class GoblinBDI extends AbstractCreatureBDI
 	
 	public GoblinBDI()
 	{
-		this.mySpeed = 5;
+		this.mySpeed = 2;
 	}
 
 

@@ -43,14 +43,16 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 
 	private void readOneElementOnMap(String key, Vector2Int aktPos)
 	{
-
+		
+		
 		MapType mapType = TILE_MAP.get(key);
 
+		
 		String type = mapType.toString();
 
 		// Null Check
+		
 		type = type == null ? "unknown" : type;
-
 
 		tmpProps = new HashMap<String, Object>();
 
@@ -150,6 +152,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 						{
 							Vector2Int aktPos = new Vector2Int(x, y);
 							String key = line.substring(x * 2 + 2, x * 2 + 4);
+
 
 							readOneElementOnMap(key, aktPos);
 						}

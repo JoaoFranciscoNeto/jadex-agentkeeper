@@ -57,15 +57,6 @@ public class IdlePlan
 		
 		rplan.waitFor(waittime).addResultListener(new DelegationResultListener<Void>(ret)
 		{
-			public void exceptionOccurred(Exception exception)
-			{
-
-				System.out.println("exception idlePlan ");
-
-
-				exception.printStackTrace();
-				
-			}
 			public void customResultAvailable(Void result)
 			{
 				ret.setResult(null);

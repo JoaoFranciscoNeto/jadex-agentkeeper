@@ -13,9 +13,7 @@ import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
-import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
-import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
 
@@ -69,8 +67,6 @@ public class PatrolPlan
 	{
 			final Future<Void> ret = new Future<Void>();
 			
-			System.out.println("find rnd pos");
-		
 			Vector2Int rndpos = (Vector2Int)environment.getRandomGridPosition(Vector2Int.ZERO);
 
 			Vector2Int myloc = (Vector2Int)capa.getMySpaceObject().getProperty(ISObjStrings.PROPERTY_INTPOSITION);
@@ -80,6 +76,7 @@ public class PatrolPlan
 
 			if(astar.istErreichbar())
 			{
+//				System.out.println("reachable");
 				moveToLocation(rndpos).addResultListener(new DelegationResultListener<Void>(ret));
 			}
 			else
@@ -108,13 +105,13 @@ public class PatrolPlan
 		{
 			public void customResultAvailable(AchieveMoveToSector mtg)
 			{
-				System.out.println("patrol plan finished");
+//				System.out.println("patrol plan finished");
 				ret.setResult(null);
 			}
 			
 			public void exceptionOccurred(Exception e)
 			{
-				System.out.println("exception patrol");
+//				System.out.println("exception patrol");
 				super.exceptionOccurred(e);
 			}
 		});
