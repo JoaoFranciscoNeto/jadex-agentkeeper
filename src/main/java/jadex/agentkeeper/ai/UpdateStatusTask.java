@@ -66,17 +66,21 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 		}
 		else
 		{
-			decreaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeDecrease);
+			if((Double)obj.getProperty(PROPERTY_AWAKE)>0)
+			{
+				decreaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeDecrease);
+			}
+			
 		}
 		
-		if(status.equals("Eating"))
-		{
-			increaseProperty(obj, PROPERTY_FED, timeDecrease * fedIncrease);
-		}
-		else
-		{
-			decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
-		}
+//		if(status.equals("Eating"))
+//		{
+//			increaseProperty(obj, PROPERTY_FED, timeDecrease * fedIncrease);
+//		}
+//		else
+//		{
+//			decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
+//		}
 
 		
 
