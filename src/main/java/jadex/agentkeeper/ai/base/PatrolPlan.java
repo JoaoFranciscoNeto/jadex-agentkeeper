@@ -43,6 +43,7 @@ public class PatrolPlan
 	 */
 	public PatrolPlan()
 	{
+//		System.out.println("create new patrol plan");
 		// getLogger().info("Created: "+this);
 	}
 
@@ -58,17 +59,18 @@ public class PatrolPlan
 
 		final Future<Void> ret = new Future<Void>();
 
-		IVector2 rndpos = findRndPos();
+		findRndPos().addResultListener(new DelegationResultListener<Void>(ret));
 
-		moveToLocation(rndpos).addResultListener(new DelegationResultListener<Void>(ret));
+		
 		return ret;
 	}
 
-	private Vector2Int findRndPos()
+	private IFuture<Void> findRndPos()
 	{
-		//TODO: thats ugly hack
-		while(true)
-		{
+			final Future<Void> ret = new Future<Void>();
+			
+			System.out.println("find rnd pos");
+		
 			Vector2Int rndpos = (Vector2Int)environment.getRandomGridPosition(Vector2Int.ZERO);
 
 			Vector2Int myloc = (Vector2Int)capa.getMySpaceObject().getProperty(ISObjStrings.PROPERTY_INTPOSITION);
@@ -78,10 +80,17 @@ public class PatrolPlan
 
 			if(astar.istErreichbar())
 			{
-				return rndpos;
+				moveToLocation(rndpos).addResultListener(new DelegationResultListener<Void>(ret));
 			}
+			else
+			{
+				ret.setResult(null);
+			}
+			
+			return ret;
+			
 
-		}
+		
 
 	}
 
@@ -92,21 +101,21 @@ public class PatrolPlan
 	{
 		final Future<Void> ret = new Future<Void>();
 
-		Vector2Int posi = new Vector2Int(pos.getXAsInteger(), pos.getYAsInteger());
+		Vector2Int posi = new Vector2Int(Math.round(pos.getXAsFloat()), Math.round(pos.getYAsFloat()));
 
 		IFuture<AchieveMoveToSector> fut = iplan.dispatchSubgoal(capa.new AchieveMoveToSector(posi));
 		fut.addResultListener(new ExceptionDelegationResultListener<AbstractBeingBDI.AchieveMoveToSector, Void>(ret)
 		{
 			public void customResultAvailable(AchieveMoveToSector mtg)
 			{
-//				System.out.println("patrol plan finished");
+				System.out.println("patrol plan finished");
 				ret.setResult(null);
 			}
-
+			
 			public void exceptionOccurred(Exception e)
 			{
-				System.out.println("exception patrol plan");
-				e.printStackTrace();
+				System.out.println("exception patrol");
+				super.exceptionOccurred(e);
 			}
 		});
 

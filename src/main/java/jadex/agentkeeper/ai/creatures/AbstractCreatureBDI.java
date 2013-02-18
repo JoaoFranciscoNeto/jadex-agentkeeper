@@ -1,8 +1,6 @@
 package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
-import jadex.agentkeeper.ai.AbstractBeingBDI.PerformIdle;
-import jadex.agentkeeper.ai.AbstractBeingBDI.PerformIdleForTime;
 import jadex.agentkeeper.ai.creatures.troll.TrollBDI.PerformPatrol;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.annotation.Belief;
@@ -85,10 +83,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalMaintainCondition(events="myAwakeStatus")
 		public boolean checkMaintain()
 		{
-			
-			boolean ret = myAwakeStatus>35.0;
-			System.out.println("maintain awake " + myAwakeStatus + " "+ret);
-			return ret;
+			return myAwakeStatus>35.0;
 		}
 		
 		/**

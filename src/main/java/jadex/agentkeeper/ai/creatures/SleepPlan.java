@@ -52,16 +52,43 @@ public class SleepPlan
 			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
 			{
 				System.out.println("finished achive move to");
-				sleepStep().addResultListener(new DelegationResultListener<Void>(ret));
+				sleep().addResultListener(new DelegationResultListener<Void>(ret));
 				
 			}
-
-			public void exceptionOccurred(Exception e)
-			{
-				System.out.println("exception sleep plan ");
-				e.printStackTrace();
-			}
 		});		
+		return ret;
+	}
+	
+	
+	
+	
+	
+	/**
+	 * Iterative Method
+	 * @param it iterator
+	 * @return empty result when finished
+	 */
+	private IFuture<Void> sleep()
+	{
+		final Future<Void> ret = new Future<Void>();
+		if(capa.getMyAwakeStatus() <= 100.0)
+		{
+			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Sleeping");
+			rplan.waitFor(1000).addResultListener(new DefaultResultListener<Void>()
+			{
+				public void resultAvailable(Void result)
+				{
+					sleep().addResultListener(new DelegationResultListener<Void>(ret));
+				}
+			});
+		}
+		else
+		{
+			System.out.println("finished sleeping");
+			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
+			ret.setResult(null);
+		}
+
 		return ret;
 	}
 	
@@ -105,42 +132,6 @@ public class SleepPlan
 					};
 				};
 				capa.getAgent().scheduleStep(loadstep);
-		return ret;
-	}
-	
-	
-	/**
-	 * Iterative Method
-	 * @param it iterator
-	 * @return empty result when finished
-	 */
-	private IFuture<Void> sleep()
-	{
-		System.out.println("try to sleep");
-		final Future<Void> ret = new Future<Void>();
-		if(capa.getMyAwakeStatus() <= 100.0)
-		{
-			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Sleeping");
-			rplan.waitFor(1000).addResultListener(new DefaultResultListener<Void>()
-			{
-				public void resultAvailable(Void result)
-				{
-					sleep().addResultListener(new DelegationResultListener<Void>(ret));
-				}
-				public void exceptionOccurred(Exception e)
-				{
-					System.out.println("exception sleep plan wait for 1000");
-					e.printStackTrace();
-				}
-			});
-		}
-		else
-		{
-			System.out.println("finished sleeping");
-			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
-			ret.setResult(null);
-		}
-
 		return ret;
 	}
 }

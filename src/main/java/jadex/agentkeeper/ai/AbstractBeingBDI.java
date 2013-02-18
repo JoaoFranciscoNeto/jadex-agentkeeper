@@ -116,10 +116,8 @@ public class AbstractBeingBDI
 	@AgentBody
 	public void body()
 	{
-		agent.dispatchTopLevelGoal(new PerformIdleForTime((int)(2000+Math.random()*5000)));
 		agent.dispatchTopLevelGoal(new PerformIdle());
-		
-//		agent.dispatchTopLevelGoal(new AchieveMoveToSector(new Vector2Int(9,18)));
+		agent.dispatchTopLevelGoal(new PerformIdleForTime((int)(2000+Math.random()*5000)));
 	}
 
 	/**
@@ -149,9 +147,6 @@ public class AbstractBeingBDI
 		public boolean checkTarget()
 		{
 			boolean ret = target.equals(myIntPosition);
-			
-//			System.out.print("myIntpos " + myIntPosition + " " );
-//			System.out.println("target " + target + " " + ret);
 
 			return ret;
 		}
@@ -173,7 +168,7 @@ public class AbstractBeingBDI
 	 *  Because the Goal has two Plans (IdlePlan and PatrolPlan) and we use randomselection
 	 *  the Agent just Idles or Patrols
 	 */
-	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false, randomselection=true)
+	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false)
 	public class PerformIdle
 	{
 	}

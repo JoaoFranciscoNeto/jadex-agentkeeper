@@ -114,7 +114,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 			double newValue = (Double)obj.getProperty(prop) + tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);
 			tmpValues.put(prop, 0.0);
-			System.out.println(prop + "+++++++++++++++++++ " + (Double)obj.getProperty(prop));
+			System.out.println(prop + " ++ " + (Double)obj.getProperty(prop));
 		}
 
 	}
