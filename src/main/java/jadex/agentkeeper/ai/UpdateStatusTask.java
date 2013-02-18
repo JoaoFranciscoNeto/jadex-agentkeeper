@@ -22,12 +22,14 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	/** The destination property. */
 	public static final String		PROPERTY_TYPENAME	= "updateStatus";
 
-	private static final double		awakeDecrease		= 0.0005*10;
-	private static final double		awakeIncrease		= 0.005*5;
+	private static final double		awakeDecrease		= 0.002;
 
-	private static final double		fedDecrease		= 0.001;
+	private static final double		awakeIncrease		= 0.01;
 
-	
+	private static final double		fedDecrease			= 0.001;
+	private static final double		fedIncrease			= 0.01;
+
+
 	/** Save the Temp-Values to set the new Value only when a limit is reached */
 	private HashMap<String, Double>	tmpValues;
 
@@ -53,36 +55,30 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	public void execute(IEnvironmentSpace space, ISpaceObject obj, long progress, IClockService clock)
 	{
 
-
-		boolean awake = (Double)obj.getProperty(PROPERTY_AWAKE) > 0;
-		boolean fullup = (Double)obj.getProperty(PROPERTY_FED) > 0;
-		
 		String status = (String)obj.getProperty(PROPERTY_STATUS);
 
-		if(awake || fullup)
+		double timeDecrease = (Double)space.getProperty(ISpaceStrings.GAME_SPEED) * progress;
+
+
+		if(status.equals("Sleeping"))
 		{
-			double timeDecrease = (Double)space.getProperty(ISpaceStrings.GAME_SPEED) * progress;
-
-			if(awake)
-			{
-				if(status.equals("Sleeping"))
-				{
-					increaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeIncrease);
-				}
-				else
-				{
-					decreaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeDecrease);
-				}
-				
-				
-			}
-
-			if(fullup)
-			{
-				decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
-			}
-
+			increaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeIncrease);
 		}
+		else
+		{
+			decreaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeDecrease);
+		}
+		
+		if(status.equals("Eating"))
+		{
+			increaseProperty(obj, PROPERTY_FED, timeDecrease * fedIncrease);
+		}
+		else
+		{
+			decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
+		}
+
+		
 
 
 	}
@@ -96,15 +92,12 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 			double newValue = (Double)obj.getProperty(prop) - tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);
 			tmpValues.put(prop, 0.0);
-			if(prop.equals(PROPERTY_AWAKE))
-			{
-//				System.out.println(prop + " " + (Double)obj.getProperty(prop));
-			}
-			
+
+
 		}
 
 	}
-	
+
 	private void increaseProperty(ISpaceObject obj, String prop, double amount)
 	{
 		tmpValues.put(prop, amount + tmpValues.get(prop));
@@ -114,7 +107,6 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 			double newValue = (Double)obj.getProperty(prop) + tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);
 			tmpValues.put(prop, 0.0);
-			System.out.println(prop + " ++ " + (Double)obj.getProperty(prop));
 		}
 
 	}

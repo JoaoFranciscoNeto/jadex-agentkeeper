@@ -12,6 +12,9 @@ import jadex.micro.annotation.Agent;
 @Agent
 public class WarlockBDI extends AbstractCreatureBDI
 {
-
+	public WarlockBDI()
+	{
+		this.mySpeed = 1.5f;
+	}
 
 }

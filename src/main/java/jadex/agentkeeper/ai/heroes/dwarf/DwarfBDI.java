@@ -1,6 +1,7 @@
 package jadex.agentkeeper.ai.heroes.dwarf;
 
 import jadex.agentkeeper.ai.heroes.AbstractHeroBDI;
+import jadex.micro.annotation.Agent;
 
 
 /**
@@ -9,6 +10,7 @@ import jadex.agentkeeper.ai.heroes.AbstractHeroBDI;
  * @author Philip Willuweit p.willuweit@gmx.de
  */
 
+@Agent
 public class DwarfBDI extends AbstractHeroBDI
 {
 
