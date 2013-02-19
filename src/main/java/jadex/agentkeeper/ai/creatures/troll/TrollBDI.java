@@ -34,7 +34,7 @@ public class TrollBDI extends AbstractCreatureBDI
 	public void body()
 	{
 		super.body();
-		agent.dispatchTopLevelGoal(new PerformPatrol());
+//		agent.dispatchTopLevelGoal(new PerformPatrol());
 //		agent.dispatchTopLevelGoal(new AchieveMoveToSector(new Vector2Int(9,18)));
 	}
 	
