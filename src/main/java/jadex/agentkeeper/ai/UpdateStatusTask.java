@@ -91,7 +91,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	{
 		tmpValues.put(prop, amount + tmpValues.get(prop));
 
-		if(tmpValues.get(prop) > 25)
+		if(tmpValues.get(prop) > 10)
 		{
 			double newValue = (Double)obj.getProperty(prop) - tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);
@@ -106,7 +106,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	{
 		tmpValues.put(prop, amount + tmpValues.get(prop));
 
-		if(tmpValues.get(prop) > 25)
+		if(tmpValues.get(prop) > 10)
 		{
 			double newValue = (Double)obj.getProperty(prop) + tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);
