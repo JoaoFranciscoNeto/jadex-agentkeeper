@@ -56,7 +56,8 @@ public class MoveToGridSectorPlan
 	 */
 	public MoveToGridSectorPlan()
 	{
-		// getLogger().info("Created: "+this);
+//		System.out.println("Created: " + this);
+//		 getLogger().info("Created: "+this);
 	}
 
 	// -------- methods --------

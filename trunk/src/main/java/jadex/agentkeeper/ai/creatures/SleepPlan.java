@@ -8,8 +8,6 @@ import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
 import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
-import jadex.bridge.IComponentStep;
-import jadex.bridge.IInternalAccess;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
@@ -31,27 +29,36 @@ public class SleepPlan
 	
 	protected SpaceObject spaceObject;
 	
+	
+	
 	/**
 	 *  The plan body.
 	 */
 	@PlanBody
 	public IFuture<Void> body()
 	{
-		this.spaceObject = (SpaceObject)capa.getMySpaceObject();
 		
-		final Future<Void> ret = new Future<Void>();
 		
-		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(capa.getMyLairPosition()));
-		fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
-		{
-			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
-			{
+//		System.out.println("new SleepPlan");
+		
+		
+//		
+//		final Future<Void> ret = new Future<Void>();
+//		
+//		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(capa.getMyLairPosition()));
+//		fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
+//		{
+//			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
+//			{
 //				System.out.println("|- | - - - - start sleeping - - - - | - |");
-				sleep().addResultListener(new DelegationResultListener<Void>(ret));
-				
-			}
-		});		
-		return ret;
+//				sleep().addResultListener(new DelegationResultListener<Void>(ret));
+//				
+//			}
+//		});		
+//		return ret;
+		this.spaceObject = (SpaceObject)capa.getMySpaceObject();
+		spaceObject.setProperty(ISObjStrings.PROPERTY_AWAKE, 200.0);
+		return IFuture.DONE;
 	}
 	
 	

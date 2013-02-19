@@ -84,6 +84,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalMaintainCondition(events="myAwakeStatus")
 		public boolean checkMaintain()
 		{
+//			System.out.println("checkMaintain");
 			return myAwakeStatus>5.0;
 		}
 		
@@ -94,6 +95,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalTargetCondition(events="myAwakeStatus")
 		public boolean checkTarget()
 		{
+//			System.out.println("checkTarget");
 			return myAwakeStatus>=100.0;
 		}
 	}

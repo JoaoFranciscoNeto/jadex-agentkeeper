@@ -169,7 +169,7 @@ public class AbstractBeingBDI
 	 *  Because the Goal has two Plans (IdlePlan and PatrolPlan) and we use randomselection
 	 *  the Agent just Idles or Patrols
 	 */
-	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false, randomselection=true)
+	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false, randomselection=true, retrydelay=500)
 	public class PerformIdle
 	{
 		public PerformIdle()
