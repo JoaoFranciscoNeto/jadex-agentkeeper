@@ -1,6 +1,5 @@
 package jadex.agentkeeper.ai.creatures;
 
-import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.annotation.PlanAPI;
@@ -10,7 +9,6 @@ import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.DelegationResultListener;
-import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.SpaceObject;
@@ -37,11 +35,6 @@ public class SleepPlan
 	@PlanBody
 	public IFuture<Void> body()
 	{
-		
-		
-//		System.out.println("new SleepPlan");
-		
-		
 //		
 //		final Future<Void> ret = new Future<Void>();
 //		
@@ -56,10 +49,18 @@ public class SleepPlan
 //			}
 //		});		
 //		return ret;
+		
 		this.spaceObject = (SpaceObject)capa.getMySpaceObject();
 		spaceObject.setProperty(ISObjStrings.PROPERTY_AWAKE, 200.0);
 		return IFuture.DONE;
+		
 	}
+//		System.out.println("new SleepPlan");
+		
+		
+
+
+
 	
 	
 	
