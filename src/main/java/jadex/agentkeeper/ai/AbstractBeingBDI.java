@@ -3,6 +3,7 @@ package jadex.agentkeeper.ai;
 
 
 import jadex.agentkeeper.ai.base.IdleForGivenDuration;
+import jadex.agentkeeper.ai.base.IdlePlan;
 import jadex.agentkeeper.ai.base.MoveToGridSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
@@ -43,7 +44,7 @@ import jadex.micro.annotation.AgentCreated;
 
 @Plan(trigger = @Trigger(goals = AbstractBeingBDI.AchieveMoveToSector.class), body = @Body(MoveToGridSectorPlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(PatrolPlan.class)),
-//@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class)),
+@Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdle.class), body=@Body(IdlePlan.class)),
 @Plan(trigger=@Trigger(goals=AbstractBeingBDI.PerformIdleForTime.class), body=@Body(IdleForGivenDuration.class))
 
 })
