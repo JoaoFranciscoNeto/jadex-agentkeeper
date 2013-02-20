@@ -190,33 +190,4 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		return null;
 	}
 
-	@Deprecated
-	public static boolean isMoveable(IVector2 pos, Grid2D gridext)
-	{
-		SpaceObject ob = InitMapProcess.getSolidTypeAtPos(pos, gridext);
-		if(ob!=null)
-		{
-			TileInfo info = TileInfo.getTileInfo(ob, TileInfo.class);
-			if(info.getWalkType() == WalkType.PASSABLE)
-			{
-				return true;
-			}
-		}
-//		for(MapType type : MapType.getOnlyMovables())
-//		{
-//			Collection sobjs = gridext.getSpaceObjectsByGridPosition(pos, type.toString());
-//			Collection sobjs2 = gridext.getSpaceObjectsByGridPosition(pos, null);
-//			
-//			System.out.println("for type: " + type.toString());
-//			System.out.println("sobjs: " + sobjs);
-//			System.out.println("sobjs2: " + sobjs2);
-//			if(sobjs != null)
-//			{
-//				return true;
-//			}
-//
-//		}
-		return false;
-	}
-
 }

@@ -60,7 +60,8 @@ public class AgentKeeperStandalone
 			"-welcome", "false",
 			"-cli", "false",
 			"-printpass", "false",
-			"-networkname", "\"agentkeeper\"",
+			"-awareness", "false",
+//			"-networkname", "\"agentkeeper\"",
 			"-kernels", "\"micro,bdibpmn,bdiv3,application,component\""
 		};
 		String[] newargs = new String[defargs.length+jargs.size()];

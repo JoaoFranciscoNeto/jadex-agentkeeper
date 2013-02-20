@@ -1,7 +1,6 @@
 package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
-import jadex.agentkeeper.ai.creatures.troll.TrollBDI.PerformPatrol;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.annotation.Belief;
 import jadex.bdiv3.annotation.Body;
@@ -57,7 +56,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	{
 		super.body();
 		agent.dispatchTopLevelGoal(new PerformOccupyLair());
-//		agent.dispatchTopLevelGoal(new MaintainCreatureAwake());
+		agent.dispatchTopLevelGoal(new MaintainCreatureAwake());
 	}
 
 	/**
@@ -65,7 +64,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	 */
 	
 	@Goal(excludemode = MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed = true, 
-			deliberation=@Deliberation(inhibits={PerformIdle.class, PerformPatrol.class, MaintainCreatureAwake.class}))
+			deliberation=@Deliberation(inhibits={PerformIdle.class,  MaintainCreatureAwake.class}))
 	public class PerformOccupyLair
 	{
 	}
@@ -73,7 +72,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 *  Goal for keeping the Creature awake.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, PerformPatrol.class}))
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}))
 	public class MaintainCreatureAwake
 	{
 		/**
@@ -83,7 +82,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalMaintainCondition(events="myAwakeStatus")
 		public boolean checkMaintain()
 		{
-//			System.out.println("checkMaintain");
+//			System.out.println("checkMaintain " + myAwakeStatus);
 			return myAwakeStatus>5.0;
 		}
 		
@@ -94,7 +93,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalTargetCondition(events="myAwakeStatus")
 		public boolean checkTarget()
 		{
-//			System.out.println("checkTarget");
+//			System.out.println("checkTarget" + myAwakeStatus);
 			return myAwakeStatus>=100.0;
 		}
 	}

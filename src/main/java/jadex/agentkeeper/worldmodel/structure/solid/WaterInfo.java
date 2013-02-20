@@ -10,7 +10,6 @@ public class WaterInfo extends SolidInfo
 	public WaterInfo(MapType mapType)
 	{
 		super(mapType);
-		this.walkType = WalkType.IMPASSABLE;
 	}
 
 }
