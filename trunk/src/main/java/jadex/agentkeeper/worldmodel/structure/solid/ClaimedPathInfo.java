@@ -14,7 +14,6 @@ public class ClaimedPathInfo extends SolidInfo
 	{
 		super(mapType);
 		myQuantity++;
-		this.walkType = WalkType.PASSABLE;
 		this.hasOwner = true;
 		this.neighbourType = NeighbourType.NONE;
 	}

@@ -50,6 +50,7 @@ public class IdlePlan
 	
 		String status = random > 0.5f ? "Idle" : "Dance";
 		
+		System.out.println("want to set idle/dance");
 		spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, status);
 		
 		long waittime = (long)(5000/(Double)capa.getEnvironment().getProperty(ISpaceStrings.GAME_SPEED) * random);

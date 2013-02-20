@@ -11,7 +11,6 @@ public class ImpenetrableRockInfo extends SolidInfo
 	{
 		super(mapType);
 		this.isBreakable = false;
-		this.walkType = WalkType.IMPASSABLE;
 		neighbours = new MapType[]{MapType.ROCK, MapType.GOLD, MapType.IMPENETRABLE_ROCK, MapType.REINFORCED_WALL};
 	}
 

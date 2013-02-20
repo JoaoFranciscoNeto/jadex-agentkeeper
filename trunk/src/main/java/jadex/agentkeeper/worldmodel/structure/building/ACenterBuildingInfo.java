@@ -16,7 +16,6 @@ public abstract class ACenterBuildingInfo extends BuildingInfo
 	{
 		super(mapType);
 		this.isCenter = false;
-		this.walkType = WalkType.PASSABLE;
 	}
 
 	
@@ -33,7 +32,6 @@ public abstract class ACenterBuildingInfo extends BuildingInfo
 	 */
 	public void setCenter(boolean isCenter) {
 		this.isCenter = isCenter;
-		this.walkType = isCenter? WalkType.IMPASSABLE : WalkType.PASSABLE;
 	}
 
 

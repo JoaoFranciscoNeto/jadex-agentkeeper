@@ -3,7 +3,6 @@ package jadex.agentkeeper.worldmodel.structure;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.NeighbourType;
-import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.extension.envsupport.environment.SpaceObject;
 
 
@@ -19,7 +18,6 @@ public abstract class TileInfo
 
 	protected String			neighbourhood;
 
-	protected WalkType			walkType;
 
 	protected boolean			locked;
 
@@ -34,7 +32,6 @@ public abstract class TileInfo
 		this.hitpoints = 10;
 		this.owner = 0;
 		this.neighbourhood = "00000000";
-		this.walkType = WalkType.PASSABLE;
 		this.neighbourType = NeighbourType.COMPLEX;
 		this.mapType = mapType;
 	}
@@ -87,22 +84,6 @@ public abstract class TileInfo
 	public void setNeighbourhood(String neighbourhood)
 	{
 		this.neighbourhood = neighbourhood;
-	}
-
-	/**
-	 * @return the walkType
-	 */
-	public WalkType getWalkType()
-	{
-		return walkType;
-	}
-
-	/**
-	 * @param walkType the walkType to set
-	 */
-	public void setWalkType(WalkType walkType)
-	{
-		this.walkType = walkType;
 	}
 
 	public static final <T> T getTileInfo(SpaceObject obj, Class<T> type)

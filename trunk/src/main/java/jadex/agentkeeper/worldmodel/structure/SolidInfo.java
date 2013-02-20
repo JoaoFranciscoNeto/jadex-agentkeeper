@@ -15,7 +15,6 @@ public abstract class SolidInfo extends TileInfo
 	public SolidInfo(MapType mapType)
 	{
 		super(mapType);
-		this.walkType = WalkType.IMPASSABLE;
 	}
 
 

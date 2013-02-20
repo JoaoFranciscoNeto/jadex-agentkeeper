@@ -15,87 +15,80 @@ import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.SpaceObject;
 
+
 public class SleepPlan
 {
-	
+
 	@PlanCapability
-	protected AbstractCreatureBDI capa;
-	
+	protected AbstractCreatureBDI	capa;
+
 	@PlanAPI
-	protected IPlan rplan;
+	protected IPlan					rplan;
 
 	@PlanReason
-	protected MaintainCreatureAwake goal;
-	
-	protected SpaceObject spaceObject;
-	
-	
-	
+	protected MaintainCreatureAwake	goal;
+
+	protected SpaceObject			spaceObject;
+
+
 	/**
-	 *  The plan body.
+	 * The plan body.
 	 */
 	@PlanBody
 	public IFuture<Void> body()
 	{
+		spaceObject = (SpaceObject)capa.getMySpaceObject();
+		final Future<Void> ret = new Future<Void>();
 
-//		final Future<Void> ret = new Future<Void>();
-//		
-//		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(capa.getMyLairPosition()));
-//		fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
-//		{
-//			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
-//			{
-//				System.out.println("|- | - - - - start sleeping - - - - | - |");
-//				sleep().addResultListener(new DelegationResultListener<Void>(ret));
-//				
-//			}
-//		});		
-//		return ret;
-		
-		this.spaceObject = (SpaceObject)capa.getMySpaceObject();
-		spaceObject.setProperty(ISObjStrings.PROPERTY_AWAKE, 110.0);
-		return IFuture.DONE;
-		
+		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(capa.getMyLairPosition()));
+//		System.out.println("- - - - - start walking to bed - - - - - ");
+		fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
+		{
+			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
+			{
+//				System.out.println("- - - - - start sleeping - - - - - ");
+				sleep().addResultListener(new DelegationResultListener<Void>(ret));
+			}
+		});
+
+
+		return ret;
+
 	}
 
-		
-		
 
-
-
-	
-	
-	
-	
-	
 	/**
 	 * Iterative Method
+	 * 
 	 * @param it iterator
 	 * @return empty result when finished
 	 */
 	private IFuture<Void> sleep()
 	{
-		
 		final Future<Void> ret = new Future<Void>();
-		if(capa.getMyAwakeStatus() < 100.0)
+
+		if(capa.getMyAwakeStatus() <= 100.0)
 		{
+
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Sleeping");
-			rplan.waitFor(500).addResultListener(new DefaultResultListener<Void>()
+			rplan.waitFor(100).addResultListener(new DefaultResultListener<Void>()
 			{
 				public void resultAvailable(Void result)
 				{
+
 					sleep().addResultListener(new DelegationResultListener<Void>(ret));
 				}
+
 			});
 		}
 		else
 		{
-			System.out.println("- - - - - finished sleeping - - - - - ");
+//			System.out.println("- - - - - finished sleeping - - - - - ");
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 			ret.setResult(null);
 		}
 
 		return ret;
 	}
-	
+
 }

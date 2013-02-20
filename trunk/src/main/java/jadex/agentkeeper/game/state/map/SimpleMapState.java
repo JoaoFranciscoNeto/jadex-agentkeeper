@@ -84,14 +84,15 @@ public class SimpleMapState
 	public boolean isMovable(Vector2Int pos)
 	{
 		boolean ret = false;
-//		if(mapTypes.get(pos) != null)
-//		{
+		if(mapTypes.get(pos) != null)
+		{
 			ret =  mapTypes.get(pos).getWalkType()==WalkType.PASSABLE;
-//		}
-//		else
-//		{
-//			ret = true;
-//		}
+		}
+		else
+		{
+			System.out.println("is movable ret null");
+			ret = true;
+		}
 		return ret;
 	}
 

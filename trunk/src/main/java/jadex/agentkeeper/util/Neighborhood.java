@@ -1,5 +1,6 @@
 package jadex.agentkeeper.util;
 
+import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.WalkType;
@@ -29,15 +30,11 @@ public class Neighborhood
 		for(Neighborcase neighborcase : Neighborcase.getSimple())
 		{
 			IVector2 ziel = zielpos.copy().add(neighborcase.getVector());
-			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
-			if(thatsme != null)
-			{
-				TileInfo info = TileInfo.getTileInfo(thatsme, TileInfo.class);
-				if(info.getWalkType() == WalkType.PASSABLE)
+				if(((SimpleMapState)grid.getProperty(ISpaceStrings.BUILDING_STATE)).isMovable((Vector2Int)ziel))
 				{
 					return true;
 				}
-			}
+
 		}
 		return ret;
 	}
@@ -54,8 +51,7 @@ public class Neighborhood
 			SpaceObject thatsme = InitMapProcess.getSolidTypeAtPos(ziel, grid);
 			if(thatsme != null)
 			{
-				TileInfo info = TileInfo.getTileInfo(thatsme, TileInfo.class);
-				if(info.getWalkType() == WalkType.PASSABLE)
+				if(((SimpleMapState)grid.getProperty(ISpaceStrings.BUILDING_STATE)).isMovable((Vector2Int)ziel))
 				{
 					return true;
 				}

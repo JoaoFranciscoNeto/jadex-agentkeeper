@@ -1,10 +1,11 @@
 package jadex.agentkeeper.game.userinput;
 
+import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.view.selection.SelectionArea;
 import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
 import jadex.extension.envsupport.environment.ISpaceObject;
@@ -38,6 +39,7 @@ public class UserEingabenManager {
 	private IEnvironmentSpace _space;
 	private Space2D _space2D;
 	private Grid2D _grid;
+	private SimpleMapState mapState;
 	private int _gold;
 	private int _mana;
 	private int _forschung;
@@ -47,6 +49,7 @@ public class UserEingabenManager {
 		_space2D = (Space2D) _space;
 		_grid = (Grid2D) _space2D;
 		_auftraege = (Auftragsverwalter) _space.getProperty("auftraege");
+		this.mapState = (SimpleMapState)space.getProperty(ISpaceStrings.BUILDING_STATE);
 	}
 
 
@@ -184,28 +187,13 @@ public class UserEingabenManager {
 		return false;
 	}
 
-	private boolean begehbar(Vector2Int punkt)
-	{
-
-		// TODO:: umschreiben
-		for(Object o : _grid.getSpaceObjectsByGridPosition(punkt, null))
-		{
-			if(o instanceof ISpaceObject)
-			{
-				TileInfo info = TileInfo.getTileInfo((SpaceObject)o, TileInfo.class);
-
-				return info.getWalkType() == WalkType.PASSABLE;
-
-			}
-		}
-		return false;
-	}
 
 	private boolean erreichbar(int x, int y) {
 		Vector2Int[] richtungen = best4Richtungen(x, y);
 
 		for (Vector2Int vector : richtungen) {
-			if (begehbar(vector)) {
+			
+			if (mapState.isMovable(vector)) {
 				return true;
 			}
 		}

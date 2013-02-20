@@ -56,12 +56,16 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	{
 
 		String status = (String)obj.getProperty(PROPERTY_STATUS);
+	
+		
+//		System.out.println("status: " + status);
 
 		double timeDecrease = (Double)space.getProperty(ISpaceStrings.GAME_SPEED) * progress;
 
 
 		if(status.equals("Sleeping"))
 		{
+//			System.out.println("status sleeping!!");
 			increaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeIncrease);
 		}
 		else
@@ -111,6 +115,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 
 		if(tmpValues.get(prop) > 5)
 		{
+//			System.out.println("increase:  " + (Double)obj.getProperty(PROPERTY_AWAKE));
 			double newValue = (Double)obj.getProperty(prop) + tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);
 			tmpValues.put(prop, 0.0);

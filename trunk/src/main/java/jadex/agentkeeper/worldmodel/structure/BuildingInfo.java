@@ -12,7 +12,6 @@ public abstract class BuildingInfo extends TileInfo
 	{
 		super(mapType);
 		this.hasOwner = true;
-		this.walkType = WalkType.PASSABLE;
 		this.hitpoints = 30;
 	}
 
