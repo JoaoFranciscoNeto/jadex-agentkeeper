@@ -147,20 +147,25 @@
 					<env:property name="position" />
 					<env:property name="awake" class="double">100.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
-					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/400,0.02,0.02)</env:property>
+					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
+					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
 					
 				</env:objecttype>
 				<env:objecttype name="troll">
 					<env:property name="position" />
 					<env:property name="awake" class="double">100.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
-					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/400,0.02,0.02)</env:property>
+					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
+					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
+					
 				</env:objecttype>
 				<env:objecttype name="warlock">
 					<env:property name="position" />
 					<env:property name="awake" class="double">100.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
-					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/400,0.02,0.02)</env:property>
+					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
+					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
+					
 				</env:objecttype>
 				<env:objecttype name="thief">
 					<env:property name="position" />
@@ -472,6 +477,9 @@
 
 					<env:drawable3d objecttype="imp" width="1" height="1"
 						depth="1" isDynamic="true">
+					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="-0.25" y="2.0" z="0">
+						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+					</env:quad>
 						<env:property name="level" dynamic="true">$object.getProperty("level").toString()
 						</env:property>
 						<env:property name="lifesize" dynamic="true">new
@@ -506,9 +514,48 @@
 					</env:sound3d>
 					</env:drawable3d>
 					
+
+					
+					
+					<env:drawable3d objecttype="thief" width="1" height="1" depth="1" isDynamic="true">
+					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="-0.25" y="2.0" z="0">
+						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+					</env:quad>
+						<env:object3d 
+						width="1" height="1" depth="1"
+						x="0" y="0" z="0"
+						modelpath="models/heroes/thief/Adventurer.j3o"
+						>
+						
+							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
+								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
+							</env:animation>
+							
+							<env:animation name="Idle" channel="chanA" loop="true">
+								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
+							</env:animation>
+							
+							<env:animation name="Attack1" channel="chanA" loop="true" speed="1">
+								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
+							</env:animation>
+							
+						</env:object3d>
+						
+					</env:drawable3d>
+					
+					
 					<env:drawable3d objecttype="warlock" width="1" height="1" depth="1" isDynamic="true">
 					
-					<env:box color="#FF0000" size="awakesize" x="0.2" y="2.0" z="0"></env:box>
+					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="-0.25" y="2.0" z="0">
+						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+					</env:quad>
+					
+					<env:quad color="#00FFFF" size="awakesize" x="-0.25" y="1.9" z="0">
+						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+					</env:quad>
+					<env:quad color="#FFDEAD" size="fedsize" x="-0.25" y="1.85" z="0">
+						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+					</env:quad>
 					
 						<env:object3d 
 						width="0.06" height="0.06" depth="0.06"
@@ -536,37 +583,21 @@
 						
 					</env:drawable3d>
 					
-					
-					<env:drawable3d objecttype="thief" width="1" height="1" depth="1" isDynamic="true">
-					
-						<env:object3d 
-						width="1" height="1" depth="1"
-						x="0" y="0" z="0"
-						modelpath="models/heroes/thief/Adventurer.j3o"
-						>
-						
-							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
-								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
-							</env:animation>
-							
-							<env:animation name="Idle" channel="chanA" loop="true">
-								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
-							</env:animation>
-							
-							<env:animation name="Attack1" channel="chanA" loop="true" speed="1">
-								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
-							</env:animation>
-							
-						</env:object3d>
-						
-					</env:drawable3d>
-					
 
 					<env:drawable3d objecttype="goblin" width="1"
 						height="1" depth="1">
 						
-						<env:box color="#FF0000" size="awakesize" x="0.2" y="1.8" z="0"></env:box>
-						
+						<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="-0.25" y="2.0" z="0">
+							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+						</env:quad>
+					
+						<env:quad color="#00FFFF" size="awakesize" x="-0.25" y="1.9" z="0">
+							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+						</env:quad>
+						<env:quad color="#FFDEAD" size="fedsize" x="-0.25" y="1.85" z="0">
+							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+						</env:quad>
+					
 						<env:object3d width="1.0" height="1.0" depth="1.0"
 							x="0" y="0" z="0"
 							modelpath="models/goblin/Goblin.j3o"
@@ -591,7 +622,16 @@
 					<env:drawable3d objecttype="troll" width="1"
 						height="1" depth="1">
 						
-						<env:box color="#FF0000" size="awakesize" x="0.2" y="1.8" z="0"></env:box>
+						<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="-0.25" y="2.0" z="0">
+							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+						</env:quad>
+						<env:quad color="#00FFFF" size="awakesize" x="-0.25" y="1.9" z="0">
+							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+						</env:quad>
+						<env:quad color="#FFDEAD" size="fedsize" x="-0.25" y="1.85" z="0">
+							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+						</env:quad>
+						
 						<env:object3d width="1" height="1" depth="1"
 							x="0" y="0" z="0"
 							modelpath="models/orc/Orc.j3o"
