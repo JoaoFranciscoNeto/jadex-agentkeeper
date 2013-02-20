@@ -90,6 +90,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		}
 		else
 		{
+			buildingState.addType(aktPos, tileinfo);
 			grid.createSpaceObject(type, tmpProps, null);
 		}
 

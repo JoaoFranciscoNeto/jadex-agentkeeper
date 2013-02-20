@@ -26,6 +26,7 @@ public abstract class TileInfo
 	protected NeighbourType		neighbourType;
 
 
+	//TODO: Remove MapType from Constructor
 	public TileInfo(MapType mapType)
 	{
 		this.hasOwner = false;
