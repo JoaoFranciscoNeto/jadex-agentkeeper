@@ -22,38 +22,40 @@ import java.util.EnumSet;
 public enum MapType
 {
 	// Unknown, need for MapEditor issues
-	UNKNOWN(TypeVariant.SOLIDMAP, UnknownInfo.class),
+	UNKNOWN(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, UnknownInfo.class),
 	
 	// Buildings
-	HATCHERY(TypeVariant.BUILDING, HatcheryInfo.class), 
-	LAIR(TypeVariant.BUILDING, LairInfo.class), 
-	LIBRARY(TypeVariant.BUILDING, LibraryInfo.class), 
-	PORTAL(TypeVariant.BUILDING, PortalInfo.class), 
-	TORTURE(TypeVariant.BUILDING, TortureInfo.class),
-	TREASURY(TypeVariant.BUILDING, TreasuryInfo.class), 
-	DUNGEONHEART(TypeVariant.BUILDING, DungeonHeartInfo.class), 
-	TRAININGROOM(TypeVariant.BUILDING, TrainingRoomInfo.class), 
+	HATCHERY(TypeVariant.BUILDING, WalkType.PASSABLE, HatcheryInfo.class), 
+	LAIR(TypeVariant.BUILDING, WalkType.PASSABLE, LairInfo.class), 
+	LIBRARY(TypeVariant.BUILDING, WalkType.PASSABLE, LibraryInfo.class), 
+	PORTAL(TypeVariant.BUILDING, WalkType.PASSABLE, PortalInfo.class), 
+	TORTURE(TypeVariant.BUILDING, WalkType.PASSABLE, TortureInfo.class),
+	TREASURY(TypeVariant.BUILDING, WalkType.PASSABLE, TreasuryInfo.class), 
+	DUNGEONHEART(TypeVariant.BUILDING, WalkType.PASSABLE, DungeonHeartInfo.class), 
+	TRAININGROOM(TypeVariant.BUILDING, WalkType.PASSABLE, TrainingRoomInfo.class), 
 	
 	//Solid Types
-	IMPENETRABLE_ROCK(TypeVariant.SOLIDMAP, ImpenetrableRockInfo.class),
-	ROCK(TypeVariant.SOLIDMAP, RockInfo.class),
-	REINFORCED_WALL(TypeVariant.SOLIDMAP, RockInfo.class),
-	GOLD(TypeVariant.SOLIDMAP, GoldInfo.class),
-	GOLD_DROPED(TypeVariant.SOLIDMAP, GoldInfo.class),
-	DIRT_PATH(TypeVariant.SOLIDMAP, DirtPathInfo.class),
-	CLAIMED_PATH(TypeVariant.SOLIDMAP, ClaimedPathInfo.class),
-	GEMS(TypeVariant.SOLIDMAP, DefaultTileInfo.class),
-	WATER(TypeVariant.SOLIDMAP, WaterInfo.class),
-	LAVA(TypeVariant.SOLIDMAP, WaterInfo.class),
-	HEROTILE(TypeVariant.SOLIDMAP, DefaultTileInfo.class);
+	IMPENETRABLE_ROCK(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, ImpenetrableRockInfo.class),
+	ROCK(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, RockInfo.class),
+	REINFORCED_WALL(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, RockInfo.class),
+	GOLD(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, GoldInfo.class),
+	GOLD_DROPED(TypeVariant.SOLIDMAP, WalkType.PASSABLE , GoldInfo.class),
+	DIRT_PATH(TypeVariant.SOLIDMAP , WalkType.PASSABLE , DirtPathInfo.class),
+	CLAIMED_PATH(TypeVariant.SOLIDMAP , WalkType.PASSABLE , ClaimedPathInfo.class),
+	GEMS(TypeVariant.SOLIDMAP , WalkType.IMPASSABLE , DefaultTileInfo.class),
+	WATER(TypeVariant.SOLIDMAP , WalkType.IMPASSABLE ,  WaterInfo.class),
+	LAVA(TypeVariant.SOLIDMAP, WalkType.PASSABLE, WaterInfo.class),
+	HEROTILE(TypeVariant.SOLIDMAP, WalkType.PASSABLE , DefaultTileInfo.class);
 
 	private Class<?> pojo;
 	private TypeVariant variant;
+	private WalkType walkType;
 	
-	private MapType(TypeVariant variant, Class<?> pojo)
+	private MapType(TypeVariant variant, WalkType walkType, Class<?> pojo)
 	{
 		this.variant = variant;
 		this.pojo = pojo;
+		this.walkType = walkType;
 	}
 	
 	/**
@@ -106,6 +108,22 @@ public enum MapType
 	public void setVariant(TypeVariant variant)
 	{
 		this.variant = variant;
+	}
+
+	/**
+	 * @return the walkType
+	 */
+	public WalkType getWalkType()
+	{
+		return walkType;
+	}
+
+	/**
+	 * @param walkType the walkType to set
+	 */
+	public void setWalkType(WalkType walkType)
+	{
+		this.walkType = walkType;
 	}
 
 }

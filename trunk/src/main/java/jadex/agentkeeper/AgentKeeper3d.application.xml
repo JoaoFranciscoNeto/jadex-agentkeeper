@@ -518,6 +518,7 @@
 					
 					
 					<env:drawable3d objecttype="thief" width="1" height="1" depth="1" isDynamic="true">
+
 					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
 						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 					</env:quad>
@@ -585,8 +586,7 @@
 					
 
 					<env:drawable3d objecttype="goblin" width="1"
-						height="1" depth="1">
-						
+						height="1" depth="1">					
 						<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
 							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 						</env:quad>

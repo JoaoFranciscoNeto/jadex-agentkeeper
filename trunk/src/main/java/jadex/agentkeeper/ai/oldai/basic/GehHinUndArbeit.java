@@ -10,6 +10,7 @@ import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Space2D;
+import jadex.extension.envsupport.evaluation.SpaceObjectSource;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
@@ -140,6 +141,7 @@ public abstract class GehHinUndArbeit extends KreaturenPlan
 			{
 				tile = newTyp.getPojo().getDeclaredConstructor(MapType.class).newInstance(newTyp);
 				props.put(ISObjStrings.PROPERTY_TILEINFO, tile);
+				mapstate.addType((Vector2Int)zielpos, tile);
 			}
 			catch(InstantiationException e1)
 			{
@@ -175,8 +177,8 @@ public abstract class GehHinUndArbeit extends KreaturenPlan
 
 			SpaceObject sobs = InitMapProcess.getFieldTypeAtPos(zielpos, grid);
 			if(!newTyp.equals(sobs.getType()))
-			{
-//				System.out.println("newType: " + newTyp.toString());
+			{		
+				
 				grid.createSpaceObject(newTyp.toString(), props, null);
 			}
 			else
@@ -187,7 +189,8 @@ public abstract class GehHinUndArbeit extends KreaturenPlan
 
 			try
 			{
-
+				
+//				mapstate.remType((Vector2Int)zielpos, sob.getProperty(ISObjStrings.PROPERTY_TILEINFO));
 				grid.destroySpaceObject(sob.getId());
 			}
 

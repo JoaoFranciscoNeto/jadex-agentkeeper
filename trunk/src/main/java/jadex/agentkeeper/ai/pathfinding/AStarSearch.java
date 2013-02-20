@@ -1,6 +1,8 @@
 package jadex.agentkeeper.ai.pathfinding;
 
+import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
@@ -28,7 +30,8 @@ public class AStarSearch {
 	private final Waypoint _start;
 	private ArrayList<Waypoint> _offeneliste;
 	private ArrayList<Waypoint> _geschlosseneliste;
-	private final Grid2D _space;
+	private final Grid2D environment;
+	private SimpleMapState mapState;
 	private Vector2Int _zielvector;
 	private Waypoint _niedrigster;
 	private boolean _direkt;
@@ -39,7 +42,8 @@ public class AStarSearch {
 		
 //		System.out.println("new astar search");
 		
-		_space = space;
+		environment = space;
+		mapState = (SimpleMapState)environment.getProperty(ISpaceStrings.BUILDING_STATE);
 		_direkt = direkt;
 		_niedrigster = null;
 
@@ -311,11 +315,9 @@ public class AStarSearch {
 
 	//Prueft ob ein Punkt begehbar ist
 	private boolean begehbar(Vector2Int punkt) {
-		if(InitMapProcess.isMoveable(punkt, _space))
-		{
-			return true;
-		}
-		return false;
+		
+		
+		return mapState.isMovable(punkt);
 
 
 	}
