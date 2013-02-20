@@ -22,7 +22,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	/** The destination property. */
 	public static final String		PROPERTY_TYPENAME	= "updateStatus";
 
-	private static final double		awakeDecrease		= 0.002*2;
+	private static final double		awakeDecrease		= 0.0005;
 
 	private static final double		awakeIncrease		= 0.01;
 
@@ -73,14 +73,17 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 			
 		}
 		
-//		if(status.equals("Eating"))
-//		{
-//			increaseProperty(obj, PROPERTY_FED, timeDecrease * fedIncrease);
-//		}
-//		else
-//		{
-//			decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
-//		}
+		if(status.equals("Eating"))
+		{
+			increaseProperty(obj, PROPERTY_FED, timeDecrease * fedIncrease);
+		}
+		else
+		{
+			if((Double)obj.getProperty(PROPERTY_FED)>0)
+			{
+			decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
+			}
+		}
 
 		
 
@@ -91,7 +94,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	{
 		tmpValues.put(prop, amount + tmpValues.get(prop));
 
-		if(tmpValues.get(prop) > 10)
+		if(tmpValues.get(prop) > 5)
 		{
 			double newValue = (Double)obj.getProperty(prop) - tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);
@@ -106,7 +109,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	{
 		tmpValues.put(prop, amount + tmpValues.get(prop));
 
-		if(tmpValues.get(prop) > 10)
+		if(tmpValues.get(prop) > 5)
 		{
 			double newValue = (Double)obj.getProperty(prop) + tmpValues.get(prop);
 			obj.setProperty(prop, newValue > 0 ? newValue : 0);

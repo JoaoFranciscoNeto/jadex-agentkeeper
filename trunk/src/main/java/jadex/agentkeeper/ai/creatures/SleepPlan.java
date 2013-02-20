@@ -1,5 +1,6 @@
 package jadex.agentkeeper.ai.creatures;
 
+import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.annotation.PlanAPI;
@@ -9,6 +10,7 @@ import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.DelegationResultListener;
+import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.SpaceObject;
@@ -35,7 +37,7 @@ public class SleepPlan
 	@PlanBody
 	public IFuture<Void> body()
 	{
-//		
+
 //		final Future<Void> ret = new Future<Void>();
 //		
 //		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(capa.getMyLairPosition()));
@@ -51,11 +53,11 @@ public class SleepPlan
 //		return ret;
 		
 		this.spaceObject = (SpaceObject)capa.getMySpaceObject();
-		spaceObject.setProperty(ISObjStrings.PROPERTY_AWAKE, 200.0);
+		spaceObject.setProperty(ISObjStrings.PROPERTY_AWAKE, 110.0);
 		return IFuture.DONE;
 		
 	}
-//		System.out.println("new SleepPlan");
+
 		
 		
 
@@ -88,7 +90,7 @@ public class SleepPlan
 		}
 		else
 		{
-//			System.out.println("- - - - - finished sleeping - - - - - ");
+			System.out.println("- - - - - finished sleeping - - - - - ");
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 			ret.setResult(null);
 		}
