@@ -1,5 +1,6 @@
 package jadex.agentkeeper.ai;
 
+import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.bridge.service.types.clock.IClockService;
@@ -71,12 +72,12 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 		else
 		{
 
-			if((Double)obj.getProperty(PROPERTY_AWAKE)>0&&!((String)obj.getProperty(PROPERTY_GOAL)).equals("Eat"))
+			if((Double)obj.getProperty(PROPERTY_AWAKE)>0&&!((PlanType)obj.getProperty(PROPERTY_GOAL) == PlanType.EAT))
 			{
 				decreaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeDecrease);
 			}
 			
-			if((Double)obj.getProperty(PROPERTY_FED)>0&&!((String)obj.getProperty(PROPERTY_GOAL)).equals("Sleep"))
+			if((Double)obj.getProperty(PROPERTY_FED)>0&&!((PlanType)obj.getProperty(PROPERTY_GOAL) == PlanType.SLEEP))
 			{
 				decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
 			}

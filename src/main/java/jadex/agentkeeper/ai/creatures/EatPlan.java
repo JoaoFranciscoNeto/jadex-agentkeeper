@@ -2,6 +2,7 @@ package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureFed;
+import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
@@ -81,7 +82,7 @@ public class EatPlan
 
 		if(targetHatchery != null)
 		{
-			spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "Eat");
+			spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.EAT);
 			IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(targetHatchery));
 			// System.out.println("- - - - - start walking to bed - - - - - ");
 			fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
