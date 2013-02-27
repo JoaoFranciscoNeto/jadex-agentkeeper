@@ -4,6 +4,7 @@ package jadex.agentkeeper.ai.creatures;
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
+import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.building.LairInfo;
@@ -42,7 +43,7 @@ public class OccupyLairPlan
 	@PlanAPI
 	protected IPlan				iplan;
 
-	protected SpaceObject		spaceobject;
+	protected SpaceObject		spaceObject;
 
 	protected Grid2D			environment;
 
@@ -71,7 +72,9 @@ public class OccupyLairPlan
 	{
 		environment = capa.getEnvironment();
 
-		spaceobject = (SpaceObject)capa.getMySpaceObject();
+		spaceObject = (SpaceObject)capa.getMySpaceObject();
+		
+		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "GetLair");
 
 		buildingState = (SimpleMapState)environment.getProperty(ISpaceStrings.BUILDING_STATE);
 
@@ -142,7 +145,7 @@ public class OccupyLairPlan
 //		System.out.println("yeah ! + pos " + pos);
 		final Future<Void> ret = new Future<Void>();
 		
-		lairInfo.setCreatureId((Long)spaceobject.getId());
+		lairInfo.setCreatureId((Long)spaceObject.getId());
 		Collection<SpaceObject> col = environment.getSpaceObjectsByGridPosition(pos, MapType.LAIR.toString());
 		SpaceObject oldlair = col.iterator().next();
 		

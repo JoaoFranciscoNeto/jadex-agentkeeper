@@ -12,6 +12,7 @@ import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
+import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
@@ -34,6 +35,8 @@ public class PatrolPlan
 
 	protected AStarSearch		astar;
 
+	protected SpaceObject		spaceObject;
+
 	// -------- constructors --------
 
 	/**
@@ -41,7 +44,7 @@ public class PatrolPlan
 	 */
 	public PatrolPlan()
 	{
-//		System.out.println("create new patrol plan");
+		// System.out.println("create new patrol plan");
 		// getLogger().info("Created: "+this);
 	}
 
@@ -55,8 +58,12 @@ public class PatrolPlan
 	{
 		environment = capa.getEnvironment();
 
+		spaceObject = (SpaceObject)capa.getMySpaceObject();
+
+		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "Patrol");
+
 		final Future<Void> ret = new Future<Void>();
-		
+
 		iplan.waitFor(100).addResultListener(new DelegationResultListener<Void>(ret)
 		{
 			public void customResultAvailable(Void result)
@@ -65,37 +72,33 @@ public class PatrolPlan
 			}
 		});
 
-		
 
-		
 		return ret;
 	}
 
 	private IFuture<Void> findRndPos()
 	{
-			final Future<Void> ret = new Future<Void>();
-			
-			Vector2Int rndpos = (Vector2Int)environment.getRandomGridPosition(Vector2Int.ZERO);
+		final Future<Void> ret = new Future<Void>();
 
-			Vector2Int myloc = (Vector2Int)capa.getMySpaceObject().getProperty(ISObjStrings.PROPERTY_INTPOSITION);
+		Vector2Int rndpos = (Vector2Int)environment.getRandomGridPosition(Vector2Int.ZERO);
 
-			// TODO: refractor AStar-Search
-			AStarSearch astar = new AStarSearch(myloc.copy(), rndpos, environment, true);
+		Vector2Int myloc = (Vector2Int)spaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION);
 
-			if(astar.istErreichbar())
-			{
-//				System.out.println("reachable");
-				moveToLocation(rndpos).addResultListener(new DelegationResultListener<Void>(ret));
-			}
-			else
-			{
-				ret.setResult(null);
-			}
-			
-			return ret;
-			
+		// TODO: refractor AStar-Search
+		AStarSearch astar = new AStarSearch(myloc.copy(), rndpos, environment, true);
 
-		
+		if(astar.istErreichbar())
+		{
+			// System.out.println("reachable");
+			moveToLocation(rndpos).addResultListener(new DelegationResultListener<Void>(ret));
+		}
+		else
+		{
+			ret.setResult(null);
+		}
+
+		return ret;
+
 
 	}
 
@@ -113,13 +116,13 @@ public class PatrolPlan
 		{
 			public void customResultAvailable(AchieveMoveToSector mtg)
 			{
-//				System.out.println("patrol plan finished");
+				// System.out.println("patrol plan finished");
 				ret.setResult(null);
 			}
-			
+
 			public void exceptionOccurred(Exception e)
 			{
-//				System.out.println("exception patrol");
+				// System.out.println("exception patrol");
 				super.exceptionOccurred(e);
 			}
 		});

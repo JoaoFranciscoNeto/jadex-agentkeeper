@@ -12,6 +12,5 @@ public class LibraryInfo extends ACenterBuildingInfo
 		super(mapType);
 		this.neighbourType = NeighbourType.NONE;
 		this.hitpoints = 30;
-		this.hitpoints = isCenter ? 60 : 30;
 	}
 }

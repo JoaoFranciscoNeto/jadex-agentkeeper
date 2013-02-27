@@ -22,11 +22,11 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	/** The destination property. */
 	public static final String		PROPERTY_TYPENAME	= "updateStatus";
 
-	private static final double		awakeDecrease		= 0.0005*2.5;
+	private static final double		awakeDecrease		= 0.0005*2;
 
 	private static final double		awakeIncrease		= 0.003;
 
-	private static final double		fedDecrease			= 0.001;
+	private static final double		fedDecrease			= 0.001*3;
 	private static final double		fedIncrease			= 0.01;
 
 
@@ -70,24 +70,30 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 		}
 		else
 		{
-			if((Double)obj.getProperty(PROPERTY_AWAKE)>0)
+
+			if((Double)obj.getProperty(PROPERTY_AWAKE)>0&&!((String)obj.getProperty(PROPERTY_GOAL)).equals("Eat"))
 			{
 				decreaseProperty(obj, PROPERTY_AWAKE, timeDecrease * awakeDecrease);
 			}
 			
+			if((Double)obj.getProperty(PROPERTY_FED)>0&&!((String)obj.getProperty(PROPERTY_GOAL)).equals("Sleep"))
+			{
+				decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
+			}
+			
 		}
 		
-		if(status.equals("Eating"))
-		{
-			increaseProperty(obj, PROPERTY_FED, timeDecrease * fedIncrease);
-		}
-		else
-		{
-			if((Double)obj.getProperty(PROPERTY_FED)>0)
-			{
-			decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
-			}
-		}
+//		if(status.equals("Eating"))
+//		{
+//			increaseProperty(obj, PROPERTY_FED, timeDecrease * fedIncrease);
+//		}
+//		else
+//		{
+//			if((Double)obj.getProperty(PROPERTY_FED)>0)
+//			{
+//			decreaseProperty(obj, PROPERTY_FED, timeDecrease * fedDecrease);
+//			}
+//		}
 
 		
 

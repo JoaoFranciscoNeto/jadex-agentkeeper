@@ -35,6 +35,8 @@ public class IdlePlan
 	public IFuture<Void> body()
 	{
 		spaceObject = capa.getMySpaceObject();
+		
+		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "Idle");
 
 		final Future<Void> ret = new Future<Void>();
 

@@ -27,6 +27,7 @@ import jadex.micro.annotation.AgentBody;
 @Agent
 @Plans({
 @Plan(trigger = @Trigger(goals = AbstractCreatureBDI.MaintainCreatureAwake.class), body = @Body(SleepPlan.class)),
+@Plan(trigger = @Trigger(goals = AbstractCreatureBDI.MaintainCreatureFed.class), body = @Body(EatPlan.class)),
 @Plan(trigger = @Trigger(goals = AbstractCreatureBDI.PerformOccupyLair.class), body = @Body(OccupyLairPlan.class))})
 public class AbstractCreatureBDI extends AbstractBeingBDI
 {
@@ -57,6 +58,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		super.body();
 		agent.dispatchTopLevelGoal(new PerformOccupyLair());
 		agent.dispatchTopLevelGoal(new MaintainCreatureAwake());
+		agent.dispatchTopLevelGoal(new MaintainCreatureFed());
 	}
 
 	/**
@@ -64,7 +66,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	 */
 	
 	@Goal(excludemode = MGoal.EXCLUDE_WHEN_SUCCEEDED, succeedonpassed = true, 
-			deliberation=@Deliberation(inhibits={PerformIdle.class,  MaintainCreatureAwake.class}))
+			deliberation=@Deliberation(inhibits={PerformIdle.class,  MaintainCreatureAwake.class, MaintainCreatureFed.class}))
 	public class PerformOccupyLair
 	{
 	}
@@ -82,7 +84,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalMaintainCondition(events="myAwakeStatus")
 		public boolean checkMaintain()
 		{
-//			System.out.println("checkMaintain " + myAwakeStatus);
+
 			return myAwakeStatus>5.0;
 		}
 		
@@ -95,6 +97,34 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		{
 //			System.out.println("checkTarget" + myAwakeStatus);
 			return myAwakeStatus>=100.0;
+		}
+	}
+	
+	
+	/**
+	 *  Goal for keeping the Creature feeded.
+	 */
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}))
+	public class MaintainCreatureFed
+	{
+		/**
+		 *  When the FedStatus is below 5.0
+		 *  the Creature will activate this goal.
+		 */
+		@GoalMaintainCondition(events="myFedStatus")
+		public boolean checkMaintain()
+		{
+			return myFedStatus>5.0;
+		}
+		
+		/**
+		 *  The target condition determines when
+		 *  the goal goes back to idle. 
+		 */
+		@GoalTargetCondition(events="myFedStatus")
+		public boolean checkTarget()
+		{
+			return myFedStatus>=100.0;
 		}
 	}
 	

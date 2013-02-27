@@ -20,6 +20,8 @@ public class SimpleMapState
 	private HashMap<MapType, HashMap<Vector2Int, Object>> typesList = new HashMap<MapType, HashMap<Vector2Int, Object>>();
 	
 	private HashMap<Vector2Int, MapType> mapTypes = new HashMap<Vector2Int, MapType>();
+	
+	private HashMap<Vector2Int, TileInfo> mapInfo = new HashMap<Vector2Int, TileInfo>();
 
 
 
@@ -50,7 +52,9 @@ public class SimpleMapState
 		TileInfo info = (TileInfo)object;
 		HashMap<Vector2Int, Object> myList = this.typesList.get(info.getMapType());
 		myList.put(location, object);
+		this.typesList.put(info.getMapType(), myList);
 		mapTypes.put(location, info.getMapType());
+		mapInfo.put(location, (TileInfo)object);
 	}
 	
 	
@@ -76,6 +80,18 @@ public class SimpleMapState
 	public MapType getTypeAtPos(Vector2Int pos)
 	{
 		return mapTypes.get(pos);
+	}
+	
+	/**
+	 * 
+	 * Get the Type from a position
+	 * 
+	 * @param pos
+	 * @return x
+	 */
+	public TileInfo getTileAtPos(Vector2Int pos)
+	{
+		return mapInfo.get(pos);
 	}
 	
 	/**
