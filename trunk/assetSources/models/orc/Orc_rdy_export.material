@@ -1,0 +1,324 @@
+
+material _missing_material_
+{
+    receive_shadows off
+    technique
+    {
+        pass
+        {
+            ambient 0.1 0.1 0.1 1.0
+            diffuse 0.8 0.0 0.0 1.0
+            specular 0.5 0.5 0.5 1.0 12.5
+            emissive 0.3 0.3 0.3 1.0
+        }
+    }
+}
+
+// Leatherarmor genrated by blender2ogre 0.5.8
+
+material Leatherarmor 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Leatherarmor
+        {
+            ambient 0.6242464780807495 0.5526060461997986 0.4629763662815094 1.0
+            diffuse 0.3303166436645242 0.2924084970581582 0.24498143726222743 1.0
+            specular 0.5551425218582153 0.5551425218582153 0.5551425218582153 1.0 12.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+            texture_unit 
+            {
+                texture Orc2Armor_col.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Orc2Armor_nor.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Orc2Armor_spec.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+        }
+    }
+}
+// Leder2.001 genrated by blender2ogre 0.5.8
+
+material Leder2.001 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Leder2.001
+        {
+            ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
+            diffuse 0.13079201177942767 0.13079201177942767 0.13079201177942767 1.0
+            specular 0.2924179136753082 0.2924179136753082 0.2924179136753082 1.0 7.75
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+            texture_unit 
+            {
+                texture Leder2Dark.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Leder2_nor.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Leder2_spec.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+        }
+    }
+}
+// Linen genrated by blender2ogre 0.5.8
+
+material Linen 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Linen
+        {
+            ambient 0.5263009071350098 0.5163396000862122 0.48026713728904724 1.0
+            diffuse 0.30455427669207324 0.29878997223805115 0.2779159386448047 1.0
+            specular 0.05009503662586212 0.05009503662586212 0.05009503662586212 1.0 4.0
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+        }
+    }
+}
+// Leder2 genrated by blender2ogre 0.5.8
+
+material Leder2 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Leder2
+        {
+            ambient 0.13060151040554047 0.11369149386882782 0.09686144441366196 1.0
+            diffuse 0.08620458235357997 0.07504298928614173 0.06393417913710442 1.0
+            specular 0.2924179136753082 0.2924179136753082 0.2924179136753082 1.0 7.75
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+            texture_unit 
+            {
+                texture Leder2Dark.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Leder2_nor.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Leder2_spec.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+        }
+    }
+}
+// Orc2_Armor genrated by blender2ogre 0.5.8
+
+material Orc2_Armor 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Orc2_Armor
+        {
+            ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
+            diffuse 0.6159000011667608 0.6159000011667608 0.6159000011667608 1.0
+            specular 0.1564769209881529 0.18662449796598146 0.2083166072002669 1.0 13.0
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+            texture_unit 
+            {
+                texture Orc2low_col.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Orc2low_nor.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Orc2low_spec.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+        }
+    }
+}
+// Orc2 genrated by blender2ogre 0.5.8
+
+material Orc2 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass Orc2
+        {
+            ambient 0.800000011920929 0.800000011920929 0.800000011920929 1.0
+            diffuse 0.6158999534830443 0.6158999534830443 0.6158999534830443 1.0
+            specular 0.0736164530765584 0.0877997439538647 0.09800505814009064 1.0 37.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+            texture_unit 
+            {
+                texture Orc2_nor.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+            texture_unit 
+            {
+                texture Orc2_col.png
+                tex_address_mode wrap
+                scale 1.0 1.0
+                colour_op modulate
+            }
+        }
+    }
+}
