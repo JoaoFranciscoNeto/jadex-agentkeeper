@@ -11,7 +11,6 @@ public class HatcheryInfo extends ACenterBuildingInfo {
 	{
 		super(mapType);
 		this.hitpoints = 30;
-		this.hitpoints = isCenter ? 60 : 30;
 	}
 
 	public int getNumChickens() {

@@ -71,6 +71,7 @@ public class MoveToGridSectorPlan
 		final Future<Void> ret = new Future<Void>();
 		
 		spaceObject = capa.getMySpaceObject();
+
 		Vector2Int target = goal.getTarget();
 		
 		Vector2Double myLoc = capa.getMyPosition();
