@@ -2,6 +2,7 @@ package jadex.agentkeeper.ai.base;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
+import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.annotation.PlanAPI;
@@ -60,7 +61,7 @@ public class PatrolPlan
 
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
 
-		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "Patrol");
+		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.PATROL);
 
 		final Future<Void> ret = new Future<Void>();
 

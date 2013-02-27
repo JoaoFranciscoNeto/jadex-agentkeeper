@@ -3,6 +3,7 @@ package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
+import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
@@ -74,7 +75,7 @@ public class OccupyLairPlan
 
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
 		
-		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "GetLair");
+		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.GETLAIR);
 
 		buildingState = (SimpleMapState)environment.getProperty(ISpaceStrings.BUILDING_STATE);
 

@@ -1,6 +1,7 @@
 package jadex.agentkeeper.ai.base;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
+import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.bdiv3.annotation.PlanAPI;
@@ -36,7 +37,7 @@ public class IdlePlan
 	{
 		spaceObject = capa.getMySpaceObject();
 		
-		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "Idle");
+		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.IDLE);
 
 		final Future<Void> ret = new Future<Void>();
 

@@ -17,6 +17,7 @@
 		<import>jadex.extension.envsupport.observer.perspective.*</import>
 		<import>jadex.agentkeeper.ai.*</import>
 		<import>jadex.agentkeeper.ai.base.*</import>
+		<import>jadex.agentkeeper.ai.enums.*</import>
 		<import>jadex.agentkeeper.ai.oldai.basic.*</import>
 		<import>jadex.agentkeeper.state.missions.*</import>
 		<import>jadex.agentkeeper.init.map.*</import>
@@ -142,7 +143,7 @@
 					<env:property name="loyalitaet" class="double">5.0</env:property>
 					
 					<env:property name="status" class="String">"Idle"</env:property>
-					<env:property name="goal" class="String">"goal"</env:property>
+					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
 				<env:objecttype name="goblin">
 					<env:property name="position" />
@@ -150,7 +151,7 @@
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
 					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
-					<env:property name="goal" class="String">"goal"</env:property>
+					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
 				<env:objecttype name="troll">
 					<env:property name="position" />
@@ -158,7 +159,7 @@
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
 					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
-					<env:property name="goal" class="String">"goal"</env:property>
+					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
 				<env:objecttype name="warlock">
 					<env:property name="position" />
@@ -166,13 +167,13 @@
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
 					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
-					<env:property name="goal" class="String">"goal"</env:property>
+					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
 				<env:objecttype name="thief">
 					<env:property name="position" />
 					<env:property name="awake" class="double">100.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
-					<env:property name="goal" class="String">"goal"</env:property>
+					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
 			</env:objecttypes>
 			

@@ -2,6 +2,7 @@ package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
+import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
@@ -38,7 +39,7 @@ public class SleepPlan
 	{
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
 		
-		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, "Sleep");
+		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.SLEEP);
 		
 		final Future<Void> ret = new Future<Void>();
 
