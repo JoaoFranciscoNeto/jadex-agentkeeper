@@ -23,11 +23,11 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 	/** The destination property. */
 	public static final String		PROPERTY_TYPENAME	= "updateStatus";
 
-	private static final double		awakeDecrease		= 0.0005*2;
+	private static final double		awakeDecrease		= 0.0005;
 
 	private static final double		awakeIncrease		= 0.003;
 
-	private static final double		fedDecrease			= 0.001*3;
+	private static final double		fedDecrease			= 0.001;
 	private static final double		fedIncrease			= 0.01;
 
 

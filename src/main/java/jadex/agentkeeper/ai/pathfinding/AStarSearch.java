@@ -333,7 +333,7 @@ public class AStarSearch {
 		
 		Collections.reverse(ret);
 		
-//		ret.remove(0);
+		ret.remove(0);
 		
 		return ret;
 	}
