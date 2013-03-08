@@ -1,10 +1,12 @@
 Material MyMaterial : Common/MatDefs/Light/Lighting.j3md {
     MaterialParameters {
-        DiffuseMap : textures/creatures/chicken/paultry.png
+        DiffuseMap : textures/creatures/chicken/ChickenE.png
         UseMaterialColors : true
         Specular : 1.0 1.0 1.0 1.0
         Diffuse : 1.0 1.0 1.0 1.0
         Ambient : 1.0 1.0 0.4 1.0
+        NormalMap : textures/creatures/chicken/ChickenE_nor.png
+        SpecularMap : textures/creatures/chicken/ChickenE_spec.png
     }
     AdditionalRenderState {
       FaceCull Back

@@ -436,6 +436,11 @@
 							materialpath="models/tilesets/buildings/border/default.j3m">
 						</env:object3d>
 						
+						<env:object3d width="0.75" height="0.75" depth="0.75" x="0" y="0" z="0" 
+							modelpath="models/creatures/chicken/chicken.j3o"
+							materialpath="models/creatures/chicken/chicken-Material.j3m">
+						</env:object3d>
+						
 						<env:object3d width="0.65" height="0.65" depth="0.65" x="0" y="0" z="0" 
 						modelpath="models/buildings/hatchery/farm.j3o" 
 						materialpath="models/buildings/hatchery/farm.j3m"
