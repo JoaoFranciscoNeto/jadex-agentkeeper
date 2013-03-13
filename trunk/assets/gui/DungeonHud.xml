@@ -193,6 +193,11 @@
 								visibleToMouse="true" height="50%" valign="center" align="left">
 								<interact onClick="fireFullscreen()" />
 							</control>
+							
+							<control name="button" label="ShowBars" id="ShowBarsButton"
+								visibleToMouse="true" height="50%" valign="center" align="left">
+								<interact onClick="changeShowBars()" />
+							</control>
 
 
 							<control name="button" label="Grid" id="OptionsButton2"

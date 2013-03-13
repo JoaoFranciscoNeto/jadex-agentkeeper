@@ -1,6 +1,7 @@
 package jadex.agentkeeper.init.map.process;
 
 import jadex.agentkeeper.ai.UpdateStatusTask;
+import jadex.agentkeeper.ai.creatures.UpdateChickenTask;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
@@ -40,6 +41,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 	private Grid2D						grid;
 
 	private PreCreatedMultiState		preCreatedState;
+	
+	private ArrayList<Vector2Int>		chickenlist = new ArrayList<Vector2Int>();
 
 	private void readOneElementOnMap(String key, Vector2Int aktPos)
 	{
@@ -92,6 +95,12 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		{
 			buildingState.addType(aktPos, tileinfo);
 			grid.createSpaceObject(type, tmpProps, null);
+		}
+		
+		if(mapType == MapType.HATCHERY)
+		{
+			chickenlist.add(aktPos);
+
 		}
 
 	}
@@ -236,6 +245,37 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							System.out.println("props: " + props);
 						}
 					}
+					
+					// Create Chickens
+					for(Vector2Int vec : chickenlist)
+					{
+						HashMap<String, Object> propschick = new HashMap<String, Object>();
+						propschick.put(Space2D.PROPERTY_POSITION, new Vector2Double(vec));
+
+						propschick.put(ISObjStrings.PROPERTY_INTPOSITION, vec);
+						propschick.put("spieler", new Integer(1));
+						
+						ArrayList<IObjectTask> list2 = new ArrayList<IObjectTask>();
+						list2.add(new UpdateChickenTask());
+
+						// todo: level, owner
+						grid.createSpaceObject("chicken", propschick, list2);
+					}
+					
+//						Vector2Int vec = chickenlist.get(0);
+//						HashMap<String, Object> propschick = new HashMap<String, Object>();
+//						propschick.put(Space2D.PROPERTY_POSITION, new Vector2Double(vec));
+//
+//						propschick.put(ISObjStrings.PROPERTY_INTPOSITION, vec);
+//						propschick.put("spieler", new Integer(1));
+//						
+//						ArrayList<IObjectTask> list2 = new ArrayList<IObjectTask>();
+//						list2.add(new UpdateChickenTask());
+//
+//						// todo: level, owner
+//						grid.createSpaceObject("chicken", propschick, list2);
+					
+
 				}
 
 			}

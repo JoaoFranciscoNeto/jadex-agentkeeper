@@ -15,6 +15,8 @@ public class SimplePlayerState
 	
 	private int gold;
 	
+	private boolean showBars;
+	
 	public SimplePlayerState(int playerId)
 	{
 		this.playerId = playerId;
@@ -64,6 +66,22 @@ public class SimplePlayerState
 	public void setMana(double mana)
 	{
 		this.mana = mana;
+	}
+
+	/**
+	 * @return the showBars
+	 */
+	public boolean isShowBars()
+	{
+		return showBars;
+	}
+
+	/**
+	 * @param showBars the showBars to set
+	 */
+	public void setShowBars(boolean showBars)
+	{
+		this.showBars = showBars;
 	}
 
 }

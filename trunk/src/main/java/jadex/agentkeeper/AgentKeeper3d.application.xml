@@ -34,6 +34,7 @@
 			<env:property name="neighborhood">Grid2D.NEIGHBORHOOD_MOORE</env:property>
 			<env:property name="tile" class="Double">0.795</env:property>
 			<env:property name="gameSpeed" class="Double">1.0</env:property>
+			<env:property name="showBars" class="Boolean">false</env:property>
 			<env:property name="auftraege" />
 
 			<env:objecttypes>
@@ -175,6 +176,11 @@
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
+				<env:objecttype name="chicken">
+					<env:property name="position" />
+					<env:property name="status" class="String">"Idle"</env:property>
+					<env:property dynamic="false" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
+				</env:objecttype>
 			</env:objecttypes>
 			
 			<env:tasktypes>
@@ -197,6 +203,7 @@
 				<env:avatarmapping componenttype="Troll" objecttype="troll" createcomponent="true"/> 
 				<env:avatarmapping componenttype="Warlock" objecttype="warlock" createcomponent="true"/>
 				<env:avatarmapping componenttype="Thief" objecttype="thief" createcomponent="true"/>
+<!-- 				<env:avatarmapping componenttype="Chicken" objecttype="chicken" createcomponent="true"/> -->
 			</env:avatarmappings>
 
 			<env:actiontypes>
@@ -227,6 +234,7 @@
 							modelpath="models/tilesets/dirt/Dirt_?.j3o"
 							materialpath="models/tilesets/dirt/DirtClicked.j3m">
 							<env:drawcondition>$object.getProperty("clicked")</env:drawcondition>
+							
 						</env:object3d>
 						
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
@@ -436,11 +444,6 @@
 							materialpath="models/tilesets/buildings/border/default.j3m">
 						</env:object3d>
 						
-						<env:object3d width="0.75" height="0.75" depth="0.75" x="0" y="0" z="0" 
-							modelpath="models/creatures/chicken/chicken.j3o"
-							materialpath="models/creatures/chicken/chicken-Material.j3m">
-						</env:object3d>
-						
 						<env:object3d width="0.65" height="0.65" depth="0.65" x="0" y="0" z="0" 
 						modelpath="models/buildings/hatchery/farm.j3o" 
 						materialpath="models/buildings/hatchery/farm.j3m"
@@ -475,6 +478,38 @@
 					</env:drawable3d>
 					
 					
+					
+					<!-- 
+					
+					
+						SMALL CREATURES
+					
+					 -->
+					
+					<env:drawable3d objecttype="chicken" width="1"
+						height="1" depth="1">					
+					
+						<env:object3d width="0.6" height="0.6" depth="0.6" x="0" y="0" z="0" 
+							modelpath="models/creatures/chicken/chicken.j3o"
+							materialpath="models/creatures/chicken/chicken-Material.j3m" rotation="rota" >
+							<env:animation name="Pick" channel="chanA" loop="true" speed="0.35">
+								<env:animationcondition>$object.getProperty("status").equals("Pick")</env:animationcondition>
+							</env:animation>
+							<env:animation name="Pick" channel="chanA" loop="true" speed="0.75">
+								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
+							</env:animation>
+							
+							<env:animation name="Paw" channel="chanA" loop="true" speed="0.75">
+								<env:animationcondition>$object.getProperty("status").equals("Paw")</env:animationcondition>
+							</env:animation>
+							<env:animation name="Sleep" channel="chanA" loop="true">
+								<env:animationcondition>$object.getProperty("status").equals("Sleeping")</env:animationcondition>
+							</env:animation>
+						</env:object3d>
+					</env:drawable3d>
+					
+					
+					
 					<!-- 
 					
 						CREATURES
@@ -486,6 +521,7 @@
 					<env:drawable3d objecttype="imp" width="1" height="1"
 						depth="1" isDynamic="true">
 					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
+						<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 					</env:quad>
 						<env:property name="level" dynamic="true">$object.getProperty("level").toString()
@@ -528,6 +564,7 @@
 					<env:drawable3d objecttype="thief" width="1" height="1" depth="1" isDynamic="true">
 
 					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
+						<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 					</env:quad>
 						<env:object3d 
@@ -556,13 +593,16 @@
 					<env:drawable3d objecttype="warlock" width="1" height="1" depth="1" isDynamic="true">
 					
 					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
+						<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 					</env:quad>
 					
 					<env:quad color="#00FFFF" size="awakesize" x="0" y="1.9" z="0">
+						<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 					</env:quad>
 					<env:quad color="#FFDEAD" size="fedsize" x="0" y="1.85" z="0">
+						<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 					</env:quad>
 					
@@ -596,13 +636,16 @@
 					<env:drawable3d objecttype="goblin" width="1"
 						height="1" depth="1">					
 						<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
+							<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 						</env:quad>
 					
 						<env:quad color="#00FFFF" size="awakesize" x="0" y="1.9" z="0">
+							<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 						</env:quad>
 						<env:quad color="#FFDEAD" size="fedsize" x="0" y="1.85" z="0">
+							<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 						</env:quad>
 					
@@ -631,12 +674,15 @@
 						height="1" depth="1">
 						
 						<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
+							<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 						</env:quad>
 						<env:quad color="#00FFFF" size="awakesize" x="0" y="1.9" z="0">
+							<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 						</env:quad>
 						<env:quad color="#FFDEAD" size="fedsize" x="0" y="1.85" z="0">
+							<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 							<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 						</env:quad>
 						
