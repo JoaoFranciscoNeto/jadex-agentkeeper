@@ -68,9 +68,14 @@ public class KeeperGuiController extends DefaultGuiController
 	public void fireFullscreen()
 	{
 		app.fireFullscreen();
-
 	}
 
+	public void changeShowBars()
+	{
+		boolean bars = (Boolean)spaceController.getProperty("showBars");
+		spaceController.setProperty("showBars", !bars);
+	}
+	
 	public void guiActive()
 	{
 		app.setGuiActive(true);

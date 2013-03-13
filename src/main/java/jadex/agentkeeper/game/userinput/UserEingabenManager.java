@@ -166,6 +166,11 @@ public class UserEingabenManager {
 			
 		}
 	}
+	
+	public void setShowBars(boolean set) {
+
+		_grid.setProperty("showBars", set);
+	}
 
 	private boolean abbreissbar(int x, int y) {
 
