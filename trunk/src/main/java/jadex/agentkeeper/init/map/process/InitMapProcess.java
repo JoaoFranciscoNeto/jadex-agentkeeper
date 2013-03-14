@@ -1,7 +1,7 @@
 package jadex.agentkeeper.init.map.process;
 
 import jadex.agentkeeper.ai.UpdateStatusTask;
-import jadex.agentkeeper.ai.creatures.UpdateChickenTask;
+import jadex.agentkeeper.ai.creatures.simple.UpdateChickenTask;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;

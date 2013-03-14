@@ -2,7 +2,6 @@ package jadex.agentkeeper.view;
 
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
-import jadex.agentkeeper.game.userinput.UserEingabenManager;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.extension.envsupport.environment.ISpaceController;
