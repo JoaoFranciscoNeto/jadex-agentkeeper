@@ -104,7 +104,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 *  Goal for keeping the Creature feeded.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}))
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), retry=true, retrydelay=1000)
 	public class MaintainCreatureFed
 	{
 		/**

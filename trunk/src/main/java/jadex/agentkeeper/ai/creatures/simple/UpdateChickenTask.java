@@ -1,7 +1,5 @@
 package jadex.agentkeeper.ai.creatures.simple;
 
-import org.apache.commons.collections15.map.CaseInsensitiveMap;
-
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.bridge.service.types.clock.IClockService;
@@ -24,20 +22,15 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 
 	private static final double	statusChangeSpeed	= 0.0005;
 
-	private boolean				sleep;
-
-	private boolean				paw;
-
-	private boolean				idle;
-
-	private boolean				pick;
-
 	private double				value;
 
-	private int					propCount;
+	private int					propCount = 0;
+	
+	private boolean idle = false;
 
 	public UpdateChickenTask()
 	{
+
 		value = Math.random() * 50.0;
 
 	}
@@ -66,29 +59,44 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 		decreaseProperty(obj, timeDecrease * statusChangeSpeed);
 
 
+//		obj.setProperty(PROPERTY_STATUS, "Sleeping");
 	}
 
 	private void decreaseProperty(ISpaceObject obj, double amount)
 	{
 
 
-		if(value > 10.0)
+		if(value > 5.0)
 		{
 			value = 0;
+			
+			if(idle)
+			{
+				propCount = Math.round((float)(Math.random() * 4));
+//				propCount = 0;
+			}
+			else
+			{
+				propCount = 3;
+//				propCount = 0;
+			}
+			
+			idle = !idle;
+			
+//			System.out.println("propCount: " + propCount);
 			updateProperty(obj, propCount);
-			propCount = propCount > 4 ? 0 : propCount++;
 
 		}
 
 
 		value = amount + value;
-
 	}
 
 
-	private void updateProperty(ISpaceObject obj, int propCount)
+	private void updateProperty(ISpaceObject obj, int prop)
 	{
-		switch(propCount)
+		
+		switch(prop)
 		{
 			case 0:
 				obj.setProperty(PROPERTY_STATUS, "Sleeping");
@@ -98,13 +106,14 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 				break;
 			case 2:
 				obj.setProperty(PROPERTY_STATUS, "Pick");
+//				obj.setProperty(Space2D.PROPERTY_POSITION, hpos.add(new Vector2Double(1,1)));
 				break;
 			case 3:
 				obj.setProperty(PROPERTY_STATUS, "Idle");
 				break;
 
 			default:
-
+				obj.setProperty(PROPERTY_STATUS, "Walk");
 				break;
 		}
 

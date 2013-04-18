@@ -1,12 +1,20 @@
 package jadex.agentkeeper.game.state.map;
 
+import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
+import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
+import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
+import jadex.extension.envsupport.math.IVector1;
+import jadex.extension.envsupport.math.Vector1Double;
+import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Set;
 
 
 /**
@@ -55,6 +63,38 @@ public class SimpleMapState
 		this.typesList.put(info.getMapType(), myList);
 		mapTypes.put(location, info.getMapType());
 		mapInfo.put(location, (TileInfo)object);
+	}
+	
+	public synchronized Vector2Int getClosestHatcheryWithChickens(MapType type, Vector2Double creaturePos)
+	{
+		HashMap<Vector2Int, Object> hatcheries = getTypes(MapType.HATCHERY);
+		Set<Vector2Int> hatcherys = hatcheries.keySet();
+		ArrayList<Vector2Int> hatcherylist = new ArrayList<Vector2Int>();
+		hatcherylist.addAll(hatcherys);
+
+		Vector2Int ret = null;
+
+
+		Vector1Double lastdistance = new Vector1Double(999999999);
+		for(Vector2Int pos : hatcherylist)
+		{
+			HatcheryInfo info = (HatcheryInfo)getTileAtPos(pos);
+			//Is the Hatchery Center? And has it Chickens?
+			if(((ACenterBuildingInfo)info).getCenterType() == CenterType.CENTER && info.hasChickens())
+			{
+				
+				Vector1Double distance = (Vector1Double)pos.getDistance(creaturePos);
+				
+				if(distance.less(lastdistance))
+				{
+					lastdistance = distance;
+					ret = pos;
+				}
+
+			}
+
+		}
+		return ret;
 	}
 	
 	
