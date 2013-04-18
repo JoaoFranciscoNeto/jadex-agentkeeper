@@ -1,12 +1,14 @@
 package jadex.agentkeeper.init.map.process;
 
 import jadex.agentkeeper.ai.UpdateStatusTask;
-import jadex.agentkeeper.ai.creatures.simple.UpdateChickenTask;
+import jadex.agentkeeper.game.task.CreateChickenTask;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborhood;
+import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.TypeVariant;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
+import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -46,7 +48,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 
 	private void readOneElementOnMap(String key, Vector2Int aktPos)
 	{
-		
 		
 		MapType mapType = TILE_MAP.get(key);
 
@@ -97,11 +98,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 			grid.createSpaceObject(type, tmpProps, null);
 		}
 		
-		if(mapType == MapType.HATCHERY)
-		{
-			chickenlist.add(aktPos);
 
-		}
 
 	}
 
@@ -167,20 +164,46 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							readOneElementOnMap(key, aktPos);
 						}
 					}
+					
+					
+
 
 					HashMap<MapType, HashMap<Vector2Int, PreCreatedSpaceObject>> toCreateB = preCreatedState.getPreparedBuildings();
 					for(HashMap<Vector2Int, PreCreatedSpaceObject> hashpre : toCreateB.values())
 					{
 						for(PreCreatedSpaceObject presobj : hashpre.values())
 						{
-							grid.createSpaceObject(presobj.getTypeName(), presobj.getProperties(), null);
+							
+							
+							ArrayList<IObjectTask> tasklist = new ArrayList<IObjectTask>();
+							
+							
+							//If we have an Hatchery....
+							if(presobj.getTypeName().equals(MapType.HATCHERY.toString().toUpperCase()))
+							{
+								//Add necessary Tasks
+								if(presobj.getTileinfo() instanceof ACenterBuildingInfo)
+								{
+									ACenterBuildingInfo cinfo = (ACenterBuildingInfo)presobj.getTileinfo();
+									
+									if(cinfo.getCenterType() == CenterType.CENTER)
+									{
+										//And Add the Chickentask
+										tasklist.add(new CreateChickenTask());
+									}
+								}
+							}
+							
+							// Create the Buildung in the Scene
+							grid.createSpaceObject(presobj.getTypeName(), presobj.getProperties(), tasklist);
+							
 						}
 					}
 
 
 				}
-
-
+				
+				
 				Object[] allSObj = grid.getSpaceObjects();
 				for(int i = 0; i < allSObj.length; i++)
 				{
@@ -192,6 +215,9 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 					}
 
 				}
+
+
+
 
 				if("CREATURES".equals(data))
 				{
@@ -241,28 +267,16 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 
 							// todo: level, owner
 							grid.createSpaceObject(type, props, list);
-							System.out.println("type: " + type);
-							System.out.println("props: " + props);
+//							System.out.println("type: " + type);
+//							System.out.println("props: " + props);
 						}
 					}
 					
 					// Create Chickens
 					for(Vector2Int vec : chickenlist)
 					{
-						HashMap<String, Object> propschick = new HashMap<String, Object>();
-						propschick.put(Space2D.PROPERTY_POSITION, new Vector2Double(vec));
-
-						propschick.put(ISObjStrings.PROPERTY_INTPOSITION, vec);
-						propschick.put("spieler", new Integer(1));
 						
-						ArrayList<IObjectTask> list2 = new ArrayList<IObjectTask>();
-						list2.add(new UpdateChickenTask());
-
-						// todo: level, owner
-						grid.createSpaceObject("chicken", propschick, list2);
-					}
-					
-//						Vector2Int vec = chickenlist.get(0);
+//						System.out.println("chicken: " + vec);
 //						HashMap<String, Object> propschick = new HashMap<String, Object>();
 //						propschick.put(Space2D.PROPERTY_POSITION, new Vector2Double(vec));
 //
@@ -274,6 +288,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 //
 //						// todo: level, owner
 //						grid.createSpaceObject("chicken", propschick, list2);
+					}
+					
 					
 
 				}

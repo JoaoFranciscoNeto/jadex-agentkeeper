@@ -23,6 +23,7 @@
 		<import>jadex.agentkeeper.init.map.*</import>
 		<import>jadex.agentkeeper.init.map.process.*</import>
 		<import>jadex.agentkeeper.game.process.*</import>
+		<import>jadex.agentkeeper.game.task.*</import>
 		<import>jadex.agentkeeper.worldmodel.structure.building.*</import>
 		<import>jadex.agentkeeper.worldmodel.enums.*</import>
 		
@@ -186,6 +187,7 @@
 			<env:tasktypes>
 				<env:tasktype name="move" class="MoveTask" />
 				<env:tasktype name="updateStatus" class="UpdateStatusTask" />
+				<env:tasktype name="createChickens" class="CreateChickenTask" />
 			</env:tasktypes>	
 
 			<env:processtypes>
@@ -480,10 +482,7 @@
 					
 					
 					<!-- 
-					
-					
 						SMALL CREATURES
-					
 					 -->
 					
 					<env:drawable3d objecttype="chicken" width="1"
@@ -495,15 +494,18 @@
 							<env:animation name="Pick" channel="chanA" loop="true" speed="0.35">
 								<env:animationcondition>$object.getProperty("status").equals("Pick")</env:animationcondition>
 							</env:animation>
-							<env:animation name="Pick" channel="chanA" loop="true" speed="0.75">
+							<env:animation name="Idle" channel="chanA" loop="true" speed="0.35">
 								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
 							</env:animation>
 							
-							<env:animation name="Paw" channel="chanA" loop="true" speed="0.75">
+							<env:animation name="Paw" channel="chanA" loop="true" speed="1">
 								<env:animationcondition>$object.getProperty("status").equals("Paw")</env:animationcondition>
 							</env:animation>
-							<env:animation name="Sleep" channel="chanA" loop="true">
+							<env:animation name="Sleep" channel="chanA" loop="true" speed="1">
 								<env:animationcondition>$object.getProperty("status").equals("Sleeping")</env:animationcondition>
+							</env:animation>
+							<env:animation name="Walk" channel="chanA" loop="true" speed="1">
+								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
 							</env:animation>
 						</env:object3d>
 					</env:drawable3d>

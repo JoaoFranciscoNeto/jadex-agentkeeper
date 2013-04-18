@@ -3,8 +3,8 @@ package jadex.agentkeeper.util;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
+import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
@@ -13,6 +13,7 @@ import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -132,12 +133,26 @@ public class Neighborhood
 
 					SpaceObject thatsmecopy = thatsme;
 
+					ArrayList<IObjectTask> tasklist = new ArrayList<IObjectTask>();
+					
+					Collection<IObjectTask> tasks = thatsme.getTasks();
+					
+					
+					Iterator<IObjectTask> tasksit = tasks.iterator();
+					
+					while(tasksit.hasNext())
+					{
+						IObjectTask ob = tasksit.next();
+						tasklist.add(ob);
 
+					}
+
+					
 					boolean destroyed = grid.destroyAndVerifySpaceObject(thatsme.getId());
 
 					if(destroyed)
 					{
-						grid.createSpaceObject(thatsmecopy.getType(), thatsmecopy.getProperties(), null);
+						grid.createSpaceObject(thatsmecopy.getType(), thatsmecopy.getProperties(), tasklist);
 					}
 
 				}
