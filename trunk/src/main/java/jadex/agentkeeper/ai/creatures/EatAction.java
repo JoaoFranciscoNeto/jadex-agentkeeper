@@ -34,12 +34,14 @@ public class EatAction extends SimplePropertyObject implements ISpaceAction, ISO
 	 */
 	public Object perform(Map parameters, IEnvironmentSpace space)
 	{
-//		System.out.println("eat action: "+parameters);
+		System.out.println("eat action: "+parameters);
 		
 		Grid2D grid = (Grid2D)space;
-		IComponentDescription owner = (IComponentDescription)parameters.get(ISpaceAction.ACTOR_ID);
-		ISpaceObject avatar = grid.getAvatar(owner);
-		final ISpaceObject target = (ISpaceObject)parameters.get(ISpaceAction.OBJECT_ID);
+		
+		final ISpaceObject monster = (ISpaceObject)parameters.get("Monster");
+//		IComponentDescription owner = (IComponentDescription)parameters.get(ISpaceAction.ACTOR_ID);
+//		ISpaceObject avatar = grid.getAvatar(owner);
+		final ISpaceObject target = (ISpaceObject)parameters.get("Target");
 		
 		if(null==space.getSpaceObject(target.getId()))
 		{
@@ -55,7 +57,7 @@ public class EatAction extends SimplePropertyObject implements ISpaceAction, ISO
 		space.destroySpaceObject(target.getId());
 		
 		
-		avatar.setProperty(PROPERTY_FED, 101);
+		monster.setProperty(PROPERTY_FED, 101.0);
 
 		
 		return null;

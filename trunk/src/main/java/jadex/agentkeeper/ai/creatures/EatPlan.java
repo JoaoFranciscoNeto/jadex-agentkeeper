@@ -81,7 +81,7 @@ public class EatPlan
 		// TODO: get this more Elegant
 		buildingState = (SimpleMapState)environment.getProperty(ISpaceStrings.BUILDING_STATE);
 
-
+		//TODO: Only get closest
 		final Vector2Int targetHatchery = buildingState.getClosestHatcheryWithChickens(MapType.HATCHERY, capa.getMyPosition());
 
 		if(targetHatchery != null)
@@ -105,28 +105,41 @@ public class EatPlan
 					{
 						public void resultAvailable(Void result)
 						{
-//							ExceptionDelegationResultListener srl	= new ExceptionDelegationResultListener();
-//							Map params = new HashMap();
-//							params.put(ISpaceAction.ACTOR_ID, spaceObject);
-//							params.put(ISpaceAction.OBJECT_ID, chicken);
-//							environment.performSpaceAction("eat", params, srl);
-//							environment.performSpaceAction("eat", params);
-//							
-//
-//							
-							// Agent is a the Hatchery Position
-							if(info.getNumChickens() > 0)
+
+							// SyncResultListener srl = new
+							// SyncResultListener();
+
+							DefaultResultListener<Void> listener = new DefaultResultListener<Void>()
 							{
-								spaceObject.setProperty(ISObjStrings.PROPERTY_FED, 101.0);
-								info.remChicken();
-								environment.destroySpaceObject(chicken.getId());
-								ret.setResult(null);
-							}
-							else
-							{
-								System.out.println("no Chickens left");
-								rplan.abort();
-							}
+								public void resultAvailable(Void result)
+								{
+									info.remChicken();
+									ret.setResult(null);
+								}
+							};
+							
+							
+							Map params = new HashMap();
+							params.put("Monster", spaceObject);
+							params.put("Target", chicken);
+							
+							
+							 environment.performSpaceAction("eat", params, listener);
+
+							 
+//							// Agent is a the Hatchery Position
+//							if(info.getNumChickens() > 0)
+//							{
+//								spaceObject.setProperty(ISObjStrings.PROPERTY_FED, 101.0);
+//								info.remChicken();
+//								environment.destroySpaceObject(chicken.getId());
+//								ret.setResult(null);
+//							}
+//							else
+//							{
+//								System.out.println("no Chickens left");
+//								rplan.abort();
+//							}
 
 
 						}

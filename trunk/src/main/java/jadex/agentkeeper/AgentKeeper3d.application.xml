@@ -18,6 +18,7 @@
 		<import>jadex.agentkeeper.ai.*</import>
 		<import>jadex.agentkeeper.ai.base.*</import>
 		<import>jadex.agentkeeper.ai.enums.*</import>
+		<import>jadex.agentkeeper.ai.creatures.*</import>
 		<import>jadex.agentkeeper.ai.oldai.basic.*</import>
 		<import>jadex.agentkeeper.state.missions.*</import>
 		<import>jadex.agentkeeper.init.map.*</import>
@@ -213,6 +214,7 @@
 					<env:property name="object_id" class="Object" />
 					<env:property name="direction" class="double" />
 				</env:actiontype>
+				<env:actiontype name="eat" class="EatAction" />
 			</env:actiontypes>
 
 
