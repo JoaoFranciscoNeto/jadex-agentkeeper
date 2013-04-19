@@ -24,7 +24,7 @@ public class CreateChickenTask extends AbstractTask implements ISObjStrings
 
 	private double				delta		= 4;
 
-	private double				deltadelta	= 4;
+	private double				deltadelta	= 1;
 
 	public CreateChickenTask()
 	{

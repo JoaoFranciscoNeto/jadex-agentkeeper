@@ -173,6 +173,7 @@ public class MoveToGridSectorPlan
 			public IFuture<Void> execute(Void args)
 			{
 				return capa.getEnvironment().waitForTask(mtaskid, capa.getMySpaceObject().getId());
+				
 			}
 		}).addResultListener(new DelegationResultListener<Void>(ret));
 		
