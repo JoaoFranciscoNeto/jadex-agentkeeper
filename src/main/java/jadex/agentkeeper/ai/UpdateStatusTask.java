@@ -27,7 +27,7 @@ public class UpdateStatusTask extends AbstractTask implements ISObjStrings
 
 	private static final double		awakeIncrease		= 0.003;
 
-	private static final double		fedDecrease			= 0.001*3;
+	private static final double		fedDecrease			= 0.001*2.5;
 	private static final double		fedIncrease			= 0.01;
 
 

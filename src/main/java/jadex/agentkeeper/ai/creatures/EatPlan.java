@@ -14,6 +14,7 @@ import jadex.bdiv3.annotation.PlanCapability;
 import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.future.DefaultResultListener;
+import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
@@ -23,6 +24,7 @@ import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.management.monitor.Monitor;
@@ -54,24 +56,6 @@ public class EatPlan
 	{
 		final Future<Void> ret = new Future<Void>();
 
-		final Monitor mon = new Monitor()
-		{
-
-			@Override
-			public void stop()
-			{
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void start()
-			{
-				// TODO Auto-generated method stub
-
-			}
-		};
-
 		// System.out.println("eat plan");
 
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
@@ -81,18 +65,24 @@ public class EatPlan
 		// TODO: get this more Elegant
 		buildingState = (SimpleMapState)environment.getProperty(ISpaceStrings.BUILDING_STATE);
 
-		//TODO: Only get closest
+		reachHatchery(buildingState).addResultListener(new DelegationResultListener<Void>(ret));
+
+		return ret;
+
+	}
+
+	private IFuture<Void> reachHatchery(final SimpleMapState buldingState)
+	{
+		final Future<Void> ret = new Future<Void>();
+
+		// TODO: Only get closest
 		final Vector2Int targetHatchery = buildingState.getClosestHatcheryWithChickens(MapType.HATCHERY, capa.getMyPosition());
 
 		if(targetHatchery != null)
 		{
 			final SpaceObject chicken;
 			final HatcheryInfo info = (HatcheryInfo)buildingState.getTileAtPos(targetHatchery);
-			synchronized(mon)
-			{
-				chicken = info.reserveChicken(environment);
 
-			}
 			spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.EAT);
 			IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(targetHatchery));
 			// System.out.println("- - - - - start walking to bed - - - - - ");
@@ -106,40 +96,29 @@ public class EatPlan
 						public void resultAvailable(Void result)
 						{
 
-							// SyncResultListener srl = new
-							// SyncResultListener();
-
-							DefaultResultListener<Void> listener = new DefaultResultListener<Void>()
+							DefaultResultListener<Void> eatlistener = new DefaultResultListener<Void>()
 							{
 								public void resultAvailable(Void result)
 								{
-									info.remChicken();
 									ret.setResult(null);
 								}
+
+								public void exceptionOccurred(Exception exception)
+								{
+									// look for another Hatchery
+									System.out.println("no chickens anymore");
+									reachHatchery(buildingState).addResultListener(new DelegationResultListener<Void>(ret));
+
+								}
+
+
 							};
-							
-							
+
 							Map params = new HashMap();
 							params.put("Monster", spaceObject);
-							params.put("Target", chicken);
-							
-							
-							 environment.performSpaceAction("eat", params, listener);
+							params.put("Target", info);
 
-							 
-//							// Agent is a the Hatchery Position
-//							if(info.getNumChickens() > 0)
-//							{
-//								spaceObject.setProperty(ISObjStrings.PROPERTY_FED, 101.0);
-//								info.remChicken();
-//								environment.destroySpaceObject(chicken.getId());
-//								ret.setResult(null);
-//							}
-//							else
-//							{
-//								System.out.println("no Chickens left");
-//								rplan.abort();
-//							}
+							environment.performSpaceAction("eat", params, eatlistener);
 
 
 						}
@@ -150,13 +129,12 @@ public class EatPlan
 		}
 		else
 		{
-			System.out.println("no hatchery!!");
+			System.out.println("no hatchery with chickens!!");
 			rplan.abort();
 		}
 
 
 		return ret;
-
 	}
 
 

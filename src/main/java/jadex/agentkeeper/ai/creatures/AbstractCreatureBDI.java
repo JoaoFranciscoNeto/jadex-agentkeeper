@@ -47,6 +47,10 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/** the hapiness-status of the "Being" */
 	@Belief(dynamic=true)
 	protected double myHappinessStatus = mySpaceObject==null? 100.0: (Double)mySpaceObject.getProperty(ISObjStrings.PROPERTY_HAPPINESS);
+	
+	/** the moral-status of the "Being" */
+	@Belief(dynamic=true)
+	protected double myMoralStatus = mySpaceObject==null? 100.0: (Double)mySpaceObject.getProperty(ISObjStrings.PROPERTY_MORAL);
 
 	/**
 	 * The agent body.
@@ -74,7 +78,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 *  Goal for keeping the Creature awake.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}))
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureFed.class}))
 	public class MaintainCreatureAwake
 	{
 		/**
@@ -104,7 +108,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 *  Goal for keeping the Creature feeded.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), retry=true, retrydelay=1000)
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class}), retry=true, retrydelay=1000)
 	public class MaintainCreatureFed
 	{
 		/**
