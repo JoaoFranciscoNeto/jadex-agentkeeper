@@ -8,54 +8,66 @@ import jadex.extension.envsupport.environment.SpaceObject;
 import java.util.Stack;
 
 
-public class HatcheryInfo extends ACenterBuildingInfo {
+public class HatcheryInfo extends ACenterBuildingInfo
+{
 
-	private int numChickens;
-	private int maxChickens = 12;
-	
-	private Stack<SpaceObject> chickens = new Stack<SpaceObject>();
+	private int					numChickens;
 
-	public HatcheryInfo(MapType mapType) 
+	private int					maxChickens	= 12;
+
+	private Stack<SpaceObject>	chickens	= new Stack<SpaceObject>();
+
+	public HatcheryInfo(MapType mapType)
 	{
 		super(mapType);
 		this.hitpoints = 30;
 	}
 
-	public int getMaxChickens() {
+	public int getMaxChickens()
+	{
 		return maxChickens;
 	}
 
-	public void setMaxChickens(int maxChickens) {
+	public void setMaxChickens(int maxChickens)
+	{
 		this.maxChickens = maxChickens;
 	}
-	
+
 	public boolean hasSpace()
 	{
-		return numChickens<=maxChickens;
+		return numChickens <= maxChickens;
 	}
-	
+
 	public void addChicken(SpaceObject chicken)
 	{
 		chickens.add(chicken);
 		numChickens++;
 	}
-	
-	public SpaceObject reserveChicken(AbstractEnvironmentSpace space)
+
+
+	public SpaceObject getOneChicken()
 	{
-		return chickens.pop();
-	}
-	
-	public void remChicken()
-	{
-		numChickens--;
+		SpaceObject ret;
+		if(!chickens.isEmpty())
+		{
+			numChickens--;
+			ret = chickens.pop();
+		}
+		else
+		{
+			ret = null;
+		}
+		
+		return ret;
+
 	}
 
-	
+
 	public boolean hasChickens()
 	{
 		return !chickens.isEmpty();
 	}
-	
+
 	/**
 	 * @return the numChickens
 	 */

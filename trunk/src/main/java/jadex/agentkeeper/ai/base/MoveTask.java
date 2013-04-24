@@ -74,9 +74,9 @@ public class MoveTask extends AbstractTask
 			setFinished(space, obj, true);
 		}
 
-		if(maxCounter>100)
+		if(maxCounter>60)
 		{
-			System.out.println("- - - - -  MOVE TASK HARD EXIT - - - - -");
+//			System.out.println("- - - - -  MOVE TASK HARD EXIT - - - - -");
 			setFinished(space, obj, true);
 		}
 		
