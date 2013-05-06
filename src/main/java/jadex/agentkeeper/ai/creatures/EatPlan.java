@@ -78,6 +78,7 @@ public class EatPlan
 		// TODO: Only get closest
 		final Vector2Int targetHatchery = buildingState.getClosestHatcheryWithChickens(MapType.HATCHERY, capa.getMyPosition());
 
+		
 		if(targetHatchery != null)
 		{
 			final SpaceObject chicken;

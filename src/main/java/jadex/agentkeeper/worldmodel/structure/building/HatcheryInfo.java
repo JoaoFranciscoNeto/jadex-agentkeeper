@@ -11,6 +11,7 @@ import java.util.Stack;
 public class HatcheryInfo extends ACenterBuildingInfo
 {
 
+	// tex
 	private int					numChickens;
 
 	private int					maxChickens	= 12;

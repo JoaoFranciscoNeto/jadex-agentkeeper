@@ -31,6 +31,7 @@ public class EatAction extends SimplePropertyObject implements ISpaceAction, ISO
 	 */
 	public Object perform(Map parameters, IEnvironmentSpace space)
 	{
+//
 //		System.out.println("eat action: "+parameters);
 		
 		Grid2D grid = (Grid2D)space;
