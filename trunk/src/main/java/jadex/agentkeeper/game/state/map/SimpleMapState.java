@@ -65,6 +65,14 @@ public class SimpleMapState
 		mapInfo.put(location, (TileInfo)object);
 	}
 	
+	
+	/**
+	 *  Finds the closest Hatchery with simple vector distance 
+	 * 
+	 * @param type
+	 * @param creaturePos
+	 * @return the Position
+	 */
 	public synchronized Vector2Int getClosestHatcheryWithChickens(MapType type, Vector2Double creaturePos)
 	{
 		HashMap<Vector2Int, Object> hatcheries = getTypes(MapType.HATCHERY);
