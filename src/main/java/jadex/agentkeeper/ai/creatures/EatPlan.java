@@ -81,7 +81,6 @@ public class EatPlan
 		
 		if(targetHatchery != null)
 		{
-			final SpaceObject chicken;
 			final HatcheryInfo info = (HatcheryInfo)buildingState.getTileAtPos(targetHatchery);
 
 			spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.EAT);
@@ -92,7 +91,7 @@ public class EatPlan
 				public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
 				{
 					// System.out.println("at pos");
-					rplan.waitFor(100).addResultListener(new DefaultResultListener<Void>()
+					rplan.waitFor(500).addResultListener(new DefaultResultListener<Void>()
 					{
 						public void resultAvailable(Void result)
 						{
@@ -107,7 +106,9 @@ public class EatPlan
 								public void exceptionOccurred(Exception exception)
 								{
 									// look for another Hatchery
-									System.out.println("no chickens anymore");
+//									System.out.println("no chickens anymore");
+								
+									//Try again
 									reachHatchery(buildingState).addResultListener(new DelegationResultListener<Void>(ret));
 
 								}
@@ -131,6 +132,7 @@ public class EatPlan
 		else
 		{
 			System.out.println("no hatchery with chickens!!");
+			spaceObject.setProperty(ISObjStrings.PROPERTY_MORAL, 0);
 			rplan.abort();
 		}
 
