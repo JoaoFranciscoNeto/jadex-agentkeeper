@@ -142,7 +142,7 @@ public class MoveToGridSectorPlan
 	{
 		if(mtaskid != null)
 		{
-//			System.out.println("cleanup task aborted:"+((RPlan)iplan).getId() + " "+mtaskid);
+//			System.out.println("cleanup task aborted:"+iplan.getId() + " "+mtaskid);
 			capa.getEnvironment().removeObjectTask(mtaskid, spaceObject.getId());
 		}
 	}

@@ -1,5 +1,7 @@
 package jadex.agentkeeper.ai.base;
 
+import org.lwjgl.Sys;
+
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.extension.envsupport.environment.AbstractTask;
@@ -45,7 +47,10 @@ public class MoveTask extends AbstractTask
 	public void execute(IEnvironmentSpace space, ISpaceObject obj, long progress, IClockService clock)
 	{
 
+		
 		IVector2 idis = (IVector2)getProperty(PROPERTY_DESTINATION);
+		
+//		System.out.println("move task " + idis );
 
 		double speed = ((Number)getProperty(PROPERTY_SPEED)).doubleValue();
 
