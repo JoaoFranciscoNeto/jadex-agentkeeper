@@ -54,9 +54,9 @@ public class EatAction extends SimplePropertyObject implements ISpaceAction, ISO
 //		space.destroySpaceObject(targetChicken.getId());
 		
 
-		monster.setProperty(PROPERTY_FED, 101.0);
+//		monster.setProperty(PROPERTY_FED, 101.0);
 
 		
-		return null;
+		return targetChicken;
 	}
 }

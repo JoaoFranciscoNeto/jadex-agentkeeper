@@ -73,7 +73,7 @@ public class SimpleMapState
 	 * @param creaturePos
 	 * @return the Position
 	 */
-	public synchronized Vector2Int getClosestHatcheryWithChickens(MapType type, Vector2Double creaturePos)
+	public synchronized Vector2Int getClosestHatcheryWithChickens(Vector2Double creaturePos)
 	{
 		HashMap<Vector2Int, Object> hatcheries = getTypes(MapType.HATCHERY);
 		Set<Vector2Int> hatcherys = hatcheries.keySet();
