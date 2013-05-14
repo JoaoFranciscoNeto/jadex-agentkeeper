@@ -7,6 +7,7 @@ import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
 import jadex.extension.envsupport.math.IVector1;
+import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector1Double;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
@@ -128,6 +129,19 @@ public class SimpleMapState
 	public MapType getTypeAtPos(Vector2Int pos)
 	{
 		return mapTypes.get(pos);
+	}
+	
+	/**
+	 * 
+	 * Get the Type from a position
+	 * 
+	 * @param pos
+	 * @return x
+	 */
+	public MapType getTypeAtPos(IVector2 pos)
+	{
+		Vector2Int intpos = new Vector2Int(Math.round(pos.getXAsFloat()), Math.round(pos.getYAsFloat()));
+		return mapTypes.get(intpos);
 	}
 	
 	/**

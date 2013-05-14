@@ -234,7 +234,7 @@
 					<env:drawable3d objecttype="static" hasSpaceobject="false"
 						width="1" height="1" depth="1">	
 						<env:sky skypath="skybox/cave/" west="caveright.jpg" east="caveleft2.jpg" north="caveback.jpg" south="cavefront.jpg" up="caveup2.jpg" down="cavedown.jpg" isSphere="false" />  
-						<env:sound3d soundfile="sounds/music/TheSnowQueen.ogg" loop="true" volume="0.05" continuosly="true" positional="false" />
+						<env:sound3d soundfile="sounds/music/TheSnowQueen.ogg" loop="true" volume="0.005" continuosly="true" positional="false" />
 					</env:drawable3d>
 					
 					
@@ -321,7 +321,7 @@
 							<env:drawcondition>$object.getProperty("status").equals("byImpCreated")</env:drawcondition>
 						</env:effect>
 						
-						<env:sound3d soundfile="sounds/claim/claimed.ogg" loop="false" volume="0.1" continuosly="false" positional="true"  >
+						<env:sound3d soundfile="sounds/claim/claimed.ogg" loop="false" volume="0.008" continuosly="false" positional="true"  >
 						<env:soundcondition>
 							$object.getProperty("status").equals("byImpCreated")
 						</env:soundcondition>
@@ -347,7 +347,7 @@
 								$object.getProperty("status").equals("byImpCreated")
 							</env:drawcondition>
 						</env:effect>
-						<env:sound3d soundfile="sounds/rockfalling/RocksFalling?.ogg" numRndFiles="6" loop="false" volume="2.0" continuosly="true" positional="true"  >
+						<env:sound3d soundfile="sounds/rockfalling/RocksFalling?.ogg" numRndFiles="6" loop="false" volume="0.01" continuosly="true" positional="true"  >
 						<env:soundcondition>
 							$object.getProperty("status").equals("byImpCreated")
 						</env:soundcondition>
@@ -561,7 +561,7 @@
 							</env:animation>
 						</env:object3d>
 						
-						<env:sound3d soundfile="sounds/digslow/Digging?.ogg" numRndFiles="17" loop="false" volume="2.0" continuosly="true" positional="true"  >
+						<env:sound3d soundfile="sounds/digslow/Digging?.ogg" numRndFiles="17" loop="false" volume="0.005" continuosly="true" positional="true"  >
 						<env:soundcondition>
 							$object.getProperty("status").equals("Dig")
 						</env:soundcondition>

@@ -1,18 +1,14 @@
 package jadex.agentkeeper.ai.creatures.simple;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bridge.service.types.clock.IClockService;
-import jadex.commons.future.IResultListener;
 import jadex.extension.envsupport.environment.AbstractTask;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
-import jadex.extension.envsupport.environment.ISpaceAction;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.space2d.Space2D;
-import jadex.extension.envsupport.environment.space2d.action.GetPosition;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Double;
 
@@ -38,20 +34,19 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 	private boolean				iamnew				= true;
 
 	private double				lastduration		= 2.0;
-	
-	private double newdir;
-	
-	private IVector2 target;
-	
-	double chickenspeed = 1.0;
-	double maxdist;
+
+	private Vector2Double		vel					= new Vector2Double(1, 1);
+
+	double						chickenspeed		= 1.2;
+
+	private SimpleMapState		mapState;
+
 
 	public UpdateChickenTask()
 	{
 
 		value = 0;
-		
-		
+
 
 	}
 
@@ -71,20 +66,26 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 	// TODO HACK!
 	public void execute(IEnvironmentSpace space, ISpaceObject obj, long progress, IClockService clock)
 	{
-		
+
+		if(mapState == null)
+		{
+			mapState = (SimpleMapState)space.getProperty(ISpaceStrings.BUILDING_STATE);
+		}
+
+		lastduration = 5.0;
 
 		double delta = (Double)space.getProperty(ISpaceStrings.GAME_SPEED) * progress;
-		
-		maxdist = delta * (Double)space.getProperty(ISpaceStrings.GAME_SPEED) * chickenspeed * 0.001;
 
-		lastduration = 2.0;
-		
+		double movementdelta = delta * chickenspeed * 0.0001;
+
 		decreaseProperty(obj, delta * statusChangeSpeed, lastduration);
-		
+
 
 		if(obj.getProperty(PROPERTY_STATUS).equals("Walk"))
 		{
-			walkAround((Space2D)space, obj, delta);
+			
+			walkAround((Space2D)space, obj, movementdelta);
+			lastduration = 10.0;
 		}
 
 		if(obj.getProperty(PROPERTY_STATUS).equals("Sleeping"))
@@ -93,36 +94,27 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 		}
 
 
-
 	}
 
 	private void walkAround(Space2D space, ISpaceObject obj, double delta)
 	{
-//		System.out.println("walk around");
-		IVector2 oldpos = ((IVector2)obj.getProperty(Space2D.PROPERTY_POSITION)).copy();
-//		oldpos = oldpos.add(delta / 12000);
+		Vector2Double newDelta = (Vector2Double)vel.copy().multiply(delta);
+		IVector2 oldpos = ((IVector2)obj.getProperty(Space2D.PROPERTY_POSITION));
 		
-		// convert to vector
-		// normally x=cos(dir) and y=sin(dir)
-		// here 0 degree is 12 o'clock and the rotation right
+		IVector2 newpos = oldpos.copy().add(newDelta);
 
-//		double x = Math.sin(newdir);
-//		double y = Math.cos(newdir);
-		
-//		System.out.println("delta" + delta);
-		
-		
-//		System.out.println("newdir" + newdirectionvector);
-		
-		
-		
-//		
-		IVector2 newpos = target.copy().subtract(oldpos).normalize().multiply(maxdist).add(oldpos);
-		
-//		System.out.println("oldpos: " + newpos);
-		
-		obj.setProperty(Space2D.PROPERTY_POSITION, newpos);
-		
+		if(mapState.getTypeAtPos(newpos.copy()) == MapType.HATCHERY)
+		{
+			obj.setProperty(Space2D.PROPERTY_POSITION, newpos);
+		}
+		else
+		{
+			vel = (Vector2Double)vel.multiply(-1);
+			newDelta = (Vector2Double)vel.copy().multiply(delta);
+			newpos = oldpos.copy().add(newDelta);
+			obj.setProperty(Space2D.PROPERTY_POSITION, newpos);
+		}
+
 
 	}
 
@@ -132,8 +124,8 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 		if(iamnew)
 		{
 			iamnew = !iamnew;
-//			updateProperty(obj, 3);
-			
+			updateProperty(obj, 3);
+
 		}
 		else
 		{
@@ -173,7 +165,7 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 				break;
 			case 3:
 				obj.setProperty(PROPERTY_STATUS, "Walk");
-				setDirection(obj);
+				setNewDirection(obj);
 				break;
 			case 4:
 				obj.setProperty(PROPERTY_STATUS, "Pick");
@@ -188,42 +180,8 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 	}
 
 
-	private void setDirection(ISpaceObject obj)
+	private void setNewDirection(ISpaceObject obj)
 	{
-		
-		double dir = ((Number)obj.getProperty("direction")).doubleValue();
-		
-//		System.out.println("dir" + dir);
-
-		// move
-		// change direction slightly
-		double factor = 10;
-		double rotchange = Math.random()*Math.PI/factor-Math.PI/2/factor;
-		
-		newdir = dir+rotchange;
-		if(newdir<0)
-			newdir+=Math.PI*2;
-		else if(newdir>Math.PI*2)
-			newdir-=Math.PI*2;
-		
-		double x = Math.sin(newdir);
-		double y = -Math.cos(newdir);
-		
-		
-		
-		// hack
-		obj.setProperty("direction", new Double(newdir));
-		
-		
-		IVector2 oldpos = ((IVector2)obj.getProperty(Space2D.PROPERTY_POSITION)).copy();
-		
-		target = oldpos.copy().add(new Vector2Double(x,y));
-		
-		
-		
-//		System.out.println("newdir" + target);
-		
-		
-		
+		vel = (Vector2Double)vel.redirect(Math.random() * 2 * Math.PI);
 	}
 }
