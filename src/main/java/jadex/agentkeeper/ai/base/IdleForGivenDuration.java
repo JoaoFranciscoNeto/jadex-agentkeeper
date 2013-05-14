@@ -55,9 +55,9 @@ public class IdleForGivenDuration
 		final Future<Void> ret = new Future<Void>();
 		
 	
-		String status = random > 0.5f ? "Idle" : "Dance";
+//		String status = random > 0.5f ? "Idle" : "Dance";
 		
-		spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, status);
+		spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 		
 		
 		int givenWaittime = goal.getDuration();

@@ -88,7 +88,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 			buildingState.addType(aktPos, tileinfo);
 			if(tileinfo != null)
 			{
-
 				preCreatedState.addType(mapType, aktPos, tileinfo, tmpProps);
 			}
 		}
@@ -271,25 +270,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 //							System.out.println("props: " + props);
 						}
 					}
-					
-					// Create Chickens
-					for(Vector2Int vec : chickenlist)
-					{
-						
-//						System.out.println("chicken: " + vec);
-//						HashMap<String, Object> propschick = new HashMap<String, Object>();
-//						propschick.put(Space2D.PROPERTY_POSITION, new Vector2Double(vec));
-//
-//						propschick.put(ISObjStrings.PROPERTY_INTPOSITION, vec);
-//						propschick.put("spieler", new Integer(1));
-//						
-//						ArrayList<IObjectTask> list2 = new ArrayList<IObjectTask>();
-//						list2.add(new UpdateChickenTask());
-//
-//						// todo: level, owner
-//						grid.createSpaceObject("chicken", propschick, list2);
-					}
-					
+										
 					
 
 				}

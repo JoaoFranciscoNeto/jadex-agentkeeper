@@ -58,7 +58,7 @@ public class CreateChickenTask extends AbstractTask implements ISObjStrings
 
 			HashMap<String, Object> propschick = new HashMap<String, Object>();
 			Vector2Double hpos = (Vector2Double)obj.getProperty(Space2D.PROPERTY_POSITION);
-			Vector2Double npos = (Vector2Double)hpos.copy().add(new Vector2Double(Math.random() * 4 - 2, Math.random() * 4 - 2));
+			Vector2Double npos = (Vector2Double)hpos.copy().add(new Vector2Double(Math.random() * 2 - 1, Math.random() * 2 - 1));
 			propschick.put(Space2D.PROPERTY_POSITION, npos);
 			propschick.put(ISObjStrings.PROPERTY_INTPOSITION, (Vector2Int)obj.getProperty(PROPERTY_INTPOSITION));
 			propschick.put("spieler", new Integer(1));

@@ -2,7 +2,6 @@ package jadex.agentkeeper.worldmodel.structure.building;
 
 
 import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.extension.envsupport.environment.AbstractEnvironmentSpace;
 import jadex.extension.envsupport.environment.SpaceObject;
 
 import java.util.Stack;
@@ -14,7 +13,7 @@ public class HatcheryInfo extends ACenterBuildingInfo
 	// tex
 	private int					numChickens;
 
-	private int					maxChickens	= 12;
+	private int					maxChickens	= 16;
 
 	private Stack<SpaceObject>	chickens	= new Stack<SpaceObject>();
 
