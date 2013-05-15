@@ -126,8 +126,8 @@ public class EatPlan
 										public void customResultAvailable(Void result)
 										{
 											spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
-											rplan.waitFor(2000).addResultListener(new DelegationResultListener<Void>(ret)
-											{
+											rplan.waitFor(200).addResultListener(new DelegationResultListener<Void>(ret)
+											{ 
 												public void customResultAvailable(Void result)
 												{
 													
