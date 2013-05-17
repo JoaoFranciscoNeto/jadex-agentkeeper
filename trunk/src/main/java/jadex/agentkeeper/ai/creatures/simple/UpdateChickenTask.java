@@ -37,9 +37,11 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 
 	private Vector2Double		vel					= new Vector2Double(1, 1);
 
-	double						chickenspeed		= 1.2;
+	double						chickenspeed		= 2.4;
 
 	private SimpleMapState		mapState;
+
+	String						status;
 
 
 	public UpdateChickenTask()
@@ -72,26 +74,35 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 			mapState = (SimpleMapState)space.getProperty(ISpaceStrings.BUILDING_STATE);
 		}
 
-		lastduration = 5.0;
+		status = (String)obj.getProperty(PROPERTY_STATUS);
+
+		lastduration = 1.0;
 
 		double delta = (Double)space.getProperty(ISpaceStrings.GAME_SPEED) * progress;
 
 		double movementdelta = delta * chickenspeed * 0.0001;
 
-		decreaseProperty(obj, delta * statusChangeSpeed, lastduration);
+		
 
 
-		if(obj.getProperty(PROPERTY_STATUS).equals("Walk"))
+		if(status.equals("Walk"))
 		{
-			
+
 			walkAround((Space2D)space, obj, movementdelta);
+			lastduration = 1.0 + Math.random() * 2;
+		}
+
+		if(status.equals("Sleeping"))
+		{
 			lastduration = 10.0;
 		}
 
-		if(obj.getProperty(PROPERTY_STATUS).equals("Sleeping"))
+		if(status.equals("Pick"))
 		{
-			lastduration = 50.0;
+			lastduration = 1 + 1 * Math.random();
 		}
+		
+		decreaseProperty(obj, delta * statusChangeSpeed * 2 * Math.random(), lastduration);
 
 
 	}
@@ -100,7 +111,7 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 	{
 		Vector2Double newDelta = (Vector2Double)vel.copy().multiply(delta);
 		IVector2 oldpos = ((IVector2)obj.getProperty(Space2D.PROPERTY_POSITION));
-		
+
 		IVector2 newpos = oldpos.copy().add(newDelta);
 
 		if(mapState.getTypeAtPos(newpos.copy()) == MapType.HATCHERY)
@@ -141,7 +152,6 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 
 			}
 
-
 			value = amount + value;
 		}
 
@@ -161,19 +171,25 @@ public class UpdateChickenTask extends AbstractTask implements ISObjStrings
 				obj.setProperty(PROPERTY_STATUS, "Paw");
 				break;
 			case 2:
-				obj.setProperty(PROPERTY_STATUS, "Pick");
-				break;
+				obj.setProperty(PROPERTY_STATUS, "Idle");
 			case 3:
 				obj.setProperty(PROPERTY_STATUS, "Walk");
 				setNewDirection(obj);
 				break;
 			case 4:
-				obj.setProperty(PROPERTY_STATUS, "Pick");
-			case 5:
-				obj.setProperty(PROPERTY_STATUS, "Pick");
+				obj.setProperty(PROPERTY_STATUS, "Walk");
+				setNewDirection(obj);
+				break;
 
 			default:
-				obj.setProperty(PROPERTY_STATUS, "Idle");
+				if(!status.equals("Pick"))
+				{
+					obj.setProperty(PROPERTY_STATUS, "Pick");
+				}
+				else
+				{
+					updateProperty(obj, Math.round((float)(Math.random() * 10)));
+				}
 				break;
 		}
 

@@ -1,10 +1,11 @@
 package jadex.agentkeeper.init.map.process;
 
+import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.Map;
 
-public class PreCreatedSpaceObject
+public class PreCreatedSpaceObject implements Comparable<PreCreatedSpaceObject>
 {
 	
 	/**
@@ -99,6 +100,24 @@ public class PreCreatedSpaceObject
 	public void setPosition(Vector2Int position)
 	{
 		this.position = position;
+	}
+	
+
+	public int compareTo(PreCreatedSpaceObject o)
+	{
+		if(this.getPosition().getYAsInteger()>o.getPosition().getYAsInteger())
+		{
+			return 1;
+		}
+		else if(this.getPosition().getYAsInteger() == o.getPosition().getYAsInteger())
+		{
+			if(this.getPosition().getXAsInteger() > o.getPosition().getXAsInteger())
+			{
+				return 1;
+			}
+		}
+		
+		return -1;
 	}
 
 

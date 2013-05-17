@@ -43,63 +43,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 	private Grid2D						grid;
 
 	private PreCreatedMultiState		preCreatedState;
-	
-	private ArrayList<Vector2Int>		chickenlist = new ArrayList<Vector2Int>();
-
-	private void readOneElementOnMap(String key, Vector2Int aktPos)
-	{
-		
-		MapType mapType = TILE_MAP.get(key);
-
-		
-		String type = mapType.toString();
-
-		// Null Check
-		
-		type = type == null ? "unknown" : type;
-
-		tmpProps = new HashMap<String, Object>();
-
-		Object tileinfo = createPojoElement(aktPos, mapType);
-
-		tmpProps.put(PROPERTY_CLICKED, false);
-
-		// TODO: thats shit!
-		tmpProps.put("bearbeitung", 0);
-		tmpProps.put("status", "Nothing");
-
-
-		if(mapType.getVariant() == TypeVariant.BUILDING || mapType == MapType.CLAIMED_PATH)
-		{
-			playerState.addClaimedSector();
-		}
-
-		tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
-		tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
-		tmpProps.put(PROPERTY_INTPOSITION, aktPos);
-		
-
-
-		tmpProps.put(PROPERTY_TILEINFO, tileinfo);
-
-		if(mapType.getVariant() == TypeVariant.BUILDING)
-		{
-
-			buildingState.addType(aktPos, tileinfo);
-			if(tileinfo != null)
-			{
-				preCreatedState.addType(mapType, aktPos, tileinfo, tmpProps);
-			}
-		}
-		else
-		{
-			buildingState.addType(aktPos, tileinfo);
-			grid.createSpaceObject(type, tmpProps, null);
-		}
-		
-
-
-	}
 
 
 	// -------- ISpaceProcess interface --------
@@ -118,8 +61,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		loadAndSetupMissions(grid);
 
 		preCreatedState = new PreCreatedMultiState(MapType.values());
-
-
+		
 		try
 		{
 			// ClassLoader cl =
@@ -198,8 +140,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							
 						}
 					}
-
-
 				}
 				
 				
@@ -285,6 +225,67 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 
 
 		space.removeSpaceProcess(getProperty(ISpaceProcess.ID));
+
+	}
+	
+	/**
+	 * This Method reads one Element from the Map and save it temporaly for the necessary neighborhood calculation afterwards
+	 * 
+	 * @param key
+	 * @param aktPos
+	 */
+	private void readOneElementOnMap(String key, Vector2Int aktPos)
+	{
+		
+		MapType mapType = TILE_MAP.get(key);
+
+		
+		String type = mapType.toString();
+
+		// Null Check
+		
+		type = type == null ? "unknown" : type;
+
+		tmpProps = new HashMap<String, Object>();
+
+		Object tileinfo = createPojoElement(aktPos, mapType);
+
+		tmpProps.put(PROPERTY_CLICKED, false);
+
+		// TODO: thats shit!
+		tmpProps.put("bearbeitung", 0);
+		tmpProps.put("status", "Nothing");
+
+
+		if(mapType.getVariant() == TypeVariant.BUILDING || mapType == MapType.CLAIMED_PATH)
+		{
+			playerState.addClaimedSector();
+		}
+
+		tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
+		tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
+		tmpProps.put(PROPERTY_INTPOSITION, aktPos);
+		
+
+
+		tmpProps.put(PROPERTY_TILEINFO, tileinfo);
+
+		if(mapType.getVariant() == TypeVariant.BUILDING)
+		{
+
+			buildingState.addType(aktPos, tileinfo);
+			if(tileinfo != null)
+			{
+				preCreatedState.addType(mapType, aktPos, tileinfo, tmpProps);
+			}
+		}
+		else
+		{
+			buildingState.addType(aktPos, tileinfo);
+			grid.createSpaceObject(type, tmpProps, null);
+		}
+		
+
 
 	}
 
