@@ -499,10 +499,10 @@
 						<env:object3d width="0.6" height="0.6" depth="0.6" x="0" y="0" z="0" 
 							modelpath="models/creatures/chicken/chicken.j3o"
 							materialpath="models/creatures/chicken/chicken-Material.j3m"  >
-							<env:animation name="Pick" channel="chanA" loop="true" speed="0.35">
+							<env:animation name="Pick" channel="chanA" loop="true" speed="1.0">
 								<env:animationcondition>$object.getProperty("status").equals("Pick")</env:animationcondition>
 							</env:animation>
-							<env:animation name="Idle" channel="chanA" loop="true" speed="0.35">
+							<env:animation name="Idle" channel="chanA" loop="true" speed="1.0">
 								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
 							</env:animation>
 							
@@ -512,7 +512,7 @@
 							<env:animation name="Sleep" channel="chanA" loop="true" speed="1">
 								<env:animationcondition>$object.getProperty("status").equals("Sleeping")</env:animationcondition>
 							</env:animation>
-							<env:animation name="Walk" channel="chanA" loop="true" speed="1">
+							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
 								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
 							</env:animation>
 						</env:object3d>

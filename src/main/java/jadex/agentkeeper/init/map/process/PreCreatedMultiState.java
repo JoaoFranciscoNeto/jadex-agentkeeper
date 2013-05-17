@@ -6,8 +6,12 @@ import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.TypeVariant;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
+import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
 import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,11 +79,18 @@ public class PreCreatedMultiState
 	{
 		for(MapType type : listBuilding.keySet())
 		{
+
+			System.out.println("type: " + type);
 			HashMap<Vector2Int, PreCreatedSpaceObject> tmpList = listBuilding.get(type);
 
-			// one building set only
+			ArrayList<PreCreatedSpaceObject> values = new ArrayList<PreCreatedSpaceObject>(tmpList.values());
 
-			for(PreCreatedSpaceObject preObj : tmpList.values())
+			//Sort the Vectors, so the algorithm work
+			Collections.sort(values);
+
+
+			// one building set only
+			for(PreCreatedSpaceObject preObj : values)
 			{
 				Object tileinfo = preObj.getTileinfo();
 				if(tileinfo instanceof ACenterBuildingInfo)
@@ -87,7 +98,8 @@ public class PreCreatedMultiState
 					ACenterBuildingInfo centerInfo = (ACenterBuildingInfo)tileinfo;
 
 
-					if(centerInfo.getCenterPattern() == CenterPattern.ONE_MIDDLE)
+					// next potential....(if he is not already Border)
+					if(centerInfo.getCenterPattern() == CenterPattern.ONE_MIDDLE && centerInfo.getCenterType() != CenterType.BORDER)
 					{
 						int potCounter = 0;
 						for(Neighborcase centercase : Neighborcase.getDefault())
@@ -106,18 +118,61 @@ public class PreCreatedMultiState
 							else
 							{
 								centerInfo.setCenterType(CenterType.POTENTIAL);
-								continue;
 							}
 						}
 
+
+						// if we sucessfully counted to 8 it is Center-Block!
 						if(potCounter >= 8)
 						{
 							System.out.println("preObj " + preObj.getTypeName() + preObj.getPosition());
 							centerInfo.setCenterType(CenterType.CENTER);
+							// set the Border for the surrounding tiles to
+							// Border (so it can not be center anymore)
 							for(Neighborcase centercase : Neighborcase.getDefault())
 							{
-								ACenterBuildingInfo tmp = (ACenterBuildingInfo)tmpList.get(preObj.getPosition().copy().add(centercase.getVector())).getTileinfo();
+								Vector2Int borderpos = (Vector2Int)preObj.getPosition().copy().add(centercase.getVector());
+								System.out.println("borderpos" + borderpos);
+								ACenterBuildingInfo tmp = (ACenterBuildingInfo)tmpList.get(borderpos).getTileinfo();
+								// System.out.println("tmp : " +
+								// tmp.getMapType());
 								tmp.setCenterType(CenterType.BORDER);
+							}
+
+						}
+					}
+					else if(centerInfo.getCenterPattern() == CenterPattern.ONE_BORDER_1)
+					{
+						int potCounter = 0;
+						for(Neighborcase centercase : Neighborcase.getDefault())
+						{
+							PreCreatedSpaceObject tmpPre = tmpList.get(preObj.getPosition().copy().add(centercase.getVector()));
+							if(tmpPre != null)
+							{
+								potCounter++;
+							}
+						}
+
+
+						// if we sucessfully counted to 8 it is Center-Block!
+						if(potCounter >= 8)
+						{
+							System.out.println("preObj " + preObj.getTypeName() + preObj.getPosition());
+							centerInfo.setCenterType(CenterType.CENTER);
+							// set the Border for the surrounding tiles to
+							// Border (so it can not be center anymore)
+							for(Neighborcase centercase : Neighborcase.getDefault())
+							{
+								Vector2Int borderpos = (Vector2Int)preObj.getPosition().copy().add(centercase.getVector());
+								System.out.println("borderpos" + borderpos);
+								ACenterBuildingInfo tmp = (ACenterBuildingInfo)tmpList.get(borderpos).getTileinfo();
+								// System.out.println("tmp : " +
+								// tmp.getMapType());
+								if(tmp.getCenterType() != CenterType.CENTER)
+								{
+									tmp.setCenterType(CenterType.BORDER);
+								}
+
 							}
 
 						}
@@ -140,11 +195,11 @@ public class PreCreatedMultiState
 							}
 							else
 							{
-//								centerInfo.setCenterType(CenterType.POTENTIAL);
+								// centerInfo.setCenterType(CenterType.POTENTIAL);
 								continue;
 							}
 						}
-						
+
 						if(bigcounter == 24)
 						{
 							centerInfo.setCenterType(CenterType.CENTER);
