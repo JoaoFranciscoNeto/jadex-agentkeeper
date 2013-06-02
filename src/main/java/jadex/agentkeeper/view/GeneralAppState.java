@@ -145,6 +145,11 @@ public class GeneralAppState extends AbstractAppState
 		return (SpaceObject)spaceController.getSpaceObject(idlong);
 	}
 
+	/**
+	 * User Submittet an Selection
+	 * 
+	 * @param selectionArea
+	 */
 	public void userSubmit(SelectionArea selectionArea)
 	{
 		usermanager.destoryWalls(selectionArea);
