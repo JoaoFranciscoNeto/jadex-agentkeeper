@@ -87,13 +87,16 @@ public class SelectionHandler
 	private void updateSelection()
 	{
 		Object id = app.getSelectedSpaceObjectId();
+		
+//		System.out.println("id: " + id);
 
 		long idlong = -1;
 
 		if(id instanceof String)
 		{
 			String idString = (String)id;
-			if(Character.isDigit(idString.charAt(0)));
+			if(Character.isDigit(idString.charAt(0)))
+				;
 			{
 				try
 				{
@@ -120,17 +123,17 @@ public class SelectionHandler
 			{
 				SpaceObject selected = mystate.getSpaceObjectById(idlong);
 
-				
+
 				TileInfo info = TileInfo.getTileInfo(selected, TileInfo.class);
 				MapType type = info.getMapType();
-				
-				if(selected.getType().equals("dirt_path"))
-				{
-					System.out.println("dirt path!!");
-				}
-				
+
+
+//				System.out.println("selected.getType() " + selected.getType());
+
 				mystate.updateInfoText(selected.getType() + " x " + type.toString());
 
+				
+//				TODO: Selectionmode
 				if(type == MapType.ROCK || type == MapType.REINFORCED_WALL)
 				{
 
@@ -275,6 +278,7 @@ public class SelectionHandler
 
 	public void userSubmit(SelectionArea selectionArea)
 	{
+		//TODO: Handle Submit according to what the user wanted to do
 		mystate.userSubmit(selectionArea);
 	}
 
