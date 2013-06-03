@@ -22,6 +22,8 @@ public abstract class TileInfo
 	protected boolean			locked;
 
 	protected NeighbourType		neighbourType;
+	
+	Object spaceObjectId;
 
 
 	//TODO: Remove MapType from Constructor
@@ -34,6 +36,7 @@ public abstract class TileInfo
 		this.neighbourhood = "00000000";
 		this.neighbourType = NeighbourType.COMPLEX;
 		this.mapType = mapType;
+		this.spaceObjectId = null;
 	}
 
 	public abstract MapType[] getNeighbors();
@@ -140,5 +143,21 @@ public abstract class TileInfo
 	public void setHasOwner(boolean hasOwner)
 	{
 		this.hasOwner = hasOwner;
+	}
+
+	/**
+	 * @return the spaceObjectId
+	 */
+	public Object getSpaceObjectId()
+	{
+		return spaceObjectId;
+	}
+
+	/**
+	 * @param spaceObjectId the spaceObjectId to set
+	 */
+	public void setSpaceObjectId(Object spaceObjectId)
+	{
+		this.spaceObjectId = spaceObjectId;
 	}
 }

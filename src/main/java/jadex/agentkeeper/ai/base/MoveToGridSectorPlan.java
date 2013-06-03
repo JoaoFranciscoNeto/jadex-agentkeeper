@@ -164,8 +164,7 @@ public class MoveToGridSectorPlan
 		props.put(MoveTask.PROPERTY_SPEED, capa.getMySpeed());
 
 		this.mtaskid = capa.getEnvironment().createObjectTask(MoveTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
-		
-//		System.out.println("mtaskt: " + mtaskid + " " + nextTarget + " "+ ((RPlan)iplan).getId());
+
 		
 		// wait for task but remain interruptible when goal is abort
 		iplan.invokeInterruptable(new IResultCommand<IFuture<Void>, Void>()

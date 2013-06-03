@@ -65,7 +65,7 @@ public class PreCreatedMultiState
 	 * Get the Buildings in the Scene. With all calculations: Neighborhood and
 	 * Center.
 	 */
-	public synchronized HashMap<MapType, HashMap<Vector2Int, PreCreatedSpaceObject>> getPreparedBuildings()
+	public synchronized HashMap<MapType, HashMap<Vector2Int, PreCreatedSpaceObject>> getPreparedAndCalculatedBuildings()
 	{
 		createCenters();
 
@@ -79,8 +79,6 @@ public class PreCreatedMultiState
 	{
 		for(MapType type : listBuilding.keySet())
 		{
-
-			System.out.println("type: " + type);
 			HashMap<Vector2Int, PreCreatedSpaceObject> tmpList = listBuilding.get(type);
 
 			ArrayList<PreCreatedSpaceObject> values = new ArrayList<PreCreatedSpaceObject>(tmpList.values());
@@ -125,14 +123,12 @@ public class PreCreatedMultiState
 						// if we sucessfully counted to 8 it is Center-Block!
 						if(potCounter >= 8)
 						{
-							System.out.println("preObj " + preObj.getTypeName() + preObj.getPosition());
 							centerInfo.setCenterType(CenterType.CENTER);
 							// set the Border for the surrounding tiles to
 							// Border (so it can not be center anymore)
 							for(Neighborcase centercase : Neighborcase.getDefault())
 							{
 								Vector2Int borderpos = (Vector2Int)preObj.getPosition().copy().add(centercase.getVector());
-								System.out.println("borderpos" + borderpos);
 								ACenterBuildingInfo tmp = (ACenterBuildingInfo)tmpList.get(borderpos).getTileinfo();
 								// System.out.println("tmp : " +
 								// tmp.getMapType());
@@ -157,14 +153,12 @@ public class PreCreatedMultiState
 						// if we sucessfully counted to 8 it is Center-Block!
 						if(potCounter >= 8)
 						{
-							System.out.println("preObj " + preObj.getTypeName() + preObj.getPosition());
 							centerInfo.setCenterType(CenterType.CENTER);
 							// set the Border for the surrounding tiles to
 							// Border (so it can not be center anymore)
 							for(Neighborcase centercase : Neighborcase.getDefault())
 							{
 								Vector2Int borderpos = (Vector2Int)preObj.getPosition().copy().add(centercase.getVector());
-								System.out.println("borderpos" + borderpos);
 								ACenterBuildingInfo tmp = (ACenterBuildingInfo)tmpList.get(borderpos).getTileinfo();
 								// System.out.println("tmp : " +
 								// tmp.getMapType());

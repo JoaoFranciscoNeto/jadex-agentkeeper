@@ -11,6 +11,7 @@ public class LairInfo extends BuildingInfo {
 	{
 		super(mapType);
 		this.hitpoints = 30;
+		neighbours = new MapType[]{MapType.LAIR};
 	}
 
 	/**

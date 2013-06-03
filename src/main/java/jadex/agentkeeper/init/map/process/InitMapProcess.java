@@ -7,12 +7,14 @@ import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.TypeVariant;
+import jadex.agentkeeper.worldmodel.structure.BuildingInfo;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SUtil;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
 import jadex.extension.envsupport.environment.IObjectTask;
+import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.ISpaceProcess;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
@@ -23,7 +25,6 @@ import jadex.extension.envsupport.math.Vector2Int;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,11 +39,11 @@ import java.util.StringTokenizer;
 public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IMap, ISObjStrings
 {
 
-	private Map<String, Object>			tmpProps;
+	private Map<String, Object>		tmpProps;
 
-	private Grid2D						grid;
+	private Grid2D					grid;
 
-	private PreCreatedMultiState		preCreatedState;
+	private PreCreatedMultiState	preCreatedState;
 
 
 	// -------- ISpaceProcess interface --------
@@ -61,7 +62,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		loadAndSetupMissions(grid);
 
 		preCreatedState = new PreCreatedMultiState(MapType.values());
-		
+
 		try
 		{
 			// ClassLoader cl =
@@ -105,44 +106,49 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							readOneElementOnMap(key, aktPos);
 						}
 					}
-					
-					
 
 
-					HashMap<MapType, HashMap<Vector2Int, PreCreatedSpaceObject>> toCreateB = preCreatedState.getPreparedBuildings();
+					HashMap<MapType, HashMap<Vector2Int, PreCreatedSpaceObject>> toCreateB = preCreatedState.getPreparedAndCalculatedBuildings();
 					for(HashMap<Vector2Int, PreCreatedSpaceObject> hashpre : toCreateB.values())
 					{
 						for(PreCreatedSpaceObject presobj : hashpre.values())
 						{
-							
-							
+							TileInfo tinfo = null;
+
 							ArrayList<IObjectTask> tasklist = new ArrayList<IObjectTask>();
-							
-							
-							//If we have an Hatchery....
+
+
+							// If we have an Hatchery....
 							if(presobj.getTypeName().equals(MapType.HATCHERY.toString().toUpperCase()))
 							{
-								//Add necessary Tasks
+
+
+								// Add necessary Tasks
 								if(presobj.getTileinfo() instanceof ACenterBuildingInfo)
 								{
 									ACenterBuildingInfo cinfo = (ACenterBuildingInfo)presobj.getTileinfo();
-									
+
 									if(cinfo.getCenterType() == CenterType.CENTER)
 									{
-										//And Add the Chickentask
+										// And Add the Chickentask
 										tasklist.add(new CreateChickenTask());
 									}
 								}
 							}
-							
+
 							// Create the Buildung in the Scene
-							grid.createSpaceObject(presobj.getTypeName(), presobj.getProperties(), tasklist);
-							
+							ISpaceObject justcreated = grid.createSpaceObject(presobj.getTypeName(), presobj.getProperties(), tasklist);
+
+//							System.out.println("justcreated " + justcreated.getType() + justcreated.getId());
+
+							((TileInfo)justcreated.getProperty(PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
+
+
 						}
 					}
 				}
-				
-				
+
+
 				Object[] allSObj = grid.getSpaceObjects();
 				for(int i = 0; i < allSObj.length; i++)
 				{
@@ -154,8 +160,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 					}
 
 				}
-
-
 
 
 				if("CREATURES".equals(data))
@@ -170,7 +174,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							String type = stok.nextToken().toLowerCase();
 							int x = Integer.parseInt(stok.nextToken()) - 1;
 							int y = Integer.parseInt(stok.nextToken()) - 1;
-							
+
 							HashMap<String, Object> props = new HashMap<String, Object>();
 
 							String level = stok.nextToken();
@@ -184,7 +188,7 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 							props.put(Space2D.PROPERTY_POSITION, new Vector2Double(x, y));
 
 							props.put(ISObjStrings.PROPERTY_INTPOSITION, new Vector2Int(x, y));
-							
+
 							props.put(PROPERTY_AWAKE, 100.0);
 							props.put(PROPERTY_FED, 100.0);
 							props.put(PROPERTY_HAPPINESS, 100.0);
@@ -200,18 +204,17 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 								creatureState.addCreature(type);
 
 							}
-							
+
 							ArrayList<IObjectTask> list = new ArrayList<IObjectTask>();
 							list.add(new UpdateStatusTask());
 
 							// todo: level, owner
 							grid.createSpaceObject(type, props, list);
-//							System.out.println("type: " + type);
-//							System.out.println("props: " + props);
+							// System.out.println("type: " + type);
+							// System.out.println("props: " + props);
 						}
 					}
-										
-					
+
 
 				}
 
@@ -227,30 +230,33 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		space.removeSpaceProcess(getProperty(ISpaceProcess.ID));
 
 	}
-	
+
 	/**
-	 * This Method reads one Element from the Map and save it temporaly for the necessary neighborhood calculation afterwards
+	 * This Method reads one Element from the Map and save it temporaly for the
+	 * necessary neighborhood calculation afterwards
 	 * 
 	 * @param key
 	 * @param aktPos
 	 */
+	//HACK
 	private void readOneElementOnMap(String key, Vector2Int aktPos)
 	{
-		
+
 		MapType mapType = TILE_MAP.get(key);
 
-		
+
 		String type = mapType.toString();
 
 		// Null Check
-		
+
 		type = type == null ? "unknown" : type;
 
 		tmpProps = new HashMap<String, Object>();
 
-		Object tileinfo = createPojoElement(aktPos, mapType);
+		// TODO cast Tileinfo?
+		Object tileinfo = InitializeHelper.createPojoElement(aktPos, mapType);
 
-		tmpProps.put(PROPERTY_CLICKED, false);
+		tmpProps.put(ISObjStrings.PROPERTY_CLICKED, false);
 
 		// TODO: thats shit!
 		tmpProps.put("bearbeitung", 0);
@@ -265,7 +271,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		tmpProps.put(PROPERTY_NEIGHBORHOOD, "00000000");
 		tmpProps.put(Space2D.PROPERTY_POSITION, aktPos);
 		tmpProps.put(PROPERTY_INTPOSITION, aktPos);
-		
 
 
 		tmpProps.put(PROPERTY_TILEINFO, tileinfo);
@@ -282,47 +287,12 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 		else
 		{
 			buildingState.addType(aktPos, tileinfo);
-			grid.createSpaceObject(type, tmpProps, null);
+			ISpaceObject tmpobj = grid.createSpaceObject(type, tmpProps, null);
+			((TileInfo)tmpobj.getProperty(PROPERTY_TILEINFO)).setSpaceObjectId(tmpobj.getId());
 		}
-		
 
 
 	}
 
-
-	private Object createPojoElement(Vector2Int aktPos, MapType mapType)
-	{
-		Object ret = null;
-		try
-		{
-			ret = mapType.getPojo().getDeclaredConstructor(MapType.class).newInstance(mapType);
-		}
-		catch(IllegalArgumentException e)
-		{
-			e.printStackTrace();
-		}
-		catch(SecurityException e)
-		{
-			e.printStackTrace();
-		}
-		catch(InstantiationException e)
-		{
-			e.printStackTrace();
-		}
-		catch(IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		catch(InvocationTargetException e)
-		{
-			e.printStackTrace();
-		}
-		catch(NoSuchMethodException e)
-		{
-			e.printStackTrace();
-		}
-
-		return ret;
-	}
 
 }

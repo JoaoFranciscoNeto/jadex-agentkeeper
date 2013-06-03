@@ -69,8 +69,6 @@ public class EatPlan
 	{
 		final Future<Void> ret = new Future<Void>();
 
-		// System.out.println("eat plan");
-
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
 
 		environment = capa.getEnvironment();
@@ -116,7 +114,6 @@ public class EatPlan
 							{
 								public void customResultAvailable(final SpaceObject chickenresult)
 								{
-									System.out.println("result chicken: " + chickenresult.getType() + chickenresult.getId());
 
 									Vector2Double chickenpos = (Vector2Double)chickenresult.getProperty(Space2D.PROPERTY_POSITION);
 									
@@ -157,7 +154,6 @@ public class EatPlan
 								public void exceptionOccurred(Exception exception)
 								{
 									// look for another Hatchery
-									System.out.println("no chickens anymore");
 
 									// Try again
 									reachHatchery(buildingState).addResultListener(new DelegationResultListener<Void>(ret));
@@ -180,7 +176,7 @@ public class EatPlan
 		}
 		else
 		{
-			System.out.println("no hatchery with chickens!!");
+//			System.out.println("no hatchery with chickens!!");
 			spaceObject.setProperty(ISObjStrings.PROPERTY_MORAL, 0);
 			rplan.abort();
 		}
@@ -199,9 +195,9 @@ public class EatPlan
 	{
 		final Future<Void> ret = new Future<Void>();
 
-		System.out.println("spaceObject: " + spaceObject.getType() + spaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION));
+//		System.out.println("spaceObject: " + spaceObject.getType() + spaceObject.getProperty(ISObjStrings.PROPERTY_INTPOSITION));
 
-		System.out.println("target: " + chickenPos);
+//		System.out.println("target: " + chickenPos);
 
 		Map<String, Object> props = new HashMap<String, Object>();
 		props.put(MoveTask.PROPERTY_DESTINATION, chickenPos);
@@ -209,8 +205,7 @@ public class EatPlan
 
 		this.mtaskid = capa.getEnvironment().createObjectTask(MoveTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
 
-		System.out.println("mtaskt: " + mtaskid + " " + chickenPos + " " + iplan.getId());
-
+	
 		// wait for task but remain interruptible when goal is abort
 		iplan.invokeInterruptable(new IResultCommand<IFuture<Void>, Void>()
 		{

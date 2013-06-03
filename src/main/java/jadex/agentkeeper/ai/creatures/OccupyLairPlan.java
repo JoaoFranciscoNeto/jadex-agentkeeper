@@ -8,6 +8,7 @@ import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.LairInfo;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
@@ -17,6 +18,7 @@ import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
+import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
@@ -155,7 +157,9 @@ public class OccupyLairPlan
 		
 		Map<String, Object> probs = oldlair.getProperties();
 		environment.destroySpaceObject(oldlair.getId());
-		environment.createSpaceObject(MapType.LAIR.toString(), probs, null);
+		//TODO: Remove HACK
+		ISpaceObject justcreated = environment.createSpaceObject(MapType.LAIR.toString(), probs, null);
+		((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
 
 		ret.setResult(null);
 		

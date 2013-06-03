@@ -83,6 +83,7 @@
 
 						<image id="UnitsS" filename="/gui/images/main/monster.png"
 							height="32px" width="32px" hint="options">
+							<interact onClick="setImpMode()" />
 							<effect>
 								<onHover name="hint" hintText="Creatures" hintDelay="1000" />
 								<onHover name="imageOverlay" filename="/gui/images/main/monster_clicked.png"
@@ -96,6 +97,7 @@
 
 						<image id="BuildingsS" filename="/gui/images/main/home.png"
 							height="32px" width="32px" hint="options">
+							<interact onClick="setBuildMode()" />
 							<effect>
 								<onHover name="hint" hintText="Buildings" hintDelay="1000" />
 								<onHover name="imageOverlay" filename="/gui/images/main/home_clicked.png"
@@ -104,7 +106,7 @@
 								<onClick name="show" targetElement="panel_buildings"></onClick>
 								<onClick name="hide" targetElement="panel_units"></onClick>
 								<onClick name="hide" targetElement="panel_default"></onClick>
-							</effect>
+							</effect>							
 						</image>
 					</panel>
 
@@ -224,6 +226,10 @@
 							padding="15px">
 							<control name="button" label="TestBuildings" id="TestBuildings"
 								visibleToMouse="true" height="50%" valign="center">
+							</control>
+							<control name="button" label="Lair" id="Build_Lair"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectLair()" />
 							</control>
 						</panel>
 					</panel>

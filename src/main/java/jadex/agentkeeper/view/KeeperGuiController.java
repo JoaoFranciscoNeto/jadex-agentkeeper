@@ -4,6 +4,7 @@ import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.agentkeeper.view.selection.SelectionMode;
 import jadex.extension.envsupport.environment.ISpaceController;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 import jadex.extension.envsupport.observer.graphics.jmonkey.appstate.gui.DefaultGuiController;
@@ -84,8 +85,16 @@ public class KeeperGuiController extends DefaultGuiController
 	{
 		// spaceController.getSpaceObjectsByGridPosition(new Vector2Int(10, 10),
 		// null);
-
-
+	}
+	
+	public void setImpMode()
+	{
+		this.playerState.setSelectionMode(SelectionMode.IMPMODE);
+	}
+	
+	public void selectLair()
+	{
+		this.playerState.setSelectionMode(SelectionMode.BUILDMODE);
 	}
 
 	public void setPerform()

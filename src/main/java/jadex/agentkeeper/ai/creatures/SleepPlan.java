@@ -44,12 +44,10 @@ public class SleepPlan
 		final Future<Void> ret = new Future<Void>();
 
 		IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(capa.getMyLairPosition()));
-		System.out.println("- - - - - start walking to bed - - - - - ");
 		fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
 		{
 			public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
 			{
-				System.out.println("- - - - - start sleeping - - - - - ");
 				idle(capa.getMyAwakeStatus(), 100.0).addResultListener(new DelegationResultListener<Void>(ret));
 			}
 		});
@@ -89,7 +87,6 @@ public class SleepPlan
 		}
 		else
 		{
-//			System.out.println("- - - - - finished sleeping - - - - - ");
 			spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 			ret.setResult(null);
 		}

@@ -62,8 +62,33 @@ public class SimpleMapState
 		HashMap<Vector2Int, Object> myList = this.typesList.get(info.getMapType());
 		myList.put(location, object);
 		this.typesList.put(info.getMapType(), myList);
-		mapTypes.put(location, info.getMapType());
-		mapInfo.put(location, (TileInfo)object);
+		if(mapTypes.get(location)!=null)
+		{
+			mapTypes.put(location, info.getMapType());
+		}
+		else
+		{
+			mapTypes.remove(location);
+			mapTypes.put(location, info.getMapType());
+		}
+		
+		if(mapInfo.get(location)!=null)
+		{
+			mapInfo.put(location, (TileInfo)object);
+		}
+		else
+		{
+			mapInfo.remove(location);
+			mapInfo.put(location, (TileInfo)object);
+		}
+		
+
+	}
+	
+	public synchronized void removeType(Vector2Int location)
+	{
+		mapTypes.remove(location);
+		mapInfo.remove(location);
 	}
 	
 	
@@ -133,6 +158,18 @@ public class SimpleMapState
 	
 	/**
 	 * 
+	 * Get the Info from a position
+	 * 
+	 * @param pos
+	 * @return x
+	 */
+	public TileInfo getInfoAtPos(Vector2Int pos)
+	{
+		return mapInfo.get(pos);
+	}
+	
+	/**
+	 * 
 	 * Get the Type from a position
 	 * 
 	 * @param pos
@@ -142,6 +179,20 @@ public class SimpleMapState
 	{
 		Vector2Int intpos = new Vector2Int(Math.round(pos.getXAsFloat()), Math.round(pos.getYAsFloat()));
 		return mapTypes.get(intpos);
+	}
+	
+	
+	/**
+	 * Set a specific type at a Position
+	 * 
+	 * @param pos
+	 * @param object
+	 */
+	public void setTypeAtPos(Vector2Int pos, Object object)
+	{
+		TileInfo info = (TileInfo)object;
+		mapTypes.put(pos, info.getMapType());
+		mapInfo.put(pos, info);
 	}
 	
 	/**

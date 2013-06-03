@@ -1,8 +1,11 @@
 package jadex.agentkeeper.view;
 
+import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.UserEingabenManager;
+import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.view.selection.SelectionArea;
 import jadex.agentkeeper.view.selection.SelectionHandler;
+import jadex.agentkeeper.view.selection.SelectionMode;
 import jadex.extension.envsupport.environment.ISpaceController;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
@@ -42,6 +45,8 @@ public class GeneralAppState extends AbstractAppState
 	private SelectionHandler handler;
 	
 	private UserEingabenManager	usermanager;
+	
+	private SimplePlayerState	playerState;
 
 	
 
@@ -54,16 +59,25 @@ public class GeneralAppState extends AbstractAppState
 		this.rootNode = this.app.getRootNode();
 		this.monkeyapp = (MonkeyApp)app;
 		this.spaceController = monkeyapp.getSpaceController();
+		this.playerState = (SimplePlayerState)spaceController.getProperty(ISpaceStrings.PLAYER_STATE);
 		this.usermanager = (UserEingabenManager) spaceController.getProperty("uem");
-		this.handler = new SelectionHandler((MonkeyApp)app, this);
+		this.handler = new SelectionHandler((MonkeyApp)app, this, playerState);
 
 		setup();
 
 	}
 	
+	//HACK with stop Integer to improve Performance
+	int stop = 5;
 	public void update(float tpf)
 	{
-		handler.updateHandler();
+		if(stop==0)
+		{
+			stop = 5;
+			handler.updateHandler();
+		}
+		stop--;
+
 		dl.setDirection(monkeyapp.getCamera().getDirection().setY(-0.0f));
 		
 
@@ -79,7 +93,10 @@ public class GeneralAppState extends AbstractAppState
 		
 	}
 
-	public void setup()
+	/**
+	 * Setup the Scene with JMonkey-Stuff
+	 */
+	private void setup()
 	{
 		dl = new DirectionalLight();
 		dl.setName("sun");
@@ -113,10 +130,8 @@ public class GeneralAppState extends AbstractAppState
 		water.setSpeed(0.1f);
 		water.setShoreHardness(1.0f);
 		water.setRefractionConstant(0.2f);
-
 		water.setShininess(0.3f);
 		water.setSunScale(1.1f);
-
 		water.setLightColor(ColorRGBA.Red.mult(0.1f).set(ColorRGBA.Orange.mult(0.1f).r, ColorRGBA.Orange.mult(0.1f).g, ColorRGBA.Orange.mult(0.1f).b, 0.01f));
 		water.setColorExtinction(new Vector3f(10.0f, 20.0f, 30.0f));
 		this.app.getFpp().addFilter(water);
@@ -150,9 +165,17 @@ public class GeneralAppState extends AbstractAppState
 	 * 
 	 * @param selectionArea
 	 */
-	public void userSubmit(SelectionArea selectionArea)
+	public void userSubmit(SelectionArea selectionArea, SelectionMode selectionMode)
 	{
-		usermanager.destoryWalls(selectionArea);
+		if(selectionMode == SelectionMode.IMPMODE)
+		{
+			usermanager.destroyWalls(selectionArea);
+		}
+		else if(selectionMode == SelectionMode.BUILDMODE)
+		{
+			usermanager.createBuildings(selectionArea);
+		}
+
 		
 	}
 
