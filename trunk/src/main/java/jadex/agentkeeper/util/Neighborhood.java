@@ -5,6 +5,7 @@ import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.IObjectTask;
+import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
@@ -67,6 +68,8 @@ public class Neighborhood
 	}
 
 
+
+	
 	/**
 	 * Until now called only by GehHinUndArbeit
 	 * 
@@ -119,13 +122,17 @@ public class Neighborhood
 			// InitMapProcess.NEIGHBOR_RELATIONS.get(thatsme.getType());
 			
 			TileInfo info = TileInfo.getTileInfo(thatsme, TileInfo.class);
+
 			MapType[] types = info.getNeighbors();
 			if(types != null)
 			{
 				Set<SpaceObject> nearRocks = InitMapProcess.getNeighborBlocksInRange(ziel, 1, grid, types);
+				
 
 				String newneighborhood = Neighborhood.reCalculateNeighborhood(ziel, nearRocks);
-
+				
+				
+				
 				if(!newneighborhood.equals(tmpneighborhood))
 				{
 
@@ -152,7 +159,10 @@ public class Neighborhood
 
 					if(destroyed)
 					{
-						grid.createSpaceObject(thatsmecopy.getType(), thatsmecopy.getProperties(), tasklist);
+						
+						//TODO: REMOVE HACK
+						ISpaceObject justcreated = grid.createSpaceObject(thatsmecopy.getType(), thatsmecopy.getProperties(), tasklist);
+						((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
 					}
 
 				}
@@ -265,6 +275,102 @@ public class Neighborhood
 		return parseTilesets(stringret, alternatives);
 
 	}
+	
+	
+	
+	/**
+	 * Recalculate the Neighborhood for one Block
+	 * 
+	 * @param iMyPos my Position
+	 * @param nearFields the SpaceoObjects around me
+	 */
+	public static String reCalculateNeighborhoodNewMethod(IVector2 iMyPos, Set<Vector2Int> nearFields)
+	{
+
+		Vector2Int myPos = (Vector2Int)iMyPos;
+		boolean alternatives = false;
+		int ret = 0;
+
+		ArrayList<Neighborcase> neighborcases = new ArrayList<Neighborcase>();
+		Iterator<Vector2Int> it = nearFields.iterator();
+
+		// Calculate all the neihborcases
+		while(it.hasNext())
+		{
+
+			Vector2Int sobjpos = it.next();
+			if(sobjpos.equals(myPos))
+			{
+
+			}
+			else
+			{
+				Vector2Int subtract = (Vector2Int)sobjpos.copy().subtract(myPos);
+
+				// We save all the cases in a List.
+				Neighborcase wert = getNeighborInt(subtract);
+				if(wert != null)
+				{
+					neighborcases.add(wert);
+				}
+
+			}
+
+		}
+
+		// Remove execptions
+		if(neighborcases.contains(Neighborcase.CASE3))
+		{
+			if(!neighborcases.contains(Neighborcase.CASE2) || !neighborcases.contains(Neighborcase.CASE4))
+			{
+				neighborcases.remove(Neighborcase.CASE3);
+
+			}
+
+		}
+
+		if(neighborcases.contains(Neighborcase.CASE5))
+		{
+			if(!neighborcases.contains(Neighborcase.CASE4) || !neighborcases.contains(Neighborcase.CASE6))
+			{
+				neighborcases.remove(Neighborcase.CASE5);
+			}
+
+		}
+
+		if(neighborcases.contains(Neighborcase.CASE7))
+		{
+			if(!neighborcases.contains(Neighborcase.CASE6) || !neighborcases.contains(Neighborcase.CASE8))
+			{
+				neighborcases.remove(Neighborcase.CASE7);
+			}
+
+		}
+
+		if(neighborcases.contains(Neighborcase.CASE1))
+		{
+			if(!(neighborcases.contains(Neighborcase.CASE2)) || !(neighborcases.contains(Neighborcase.CASE8)))
+			{
+				neighborcases.remove(Neighborcase.CASE1);
+			}
+
+		}
+
+		// System.out.println("neighborcases" + neighborcases.toString());
+
+		// Now we adress the concrete Tiles:
+		for(Neighborcase ncase : neighborcases)
+		{
+			ret = ret ^ ncase.getValue();
+		}
+
+
+		// System.out.println("ret als byte " + Integer.toBinaryString(ret));
+		String stringret = Integer.toBinaryString(ret);
+		return parseTilesets(stringret, alternatives);
+
+	}
+	
 
 	private static String parseTilesets(String neighborhood, boolean alternatives)
 	{
@@ -306,6 +412,21 @@ public class Neighborhood
 
 
 	private static Neighborcase getNeighbor(Vector2Double diff)
+	{
+		for(Neighborcase neighborcase : Neighborcase.getDefault())
+		{
+			if(neighborcase.getVector().equals(diff))
+			{
+				return neighborcase;
+			}
+
+		}
+		return null;
+
+
+	}
+	
+	private static Neighborcase getNeighborInt(Vector2Int diff)
 	{
 		for(Neighborcase neighborcase : Neighborcase.getDefault())
 		{

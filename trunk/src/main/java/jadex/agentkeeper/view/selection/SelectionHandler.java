@@ -1,5 +1,6 @@
 package jadex.agentkeeper.view.selection;
 
+import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.view.GeneralAppState;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
@@ -27,6 +28,8 @@ import com.jme3.scene.debug.WireBox;
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
+
+// TODO: hack that the SelectionHandler gets the PlayerState
 public class SelectionHandler
 {
 	private MonkeyApp						app;
@@ -51,13 +54,16 @@ public class SelectionHandler
 
 	protected Vector2f						selectionStart	= new Vector2f(Vector2f.ZERO);
 
+	/* The Playerstate */
+	private SimplePlayerState				playerState;
+
 
 	// protected String selectedStringType;
 
 	private SelectionHandlingKeyListener	selectionListener;
 
 
-	public SelectionHandler(MonkeyApp app, GeneralAppState mystate)
+	public SelectionHandler(MonkeyApp app, GeneralAppState mystate, SimplePlayerState playerState)
 	{
 		this.app = app;
 		this.mystate = mystate;
@@ -72,6 +78,7 @@ public class SelectionHandler
 
 		this.app.getInputManager().addListener(selectionListener, "Lclick");
 
+		this.playerState = playerState;
 
 	}
 
@@ -87,8 +94,8 @@ public class SelectionHandler
 	private void updateSelection()
 	{
 		Object id = app.getSelectedSpaceObjectId();
-		
-//		System.out.println("id: " + id);
+
+		// System.out.println("id: " + id);
 
 		long idlong = -1;
 
@@ -128,13 +135,14 @@ public class SelectionHandler
 				MapType type = info.getMapType();
 
 
-//				System.out.println("selected.getType() " + selected.getType());
+				// System.out.println("selected.getType() " +
+				// selected.getType());
 
 				mystate.updateInfoText(selected.getType() + " x " + type.toString());
 
-				
-//				TODO: Selectionmode
-				if(type == MapType.ROCK || type == MapType.REINFORCED_WALL)
+
+				// TODO: Selectionmode
+				if(playerState.getSelectionMode().IsSelectionMatchingToMode(type))
 				{
 
 					if(getSelectionArea() != null)
@@ -188,6 +196,7 @@ public class SelectionHandler
 	}
 
 
+	
 	protected void placeSelectionBox(float x, float z)
 	{
 		if(isOnView())
@@ -196,7 +205,7 @@ public class SelectionHandler
 		}
 
 	}
-
+	
 	protected boolean isOnView()
 	{
 		return this.app.getInputManager().getCursorPosition().y > 100;
@@ -278,8 +287,8 @@ public class SelectionHandler
 
 	public void userSubmit(SelectionArea selectionArea)
 	{
-		//TODO: Handle Submit according to what the user wanted to do
-		mystate.userSubmit(selectionArea);
+		// TODO: Handle Submit according to what the user wanted to do
+		mystate.userSubmit(selectionArea, playerState.getSelectionMode());
 	}
 
 	// /**
@@ -313,5 +322,6 @@ public class SelectionHandler
 	{
 		this.selectionListener = selectionListener;
 	}
+
 
 }

@@ -1,5 +1,7 @@
 package jadex.agentkeeper.game.state.player;
 
+import jadex.agentkeeper.view.selection.SelectionMode;
+
 /**
  * Just a first pre-implementation of the Player State, mainly for the GUI
  * 
@@ -17,9 +19,13 @@ public class SimplePlayerState
 	
 	private boolean showBars;
 	
+	/* The Selection Mode */
+	private SelectionMode					selectionMode;
+	
 	public SimplePlayerState(int playerId)
 	{
 		this.playerId = playerId;
+		this.selectionMode = SelectionMode.IMPMODE;
 	}
 
 	public int getPlayerId()
@@ -82,6 +88,22 @@ public class SimplePlayerState
 	public void setShowBars(boolean showBars)
 	{
 		this.showBars = showBars;
+	}
+
+	/**
+	 * @return the selectionMode
+	 */
+	public SelectionMode getSelectionMode()
+	{
+		return selectionMode;
+	}
+
+	/**
+	 * @param selectionMode the selectionMode to set
+	 */
+	public void setSelectionMode(SelectionMode selectionMode)
+	{
+		this.selectionMode = selectionMode;
 	}
 
 }

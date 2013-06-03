@@ -201,7 +201,6 @@ public class AgentKeeperCameraState extends AbstractAppState
 
 		if(this.app.isCleanupPostFilter())
 		{
-			System.out.println("cleanup! isostate");
 			cam_map.resize(150, 150, true);
 
 		}

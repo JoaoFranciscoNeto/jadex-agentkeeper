@@ -179,11 +179,13 @@ public abstract class GehHinUndArbeit extends KreaturenPlan
 			if(!newTyp.equals(sobs.getType()))
 			{		
 				
-				grid.createSpaceObject(newTyp.toString(), props, null);
+				ISpaceObject justcreated = grid.createSpaceObject(newTyp.toString(), props, null);
+				
+				((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
 			}
 			else
 			{
-
+				System.out.println("not created!!!!! GEHHINUNDARBEIT");
 			}
 
 
