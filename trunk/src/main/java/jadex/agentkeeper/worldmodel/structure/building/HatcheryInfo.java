@@ -13,7 +13,7 @@ public class HatcheryInfo extends ACenterBuildingInfo
 	// tex
 	private int					numChickens;
 
-	private int					maxChickens	= 10;
+	private int					maxChickens	= 8;
 
 	private Stack<SpaceObject>	chickens	= new Stack<SpaceObject>();
 

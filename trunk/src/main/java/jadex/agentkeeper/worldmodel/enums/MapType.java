@@ -22,17 +22,17 @@ import java.util.EnumSet;
 public enum MapType
 {
 	// Unknown, need for MapEditor issues
-	UNKNOWN(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, UnknownInfo.class),
+	UNKNOWN(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, UnknownInfo.class, 0),
 	
 	// Buildings
-	HATCHERY(TypeVariant.BUILDING, WalkType.PASSABLE, HatcheryInfo.class), 
-	LAIR(TypeVariant.BUILDING, WalkType.PASSABLE, LairInfo.class), 
-	LIBRARY(TypeVariant.BUILDING, WalkType.PASSABLE, LibraryInfo.class), 
-	PORTAL(TypeVariant.BUILDING, WalkType.PASSABLE, PortalInfo.class), 
-	TORTURE(TypeVariant.BUILDING, WalkType.PASSABLE, TortureInfo.class),
-	TREASURY(TypeVariant.BUILDING, WalkType.PASSABLE, TreasuryInfo.class), 
-	DUNGEONHEART(TypeVariant.BUILDING, WalkType.PASSABLE, DungeonHeartInfo.class), 
-	TRAININGROOM(TypeVariant.BUILDING, WalkType.PASSABLE, TrainingRoomInfo.class), 
+	HATCHERY(TypeVariant.BUILDING, WalkType.PASSABLE, HatcheryInfo.class, 300), 
+	LAIR(TypeVariant.BUILDING, WalkType.PASSABLE, LairInfo.class, 300), 
+	LIBRARY(TypeVariant.BUILDING, WalkType.PASSABLE, LibraryInfo.class, 200), 
+	PORTAL(TypeVariant.BUILDING, WalkType.PASSABLE, PortalInfo.class, 0), 
+	TORTURE(TypeVariant.BUILDING, WalkType.PASSABLE, TortureInfo.class, 1500),
+	TREASURY(TypeVariant.BUILDING, WalkType.PASSABLE, TreasuryInfo.class, 200), 
+	DUNGEONHEART(TypeVariant.BUILDING, WalkType.PASSABLE, DungeonHeartInfo.class, 0), 
+	TRAININGROOM(TypeVariant.BUILDING, WalkType.PASSABLE, TrainingRoomInfo.class, 500), 
 	
 	//Solid Types
 	IMPENETRABLE_ROCK(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, ImpenetrableRockInfo.class),
@@ -50,12 +50,22 @@ public enum MapType
 	private Class<?> pojo;
 	private TypeVariant variant;
 	private WalkType walkType;
+	private int cost;
+	
+	private MapType(TypeVariant variant, WalkType walkType, Class<?> pojo, int cost)
+	{
+		this.variant = variant;
+		this.pojo = pojo;
+		this.walkType = walkType;
+		this.cost = cost;
+	}
 	
 	private MapType(TypeVariant variant, WalkType walkType, Class<?> pojo)
 	{
 		this.variant = variant;
 		this.pojo = pojo;
 		this.walkType = walkType;
+		this.cost = 0;
 	}
 	
 	/**
@@ -124,6 +134,22 @@ public enum MapType
 	public void setWalkType(WalkType walkType)
 	{
 		this.walkType = walkType;
+	}
+
+	/**
+	 * @return the cost
+	 */
+	public int getCost()
+	{
+		return cost;
+	}
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(int cost)
+	{
+		this.cost = cost;
 	}
 
 }
