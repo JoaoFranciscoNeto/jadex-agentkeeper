@@ -10,6 +10,7 @@ import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.LairInfo;
+import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
@@ -38,6 +39,7 @@ import java.util.Set;
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
+@Plan
 public class OccupyLairPlan
 {
 	@PlanCapability
@@ -83,7 +85,7 @@ public class OccupyLairPlan
 
 		final Future<Void> retb = new Future<Void>();
 
-		HashMap<Vector2Int, Object> lairs = buildingState.getTypes(MapType.LAIR);
+		HashMap<Vector2Int, TileInfo> lairs = buildingState.getTypes(MapType.LAIR);
 
 		Set<Vector2Int> lairpos = lairs.keySet();
 		

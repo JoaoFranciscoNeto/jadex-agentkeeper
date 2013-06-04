@@ -5,6 +5,7 @@ import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.view.selection.SelectionMode;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.environment.ISpaceController;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 import jadex.extension.envsupport.observer.graphics.jmonkey.appstate.gui.DefaultGuiController;
@@ -41,6 +42,8 @@ public class KeeperGuiController extends DefaultGuiController
 	private SimplePlayerState	playerState;
 	
 	private TextRenderer manaStatusRenderer;
+	
+	private TextRenderer goldStatusRenderer;
 	
 	private TextRenderer claimedTilesRender;
 
@@ -94,7 +97,22 @@ public class KeeperGuiController extends DefaultGuiController
 	
 	public void selectLair()
 	{
-		this.playerState.setSelectionMode(SelectionMode.BUILDMODE);
+		this.playerState.setBuilding(MapType.LAIR);
+	}
+	
+	public void selectTreasury()
+	{
+		this.playerState.setBuilding(MapType.TREASURY);
+	}
+	
+	public void selectHatchery()
+	{
+		this.playerState.setBuilding(MapType.HATCHERY);
+	}
+	
+	public void selectTrainingroom()
+	{
+		this.playerState.setBuilding(MapType.TRAININGROOM);
 	}
 
 	public void setPerform()
@@ -130,10 +148,17 @@ public class KeeperGuiController extends DefaultGuiController
 		
     	
 		String manatext = ""+(int)playerState.getMana();
+		String goldtext = ""+(int)playerState.getGold();
 		while(manatext.length()<=7)
 		{
 			manatext = "0".concat(manatext);
 		}
+		
+		while(goldtext.length()<=7)
+		{
+			goldtext = "0".concat(goldtext);
+		}
+		goldStatusRenderer.setText(goldtext);
 		manaStatusRenderer.setText(manatext);
 		claimedTilesRender.setText("+"+playerState.getClaimedSectors());
 
@@ -142,6 +167,11 @@ public class KeeperGuiController extends DefaultGuiController
 
 	public void onStartScreen()
 	{
+		
+		Element goldT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("goldstatus");
+		this.goldStatusRenderer = goldT.getRenderer(TextRenderer.class);
+		
+		
 		Element manaT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("manastatus");
 		this.manaStatusRenderer = manaT.getRenderer(TextRenderer.class);
 		

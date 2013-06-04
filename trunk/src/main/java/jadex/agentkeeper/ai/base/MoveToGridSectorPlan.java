@@ -4,6 +4,7 @@ import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanAborted;
 import jadex.bdiv3.annotation.PlanBody;
@@ -30,6 +31,7 @@ import java.util.Map;
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
+@Plan
 public class MoveToGridSectorPlan
 {
 	@PlanCapability

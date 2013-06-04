@@ -4,6 +4,7 @@ import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
@@ -19,6 +20,7 @@ import jadex.extension.envsupport.environment.ISpaceObject;
  * @author Philip Willuweit p.willuweit@gmx.de
  *
  */
+@Plan
 public class IdlePlan
 {
 	@PlanCapability

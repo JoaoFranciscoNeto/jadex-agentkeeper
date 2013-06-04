@@ -5,6 +5,7 @@ import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
@@ -24,6 +25,7 @@ import jadex.extension.envsupport.math.Vector2Int;
  * 
  * @author Philip Willuweit p.willuweit@gmx.de
  */
+@Plan
 public class PatrolPlan
 {
 	@PlanCapability

@@ -26,7 +26,7 @@ import java.util.Set;
  */
 public class SimpleMapState
 {
-	private HashMap<MapType, HashMap<Vector2Int, Object>> typesList = new HashMap<MapType, HashMap<Vector2Int, Object>>();
+	private HashMap<MapType, HashMap<Vector2Int, TileInfo>> typesList = new HashMap<MapType, HashMap<Vector2Int, TileInfo>>();
 	
 	private HashMap<Vector2Int, MapType> mapTypes = new HashMap<Vector2Int, MapType>();
 	
@@ -38,7 +38,7 @@ public class SimpleMapState
 	{
 		for(MapType type : enumSetRange)
 		{
-			this.typesList.put(type, new HashMap<Vector2Int, Object>());
+			this.typesList.put(type, new HashMap<Vector2Int, TileInfo>());
 		}
 	}
 
@@ -46,7 +46,7 @@ public class SimpleMapState
 	{
 		for(MapType type : values)
 		{
-			this.typesList.put(type, new HashMap<Vector2Int, Object>());
+			this.typesList.put(type, new HashMap<Vector2Int, TileInfo>());
 		}
 	}
 
@@ -59,8 +59,8 @@ public class SimpleMapState
 	public synchronized void addType(Vector2Int location, Object object)
 	{
 		TileInfo info = (TileInfo)object;
-		HashMap<Vector2Int, Object> myList = this.typesList.get(info.getMapType());
-		myList.put(location, object);
+		HashMap<Vector2Int, TileInfo> myList = this.typesList.get(info.getMapType());
+		myList.put(location, (TileInfo)object);
 		this.typesList.put(info.getMapType(), myList);
 		if(mapTypes.get(location)!=null)
 		{
@@ -101,7 +101,7 @@ public class SimpleMapState
 	 */
 	public synchronized Vector2Int getClosestHatcheryWithChickens(Vector2Double creaturePos)
 	{
-		HashMap<Vector2Int, Object> hatcheries = getTypes(MapType.HATCHERY);
+		HashMap<Vector2Int, TileInfo> hatcheries = getTypes(MapType.HATCHERY);
 		Set<Vector2Int> hatcherys = hatcheries.keySet();
 		ArrayList<Vector2Int> hatcherylist = new ArrayList<Vector2Int>();
 		hatcherylist.addAll(hatcherys);
@@ -138,7 +138,7 @@ public class SimpleMapState
 	 * @param type
 	 * @return the HashMap
 	 */
-	public HashMap<Vector2Int, Object> getTypes(MapType type)
+	public HashMap<Vector2Int, TileInfo> getTypes(MapType type)
 	{
 		return this.typesList.get(type);
 	}

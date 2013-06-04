@@ -9,6 +9,7 @@ import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
+import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanAborted;
 import jadex.bdiv3.annotation.PlanBody;
@@ -37,7 +38,7 @@ import javax.management.monitor.Monitor;
 
 import com.jme3.scene.plugins.blender.constraints.ConstraintHelper.Space;
 
-
+@Plan
 public class EatPlan
 {
 

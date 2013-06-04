@@ -173,7 +173,7 @@ public class GeneralAppState extends AbstractAppState
 		}
 		else if(selectionMode == SelectionMode.BUILDMODE)
 		{
-			usermanager.createBuildings(selectionArea);
+			usermanager.createBuildings(selectionArea, playerState.getMapType());
 		}
 
 		

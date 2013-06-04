@@ -1,8 +1,9 @@
 package jadex.agentkeeper.init.map.process;
 
-import jadex.extension.envsupport.math.IVector2;
+import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.math.Vector2Int;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PreCreatedSpaceObject implements Comparable<PreCreatedSpaceObject>
@@ -19,6 +20,7 @@ public class PreCreatedSpaceObject implements Comparable<PreCreatedSpaceObject>
 	private Map<String, Object> properties;
 	private Object tileinfo;
 	private Vector2Int position;
+	private ArrayList<IObjectTask> tasklist;
 	
 	/**
 	 * @param typeName
@@ -30,6 +32,20 @@ public class PreCreatedSpaceObject implements Comparable<PreCreatedSpaceObject>
 		this.tileinfo = tileinfo;
 		this.properties = properties;
 		this.position = pos;
+		this.tasklist = null;
+	}
+	
+	/**
+	 * @param typeName
+	 * @param properties
+	 */
+	public PreCreatedSpaceObject(String typeName, Vector2Int pos, Object tileinfo, Map<String, Object> properties, ArrayList<IObjectTask> tasklist)
+	{
+		this.typeName = typeName;
+		this.tileinfo = tileinfo;
+		this.properties = properties;
+		this.position = pos;
+		this.tasklist = tasklist;
 	}
 	
 	
@@ -118,6 +134,22 @@ public class PreCreatedSpaceObject implements Comparable<PreCreatedSpaceObject>
 		}
 		
 		return -1;
+	}
+
+	/**
+	 * @return the tasklist
+	 */
+	public ArrayList<IObjectTask> getTasklist()
+	{
+		return tasklist;
+	}
+
+	/**
+	 * @param tasklist the tasklist to set
+	 */
+	public void setTasklist(ArrayList<IObjectTask> tasklist)
+	{
+		this.tasklist = tasklist;
 	}
 
 
