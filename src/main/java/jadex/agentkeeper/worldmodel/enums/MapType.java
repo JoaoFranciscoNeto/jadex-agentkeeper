@@ -39,7 +39,7 @@ public enum MapType
 	ROCK(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, RockInfo.class),
 	REINFORCED_WALL(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, RockInfo.class),
 	GOLD(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, GoldInfo.class),
-	GOLD_DROPED(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE , GoldInfo.class),
+	GOLD_DROPED(TypeVariant.SOLIDMAP, WalkType.PASSABLE , DefaultTileInfo.class),
 	DIRT_PATH(TypeVariant.SOLIDMAP , WalkType.PASSABLE , DirtPathInfo.class),
 	CLAIMED_PATH(TypeVariant.SOLIDMAP , WalkType.PASSABLE , ClaimedPathInfo.class),
 	GEMS(TypeVariant.SOLIDMAP , WalkType.IMPASSABLE , DefaultTileInfo.class),

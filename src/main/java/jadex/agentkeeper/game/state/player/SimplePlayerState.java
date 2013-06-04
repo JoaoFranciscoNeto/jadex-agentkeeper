@@ -1,6 +1,7 @@
 package jadex.agentkeeper.game.state.player;
 
 import jadex.agentkeeper.view.selection.SelectionMode;
+import jadex.agentkeeper.worldmodel.enums.MapType;
 
 /**
  * Just a first pre-implementation of the Player State, mainly for the GUI
@@ -18,6 +19,9 @@ public class SimplePlayerState
 	private int gold;
 	
 	private boolean showBars;
+	
+	/* The Building the Player may want to place */
+	private MapType mapType;
 	
 	/* The Selection Mode */
 	private SelectionMode					selectionMode;
@@ -63,6 +67,16 @@ public class SimplePlayerState
 	{
 		this.gold = gold;
 	}
+	
+	public void addGold(int amount)
+	{
+		this.gold = this.gold + amount;
+	}
+	
+	public void removeGold(int amount)
+	{
+		this.gold = this.gold - amount;
+	}
 
 	public double getMana()
 	{
@@ -105,5 +119,18 @@ public class SimplePlayerState
 	{
 		this.selectionMode = selectionMode;
 	}
+	
+	public void setBuilding(MapType type)
+	{
+		this.setSelectionMode(SelectionMode.BUILDMODE);
+		this.mapType = type;
+	}
 
+	/**
+	 * @return the mapType
+	 */
+	public MapType getMapType()
+	{
+		return mapType;
+	}
 }

@@ -231,6 +231,18 @@
 								visibleToMouse="true" height="50%" valign="center">
 								<interact onClick="selectLair()" />
 							</control>
+							<control name="button" label="Hatchery" id="Build_Hatchery"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectHatchery()" />
+							</control>
+							<control name="button" label="Treasury" id="Build_Treasury"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectTreasury()" />
+							</control>
+							<control name="button" label="Trainingroom" id="Build_Trainingroom"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectTrainingroom()" />
+							</control>
 						</panel>
 					</panel>
 

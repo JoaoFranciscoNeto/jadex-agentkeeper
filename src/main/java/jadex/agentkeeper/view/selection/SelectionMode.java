@@ -4,7 +4,7 @@ import jadex.agentkeeper.worldmodel.enums.MapType;
 
 public enum SelectionMode
 {
-	IMPMODE(new MapType[]{MapType.ROCK, MapType.REINFORCED_WALL}),
+	IMPMODE(new MapType[]{MapType.ROCK, MapType.REINFORCED_WALL, MapType.GOLD}),
 	BUILDMODE(new MapType[]{MapType.CLAIMED_PATH});
 	
 	private MapType[] relatedtypes;

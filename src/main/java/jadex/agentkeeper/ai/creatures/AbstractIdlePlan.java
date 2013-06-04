@@ -2,6 +2,7 @@ package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanCapability;
 import jadex.bdiv3.annotation.PlanReason;
@@ -12,6 +13,7 @@ import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.SpaceObject;
 
+@Plan
 public abstract class AbstractIdlePlan
 {
 	

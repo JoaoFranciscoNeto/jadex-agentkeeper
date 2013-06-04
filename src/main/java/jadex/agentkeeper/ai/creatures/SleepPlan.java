@@ -4,6 +4,7 @@ import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
 import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
@@ -16,7 +17,7 @@ import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.SpaceObject;
 
-
+@Plan
 public class SleepPlan
 {
 	
