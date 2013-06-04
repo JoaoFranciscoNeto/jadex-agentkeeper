@@ -22,9 +22,9 @@ public class CreateChickenTask extends AbstractTask implements ISObjStrings
 {
 	private static final double	stepSize	= 0.0005;
 
-	private double				delta		= 4;
+	private double				delta		= 5;
 
-	private double				deltadelta	= 4;
+	private double				deltadelta	= 10;
 
 	public CreateChickenTask()
 	{
@@ -54,8 +54,6 @@ public class CreateChickenTask extends AbstractTask implements ISObjStrings
 		
 		if(hinfo.hasSpace())
 		{
-			
-
 			HashMap<String, Object> propschick = new HashMap<String, Object>();
 			Vector2Double hpos = (Vector2Double)obj.getProperty(Space2D.PROPERTY_POSITION);
 			Vector2Double npos = (Vector2Double)hpos.copy().add(new Vector2Double(Math.random() * 2 - 1, Math.random() * 2 - 1));

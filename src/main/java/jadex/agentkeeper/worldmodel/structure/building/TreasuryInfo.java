@@ -32,5 +32,16 @@ public class TreasuryInfo extends BuildingInfo
 	{
 		this.amount = amount;
 	}
+	
+	public void addAmount(int amount)
+	{
+		this.amount+=amount;
+	}
+	
+	public void removeAmount(int amount)
+	{
+		if(this.amount<=amount)
+		this.amount-=amount;
+	}
 
 }

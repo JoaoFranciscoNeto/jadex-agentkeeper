@@ -26,12 +26,11 @@ import java.util.Set;
  */
 public class SimpleMapState
 {
-	private HashMap<MapType, HashMap<Vector2Int, TileInfo>> typesList = new HashMap<MapType, HashMap<Vector2Int, TileInfo>>();
-	
-	private HashMap<Vector2Int, MapType> mapTypes = new HashMap<Vector2Int, MapType>();
-	
-	private HashMap<Vector2Int, TileInfo> mapInfo = new HashMap<Vector2Int, TileInfo>();
+	private HashMap<MapType, HashMap<Vector2Int, TileInfo>>	typesList	= new HashMap<MapType, HashMap<Vector2Int, TileInfo>>();
 
+	private HashMap<Vector2Int, MapType>					mapTypes	= new HashMap<Vector2Int, MapType>();
+
+	private HashMap<Vector2Int, TileInfo>					mapInfo		= new HashMap<Vector2Int, TileInfo>();
 
 
 	public SimpleMapState(EnumSet<MapType> enumSetRange)
@@ -62,38 +61,23 @@ public class SimpleMapState
 		HashMap<Vector2Int, TileInfo> myList = this.typesList.get(info.getMapType());
 		myList.put(location, (TileInfo)object);
 		this.typesList.put(info.getMapType(), myList);
-		if(mapTypes.get(location)!=null)
-		{
-			mapTypes.put(location, info.getMapType());
-		}
-		else
-		{
-			mapTypes.remove(location);
-			mapTypes.put(location, info.getMapType());
-		}
-		
-		if(mapInfo.get(location)!=null)
-		{
-			mapInfo.put(location, (TileInfo)object);
-		}
-		else
-		{
-			mapInfo.remove(location);
-			mapInfo.put(location, (TileInfo)object);
-		}
-		
+
+		mapTypes.put(location, info.getMapType());
+
+		mapInfo.put(location, (TileInfo)object);
+
 
 	}
-	
+
 	public synchronized void removeType(Vector2Int location)
 	{
 		mapTypes.remove(location);
 		mapInfo.remove(location);
 	}
-	
-	
+
+
 	/**
-	 *  Finds the closest Hatchery with simple vector distance 
+	 * Finds the closest Hatchery with simple vector distance
 	 * 
 	 * @param type
 	 * @param creaturePos
@@ -113,12 +97,12 @@ public class SimpleMapState
 		for(Vector2Int pos : hatcherylist)
 		{
 			HatcheryInfo info = (HatcheryInfo)getTileAtPos(pos);
-			//Is the Hatchery Center? And has it Chickens?
+			// Is the Hatchery Center? And has it Chickens?
 			if(((ACenterBuildingInfo)info).getCenterType() == CenterType.CENTER && info.hasChickens())
 			{
-				
+
 				Vector1Double distance = (Vector1Double)pos.getDistance(creaturePos);
-				
+
 				if(distance.less(lastdistance))
 				{
 					lastdistance = distance;
@@ -130,8 +114,8 @@ public class SimpleMapState
 		}
 		return ret;
 	}
-	
-	
+
+
 	/**
 	 * Get the specific Informations from a type
 	 * 
@@ -142,10 +126,9 @@ public class SimpleMapState
 	{
 		return this.typesList.get(type);
 	}
-	
-	
+
+
 	/**
-	 * 
 	 * Get the Type from a position
 	 * 
 	 * @param pos
@@ -155,9 +138,8 @@ public class SimpleMapState
 	{
 		return mapTypes.get(pos);
 	}
-	
+
 	/**
-	 * 
 	 * Get the Info from a position
 	 * 
 	 * @param pos
@@ -167,9 +149,8 @@ public class SimpleMapState
 	{
 		return mapInfo.get(pos);
 	}
-	
+
 	/**
-	 * 
 	 * Get the Type from a position
 	 * 
 	 * @param pos
@@ -180,8 +161,8 @@ public class SimpleMapState
 		Vector2Int intpos = new Vector2Int(Math.round(pos.getXAsFloat()), Math.round(pos.getYAsFloat()));
 		return mapTypes.get(intpos);
 	}
-	
-	
+
+
 	/**
 	 * Set a specific type at a Position
 	 * 
@@ -194,9 +175,8 @@ public class SimpleMapState
 		mapTypes.put(pos, info.getMapType());
 		mapInfo.put(pos, info);
 	}
-	
+
 	/**
-	 * 
 	 * Get the Type from a position
 	 * 
 	 * @param pos
@@ -206,7 +186,7 @@ public class SimpleMapState
 	{
 		return mapInfo.get(pos);
 	}
-	
+
 	/**
 
 	 */
@@ -215,7 +195,7 @@ public class SimpleMapState
 		boolean ret = false;
 		if(mapTypes.get(pos) != null)
 		{
-			ret =  mapTypes.get(pos).getWalkType()==WalkType.PASSABLE;
+			ret = mapTypes.get(pos).getWalkType() == WalkType.PASSABLE;
 		}
 		else
 		{

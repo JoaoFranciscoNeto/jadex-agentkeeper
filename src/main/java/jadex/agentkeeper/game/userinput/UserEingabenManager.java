@@ -2,6 +2,7 @@ package jadex.agentkeeper.game.userinput;
 
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
+import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.task.CreateChickenTask;
 import jadex.agentkeeper.init.map.process.InitializeHelper;
 import jadex.agentkeeper.init.map.process.PreCreatedSpaceObject;
@@ -52,6 +53,8 @@ public class UserEingabenManager
 
 	public SimpleMapState		buildingState;
 
+	public SimplePlayerState	playerState;
+
 	public UserEingabenManager(IEnvironmentSpace space)
 	{
 		_space = space;
@@ -71,136 +74,145 @@ public class UserEingabenManager
 	public void createBuildings(SelectionArea area, MapType mapType)
 	{
 		buildingState = (SimpleMapState)_grid.getProperty(ISpaceStrings.BUILDING_STATE);
+		playerState = (SimplePlayerState)_grid.getProperty(ISpaceStrings.PLAYER_STATE);
 
+		int price = area.getTiles() * playerState.getMapType().getCost();
 
-		// Temporaly save the Buildings for calculation of Centers
-		ArrayList<SpaceObject> touchedBuildings = new ArrayList<SpaceObject>();
+		System.out.println("area pirce " + price);
 
-		Vector2Int endvector = area.getWorldend();
-		Vector2Int startvector = area.getWorldstart();
-
-		for(int x = startvector.getXAsInteger(); x <= endvector.getXAsInteger(); x++)
+		//Can the Player afford the Building?
+		if(price <= playerState.getGold())
 		{
-			for(int y = startvector.getYAsInteger(); y <= endvector.getYAsInteger(); y++)
+
+			playerState.removeGold(price);
+
+
+			// Temporaly save the Buildings for calculation of Centers
+			ArrayList<SpaceObject> touchedBuildings = new ArrayList<SpaceObject>();
+
+			Vector2Int endvector = area.getWorldend();
+			Vector2Int startvector = area.getWorldstart();
+
+
+			for(int x = startvector.getXAsInteger(); x <= endvector.getXAsInteger(); x++)
 			{
-
-				synchronized(buildingState)
+				for(int y = startvector.getYAsInteger(); y <= endvector.getYAsInteger(); y++)
 				{
-					Vector2Int tmppos = new Vector2Int(x, y);
 
-					MapType oldtype = buildingState.getTypeAtPos(tmppos);
-					TileInfo info = buildingState.getTileAtPos(tmppos);
-					if(oldtype == MapType.CLAIMED_PATH)
+					synchronized(buildingState)
 					{
-						Object tileinfo = InitializeHelper.createPojoElement(tmppos, mapType);
-						HashMap<String, Object> props = new HashMap<String, Object>();
+						Vector2Int tmppos = new Vector2Int(x, y);
 
-						props.put(ISObjStrings.PROPERTY_CLICKED, false);
-
-						// TODO: thats shit!
-						props.put("bearbeitung", 0);
-						props.put("status", "Nothing");
-
-
-						// TODO: why set?
-						Set<Vector2Int> nearFields = new HashSet<Vector2Int>();
-						Set<Vector2Int> tmpFields = new HashSet<Vector2Int>();
-
-
-						for(Neighborcase neighborcase : Neighborcase.getDefault())
+						MapType oldtype = buildingState.getTypeAtPos(tmppos);
+						TileInfo info = buildingState.getTileAtPos(tmppos);
+						if(oldtype == MapType.CLAIMED_PATH)
 						{
-							Vector2Int tmpVector = (Vector2Int)tmppos.copy().subtract(neighborcase.getVector());
-							MapType tmp = buildingState.getTypeAtPos(tmpVector);
-							tmpFields.add(tmpVector);
-							if(tmp == mapType)
+							Object tileinfo = InitializeHelper.createPojoElement(tmppos, mapType);
+							HashMap<String, Object> props = new HashMap<String, Object>();
+
+							props.put(ISObjStrings.PROPERTY_CLICKED, false);
+							// TODO: thats shit!
+							props.put("bearbeitung", 0);
+							props.put("status", "Nothing");
+
+
+							// TODO: why set?
+							Set<Vector2Int> nearFields = new HashSet<Vector2Int>();
+							Set<Vector2Int> tmpFields = new HashSet<Vector2Int>();
+
+							for(Neighborcase neighborcase : Neighborcase.getDefault())
 							{
-								nearFields.add(tmpVector);
-								// System.out.println("tmpVector: " +
-								// tmpVector);
-							}
-						}
-
-						// Calculate the Neighborhood
-						String neighborhood = Neighborhood.reCalculateNeighborhoodNewMethod(tmppos, nearFields);
-
-
-						props.put(ISObjStrings.PROPERTY_NEIGHBORHOOD, neighborhood);
-
-
-						props.put(Space2D.PROPERTY_POSITION, tmppos);
-						props.put(ISObjStrings.PROPERTY_INTPOSITION, tmppos);
-
-						props.put(ISObjStrings.PROPERTY_TILEINFO, tileinfo);
-
-						buildingState.addType(tmppos, tileinfo);
-
-						MapType testtype = buildingState.getTypeAtPos(tmppos);
-
-						// System.out.println("testtype: " + testtype);
-
-
-						_grid.destroySpaceObject(info.getSpaceObjectId());
-
-
-						// TODO: Hack
-						ISpaceObject justcreated = _grid.createSpaceObject(mapType.toString(), props, null);
-
-						((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
-
-						touchedBuildings.add((SpaceObject)justcreated);
-
-
-						for(Vector2Int nearVec : nearFields)
-						{
-							TileInfo tmpinfo = buildingState.getInfoAtPos(nearVec);
-
-							Set<Vector2Int> tmpnearFields = new HashSet<Vector2Int>();
-							for(Neighborcase ncase : Neighborcase.getDefault())
-							{
-								Vector2Int tmpVector = (Vector2Int)nearVec.copy().subtract(ncase.getVector());
-								if(buildingState.getTypeAtPos(tmpVector) == mapType)
+								Vector2Int tmpVector = (Vector2Int)tmppos.copy().subtract(neighborcase.getVector());
+								MapType tmp = buildingState.getTypeAtPos(tmpVector);
+								tmpFields.add(tmpVector);
+								if(tmp == mapType)
 								{
-									tmpnearFields.add(tmpVector);
+									nearFields.add(tmpVector);
+									// System.out.println("tmpVector: " +
+									// tmpVector);
+								}
+							}
+
+							// Calculate the Neighborhood
+							String neighborhood = Neighborhood.reCalculateNeighborhoodNewMethod(tmppos, nearFields);
+
+							props.put(ISObjStrings.PROPERTY_NEIGHBORHOOD, neighborhood);
+							props.put(Space2D.PROPERTY_POSITION, tmppos);
+							props.put(ISObjStrings.PROPERTY_INTPOSITION, tmppos);
+							props.put(ISObjStrings.PROPERTY_TILEINFO, tileinfo);
+
+							buildingState.addType(tmppos, tileinfo);
+
+							MapType testtype = buildingState.getTypeAtPos(tmppos);
+
+							// System.out.println("testtype: " + testtype);
+
+
+							_grid.destroySpaceObject(info.getSpaceObjectId());
+
+
+							// TODO: Hack
+							ISpaceObject justcreated = _grid.createSpaceObject(mapType.toString(), props, null);
+
+							((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
+
+							touchedBuildings.add((SpaceObject)justcreated);
+
+
+							for(Vector2Int nearVec : nearFields)
+							{
+								TileInfo tmpinfo = buildingState.getInfoAtPos(nearVec);
+
+								Set<Vector2Int> tmpnearFields = new HashSet<Vector2Int>();
+								for(Neighborcase ncase : Neighborcase.getDefault())
+								{
+									Vector2Int tmpVector = (Vector2Int)nearVec.copy().subtract(ncase.getVector());
+									if(buildingState.getTypeAtPos(tmpVector) == mapType)
+									{
+										tmpnearFields.add(tmpVector);
+									}
+
+								}
+
+								// Calculate the Neighborhood for "one" other
+								String tmpneighborhood = Neighborhood.reCalculateNeighborhoodNewMethod(nearVec, tmpnearFields);
+								// TODO: CONNECT SpaceObject directly to
+								// Tileinfo
+								try
+								{
+									SpaceObject tmpSpace = (SpaceObject)_grid.getSpaceObject(tmpinfo.getSpaceObjectId());
+									tmpSpace.setProperty(ISObjStrings.PROPERTY_NEIGHBORHOOD, tmpneighborhood);
+									// tmpSpace.setProperty(ISObjStrings.PROPERTY_NEIGHBORHOOD,
+									// "00000000");
+									Map<String, Object> tmpprops = tmpSpace.getProperties();
+
+									// buildingState.removeType(nearVec);
+									// _grid.destroySpaceObject(tmpinfo.getSpaceObjectId());
+
+									boolean destroyed = _grid.destroyAndVerifySpaceObject(tmpinfo.getSpaceObjectId());
+
+									if(destroyed)
+									{
+										ISpaceObject justcreated2 = _grid.createSpaceObject(mapType.toString(), tmpprops, null);
+										touchedBuildings.add((SpaceObject)justcreated2);
+										((TileInfo)justcreated2.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated2.getId());
+									}
+								}
+								catch(Exception e)
+								{
+									e.printStackTrace();
 								}
 
 							}
 
-							// Calculate the Neighborhood for "one" other
-							String tmpneighborhood = Neighborhood.reCalculateNeighborhoodNewMethod(nearVec, tmpnearFields);
-							// TODO: CONNECT SpaceObject directly to Tileinfo
-							try
-							{
-								SpaceObject tmpSpace = (SpaceObject)_grid.getSpaceObject(tmpinfo.getSpaceObjectId());
-								tmpSpace.setProperty(ISObjStrings.PROPERTY_NEIGHBORHOOD, tmpneighborhood);
-								// tmpSpace.setProperty(ISObjStrings.PROPERTY_NEIGHBORHOOD,
-								// "00000000");
-								Map<String, Object> tmpprops = tmpSpace.getProperties();
-
-								// buildingState.removeType(nearVec);
-								// _grid.destroySpaceObject(tmpinfo.getSpaceObjectId());
-
-								boolean destroyed = _grid.destroyAndVerifySpaceObject(tmpinfo.getSpaceObjectId());
-
-								if(destroyed)
-								{
-									ISpaceObject justcreated2 = _grid.createSpaceObject(mapType.toString(), tmpprops, null);
-									touchedBuildings.add((SpaceObject)justcreated2);
-									((TileInfo)justcreated2.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated2.getId());
-								}
-							}
-							catch(Exception e)
-							{
-								e.printStackTrace();
-							}
+							updateCenters(touchedBuildings, buildingState);
 
 						}
-
-						updateCenters(touchedBuildings, buildingState);
-
-
 					}
 				}
 			}
+
+
 		}
 
 
