@@ -127,6 +127,8 @@
 				<env:objecttype name="LIBRARY">
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
+					<env:property dynamic="false" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
+					<env:property dynamic="false" name="rnd" class="double">Math.random()*1</env:property>
 				</env:objecttype>
 				<env:objecttype name="TORTURE">
 					<env:property name="status" class="String">"Nothing"</env:property>
@@ -201,6 +203,7 @@
 			<env:processtypes>
 				<env:processtype name="init" class="InitMapProcess" />
 				<env:processtype name="genmana" class="GenerateManaProcess" />
+				<env:processtype name="gencreatures" class="GenerateCreatureProcess" />
 			</env:processtypes>
 			
 			<env:dataviews>
@@ -437,6 +440,43 @@
 							<env:materialfile part="Blanket" path="models/buildings/lair/BedBlanket.j3m" />
 							<env:materialfile part="WhiteCloth" path="models/buildings/lair/BedBlanket.j3m" />
 							<env:materialfile part="Wood" path="models/buildings/lair/BedWood.j3m" />
+						</env:object3d>
+						
+						<env:object3d width="1" height="1" depth="1" x="0" y="0" z="0" 
+							modelpath="models/tilesets/buildings/border/Default_?.j3o"
+							materialpath="models/tilesets/buildings/border/default.j3m">
+						</env:object3d>
+						
+					</env:drawable3d>
+					
+					<env:drawable3d objecttype="LIBRARY" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					
+						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
+						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
+						materialpath="models/props/library/libraryfloor.j3m"/>
+						
+						
+						<env:object3d width="0.1" height="0.15" depth="0.1" x="0" y="0" z="0" 
+						modelpath="models/props/library/library01.j3o" 
+						materialpath="models/props/library/library.j3m"
+						rotation="rota">
+						<env:drawcondition>
+							$object.getProperty("rnd")>0.5 &amp;&amp; ((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+						<env:drawcondition>
+							
+						</env:drawcondition>
+
+						</env:object3d>
+						
+						<env:object3d width="0.1" height="0.15" depth="0.1" x="0" y="0" z="0" 
+						modelpath="models/props/library/library02.j3o" 
+						materialpath="models/props/library/library.j3m"
+						rotation="rota">
+						<env:drawcondition>
+							0.5>$object.getProperty("rnd") &amp;&amp; ((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+
 						</env:object3d>
 						
 						<env:object3d width="1" height="1" depth="1" x="0" y="0" z="0" 
@@ -796,6 +836,7 @@
 						</env:process>
 					</env:processes>
 					<env:process type="genmana"></env:process>
+					<env:process type="gencreatures"></env:process>
 
 					<env:observers>
 						<env:observer name="world" dataview="view_all"  
@@ -819,6 +860,7 @@
 						</env:process>
 					</env:processes>
 					<env:process type="genmana"></env:process>
+					<env:process type="gencreatures"></env:process>
 
 					<env:observers>
 						<env:observer name="world" dataview="view_all"  
@@ -842,6 +884,7 @@
 							</env:property>
 						</env:process>
 						<env:process type="genmana"></env:process>
+						<env:process type="gencreatures"></env:process>
 					</env:processes>
 
 					<env:observers>

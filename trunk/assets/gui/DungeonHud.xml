@@ -243,6 +243,11 @@
 								visibleToMouse="true" height="50%" valign="center">
 								<interact onClick="selectTrainingroom()" />
 							</control>
+							
+							<control name="button" label="Library" id="Build_Library"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectLibrary()" />
+							</control>
 						</panel>
 					</panel>
 

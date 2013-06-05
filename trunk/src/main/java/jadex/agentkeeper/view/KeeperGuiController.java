@@ -46,6 +46,14 @@ public class KeeperGuiController extends DefaultGuiController
 	private TextRenderer goldStatusRenderer;
 	
 	private TextRenderer claimedTilesRender;
+	
+	private TextRenderer impR;
+	
+	private TextRenderer goblinR;
+	
+	private TextRenderer warlockR;
+	
+	private TextRenderer orcR;
 
 	public KeeperGuiController(SimpleApplication app, ISpaceController spacecontroller)
 	{
@@ -114,6 +122,11 @@ public class KeeperGuiController extends DefaultGuiController
 	{
 		this.playerState.setBuilding(MapType.TRAININGROOM);
 	}
+	
+	public void selectLibrary()
+	{
+		this.playerState.setBuilding(MapType.LIBRARY);
+	}
 
 	public void setPerform()
 	{
@@ -143,10 +156,24 @@ public class KeeperGuiController extends DefaultGuiController
 		app.stop();
 	}
 
+	
+	int stop = 40;
 
     public void update(float tpf) {
 		
-    	
+		if(stop==0)
+		{
+			stop = 40;
+			updateGuiElements();
+		}
+
+		stop--;
+
+    }
+    
+
+	private void updateGuiElements()
+	{
 		String manatext = ""+(int)playerState.getMana();
 		String goldtext = ""+(int)playerState.getGold();
 		while(manatext.length()<=7)
@@ -160,10 +187,14 @@ public class KeeperGuiController extends DefaultGuiController
 		}
 		goldStatusRenderer.setText(goldtext);
 		manaStatusRenderer.setText(manatext);
+		impR.setText("" + creatureState.getCreatureCount(InitMapProcess.IMP));
+		goblinR.setText("" + creatureState.getCreatureCount(InitMapProcess.GOBLIN));
+		warlockR.setText("" + creatureState.getCreatureCount(InitMapProcess.WARLOCK));
+		orcR.setText("" + creatureState.getCreatureCount(InitMapProcess.TROLL));
 		claimedTilesRender.setText("+"+playerState.getClaimedSectors());
+		
+	}
 
-    }
-    
 
 	public void onStartScreen()
 	{
@@ -177,25 +208,18 @@ public class KeeperGuiController extends DefaultGuiController
 		
 		Element claimedT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("claimedtiles");
 		this.claimedTilesRender = claimedT.getRenderer(TextRenderer.class);
-		
-		
 
-		
 		Element impText = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("imp_total");
-		TextRenderer impRender = impText.getRenderer(TextRenderer.class);
-		impRender.setText("" + creatureState.getCreatureCount(InitMapProcess.IMP));
+		this.impR = impText.getRenderer(TextRenderer.class);
 
 		Element goblinT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("goblin_total");
-		TextRenderer goblinR = goblinT.getRenderer(TextRenderer.class);
-		goblinR.setText("" + creatureState.getCreatureCount(InitMapProcess.GOBLIN));
+		this.goblinR = goblinT.getRenderer(TextRenderer.class);
 
 		Element warlockT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("warlock_total");
-		TextRenderer warlockR = warlockT.getRenderer(TextRenderer.class);
-		warlockR.setText("" + creatureState.getCreatureCount(InitMapProcess.WARLOCK));
+		this.warlockR = warlockT.getRenderer(TextRenderer.class);
 
 		Element orcT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("troll_total");
-		TextRenderer orcR = orcT.getRenderer(TextRenderer.class);
-		orcR.setText("" + creatureState.getCreatureCount(InitMapProcess.TROLL));
+		this.orcR = orcT.getRenderer(TextRenderer.class);
 		
 		Element thiefT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("thief_total");
 		TextRenderer thiefR = thiefT.getRenderer(TextRenderer.class);
