@@ -63,7 +63,7 @@ public class GoldsammelnPlan extends ImpPlan
 		
 		
 		SimplePlayerState pstate = (SimplePlayerState)grid.getProperty(ISpaceStrings.PLAYER_STATE);
-		pstate.addGold(1111);
+		pstate.addGold(3000);
 
 		grid.getSpaceObject(hinfo.getSpaceObjectId()).setProperty(ISObjStrings.PROPERTY_STATUS, "hasGold");
 

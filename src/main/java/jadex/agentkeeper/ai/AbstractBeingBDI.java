@@ -117,7 +117,7 @@ public class AbstractBeingBDI
 	public void body()
 	{
 		agent.dispatchTopLevelGoal(new PerformIdle());
-		agent.dispatchTopLevelGoal(new PerformIdleForTime((int)(10000+Math.random()*5000)));
+		agent.dispatchTopLevelGoal(new PerformIdleForTime((int)(1000+Math.random()*5000)));
 	}
 
 	/**
