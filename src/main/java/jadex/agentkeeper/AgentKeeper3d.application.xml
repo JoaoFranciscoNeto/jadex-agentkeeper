@@ -444,7 +444,7 @@
 						<env:drawcondition>
 							((TreasuryInfo)$object.getProperty("tileInfo")).getAmount() > 1500
 							&amp;&amp;
-							3000 > ((TreasuryInfo)$object.getProperty("tileInfo")).getAmount()
+							2500 > ((TreasuryInfo)$object.getProperty("tileInfo")).getAmount()
 							&amp;&amp; $object.getProperty("status").equals("hasGold")
 						</env:drawcondition>
 						
@@ -454,7 +454,7 @@
 						modelpath="models/props/treasury/gold04.j3o" rotation="rota"
 						materialpath="models/props/treasury/gold.j3m">
 						<env:drawcondition>
-							((TreasuryInfo)$object.getProperty("tileInfo")).getAmount() >= 3000
+							((TreasuryInfo)$object.getProperty("tileInfo")).getAmount() >= 2500
 							&amp;&amp; $object.getProperty("status").equals("hasGold")
 						</env:drawcondition>
 						

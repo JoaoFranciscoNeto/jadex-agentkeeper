@@ -97,7 +97,7 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 
 			if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+orcs+warlocks)>2)
 			{
-				if(librarytiles>=9&&librarytiles-warlocks>=9)
+				if(librarytiles>=9&&librarytiles-warlocks>=9&&warlocks<3)
 				{
 					createMonster(InitMapProcess.WARLOCK);
 				}
