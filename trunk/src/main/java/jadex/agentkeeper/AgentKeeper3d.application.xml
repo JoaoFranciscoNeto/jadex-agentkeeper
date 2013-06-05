@@ -364,7 +364,7 @@
 								$object.getProperty("status").equals("byImpCreated")
 							</env:drawcondition>
 						</env:effect>
-						<env:sound3d soundfile="sounds/rockfalling/RocksFalling?.ogg" numRndFiles="6" loop="false" volume="0.15" continuosly="true" positional="true"  >
+						<env:sound3d soundfile="sounds/rockfalling/RocksFalling?.ogg" numRndFiles="6" loop="false" volume="0.05" continuosly="true" positional="true"  >
 						<env:soundcondition>
 							$object.getProperty("status").equals("byImpCreated")
 						</env:soundcondition>
