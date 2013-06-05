@@ -48,7 +48,7 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		TILE_MAP.put("1D", MapType.LAIR);
 		TILE_MAP.put("1E", MapType.PORTAL);
 		TILE_MAP.put("1I", MapType.TRAININGROOM);
-		TILE_MAP.put("1L", MapType.LIBRARY);
+		TILE_MAP.put("1H", MapType.LIBRARY);
 		TILE_MAP.put("1X", MapType.TORTURE);
 
 		TILE_MAP.put("Ob", MapType.IMPENETRABLE_ROCK);

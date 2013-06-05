@@ -32,6 +32,7 @@ public class SimpleCreatureState
 		int counter = creatures.get(type);
 		counter++;
 		creatures.put(type, counter);
+
 	}
 	
 	public void removeCreature(String type)
@@ -45,6 +46,7 @@ public class SimpleCreatureState
 	{
 		return creatures.get(type);
 	}
+
 
 	
 	
