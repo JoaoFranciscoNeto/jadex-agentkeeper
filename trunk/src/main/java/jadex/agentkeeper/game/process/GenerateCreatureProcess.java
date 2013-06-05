@@ -92,11 +92,16 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 			int trainingroomtiles = mapState.getTypes(MapType.TRAININGROOM).size();
 			int librarytiles = mapState.getTypes(MapType.LIBRARY).size();
 			int goblins = creatureState.getCreatureCount(InitMapProcess.GOBLIN);
+			int warlocks = creatureState.getCreatureCount(InitMapProcess.WARLOCK);
 			int orcs = creatureState.getCreatureCount(InitMapProcess.TROLL);
 
-			if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+orcs)>5)
+			if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+orcs+warlocks)>2)
 			{
-				if(trainingroomtiles>=9&&trainingroomtiles-goblins>=9)
+				if(librarytiles>=9&&librarytiles-warlocks>=9)
+				{
+					createMonster(InitMapProcess.WARLOCK);
+				}
+				else if(trainingroomtiles>=9&&trainingroomtiles-orcs>=9)
 				{
 					createMonster(InitMapProcess.TROLL);
 				}
