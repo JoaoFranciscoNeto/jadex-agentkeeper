@@ -15,6 +15,7 @@ public class TreasuryInfo extends BuildingInfo
 	{
 		super(mapType);
 		this.hitpoints = 30;
+		this.amount = Math.round(((float)Math.random())*4000);
 	}
 
 	/**
