@@ -77,7 +77,6 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 			}
 		}
 
-
 	}
 
 	public void execute(IClockService clock, IEnvironmentSpace space)
@@ -95,9 +94,11 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 			int warlocks = creatureState.getCreatureCount(InitMapProcess.WARLOCK);
 			int trolls = creatureState.getCreatureCount(InitMapProcess.TROLL);
 
-			if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+trolls+warlocks)>2)
+			//Al least 5 free Lair-Tiles
+			if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+trolls+warlocks)>5)
 			{
-				if(librarytiles>=9&&librarytiles-warlocks*3>=9)
+				//If we have enough free Librarytiles, create Warlocks
+				if(librarytiles>=9&&librarytiles-warlocks*5>=9)
 				{
 					createMonster(InitMapProcess.WARLOCK);
 				}

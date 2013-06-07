@@ -1,10 +1,10 @@
 Material Water : Common/MatDefs/Light/Lighting.j3md {
      MaterialParameters {
-        DiffuseMap : textures/buildings/trak_bricks2_g.jpg
+        DiffuseMap : textures/props/pole/trainingroom_floor_1.jpg
         UseMaterialColors : true
         Specular : 1.0 1.0 1.0 1.0
         Diffuse : 1.0 1.0 1.0 1.0
-        Ambient : 2.0 2.0 2.4 1.0
+        Ambient : 0.7 0.7 0.7 1.0
         GlowColor : 1.0 1.0 1.0 1.0
         UseMaterialColors : true
      }

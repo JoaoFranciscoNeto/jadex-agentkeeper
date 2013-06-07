@@ -124,6 +124,7 @@
 					<env:property name="status" class="String">"Nothing"</env:property>
 					<env:property name="neighborhood" class="String"></env:property>
 					<env:property dynamic="false" name="rota" class="IVector3">new Vector3Double(0, 6.2*Math.random() , 0)</env:property>
+					<env:property dynamic="false" name="rnd" class="double">Math.random()*1</env:property>
 				</env:objecttype>
 				<env:objecttype name="LIBRARY">
 					<env:property name="status" class="String">"Nothing"</env:property>
@@ -229,9 +230,6 @@
 			</env:actiontypes>
 
 
-
-
-
 			<env:perspectives>
 				<env:perspective3d name="Complex3D" class="Perspective3D" camera="Iso" ambientOcclusion="false" guiCreatorPath="jadex.agentkeeper.view.CustomControllerCreator">
 
@@ -241,8 +239,6 @@
 						<env:sky skypath="skybox/cave/" west="caveright.jpg" east="caveleft2.jpg" north="caveback.jpg" south="cavefront.jpg" up="caveup2.jpg" down="cavedown.jpg" isSphere="false" />  
 						<env:sound3d soundfile="sounds/music/TheSnowQueen.ogg" loop="true" volume="0.035" continuosly="true" positional="false" />
 					</env:drawable3d>
-					
-					
 					
 					<env:drawable3d objecttype="ROCK" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
@@ -286,7 +282,6 @@
 						
 					</env:drawable3d>
 					
-					
 					<env:drawable3d objecttype="GOLD" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 						<env:object3d 
 							width="0.79998" height="1" depth="0.79998" 
@@ -313,8 +308,7 @@
 					</env:object3d>
 						
 					</env:drawable3d>
-					
-					
+						
 					<env:drawable3d objecttype="IMPENETRABLE_ROCK" width="1.0" height="1.0" depth="1.0" isDynamic="false">
 							<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
 							materialpath="models/tilesets/dirt/Dirt.j3m"
@@ -391,8 +385,7 @@
 						</env:soundcondition>
 						</env:sound3d>
 					</env:drawable3d>
-					
-					
+
 					<!--  
 					
 					BUILDINGS 
@@ -534,6 +527,40 @@
 						
 					</env:drawable3d>
 					
+					
+					<env:drawable3d objecttype="TRAININGROOM" width="1.0" height="1.0" depth="1.0" isDynamic="false">
+					<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
+						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
+						materialpath="models/buildings/training/TrainingGround.j3m"
+						 />				
+						 
+						 
+						 <env:object3d width="1" height="1" depth="1" x="0" y="0" z="0" 
+							modelpath="models/tilesets/buildings/border/Default_?.j3o"
+							materialpath="models/tilesets/buildings/border/default.j3m">
+						</env:object3d>
+						
+						<env:object3d width="0.1" height="0.1" depth="0.1" x="0" y="0" z="0" 
+						modelpath="models/buildings/training/Box01.j3o" 
+						materialpath="models/props/pole/trainingpole.j3m"
+						rotation="rota">
+						<env:drawcondition>
+							$object.getProperty("rnd")>0.5 &amp;&amp; ((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+
+						</env:object3d>
+						
+						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
+						modelpath="models/buildings/training/trainingpole.j3o" 
+						materialpath="models/buildings/training/trainingpole.j3m"
+						rotation="rota">
+						<env:drawcondition>
+							0.5>$object.getProperty("rnd") &amp;&amp; ((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+						</env:drawcondition>
+						</env:object3d>
+
+					</env:drawable3d>
+					
 					<env:drawable3d objecttype="DUNGEONHEART" width="1" height="1" depth="1" isDynamic="true">
 						
 						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
@@ -588,27 +615,7 @@
 						</env:object3d>
 					</env:drawable3d>
 					
-					<env:drawable3d objecttype="TRAININGROOM" width="1.0" height="1.0" depth="1.0" isDynamic="false">
-					<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
-						modelpath="models/tilesets/claimed/Claimedpath.j3o" 
-						materialpath="models/buildings/training/TrainingGround.j3m"
-						 />				
-						 
-						 
-						 <env:object3d width="1" height="1" depth="1" x="0" y="0" z="0" 
-							modelpath="models/tilesets/buildings/border/Default_?.j3o"
-							materialpath="models/tilesets/buildings/border/default.j3m">
-						</env:object3d>
-						
-						<env:object3d width="0.3" height="0.3" depth="0.3" x="0" y="0" z="0" 
-						modelpath="models/buildings/training/trainingpole.j3o" 
-						materialpath="models/buildings/training/trainingpole.j3m" 
-						rotation="rota" >
-						<env:drawcondition>
-							((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
-						</env:drawcondition>
-						</env:object3d>	
-					</env:drawable3d>
+
 
 					<!-- 
 						SMALL CREATURES
@@ -912,11 +919,9 @@
 					</env:processes>
 					<env:process type="genmana"></env:process>
 					<env:process type="gencreatures"></env:process>
-
 					<env:observers>
 						<env:observer name="world" dataview="view_all"  
 							perspective="main">
-							
 						</env:observer>
 					</env:observers>
 				</env:envspace>
@@ -940,7 +945,6 @@
 
 					<env:observers>
 						<env:observer name="world" dataview="view_all" perspective="main">
-							
 						</env:observer>
 					</env:observers>
 				</env:envspace>
