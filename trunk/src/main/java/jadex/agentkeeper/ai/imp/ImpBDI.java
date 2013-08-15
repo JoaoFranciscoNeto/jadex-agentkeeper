@@ -63,7 +63,7 @@ public class ImpBDI extends AbstractBeingBDI
 	 *  Goal that lets the Imp perform Patrols.
 	 *  
 	 */
-	@Goal(excludemode=MGoal.EXCLUDE_NEVER, succeedonpassed=false)
+	@Goal(excludemode=Goal.ExcludeMode.Never, succeedonpassed=false)
 	public class PerformImpPatrol
 	{
 		

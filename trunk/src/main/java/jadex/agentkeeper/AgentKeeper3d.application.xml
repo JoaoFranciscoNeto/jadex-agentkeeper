@@ -300,6 +300,15 @@
 							>
 							<env:drawcondition>!$object.getProperty("clicked")</env:drawcondition>
 						</env:object3d>
+						
+												<env:box 
+							width="0.79998" height="1" depth="0.79998" 
+							x="0" y="0" z="0" 
+							materialpath="models/tilesets/Gold.j3m"
+		
+							>
+							<env:drawcondition>!$object.getProperty("clicked")</env:drawcondition>
+						</env:box>
 
 					<env:object3d width="0.79998" height="1.0" depth="0.79998" x="0" y="0" z="0" 
 						modelpath="models/tilesets/dirt/Dirt.j3o" 
