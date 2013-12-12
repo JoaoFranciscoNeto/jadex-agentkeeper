@@ -85,7 +85,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		 *  When the AwakeStatus is below 5.0
 		 *  the Creature will activate this goal.
 		 */
-		@GoalMaintainCondition(events="myAwakeStatus")
+		@GoalMaintainCondition(beliefs="myAwakeStatus")
 		public boolean checkMaintain()
 		{
 
@@ -96,7 +96,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		 *  The target condition determines when
 		 *  the goal goes back to idle. 
 		 */
-		@GoalTargetCondition(events="myAwakeStatus")
+		@GoalTargetCondition(beliefs="myAwakeStatus")
 		public boolean checkTarget()
 		{
 //			System.out.println("checkTarget" + myAwakeStatus);
@@ -115,7 +115,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		 *  When the FedStatus is below 5.0
 		 *  the Creature will activate this goal.
 		 */
-		@GoalMaintainCondition(events="myFedStatus")
+		@GoalMaintainCondition(beliefs="myFedStatus")
 		public boolean checkMaintain()
 		{
 			return myFedStatus>5.0;
@@ -125,7 +125,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		 *  The target condition determines when
 		 *  the goal goes back to idle. 
 		 */
-		@GoalTargetCondition(events="myFedStatus")
+		@GoalTargetCondition(beliefs="myFedStatus")
 		public boolean checkTarget()
 		{
 			return myFedStatus>=100.0;

@@ -631,8 +631,7 @@
 					 -->
 					
 					<env:drawable3d objecttype="chicken" width="1"
-						height="1" depth="1">					
-					
+						height="1" depth="1">							
 						<env:object3d width="0.6" height="0.6" depth="0.6" x="0" y="0" z="0" 
 							modelpath="models/creatures/chicken/chicken.j3o"
 							materialpath="models/creatures/chicken/chicken-Material.j3m"  >
