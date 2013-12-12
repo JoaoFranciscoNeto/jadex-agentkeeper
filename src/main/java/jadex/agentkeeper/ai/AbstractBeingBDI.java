@@ -143,7 +143,7 @@ public class AbstractBeingBDI
 		 * The goal is achieved when the position of the being is on the
 		 * target sector position.
 		 */
-		@GoalTargetCondition(events = "myIntPosition")
+		@GoalTargetCondition(beliefs = "myIntPosition")
 		public boolean checkTarget()
 		{
 			boolean ret = target.equals(myIntPosition);

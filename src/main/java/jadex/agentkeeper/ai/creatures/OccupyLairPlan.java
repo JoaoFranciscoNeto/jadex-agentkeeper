@@ -151,13 +151,15 @@ public class OccupyLairPlan
 		final Future<Void> ret = new Future<Void>();
 		
 		lairInfo.setCreatureId((Long)spaceObject.getId());
-		Collection<SpaceObject> col = environment.getSpaceObjectsByGridPosition(pos, MapType.LAIR.toString());
-		SpaceObject oldlair = col.iterator().next();
+		Collection<ISpaceObject> col = environment.getSpaceObjectsByGridPosition(pos, MapType.LAIR.toString());
+		ISpaceObject oldlair = col.iterator().next();
+		
+		SpaceObject oldlairsp = (SpaceObject)oldlair;
 		
 //		spaceobject.setProperty(ISObjStrings.PROPERTY_AWAKE, 100.0);
 		capa.setMyLairPosition(pos);
 		
-		Map<String, Object> probs = oldlair.getProperties();
+		Map<String, Object> probs = oldlairsp.getProperties();
 		environment.destroySpaceObject(oldlair.getId());
 		//TODO: Remove HACK
 		ISpaceObject justcreated = environment.createSpaceObject(MapType.LAIR.toString(), probs, null);
