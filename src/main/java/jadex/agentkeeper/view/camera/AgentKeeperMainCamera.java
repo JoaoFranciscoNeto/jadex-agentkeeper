@@ -21,7 +21,7 @@ public class AgentKeeperMainCamera
     private boolean rotating;
     private CustomChaseCamera chaseCam;
     private InputManager inputManager;
-    private int moveSpeed = 100, zoomSpeed = 1, rotationSpeed = 5; //max speeds
+    private int moveSpeed = 400, zoomSpeed = 1, rotationSpeed = 5; //max speeds
     private int minDist = 50, maxDist = 300;
     private float acceleration = 20;
     private MonkeyApp app;

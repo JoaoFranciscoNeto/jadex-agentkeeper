@@ -1,5 +1,6 @@
 package jadex.agentkeeper.game.userinput;
 
+import jadex.agentkeeper.game.state.buildings.Treasury;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
@@ -79,6 +80,8 @@ public class UserEingabenManager
 		int price = area.getTiles() * playerState.getMapType().getCost();
 
 		System.out.println("area pirce " + price);
+		
+		Treasury.synchronizeTreasuriesWithPlayerGold(price, buildingState, _grid);
 
 		//Can the Player afford the Building?
 		if(price <= playerState.getGold())

@@ -160,7 +160,7 @@ public class AgentKeeperCameraState extends AbstractAppState
 
 		app.getFlyByCamera().setEnabled(false);
 
-		this.mainCam = new AgentKeeperMainCamera(cam, 50, inputManager, app);
+		this.mainCam = new AgentKeeperMainCamera(cam, 100, inputManager, app);
 		camNode = mainCam.getCamNode();
 		rootNode.attachChild(camNode);
 

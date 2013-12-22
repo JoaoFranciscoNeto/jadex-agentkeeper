@@ -15,7 +15,8 @@ public class TreasuryInfo extends BuildingInfo
 	{
 		super(mapType);
 		this.hitpoints = 30;
-		this.amount = Math.round(((float)Math.random())*4000);
+		// TODO: Amount may greater than MaxAmount ? o.O
+//		this.amount = Math.round(((float)Math.random())*4000);
 	}
 
 	/**
@@ -41,8 +42,9 @@ public class TreasuryInfo extends BuildingInfo
 	
 	public void removeAmount(int amount)
 	{
-		if(this.amount<=amount)
-		this.amount-=amount;
+		if(this.amount>=amount){
+			this.amount-=amount;
+		}
 	}
 
 }

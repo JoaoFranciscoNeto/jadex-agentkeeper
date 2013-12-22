@@ -49,10 +49,11 @@ public class GoldsammelnPlan extends ImpPlan
 
 		_avatar.setProperty("status", "Idle");
 		waitFor(2000);
-		IVector2 treasurypos = findeNaechsteSchatztruhe(_mypos.copy());
+		IVector2 treasurypos = findeNaechsteSchatztruhe(_mypos.copy(),1000);
 		SimpleMapState g = (SimpleMapState)grid.getProperty(ISpaceStrings.BUILDING_STATE);
 		TreasuryInfo hinfo = (TreasuryInfo)g.getTileAtPos((Vector2Int)treasurypos);
-		grid.getSpaceObject(hinfo.getSpaceObjectId()).setProperty(ISObjStrings.PROPERTY_STATUS, "almostThere");
+		hinfo.setLocked(true);
+		//grid.getSpaceObject(hinfo.getSpaceObjectId()).setProperty(ISObjStrings.PROPERTY_STATUS, "almostThere");
 		
 		setze(_zielpos, MapType.DIRT_PATH, true);
 		auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, _zielpos);
@@ -63,18 +64,20 @@ public class GoldsammelnPlan extends ImpPlan
 		
 		
 		SimplePlayerState pstate = (SimplePlayerState)grid.getProperty(ISpaceStrings.PLAYER_STATE);
-		pstate.addGold(3000);
+		pstate.addGold(1000);
 
 		grid.getSpaceObject(hinfo.getSpaceObjectId()).setProperty(ISObjStrings.PROPERTY_STATUS, "hasGold");
-
+		hinfo.addAmount(1000);
 		_ausfuehr = false;
+		hinfo.setLocked(false);
 	}
 
 	/**
 	 * @param mypos
+	 * @param amount 
 	 * @return
 	 */
-	private IVector2 findeNaechsteSchatztruhe(IVector2 mypos)
+	private IVector2 findeNaechsteSchatztruhe(IVector2 mypos, int amount)
 	{
 		
 		SimpleMapState g = (SimpleMapState)grid.getProperty(ISpaceStrings.BUILDING_STATE);
@@ -93,7 +96,9 @@ public class GoldsammelnPlan extends ImpPlan
 		{
 			TreasuryInfo hinfo = (TreasuryInfo)g.getTileAtPos((Vector2Int)vec);
 			
-			if(grid.getSpaceObject(hinfo.getSpaceObjectId()).getProperty(ISObjStrings.PROPERTY_STATUS).equals("Nothing"))
+			//if(grid.getSpaceObject(hinfo.getSpaceObjectId()).getProperty(ISObjStrings.PROPERTY_STATUS).equals("Nothing"))
+			
+			if(hinfo.getAmount()+amount<=TreasuryInfo.MAX_AMOUNT && !hinfo.isLocked())
 			{
 				suche = new AStarSearch(mypos, vec, grid, true);
 				gKosten = suche.gibPfadKosten();
