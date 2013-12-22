@@ -5,6 +5,7 @@ import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.view.selection.SelectionMode;
+import jadex.agentkeeper.log.PerformanceTracker;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.environment.ISpaceController;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
@@ -168,6 +169,7 @@ public class KeeperGuiController extends DefaultGuiController
 		}
 
 		stop--;
+		PerformanceTracker.logframeRate(app, playerState,creatureState);
 
     }
     
