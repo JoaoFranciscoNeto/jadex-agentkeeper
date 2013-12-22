@@ -3,6 +3,7 @@ package jadex.agentkeeper.log;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
