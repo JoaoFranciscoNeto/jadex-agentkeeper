@@ -100,7 +100,7 @@ public class PerformanceTracker {
 
 		plot.setBackgroundAlpha(0);
 		final NumberAxis axis2 = new NumberAxis("Creatures");
-//
+		
 		axis2.setAutoRangeIncludesZero(false);
 		xyplot.setRangeAxis(2, axis2);
 		final XYSeriesCollection coll1 = new XYSeriesCollection(series2);
@@ -117,12 +117,14 @@ public class PerformanceTracker {
 		
 		final StandardXYItemRenderer renderer2 = new StandardXYItemRenderer();
         renderer2.setSeriesPaint(0, Color.black);
-//        renderer2.setPlotShapes(true);
         xyplot.setRenderer(1, renderer2);
 		
 		try {
 			DateFormat dfmt = new SimpleDateFormat("dd_MM_yy_hh-mm-ss");
-			ChartUtilities.saveChartAsPNG(new File("agentKeeperPerformanceChart" + dfmt.format(new Date()) + ".png"), agentPerformanceChart, 1000, 700);
+			String path = PerformanceTracker.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+			path = URLDecoder.decode(path, "UTF-8");
+			System.out.println("ChartFile: "+path+"agentKeeperPerformanceChart" + dfmt.format(new Date()) + ".png" );
+			ChartUtilities.saveChartAsPNG(new File(path+"agentKeeperPerformanceChart" + dfmt.format(new Date()) + ".png"), agentPerformanceChart, 1000, 700);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
