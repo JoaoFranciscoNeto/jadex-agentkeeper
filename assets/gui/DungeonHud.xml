@@ -216,6 +216,11 @@
 								visibleToMouse="true" height="50%" valign="center" align="left">
 								<!-- <interact onClick="quitGame()" /> -->
 							</control>
+							
+							<control name="button" label="Print performance chart" id="PrintLogAndChat"
+								visibleToMouse="true" height="50%" width="150px" valign="center" align="left">
+								<interact onClick="printLogAndChat()" />
+							</control>
 
 						</panel>
 
