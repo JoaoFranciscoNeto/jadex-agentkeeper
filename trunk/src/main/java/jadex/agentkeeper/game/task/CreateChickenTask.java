@@ -33,7 +33,7 @@ public class CreateChickenTask extends AbstractTask implements ISObjStrings
 
 	public void execute(IEnvironmentSpace space, ISpaceObject obj, long progress, IClockService clock)
 	{
-
+		
 		double weightedprogess = (Double)space.getProperty(ISpaceStrings.GAME_SPEED) * progress;
 
 		delta = delta + (stepSize * weightedprogess);
