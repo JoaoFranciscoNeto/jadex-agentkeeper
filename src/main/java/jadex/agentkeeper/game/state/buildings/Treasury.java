@@ -1,7 +1,6 @@
 package jadex.agentkeeper.game.state.buildings;
 
 import jadex.agentkeeper.game.state.map.SimpleMapState;
-import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;

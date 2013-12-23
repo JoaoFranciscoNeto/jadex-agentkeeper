@@ -146,11 +146,6 @@ public class UserEingabenManager
 
 							buildingState.addType(tmppos, tileinfo);
 
-							MapType testtype = buildingState.getTypeAtPos(tmppos);
-
-							// System.out.println("testtype: " + testtype);
-
-
 							_grid.destroySpaceObject(info.getSpaceObjectId());
 
 
