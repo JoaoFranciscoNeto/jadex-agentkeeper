@@ -39,18 +39,18 @@ public class BesetzefeldPlan extends ImpPlan {
 			
 			if(!((Boolean)field.getProperty("locked")))
 			{
-			field.setProperty("locked", true);
-
-			erreicheZiel(_zielpos, true);
-
-			_avatar.setProperty("status", "Idle");
-			
-			bearbeite(_zielpos, BESETZDAUER);
-
-			setze(_zielpos, MapType.CLAIMED_PATH, false);
-			SimplePlayerState state = (SimplePlayerState)grid.getProperty(ISpaceStrings.PLAYER_STATE);
-			
-			state.addClaimedSector();
+				field.setProperty("locked", true);
+	
+				erreicheZiel(_zielpos, true);
+	
+				_avatar.setProperty("status", "Idle");
+				
+				bearbeite(_zielpos, BESETZDAUER);
+	
+				setze(_zielpos, MapType.CLAIMED_PATH, false);
+				SimplePlayerState state = (SimplePlayerState)grid.getProperty(ISpaceStrings.PLAYER_STATE);
+				
+				state.addClaimedSector();
 			}
 			
 		}
