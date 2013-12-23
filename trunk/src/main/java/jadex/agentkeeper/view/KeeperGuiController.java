@@ -157,6 +157,13 @@ public class KeeperGuiController extends DefaultGuiController
 		app.stop();
 	}
 
+	/**
+	 * Button Event(see DungeonHud.xml), trigger print Performance Chart.
+	 * 
+	 */
+	public void printLogAndChart(){
+		PerformanceTracker.printPerformanceChart();
+	}
 	
 	int stop = 40;
 
