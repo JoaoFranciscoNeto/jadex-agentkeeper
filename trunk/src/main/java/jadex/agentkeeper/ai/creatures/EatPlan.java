@@ -7,7 +7,6 @@ import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
-import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
@@ -18,12 +17,10 @@ import jadex.bdiv3.annotation.PlanFailed;
 import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.IResultCommand;
-import jadex.commons.future.DefaultResultListener;
 import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
-import jadex.extension.envsupport.environment.ISpaceAction;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
@@ -31,12 +28,7 @@ import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-
-import javax.management.monitor.Monitor;
-
-import com.jme3.scene.plugins.blender.constraints.ConstraintHelper.Space;
 
 @Plan
 public class EatPlan
@@ -162,7 +154,7 @@ public class EatPlan
 
 							};
 
-							Map params = new HashMap();
+							Map<String,Object> params = new HashMap<String,Object>();
 							params.put("Monster", spaceObject);
 							params.put("Target", info);
 
