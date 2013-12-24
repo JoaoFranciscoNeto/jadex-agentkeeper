@@ -90,7 +90,6 @@ public class PerformanceTracker {
 	/**
 	 * Using JFreechart to create an Performance Chart over saved values.
 	 * 
-	 * 
 	 */
 	public static void printPerformanceChart() {
 		final XYSeriesCollection coll0 = new XYSeriesCollection(series0);
@@ -124,6 +123,10 @@ public class PerformanceTracker {
         renderer2.setSeriesPaint(0, Color.black);
         xyplot.setRenderer(1, renderer2);
 		
+        saveChartToImageFile(agentPerformanceChart);
+	}
+	
+	private static void saveChartToImageFile(JFreeChart agentPerformanceChart){
 		try {
 			DateFormat dfmt = new SimpleDateFormat("dd_MM_yy_hh-mm-ss");
 			String path = PerformanceTracker.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -131,10 +134,11 @@ public class PerformanceTracker {
 			if(path.endsWith(".jar")){
 				path = path.substring(0, path.lastIndexOf("/"))+"/";
 			}
+			
 			System.out.println("Chart file: "+path+"agentKeeperPerformanceChart" + dfmt.format(new Date()) + ".png" );
 			ChartUtilities.saveChartAsPNG(new File(path+"agentKeeperPerformanceChart" + dfmt.format(new Date()) + ".png"), agentPerformanceChart, 1000, 700);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Problem with performance chart output.");
 			e.printStackTrace();
 		}
 	}
