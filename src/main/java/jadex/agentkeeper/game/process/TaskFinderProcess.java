@@ -8,6 +8,7 @@ import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.agentkeeper.util.ISpaceObject;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
@@ -75,7 +76,7 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 			TileInfo tileInfo = TileInfo.getTileInfo(sobj, TileInfo.class);
 			if (tileInfo != null && MapType.DIRT_PATH.equals(tileInfo.getMapType())) {
 				Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty("auftraege");
-				Vector2Double vector2Double = (Vector2Double) sobj.getProperty("position");
+				Vector2Double vector2Double = (Vector2Double) sobj.getProperty(ISpaceObject.Properties.DOUBLE_POSITION);
 				auftraege.neuerAuftrag(Auftragsverwalter.BESETZEN, new Vector2Int(vector2Double.getXAsInteger(), vector2Double.getYAsInteger()));
 			}
 		}

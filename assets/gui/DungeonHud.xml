@@ -43,7 +43,7 @@
 				<panel id="rightinfo" width="50%" childLayout="overlay"
 					backgroundColor="#0002">
 
-					<text id="infotext" style="nifty-arial-label" text="Hello World!"
+					<text id="infotext" style="nifty-arial-label" text=" "
 						textHAlign="center" textVAlign="center" height="100%" align="left"
 						valign="center" />
 				</panel>
@@ -60,7 +60,7 @@
 				</panel>
 
 
-				<panel id="maincontent" y="200px" height="133px"
+				<panel id="maincontent" y="200px" height="150px"
 					backgroundColor="#fff0" valign="bottom" align="right" childLayout="center">
 
 
@@ -68,12 +68,13 @@
 						childLayout="horizontal" backgroundColor="#3030">
 
 
-						<image id="DefaultS" filename="/gui/images/main/options.png"
-							height="32px" width="32px" hint="options">
+						<image id="DefaultS" filename="/gui/images/new/auto-repair.png"
+							height="40px" width="40px" hint="options" margin="0px,5px,0px,5px">
+							<interact onClick="setTabSelected(auto-repair_selected, DefaultS)" />
 							<effect>
 								<onHover name="hint" hintText="Options" hintDelay="1000" />
-								<onHover name="imageOverlay" filename="/gui/images/main/options_clicked.png"
-									post="true" imageMode="normal" height="32px" width="32px"
+								<onHover name="imageOverlay" filename="/gui/images/new/auto-repair_selected.png"
+									post="true" imageMode="normal" height="40px" width="40px"
 									neverStopRendering="true" />
 								<onClick name="show" targetElement="panel_default"></onClick>
 								<onClick name="hide" targetElement="panel_units"></onClick>
@@ -81,13 +82,13 @@
 							</effect>
 						</image>
 
-						<image id="UnitsS" filename="/gui/images/main/monster.png"
-							height="32px" width="32px" hint="options">
-							<interact onClick="setImpMode()" />
+						<image id="UnitsS" filename="/gui/images/new/death-skull.png"
+							height="40px" width="40px" hint="options" margin="0px,5px,0px,0px">
+							<interact onClick="setImpMode();" />
 							<effect>
 								<onHover name="hint" hintText="Creatures" hintDelay="1000" />
-								<onHover name="imageOverlay" filename="/gui/images/main/monster_clicked.png"
-									post="true" imageMode="normal" height="32px" width="32px"
+								<onHover name="imageOverlay" filename="/gui/images/new/death-skull_selected.png"
+									post="true" imageMode="normal" height="40px" width="40px"
 									neverStopRendering="true" />
 								<onClick name="show" targetElement="panel_units"></onClick>
 								<onClick name="hide" targetElement="panel_default"></onClick>
@@ -95,13 +96,13 @@
 							</effect>
 						</image>
 
-						<image id="BuildingsS" filename="/gui/images/main/home.png"
-							height="32px" width="32px" hint="options">
-							<interact onClick="setBuildMode()" />
+						<image id="BuildingsS" filename="/gui/images/new/building.png"
+							height="40px" width="40px" hint="options">
+							<interact onClick="setBuildMode();" />
 							<effect>
 								<onHover name="hint" hintText="Buildings" hintDelay="1000" />
-								<onHover name="imageOverlay" filename="/gui/images/main/home_clicked.png"
-									post="true" imageMode="normal" height="32px" width="32px"
+								<onHover name="imageOverlay" filename="/gui/images/new/building_selected.png"
+									post="true" imageMode="normal" height="40px" width="40px"
 									neverStopRendering="true" />
 								<onClick name="show" targetElement="panel_buildings"></onClick>
 								<onClick name="hide" targetElement="panel_units"></onClick>
@@ -113,7 +114,7 @@
 					<panel id="panel_content" width="100%" valign="bottom"
 						childLayout="overlay" backgroundImage="/gui/images/icon_32.png"
 						imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15"
-						backgroundColor="#0005" height="100px">
+						backgroundColor="#0005" height="110px">
 						<panel id="panel_units" width="100%" valign="bottom"
 							childLayout="horizontal" backgroundColor="#0030" padding="15px">
 
@@ -214,7 +215,7 @@
 
 							<control name="button" label="Exit" id="ExitButton"
 								visibleToMouse="true" height="50%" valign="center" align="left">
-								<!-- <interact onClick="quitGame()" /> -->
+								<interact onClick="quitGame()" />
 							</control>
 							
 							<control name="button" label="Print performance chart" id="PrintLogAndChat"
@@ -226,7 +227,7 @@
 
 
 
-						<panel id="panel_buildings" width="100%" valign="bottom"
+						<!-- <panel id="panel_buildings" width="100%" valign="bottom"
 							childLayout="horizontal" backgroundColor="#2000" visible="false"
 							padding="15px">
 							<control name="button" label="TestBuildings" id="TestBuildings"
@@ -253,6 +254,84 @@
 								visibleToMouse="true" height="50%" valign="center">
 								<interact onClick="selectLibrary()" />
 							</control>
+						</panel> -->
+						
+						<panel id="panel_buildings" width="100%" valign="bottom"
+							childLayout="horizontal" backgroundColor="#2000" visible="false"
+							padding="5px">
+							<panel childLayout="vertical" visible="false" margin="0px,5px,0px,0px">
+								<image id="Build_Lair" filename="/gui/images/new/bed.png"
+								height="45px" width="45px" margin="0px,0px,5px,0px">
+									<interact onClick="selectLair()" />
+									<effect>
+										<onHover name="imageOverlay" filename="/gui/images/new/bed_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+								</image>
+								<image id="Build_Hatchery" filename="/gui/images/new/hatchery.png"
+								height="45px" width="45px">
+									<interact onClick="selectHatchery()" />
+									<effect>
+										<onHover name="imageOverlay" filename="/gui/images/new/hatchery_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+								</image>
+							</panel>
+							
+							<panel childLayout="vertical" visible="false" margin="0px,5px,0px,0px" >
+								<image id="Build_Treasury" filename="/gui/images/new/treasury.png"
+								height="45px" width="45px" margin="0px,0px,5px,0px" >
+									<interact onClick="selectTreasury()" />
+									<effect>
+										<onHover name="imageOverlay" filename="/gui/images/new/treasury_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+								</image>
+								<image id="Build_Trainingroom" filename="/gui/images/new/trainingroom.png"
+								height="45px" width="45px">
+									<interact onClick="selectTrainingroom()" />
+									<effect>
+										<onHover name="imageOverlay" filename="/gui/images/new/trainingroom_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+								</image>
+							</panel>
+							
+							<panel childLayout="vertical" visible="false" >
+								<image id="Build_Library" filename="/gui/images/new/library.png"
+								height="45px" width="45px">
+									<interact onClick="selectLibrary()" />
+									<effect>
+										<onHover name="imageOverlay" filename="/gui/images/new/library_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+								</image>
+								
+							</panel>
+							<!-- 
+							<control name="button" label="Hatchery" id="Build_Hatchery"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectHatchery()" />
+							</control>
+							<control name="button" label="Treasury" id="Build_Treasury"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectTreasury()" />
+							</control>
+							<control name="button" label="Trainingroom" id="Build_Trainingroom"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectTrainingroom()" />
+							</control>
+							
+							<control name="button" label="Library" id="Build_Library"
+								visibleToMouse="true" height="50%" valign="center">
+								<interact onClick="selectLibrary()" />
+							</control>
+							 -->
 						</panel>
 					</panel>
 

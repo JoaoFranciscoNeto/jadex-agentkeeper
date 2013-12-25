@@ -18,7 +18,6 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.data.general.Series;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -47,7 +46,6 @@ public class PerformanceTracker {
 	
 
 	public static void logframeRate(MonkeyApp app, SimplePlayerState playerState, SimpleCreatureState creatureState) {
-		float timerFrameRate = app.getTimer().getFrameRate();
 		computeFrameRate(app);
 		if (frameRateLogCounter == 0) {
 			frameRateLogCounter = 40;
