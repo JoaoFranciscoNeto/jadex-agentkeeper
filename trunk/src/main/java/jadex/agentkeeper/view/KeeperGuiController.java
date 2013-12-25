@@ -1,5 +1,10 @@
 package jadex.agentkeeper.view;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
@@ -17,6 +22,7 @@ import com.jme3.scene.Node;
 
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 
@@ -55,6 +61,11 @@ public class KeeperGuiController extends DefaultGuiController
 	private TextRenderer warlockR;
 	
 	private TextRenderer orcR;
+	
+	private Map<String,List<String>> settingsImageMapping = new HashMap<String,List<String>>();
+	
+	private Map<String,List<String>> buildingImageMapping = new HashMap<String,List<String>>();
+	
 
 	public KeeperGuiController(SimpleApplication app, ISpaceController spacecontroller)
 	{
@@ -64,8 +75,17 @@ public class KeeperGuiController extends DefaultGuiController
 		this.spaceController = spacecontroller;
 		this.creatureState = (SimpleCreatureState)spaceController.getProperty(ISpaceStrings.CREATURE_STATE);
 		this.playerState = (SimplePlayerState)spaceController.getProperty(ISpaceStrings.PLAYER_STATE);
-
-
+		
+		settingsImageMapping.put(Tabs.SETTINGS, Arrays.asList("auto-repair.png", "auto-repair_selected.png"));
+		settingsImageMapping.put(Tabs.CREATURE, Arrays.asList("death-skull.png","death-skull_selected.png"));
+		settingsImageMapping.put(Tabs.BUILDING, Arrays.asList("building.png","building_selected.png"));
+		
+		buildingImageMapping.put("Build_Lair", Arrays.asList("bed.png","bed_selected.png"));
+		buildingImageMapping.put("Build_Hatchery", Arrays.asList("hatchery.png","hatchery_selected.png"));
+		buildingImageMapping.put("Build_Treasury", Arrays.asList("treasury.png","treasury_selected.png"));
+		buildingImageMapping.put("Build_Trainingroom", Arrays.asList("trainingroom.png","trainingroom_selected.png"));
+		buildingImageMapping.put("Build_Library", Arrays.asList("library.png","library_selected.png"));
+		
 	}
 
 
@@ -101,32 +121,46 @@ public class KeeperGuiController extends DefaultGuiController
 	
 	public void setImpMode()
 	{
+		setTabSelected("death-skull_selected", "UnitsS" );
 		this.playerState.setSelectionMode(SelectionMode.IMPMODE);
+	}
+	
+	
+	public void setBuildMode()
+	{
+		setTabSelected("bridge_selected", "BuildingsS");
+		deselectOtherSelections("noSelection", buildingImageMapping);
+		// TODO: set BuildMode, reason to do that is not clear ..., cause the buildings do that ?
 	}
 	
 	public void selectLair()
 	{
 		this.playerState.setBuilding(MapType.LAIR);
+		setBuildingSelected("bed_selected", "Build_Lair");
 	}
 	
 	public void selectTreasury()
 	{
 		this.playerState.setBuilding(MapType.TREASURY);
+		setBuildingSelected("treasury_selected", "Build_Treasury");
 	}
 	
 	public void selectHatchery()
 	{
 		this.playerState.setBuilding(MapType.HATCHERY);
+		setBuildingSelected("hatchery_selected", "Build_Hatchery");
 	}
 	
 	public void selectTrainingroom()
 	{
 		this.playerState.setBuilding(MapType.TRAININGROOM);
+		setBuildingSelected("trainingroom_selected", "Build_Trainingroom");
 	}
 	
 	public void selectLibrary()
 	{
 		this.playerState.setBuilding(MapType.LIBRARY);
+		setBuildingSelected("library_selected", "Build_Library");
 	}
 
 	public void setPerform()
@@ -155,6 +189,7 @@ public class KeeperGuiController extends DefaultGuiController
 	public void quitGame()
 	{
 		app.stop();
+		System.exit(0);
 	}
 
 	/**
@@ -239,6 +274,48 @@ public class KeeperGuiController extends DefaultGuiController
 	public void onEndScreen()
 	{
 	}
-
+	
+	
+	public void setTabSelected(String selectPng, String seletedSettings) {
+		String settingsPng = settingsImageMapping.get(seletedSettings).get(1);
+		Element settingsBtn = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName(seletedSettings);
+		// get the ImageRenderer
+		ImageRenderer imageRenderer = settingsBtn.getRenderer(ImageRenderer.class);
+		// change the image
+		imageRenderer.setImage(nifty.getRenderEngine().createImage("/gui/images/new/"+settingsPng, false));
+		deselectOtherSelections(seletedSettings, settingsImageMapping);
+	}
+	
+	public void setBuildingSelected(String selectPng, String seletedSettings) {
+		String settingsPng = buildingImageMapping.get(seletedSettings).get(1);
+		Element settingsBtn = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName(seletedSettings);
+		// get the ImageRenderer
+		ImageRenderer imageRenderer = settingsBtn.getRenderer(ImageRenderer.class);
+		// change the image
+		imageRenderer.setImage(nifty.getRenderEngine().createImage("/gui/images/new/"+settingsPng, false));
+		deselectOtherSelections(seletedSettings, buildingImageMapping);
+	}
+	
+	
+	
+	private void deselectOtherSelections(String selectedTab, Map<String, List<String>> imageMapping){
+		for(String tab : imageMapping.keySet()){
+			if(!selectedTab.equals(tab)) {
+				String settingsPng = imageMapping.get(tab).get(0);
+				
+				Element settingsBtn = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName(tab);
+				// get the ImageRenderer
+				ImageRenderer imageRenderer = settingsBtn.getRenderer(ImageRenderer.class);
+				// change the image
+				imageRenderer.setImage(nifty.getRenderEngine().createImage("/gui/images/new/"+settingsPng, false));
+			}
+		}
+	}
+	
+	interface Tabs {
+		public final static String SETTINGS = "DefaultS";
+		public final static String CREATURE = "UnitsS";
+		public final static String BUILDING = "BuildingsS";
+	}
 
 }

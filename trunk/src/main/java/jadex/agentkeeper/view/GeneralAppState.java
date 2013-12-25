@@ -62,7 +62,6 @@ public class GeneralAppState extends AbstractAppState
 		this.playerState = (SimplePlayerState)spaceController.getProperty(ISpaceStrings.PLAYER_STATE);
 		this.usermanager = (UserEingabenManager) spaceController.getProperty("uem");
 		this.handler = new SelectionHandler((MonkeyApp)app, this, playerState);
-
 		setup();
 
 	}
@@ -111,7 +110,7 @@ public class GeneralAppState extends AbstractAppState
 		AmbientLight al = new AmbientLight();
 		// al.setColor(new ColorRGBA(1.7f,2.2f,3.2f,1f));
 //		al.setColor(ColorRGBA.White.multLocal(0.4f));
-		al.setColor(ColorRGBA.White.multLocal(0.4f));
+		al.setColor(ColorRGBA.White.multLocal(0.6f));
 		this.app.getRootNode().addLight(al);
 
 		
