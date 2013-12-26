@@ -51,6 +51,7 @@ public class BesetzefeldPlan extends ImpPlan {
 				SimplePlayerState state = (SimplePlayerState)grid.getProperty(ISpaceStrings.PLAYER_STATE);
 				
 				state.addClaimedSector();
+				field.setProperty("locked", false);
 			}
 			
 		}
