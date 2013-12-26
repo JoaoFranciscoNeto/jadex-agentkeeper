@@ -42,6 +42,15 @@ public class Auftragsverwalter implements IAuftragsverwalter {
 		_auftraege[2] = new Auftragsliste();
 
 	}
+	
+	public int getTaskListSize(){
+		int result =0;
+		
+		for(Auftragsliste liste: _auftraege){
+			result += liste.size();
+		}
+		return result;
+	}
 
 	/**
 	 * Gibt den Naechsten Auftrag mit der wichtigsten Prioritaet zurueck
