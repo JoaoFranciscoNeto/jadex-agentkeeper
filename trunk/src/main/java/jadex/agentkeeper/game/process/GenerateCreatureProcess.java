@@ -100,15 +100,15 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 				//If we have enough free Librarytiles, create Warlocks
 				if(librarytiles>=9&&librarytiles-warlocks*5>=9)
 				{
-					createMonster(InitMapProcess.WARLOCK);
+					createMonster(InitMapProcess.WARLOCK, portalcenter);
 				}
 				else if(trainingroomtiles>=9&&trainingroomtiles-trolls>=9)
 				{
-					createMonster(InitMapProcess.TROLL);
+					createMonster(InitMapProcess.TROLL, portalcenter);
 				}
 				else
 				{
-					createMonster(InitMapProcess.GOBLIN);
+					createMonster(InitMapProcess.GOBLIN, portalcenter);
 				}
 
 			}
@@ -119,7 +119,7 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 	}
 
 
-	private void createMonster(String type)
+	private void createMonster(String type, Vector2Int portalcenter)
 	{
 
 		HashMap<String, Object> props = new HashMap<String, Object>();

@@ -5,7 +5,9 @@ import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.UserEingabenManager;
+import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.agentkeeper.util.ISpaceObject;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.WalkType;
@@ -81,7 +83,10 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 
 			uem = new UserEingabenManager(grid);
 
-			grid.setProperty("uem", uem);
+			grid.setProperty(ISpaceObject.Objects.UserInputManager, uem);
+			
+			
+			grid.setProperty(ISpaceObject.Objects.ImpCreationSpell, new ImpCreationSpell(grid));
 
 			this.creatureState = new SimpleCreatureState();
 			this.buildingState = new SimpleMapState(MapType.values());

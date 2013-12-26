@@ -215,12 +215,17 @@
 								visibleToMouse="true" height="50%" valign="center" align="left">
 								<interact onClick="setPerform()" />
 							</control>
-
+							<!-- 
+							<control name="button" label="AddImp" id="AddImp"
+								visibleToMouse="true" height="50%" valign="center" align="left">
+								<interact onClick="addImp()" />
+							</control>
+							
 							<control name="button" label="Exit" id="ExitButton"
 								visibleToMouse="true" height="50%" valign="center" align="left">
 								<interact onClick="quitGame()" />
 							</control>
-							
+							 -->
 							
 							<image id="PrintLogAndChat" filename="/gui/images/new/performance_chart.png"
 								height="45px" width="45px" valign="center" >
