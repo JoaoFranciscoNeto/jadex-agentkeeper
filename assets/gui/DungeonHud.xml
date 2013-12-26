@@ -218,10 +218,17 @@
 								<interact onClick="quitGame()" />
 							</control>
 							
-							<control name="button" label="Print performance chart" id="PrintLogAndChat"
-								visibleToMouse="true" height="50%" width="150px" valign="center" align="left">
-								<interact onClick="printLogAndChart()" />
-							</control>
+							
+							<image id="PrintLogAndChat" filename="/gui/images/new/performance_chart.png"
+								height="45px" width="45px" valign="center" >
+									<interact onClick="printLogAndChart()" />
+									<effect>
+										<onHover name="hint" hintText="Print performance chart: print a perfomance chart of collected performance information in the jar foulder" hintDelay="500" />
+										<onHover name="imageOverlay" filename="/gui/images/new/performance_chart_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+								</image>
 
 						</panel>
 						
@@ -282,25 +289,6 @@
 								</image>
 								
 							</panel>
-							<!-- 
-							<control name="button" label="Hatchery" id="Build_Hatchery"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectHatchery()" />
-							</control>
-							<control name="button" label="Treasury" id="Build_Treasury"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectTreasury()" />
-							</control>
-							<control name="button" label="Trainingroom" id="Build_Trainingroom"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectTrainingroom()" />
-							</control>
-							
-							<control name="button" label="Library" id="Build_Library"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectLibrary()" />
-							</control>
-							 -->
 						</panel>
 					</panel>
 

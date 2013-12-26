@@ -29,8 +29,10 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
+import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.ISpaceObject;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 
 public class PerformanceTracker {
@@ -51,6 +53,7 @@ public class PerformanceTracker {
 	private static XYSeries goblinCountSeries = new XYSeries("GOBLIN");
 	private static XYSeries warlockCountSeries = new XYSeries("WARLOCK");
 	private static XYSeries trollCountSeries = new XYSeries("TROLL");
+	private static XYSeries taskSizeSeries = new XYSeries("TaskSize");
 	
 	
 	private static final float CHART_STROKE_WEIGHT = 2f;
@@ -61,9 +64,13 @@ public class PerformanceTracker {
 		if (frameRateLogCounter == 0) {
 			frameRateLogCounter = 40;
 			rateCounter++;
+			Auftragsverwalter auftragsverwalter = (Auftragsverwalter)app.getSpaceController().getProperty(ISpaceObject.Objects.TaskList);
 //			System.out.println(rateCounter + ";" + timerFrameRate + ";" + playerState.getClaimedSectors() + ";" + creatureState.getCreatureCount(InitMapProcess.IMP) + ";"
 //					+ creatureState.getCreatureCount(InitMapProcess.GOBLIN) + ";" + creatureState.getCreatureCount(InitMapProcess.WARLOCK) + ";" + creatureState.getCreatureCount(InitMapProcess.TROLL)
 //					+ ";" + computedFrameRate);
+			
+			
+			taskSizeSeries.add(rateCounter, auftragsverwalter.getTaskListSize() );
 			frameRateSeries.add(rateCounter, computedFrameRate);
 			claimedSectorSeries.add(rateCounter, playerState.getClaimedSectors());
 			impCountSeries.add(rateCounter, creatureState.getCreatureCount(InitMapProcess.IMP));
@@ -103,6 +110,7 @@ public class PerformanceTracker {
 	public static void printPerformanceChart() {
 		final XYSeriesCollection coll0 = new XYSeriesCollection(frameRateSeries);
 		coll0.addSeries(claimedSectorSeries);
+		coll0.addSeries(taskSizeSeries);
 		final IntervalXYDataset data1 = coll0;
 		JFreeChart agentPerformanceChart = ChartFactory.createTimeSeriesChart("agent keeper perfromance", "timeline", "average fps", data1, true, true, false);
 		agentPerformanceChart.setBackgroundPaint(Color.WHITE);
