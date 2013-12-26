@@ -15,7 +15,9 @@ import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 
@@ -274,6 +276,25 @@ public class Neighborhood
 		String stringret = Integer.toBinaryString(ret);
 		return parseTilesets(stringret, alternatives);
 
+	}
+	
+	public static Set<TileInfo> getNeighborTiles(Vector2Int tmppos, Grid2D environment){
+		Set<TileInfo> nearFields = new HashSet<TileInfo>();
+		if(tmppos != null) {
+			for(Neighborcase neighborcase : Neighborcase.getDefault())
+			{
+				Vector2Int tmpVector = (Vector2Int)tmppos.copy().subtract(neighborcase.getVector());
+				for(Object o : environment.getSpaceObjectsByGridPosition(tmpVector, null))
+				{
+					if(o instanceof ISpaceObject)
+					{
+						TileInfo info = TileInfo.getTileInfo((SpaceObject)o, TileInfo.class);
+						nearFields.add(info);
+					}
+				}
+			}
+		}
+		return nearFields;
 	}
 	
 	
