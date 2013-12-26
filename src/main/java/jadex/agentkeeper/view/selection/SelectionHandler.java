@@ -1,11 +1,13 @@
 package jadex.agentkeeper.view.selection;
 
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
+import jadex.agentkeeper.util.ISpaceObject;
 import jadex.agentkeeper.view.GeneralAppState;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.math.IVector3;
+import jadex.extension.envsupport.math.Vector2Int;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 
 import com.jme3.input.MouseInput;
@@ -132,13 +134,16 @@ public class SelectionHandler
 
 
 				TileInfo info = TileInfo.getTileInfo(selected, TileInfo.class);
-				MapType type = info.getMapType();
-
+				MapType type = null;
+				Vector2Int postion = null;
+				if(info != null){
+					type = info.getMapType();
+				}
 
 				// System.out.println("selected.getType() " +
 				// selected.getType());
 
-				mystate.updateInfoText(selected.getType() + " x " + type.toString());
+				mystate.updateInfoText(selected.getType() + " x " + type +" "+selected.getProperty(ISpaceObject.Properties.LOCKED)+" "+selected.getProperty(ISpaceObject.Properties.CLICKED) +" "+selected.getProperty(ISpaceObject.Properties.INTPOSITION));
 
 
 				// TODO: Selectionmode
@@ -169,7 +174,7 @@ public class SelectionHandler
 			}
 			catch(Exception e)
 			{
-
+				System.out.println(e);
 			}
 
 		}

@@ -16,7 +16,7 @@ public enum SelectionMode
 	
 	public boolean IsSelectionMatchingToMode(MapType type)
 	{
-		for(int i = 0; i<=this.relatedtypes.length; i++ )
+		for(int i = 0; i<=this.relatedtypes.length-1; i++ )
 		{
 			if(this.relatedtypes[i]==type)
 			{

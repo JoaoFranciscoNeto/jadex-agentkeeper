@@ -25,38 +25,38 @@ public class VerstaerkeWandPlan extends ImpPlan {
 	
 
 	public void aktion() {
-//		 System.out.println("beginne Wandverstärkeplan");
+		// System.out.println("beginne Wandverstärkeplan");
 		ladAuftrag();
+		SpaceObject field = InitMapProcess.getFieldTypeAtPos(_zielpos, grid);
+//		System.out.println("lock");
+//		try {
+			if (isCorrectField(_zielpos, MapType.ROCK)) {
 
-		if (isCorrectField(_zielpos, MapType.ROCK)) {
-			
-			SpaceObject field = InitMapProcess.getFieldTypeAtPos(_zielpos, grid);
-			
-			if(!((Boolean)field.getProperty("locked")))
-			{
-				waitForTick();
+				if (!((Boolean) field.getProperty("locked"))) {
+					waitForTick();
+				}
+
+				if (!((Boolean) field.getProperty("locked"))) {
+					field.setProperty("locked", true);
+					erreicheZiel(_zielpos, false);
+
+					_avatar.setProperty("status", "Dig");
+
+					bearbeite(_zielpos, VERSTAERKDAUER);
+
+					setze(_zielpos, MapType.REINFORCED_WALL, false);
+					field.setProperty("locked", false);
+				}
+			} else {
+//				System.out.println("verstaerkewandplan: kein ROCK");
 			}
-			
-			if(!((Boolean)field.getProperty("locked")))
-			{
-				field.setProperty("locked", true);
-				erreicheZiel(_zielpos, false);
-			
-				_avatar.setProperty("status", "Dig");
-			
-				bearbeite(_zielpos, VERSTAERKDAUER);
 
-				setze(_zielpos, MapType.REINFORCED_WALL, false);
-				field.setProperty("locked", false);
-			}
-		}
-		else {
-//			 System.out.println("verstaerkewandplan: kein ROCK");
-		}
-		
-		
-		_ausfuehr = false;
-
+			_ausfuehr = false;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//			System.out.println("delock");
+		field.setProperty("locked", false);
 	}
 	
 	/**

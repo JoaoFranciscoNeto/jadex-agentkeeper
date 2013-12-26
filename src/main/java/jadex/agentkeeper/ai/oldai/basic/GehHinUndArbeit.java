@@ -223,11 +223,13 @@ public abstract class GehHinUndArbeit extends KreaturenPlan
 			if(o instanceof ISpaceObject)
 			{
 				TileInfo info = TileInfo.getTileInfo((SpaceObject)o, TileInfo.class);
-				MapType type = info.getMapType();
-
-				if(type == typ)
-				{
-					return true;
+				if(info != null){
+					MapType type = info.getMapType();
+	
+					if(type == typ)
+					{
+						return true;
+					}
 				}
 			}
 		}
