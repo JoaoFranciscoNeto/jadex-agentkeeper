@@ -1,5 +1,7 @@
 package jadex.agentkeeper.ai.creatures.imp;
 
+import java.util.Map;
+
 import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
@@ -31,13 +33,13 @@ public class WandabbauPlan extends ImpPlan
 
 		SpaceObject field = InitMapProcess.getFieldTypeAtPos(_zielpos, grid);
 
-		if(!((Boolean)field.getProperty("locked")))
+		if(((Boolean)field.getProperty("locked")))
 		{
 			waitForTick();
 		}
 
-		if(!((Boolean)field.getProperty("locked")))
-		{
+//		if(!((Boolean)field.getProperty("locked")))
+//		{
 			field.setProperty("locked", true);
 			
 			erreicheZiel(_zielpos, false);
@@ -47,7 +49,7 @@ public class WandabbauPlan extends ImpPlan
 			bearbeite(_zielpos, ABBAUZEIT);
 			
 			
-		}
+//		}
 
 
 		// Click effekt entfernen
@@ -55,8 +57,15 @@ public class WandabbauPlan extends ImpPlan
 		{
 			if(o instanceof ISpaceObject)
 			{
-				ISpaceObject blub = (ISpaceObject)o;
-				blub.setProperty("clicked", false);
+				SpaceObject currentGridTile = (SpaceObject)o;
+				currentGridTile.setProperty("clicked", false);
+				
+				Map props = currentGridTile.getProperties();
+				props.put("clicked", false);
+				String type = currentGridTile.getType();
+				grid.createSpaceObject(type, props, null);
+				grid.destroySpaceObject(currentGridTile.getId());
+				// no visual Feedback
 			}
 		}
 
@@ -78,7 +87,8 @@ public class WandabbauPlan extends ImpPlan
 		auftragsverwalter.updatePosition(_zielpos);
 		
 		_ausfuehr = false;
-
+		
+		field.setProperty("locked", false);
 	}
 
 	@Override

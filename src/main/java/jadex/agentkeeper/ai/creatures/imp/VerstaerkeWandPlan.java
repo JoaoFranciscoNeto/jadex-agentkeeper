@@ -47,6 +47,7 @@ public class VerstaerkeWandPlan extends ImpPlan {
 				bearbeite(_zielpos, VERSTAERKDAUER);
 
 				setze(_zielpos, MapType.REINFORCED_WALL, false);
+				field.setProperty("locked", false);
 			}
 		}
 		else {
