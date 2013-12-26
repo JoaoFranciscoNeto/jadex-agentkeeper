@@ -5,7 +5,10 @@ public interface ISpaceObject {
 	interface Properties {
 		public static final String NEIGHBORHOOD = "neighborhood";
 		public static final String STATUS = "status";
+		
 		public static final String CLICKED = "clicked";
+		public static final String LOCKED = "locked";
+		
 		public static final String INTPOSITION = "intPos";
 		public static final String DOUBLE_POSITION = "position";
 		public static final String TILEINFO = "tileInfo";
@@ -16,9 +19,7 @@ public interface ISpaceObject {
 		public static final String AWAKE = "awake";
 		public static final String FED = "fed";
 		public static final String HAPPINESS = "happiness";
-		
 		public static final String MORAL = "moral";
-		
 		public static final String GOAL = "goal";
 	}
 	
@@ -29,6 +30,9 @@ public interface ISpaceObject {
 		public final static String MAP_STATE = "mapState";
 		public final static String PLAYER_STATE = "playerState";
 		public final static String GAME_SPEED = "gameSpeed";
+		public final static String Task = "auftrag"; // Aufgabe
+		public final static String TaskList = "auftraege"; // Aufgabenverwaltung
 	}
+	
 
 }

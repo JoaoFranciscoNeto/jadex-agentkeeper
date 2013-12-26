@@ -70,7 +70,7 @@
 
 						<image id="DefaultS" filename="/gui/images/new/auto-repair.png"
 							height="40px" width="40px" hint="options" margin="0px,5px,0px,5px">
-							<interact onClick="setTabSelected(auto-repair_selected, DefaultS)" />
+							<interact onClick="setTabSelected(DefaultS)" />
 							<effect>
 								<onHover name="hint" hintText="Options" hintDelay="1000" />
 								<onHover name="imageOverlay" filename="/gui/images/new/auto-repair_selected.png"
@@ -224,37 +224,6 @@
 							</control>
 
 						</panel>
-
-
-
-						<!-- <panel id="panel_buildings" width="100%" valign="bottom"
-							childLayout="horizontal" backgroundColor="#2000" visible="false"
-							padding="15px">
-							<control name="button" label="TestBuildings" id="TestBuildings"
-								visibleToMouse="true" height="50%" valign="center">
-							</control>
-							<control name="button" label="Lair" id="Build_Lair"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectLair()" />
-							</control>
-							<control name="button" label="Hatchery" id="Build_Hatchery"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectHatchery()" />
-							</control>
-							<control name="button" label="Treasury" id="Build_Treasury"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectTreasury()" />
-							</control>
-							<control name="button" label="Trainingroom" id="Build_Trainingroom"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectTrainingroom()" />
-							</control>
-							
-							<control name="button" label="Library" id="Build_Library"
-								visibleToMouse="true" height="50%" valign="center">
-								<interact onClick="selectLibrary()" />
-							</control>
-						</panel> -->
 						
 						<panel id="panel_buildings" width="100%" valign="bottom"
 							childLayout="horizontal" backgroundColor="#2000" visible="false"
