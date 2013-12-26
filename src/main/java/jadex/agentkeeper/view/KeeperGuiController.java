@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jadex.agentkeeper.game.state.buildings.Treasury;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
@@ -24,6 +25,7 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
 
 
@@ -87,6 +89,29 @@ public class KeeperGuiController extends DefaultGuiController
 		buildingImageMapping.put(Buildings.Library, Arrays.asList("library.png","library_selected.png"));
 		
 	}
+	float testCounter = 0.0f;
+	
+	public void calculateGoldPercentageAndDraw() {
+		if (Treasury.currentAmount > 0) {
+			testCounter = ((float)Treasury.currentAmount / (float)Treasury.totalPossibleAmount);
+		} else {
+			testCounter = 0.0f;
+		}
+		setGoldPercentage(testCounter);
+	}
+	// 72000  = 1
+	// 21000 = x
+	public void setGoldPercentage(float percent) {
+		Element goldIcon_grey = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("GoldIcon_grey");
+		int maxIconSize = 32;
+		int percentSize = (int) (maxIconSize * percent);
+		if(percentSize > maxIconSize) {
+			percentSize =  maxIconSize;
+		}
+		NiftyImage image = goldIcon_grey.getRenderer(ImageRenderer.class).getImage();
+		image.getImageMode().setParameters("subImageDirect:0,0,"+(maxIconSize-percentSize)+",32");
+		goldIcon_grey.setWidth((maxIconSize-percentSize));
+	}
 
 
 	/** Nifty GUI ScreenControl methods */
@@ -115,6 +140,7 @@ public class KeeperGuiController extends DefaultGuiController
 
 	public void options()
 	{
+		
 		// spaceController.getSpaceObjectsByGridPosition(new Vector2Int(10, 10),
 		// null);
 	}
@@ -237,6 +263,8 @@ public class KeeperGuiController extends DefaultGuiController
 		warlockR.setText("" + creatureState.getCreatureCount(InitMapProcess.WARLOCK));
 		orcR.setText("" + creatureState.getCreatureCount(InitMapProcess.TROLL));
 		claimedTilesRender.setText("+"+playerState.getClaimedSectors());
+		this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("goldstatus");
+		calculateGoldPercentageAndDraw();
 		
 	}
 

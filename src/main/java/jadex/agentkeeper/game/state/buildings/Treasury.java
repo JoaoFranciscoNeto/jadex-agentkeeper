@@ -22,6 +22,9 @@ import java.util.Set;
  *
  */
 public class Treasury {
+	
+	public static int totalPossibleAmount = 0;
+	public static int currentAmount = 0;
 
 	public static void synchronizeTreasuriesWithPlayerGold(int price, SimpleMapState buildingState, Grid2D grid) {
 		findTreasureWithAmountAndShrink(price, buildingState, grid);

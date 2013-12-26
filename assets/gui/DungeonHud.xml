@@ -20,8 +20,11 @@
 				valign="top">
 				<panel id="leftinfo" width="50%" padding="10px" childLayout="horizontal"
 					backgroundColor="#0002">
-					<image id="GoldIcon" filename="/gui/images/topline/coins.png"
-						height="32px" width="32px" margin="0px,10px,0px,0px" />
+					<panel id="GoldIcon" backgroundImage="/gui/images/topline/coins.png"
+						height="32px" width="32px" margin="0px,10px,0px,0px" childLayout="horizontal">
+						<panel id="GoldIcon_grey" backgroundImage="/gui/images/topline/coins_grey.png"
+						height="32px" width="32px" imageMode="subImage:0,0,32,32"  /><!-- imageMode="subImage:0,0,16,32"  -->
+					</panel>
 					<text id="goldstatus" style="nifty-arial-label" text="00003000"
 						color="#fd0f" valign="bottom" />
 					<image id="ManaIcon" filename="/gui/images/topline/mana_potion.png"
