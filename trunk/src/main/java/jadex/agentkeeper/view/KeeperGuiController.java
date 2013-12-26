@@ -2,6 +2,7 @@ package jadex.agentkeeper.view;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +26,14 @@ import com.jme3.app.StatsAppState;
 import com.jme3.scene.Node;
 
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.effects.Effect;
+import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.tools.TimeProvider;
 
 
 /**
@@ -102,8 +106,7 @@ public class KeeperGuiController extends DefaultGuiController
 		}
 		setGoldPercentage(testCounter);
 	}
-	// 72000  = 1
-	// 21000 = x
+
 	public void setGoldPercentage(float percent) {
 		Element goldIcon_grey = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("GoldIcon_grey");
 		int maxIconSize = 32;
@@ -302,6 +305,13 @@ public class KeeperGuiController extends DefaultGuiController
 		Element thiefT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("thief_total");
 		TextRenderer thiefR = thiefT.getRenderer(TextRenderer.class);
 		thiefR.setText("" + creatureState.getCreatureCount(InitMapProcess.THIEF));
+		
+		// TODO: Dynamic price in hint of building
+//		Element lairs = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("Build_Lair");
+//		Effect effect = new Effect( nifty, false, false, false, "1", "2", "3", true, EffectEventId.onStartHover);
+//        effect.init( lairs, null, null, new TimeProvider(), new LinkedList() );
+//        lairs.registerEffect(EffectEventId.onStartHover, effect);
+//		System.out.println( lairs.registerEffect(theId, e); );
 
 	}
 
