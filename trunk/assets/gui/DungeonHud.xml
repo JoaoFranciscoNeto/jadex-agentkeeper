@@ -25,7 +25,7 @@
 						<panel id="GoldIcon_grey" backgroundImage="/gui/images/topline/coins_grey.png"
 						height="32px" width="32px" imageMode="subImage:0,0,32,32"  /><!-- imageMode="subImage:0,0,16,32"  -->
 					</panel>
-					<text id="goldstatus" style="nifty-arial-label" text="00003000"
+					<text id="goldstatus" style="nifty-arial-label" text="00000000"
 						color="#fd0f" valign="bottom" />
 					<image id="ManaIcon" filename="/gui/images/topline/mana_potion.png"
 						height="32px" width="32px" margin="0px,10px,0px,0px" />
