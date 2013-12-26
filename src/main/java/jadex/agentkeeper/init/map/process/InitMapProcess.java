@@ -226,7 +226,6 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 			e.printStackTrace();
 		}
 
-
 		space.removeSpaceProcess(getProperty(ISpaceProcess.ID));
 
 	}

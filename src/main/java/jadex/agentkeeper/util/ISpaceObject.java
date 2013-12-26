@@ -32,6 +32,8 @@ public interface ISpaceObject {
 		public final static String GAME_SPEED = "gameSpeed";
 		public final static String Task = "auftrag"; // Aufgabe
 		public final static String TaskList = "auftraege"; // Aufgabenverwaltung
+		public final static String UserInputManager = "uem"; // UserEingabenManager
+		public final static String ImpCreationSpell = "imCreationSpell"; 
 	}
 	
 

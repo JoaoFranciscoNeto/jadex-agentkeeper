@@ -41,7 +41,7 @@ public enum MapType
 	GOLD(TypeVariant.SOLIDMAP, WalkType.IMPASSABLE, GoldInfo.class),
 	GOLD_DROPED(TypeVariant.SOLIDMAP, WalkType.PASSABLE , DefaultTileInfo.class),
 	DIRT_PATH(TypeVariant.SOLIDMAP , WalkType.PASSABLE , DirtPathInfo.class),
-	CLAIMED_PATH(TypeVariant.SOLIDMAP , WalkType.PASSABLE , ClaimedPathInfo.class),
+	CLAIMED_PATH(TypeVariant.SOLIDMAP , WalkType.PASSABLE , ClaimedPathInfo.class,"CLAIMED_PATH"),
 	GEMS(TypeVariant.SOLIDMAP , WalkType.IMPASSABLE , DefaultTileInfo.class),
 	WATER(TypeVariant.SOLIDMAP , WalkType.IMPASSABLE ,  WaterInfo.class),
 	LAVA(TypeVariant.SOLIDMAP, WalkType.PASSABLE, WaterInfo.class),
@@ -51,6 +51,17 @@ public enum MapType
 	private TypeVariant variant;
 	private WalkType walkType;
 	private int cost;
+	private String name;
+	
+	
+	private MapType(TypeVariant variant, WalkType walkType, Class<?> pojo, int cost, String name)
+	{
+		this.variant = variant;
+		this.pojo = pojo;
+		this.walkType = walkType;
+		this.cost = cost;
+		this.setName(name);
+	}
 	
 	private MapType(TypeVariant variant, WalkType walkType, Class<?> pojo, int cost)
 	{
@@ -58,6 +69,15 @@ public enum MapType
 		this.pojo = pojo;
 		this.walkType = walkType;
 		this.cost = cost;
+	}
+	
+	private MapType(TypeVariant variant, WalkType walkType, Class<?> pojo, String name)
+	{
+		this.variant = variant;
+		this.pojo = pojo;
+		this.walkType = walkType;
+		this.cost = 0;
+		this.setName(name);
 	}
 	
 	private MapType(TypeVariant variant, WalkType walkType, Class<?> pojo)
@@ -150,6 +170,14 @@ public enum MapType
 	public void setCost(int cost)
 	{
 		this.cost = cost;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

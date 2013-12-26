@@ -8,12 +8,15 @@ import java.util.Map;
 import jadex.agentkeeper.game.state.buildings.Treasury;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
+import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.ISpaceObject;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.view.selection.SelectionMode;
 import jadex.agentkeeper.log.PerformanceTracker;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.environment.ISpaceController;
+import jadex.extension.envsupport.math.Vector2Int;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 import jadex.extension.envsupport.observer.graphics.jmonkey.appstate.gui.DefaultGuiController;
 
@@ -214,9 +217,11 @@ public class KeeperGuiController extends DefaultGuiController
 
 	public void quitGame()
 	{
-		app.stop();
-		app.destroy();
-		System.exit(0);
+		
+		app.stop(true);
+		System.out.println("stop?");
+//		app.getContext().destroy(true);
+//		System.exit(0);
 	}
 
 	/**
@@ -339,6 +344,11 @@ public class KeeperGuiController extends DefaultGuiController
 		}
 	}
 	
+	
+	public void addImp(){
+		ImpCreationSpell impCreationSpell = (ImpCreationSpell) spaceController.getProperty(ISpaceObject.Objects.ImpCreationSpell);
+		impCreationSpell.zauberImp(new Vector2Int(18, 17), 200);
+	}
 	
 	/**
 	 * All available menu-tabs in Gui.
