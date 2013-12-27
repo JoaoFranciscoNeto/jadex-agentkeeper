@@ -1,4 +1,3 @@
-
 package jadex.agentkeeper.game.process;
 
 import jadex.agentkeeper.ai.UpdateStatusTask;
@@ -117,7 +116,8 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 				for(TileInfo neighbourTile :  test) {
 					if(neighbourTile != null &&  neighbourTile.getMapType().equals(MapType.ROCK)) {
 						jadex.extension.envsupport.environment.ISpaceObject test2 = environment.getSpaceObject(neighbourTile.getSpaceObjectId());
-						if( !(boolean)test2.getProperty(ISpaceObject.Properties.CLICKED) ){
+						boolean clicked = (Boolean) test2.getProperty(ISpaceObject.Properties.CLICKED);
+						if( !clicked){
 							test2.setProperty(ISpaceObject.Properties.LOCKED, false);
 						}
 						Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty(ISpaceObject.Objects.TaskList);
