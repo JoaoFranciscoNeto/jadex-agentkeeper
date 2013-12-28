@@ -199,7 +199,7 @@
 								height="45px" width="45px" valign="center" >
 									<interact onClick="fireFullscreen()()" />
 									<effect>
-										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="hint" hintText="fullscreen" hintDelay="500" />
 										<onHover name="imageOverlay" filename="/gui/images/new/fullscreen_selected.png"
 											post="true" imageMode="normal" height="45px" width="45px"
 											neverStopRendering="true" />
@@ -210,7 +210,7 @@
 								height="45px" width="45px" valign="center" >
 									<interact onClick="changeShowBars()" />
 									<effect>
-										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="hint" hintText="Show/Hide status(life,tiredness,hunger) bars of monsters" hintDelay="500" />
 										<onHover name="imageOverlay" filename="/gui/images/new/show_monster_bars_selected.png"
 											post="true" imageMode="normal" height="45px" width="45px"
 											neverStopRendering="true" />
@@ -222,7 +222,7 @@
 								height="45px" width="45px" valign="center" >
 									<interact onClick="setGrid()" />
 									<effect>
-										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="hint" hintText="Show/Hide Grid" hintDelay="500" />
 										<onHover name="imageOverlay" filename="/gui/images/new/grid_selected.png"
 											post="true" imageMode="normal" height="45px" width="45px"
 											neverStopRendering="true" />
@@ -233,7 +233,7 @@
 								height="45px" width="45px" valign="center" >
 									<interact onClick="setPerform()" />
 									<effect>
-										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="hint" hintText="Show/Hide statistics." hintDelay="500" />
 										<onHover name="imageOverlay" filename="/gui/images/new/stats_selected.png"
 											post="true" imageMode="normal" height="45px" width="45px"
 											neverStopRendering="true" />
