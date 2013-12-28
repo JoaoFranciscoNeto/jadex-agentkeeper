@@ -50,6 +50,7 @@ public class ImpBDI extends AbstractBeingBDI {
 	{
 		agent.dispatchTopLevelGoal(new PerformImpPatrol());
 		agent.dispatchTopLevelGoal(new PerformClaimSector());
+		System.out.println("dispatch");
 	}
 	
 	/**
