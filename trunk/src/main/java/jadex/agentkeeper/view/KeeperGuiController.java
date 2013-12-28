@@ -2,7 +2,6 @@ package jadex.agentkeeper.view;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +25,11 @@ import com.jme3.app.StatsAppState;
 import com.jme3.scene.Node;
 
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.effects.Effect;
-import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.ImageRenderer;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.render.NiftyImage;
 import de.lessvoid.nifty.screen.Screen;
-import de.lessvoid.nifty.tools.TimeProvider;
 
 
 /**
@@ -48,6 +44,11 @@ public class KeeperGuiController extends DefaultGuiController
 	private Node				rootNode;
 
 	private boolean				toggleStats	= true;
+	
+
+	private boolean showStats = false;
+	private boolean showGrid = false;
+	private boolean showBars = false;
 
 	private ISpaceController	spaceController;
 
@@ -71,9 +72,11 @@ public class KeeperGuiController extends DefaultGuiController
 	
 	private TextRenderer orcR;
 	
-	private Map<String,List<String>> settingsImageMapping = new HashMap<String,List<String>>();
+	private Map<String,List<String>> tabImageMapping = new HashMap<String,List<String>>();
 	
 	private Map<String,List<String>> buildingImageMapping = new HashMap<String,List<String>>();
+	
+	private Map<String,List<String>> settingImageMapping = new HashMap<String,List<String>>();
 	
 
 	public KeeperGuiController(SimpleApplication app, ISpaceController spacecontroller)
@@ -85,15 +88,21 @@ public class KeeperGuiController extends DefaultGuiController
 		this.creatureState = (SimpleCreatureState)spaceController.getProperty(ISpaceStrings.CREATURE_STATE);
 		this.playerState = (SimplePlayerState)spaceController.getProperty(ISpaceStrings.PLAYER_STATE);
 		
-		settingsImageMapping.put(Tabs.SETTINGS, Arrays.asList("auto-repair.png", "auto-repair_selected.png"));
-		settingsImageMapping.put(Tabs.CREATURE, Arrays.asList("death-skull.png","death-skull_selected.png"));
-		settingsImageMapping.put(Tabs.BUILDING, Arrays.asList("building.png","building_selected.png"));
+		tabImageMapping.put(Tabs.SETTINGS, Arrays.asList("auto-repair.png", "auto-repair_selected.png"));
+		tabImageMapping.put(Tabs.CREATURE, Arrays.asList("monsterCreation.png","monsterCreation_selected.png"));
+		tabImageMapping.put(Tabs.BUILDING, Arrays.asList("building.png","building_selected.png"));
 		
 		buildingImageMapping.put(Buildings.Lair, Arrays.asList("bed.png","bed_selected.png"));
 		buildingImageMapping.put(Buildings.Hatchery, Arrays.asList("hatchery.png","hatchery_selected.png"));
 		buildingImageMapping.put(Buildings.Treasury, Arrays.asList("treasury.png","treasury_selected.png"));
 		buildingImageMapping.put(Buildings.Trainingsroom, Arrays.asList("trainingroom.png","trainingroom_selected.png"));
 		buildingImageMapping.put(Buildings.Library, Arrays.asList("library.png","library_selected.png"));
+		
+		settingImageMapping.put(Settings.Fullscreen, Arrays.asList("fullscreen.png","fullscreen_selected.png"));
+		settingImageMapping.put(Settings.Bars, Arrays.asList("show_monster_bars.png","show_monster_bars_selected.png"));
+		settingImageMapping.put(Settings.LogChart, Arrays.asList("performance_chart.png","performance_chart_selected.png"));
+		settingImageMapping.put(Settings.Grid, Arrays.asList("grid.png","grid_selected.png"));
+		settingImageMapping.put(Settings.Stats, Arrays.asList("stats.png","stats_selected.png"));
 		
 	}
 	float testCounter = 0.0f;
@@ -127,16 +136,26 @@ public class KeeperGuiController extends DefaultGuiController
 		this.screen = screen;
 	}
 
+	private boolean isFullscreen = false; 
 
 	public void fireFullscreen()
 	{
 		app.fireFullscreen();
+		if(isFullscreen){
+			setImageToIcon("FireButton","fullscreen.png");
+			isFullscreen = false;
+		} else {
+			setImageToIcon("FireButton","notfullscreen.png");
+			isFullscreen = true;
+		}
 	}
 
 	public void changeShowBars()
 	{
 		boolean bars = (Boolean)spaceController.getProperty("showBars");
 		spaceController.setProperty("showBars", !bars);
+		showBars = !showBars;
+		setSettingsSelected(Settings.Bars, showBars);
 	}
 	
 	public void guiActive()
@@ -194,14 +213,15 @@ public class KeeperGuiController extends DefaultGuiController
 		this.playerState.setBuilding(MapType.LIBRARY);
 		setBuildingSelected(Buildings.Library);
 	}
-
+	
 	public void setPerform()
 	{
 
 		app.getStateManager().getState(StatsAppState.class).setDisplayStatView(toggleStats);
 		app.getStateManager().getState(StatsAppState.class).setDisplayFps(toggleStats);
 		toggleStats = !toggleStats;
-
+		showStats = !showStats;
+		setSettingsSelected(Settings.Stats, showStats);
 	}
 
 	public void setGrid()
@@ -215,6 +235,8 @@ public class KeeperGuiController extends DefaultGuiController
 		{
 			rootNode.attachChild(((MonkeyApp)app).getGridNode());
 		}
+		showGrid = !showGrid;
+		setSettingsSelected(Settings.Grid, showGrid);
 	}
 
 
@@ -227,6 +249,8 @@ public class KeeperGuiController extends DefaultGuiController
 //		System.exit(0);
 	}
 
+
+	
 	/**
 	 * Button Event(see DungeonHud.xml), trigger print Performance Chart.
 	 * 
@@ -321,23 +345,29 @@ public class KeeperGuiController extends DefaultGuiController
 	
 	
 	public void setTabSelected(String seletedSettings) {
-		String settingsPng = settingsImageMapping.get(seletedSettings).get(1);
-		Element settingsBtn = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName(seletedSettings);
-		// get the ImageRenderer
-		ImageRenderer imageRenderer = settingsBtn.getRenderer(ImageRenderer.class);
-		// change the image
-		imageRenderer.setImage(nifty.getRenderEngine().createImage("/gui/images/new/"+settingsPng, false));
-		deselectOtherSelections(seletedSettings, settingsImageMapping);
+		String settingsPng = tabImageMapping.get(seletedSettings).get(1);
+		setImageToIcon(seletedSettings,settingsPng);
+		deselectOtherSelections(seletedSettings, tabImageMapping);
 	}
 	
 	public void setBuildingSelected(String seletedSettings) {
 		String settingsPng = buildingImageMapping.get(seletedSettings).get(1);
-		Element settingsBtn = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName(seletedSettings);
+		setImageToIcon(seletedSettings,settingsPng);
+		deselectOtherSelections(seletedSettings, buildingImageMapping);
+	}
+	
+	public void setSettingsSelected(String seletedSettings, boolean b) {
+		
+		String settingsPng = b ? settingImageMapping.get(seletedSettings).get(1) : settingImageMapping.get(seletedSettings).get(0);
+		setImageToIcon(seletedSettings,settingsPng);
+	}
+	
+	private void setImageToIcon(String elementID, String settingsPng) {
+		Element settingsBtn = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName(elementID);
 		// get the ImageRenderer
 		ImageRenderer imageRenderer = settingsBtn.getRenderer(ImageRenderer.class);
 		// change the image
 		imageRenderer.setImage(nifty.getRenderEngine().createImage("/gui/images/new/"+settingsPng, false));
-		deselectOtherSelections(seletedSettings, buildingImageMapping);
 	}
 	
 	private void deselectOtherSelections(String selectedTab, Map<String, List<String>> imageMapping){
@@ -384,6 +414,19 @@ public class KeeperGuiController extends DefaultGuiController
 		public final static String Treasury= "Build_Treasury";
 		public final static String Trainingsroom= "Build_Trainingroom";
 		public final static String Library= "Build_Library";
+	}
+	/**
+	 * All available settings in Gui.
+	 * 
+	 * @author jens.hantke
+	 *
+	 */
+	interface Settings {
+		public final static String Fullscreen= "FireButton";
+		public final static String Bars= "ShowBarsButton";
+		public final static String Grid= "ShowGridButton";
+		public final static String LogChart= "PrintLogAndChat";
+		public final static String Stats= "ShowStatsButton";
 	}
 
 }

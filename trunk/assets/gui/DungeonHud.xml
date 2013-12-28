@@ -85,12 +85,12 @@
 							</effect>
 						</image>
 
-						<image id="UnitsS" filename="/gui/images/new/death-skull.png"
+						<image id="UnitsS" filename="/gui/images/new/monsterCreation.png"
 							height="40px" width="40px" hint="options" margin="0px,5px,0px,0px">
 							<interact onClick="setImpMode();" />
 							<effect>
 								<onHover name="hint" hintText="Creatures" hintDelay="1000" />
-								<onHover name="imageOverlay" filename="/gui/images/new/death-skull_selected.png"
+								<onHover name="imageOverlay" filename="/gui/images/new/monsterCreation_selected.png"
 									post="true" imageMode="normal" height="40px" width="40px"
 									neverStopRendering="true" />
 								<onClick name="show" targetElement="panel_units"></onClick>
@@ -195,39 +195,52 @@
 							visible="false" childLayout="horizontal" backgroundColor="#3030"
 							padding="15px">
 
-							<control name="button" label="Fullscreen" id="FireButton"
-								visibleToMouse="true" height="50%" valign="center" align="left">
-								<interact onClick="fireFullscreen()" />
-							</control>
+							<image id="FireButton" filename="/gui/images/new/fullscreen.png" margin="0px,10px,0px,0px"
+								height="45px" width="45px" valign="center" >
+									<interact onClick="fireFullscreen()()" />
+									<effect>
+										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="imageOverlay" filename="/gui/images/new/fullscreen_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+							</image>
 							
-							<control name="button" label="ShowBars" id="ShowBarsButton"
-								visibleToMouse="true" height="50%" valign="center" align="left">
-								<interact onClick="changeShowBars()" />
-							</control>
+							<image id="ShowBarsButton" filename="/gui/images/new/show_monster_bars.png" margin="0px,10px,0px,0px"
+								height="45px" width="45px" valign="center" >
+									<interact onClick="changeShowBars()" />
+									<effect>
+										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="imageOverlay" filename="/gui/images/new/show_monster_bars_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+							</image>
 
-
-							<control name="button" label="Grid" id="OptionsButton2"
-								visibleToMouse="true" height="50%" valign="center" align="left">
-								<interact onClick="setGrid()" />
-							</control>
-
-							<control name="button" label="Stats" id="OptionsButton3"
-								visibleToMouse="true" height="50%" valign="center" align="left">
-								<interact onClick="setPerform()" />
-							</control>
-							<!-- 
-							<control name="button" label="AddImp" id="AddImp"
-								visibleToMouse="true" height="50%" valign="center" align="left">
-								<interact onClick="addImp()" />
-							</control>
 							
-							<control name="button" label="Exit" id="ExitButton"
-								visibleToMouse="true" height="50%" valign="center" align="left">
-								<interact onClick="quitGame()" />
-							</control>
-							 -->
+							<image id="ShowGridButton" filename="/gui/images/new/grid.png" margin="0px,10px,0px,0px"
+								height="45px" width="45px" valign="center" >
+									<interact onClick="setGrid()" />
+									<effect>
+										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="imageOverlay" filename="/gui/images/new/grid_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+							</image>
 							
-							<image id="PrintLogAndChat" filename="/gui/images/new/performance_chart.png"
+							<image id="ShowStatsButton" filename="/gui/images/new/stats.png" margin="0px,10px,0px,0px"
+								height="45px" width="45px" valign="center" >
+									<interact onClick="setPerform()" />
+									<effect>
+										<onHover name="hint" hintText="" hintDelay="500" />
+										<onHover name="imageOverlay" filename="/gui/images/new/stats_selected.png"
+											post="true" imageMode="normal" height="45px" width="45px"
+											neverStopRendering="true" />
+									</effect>
+							</image>
+							
+							<image id="PrintLogAndChat" filename="/gui/images/new/performance_chart.png" margin="0px,10px,0px,0px"
 								height="45px" width="45px" valign="center" >
 									<interact onClick="printLogAndChart()" />
 									<effect>
@@ -236,7 +249,7 @@
 											post="true" imageMode="normal" height="45px" width="45px"
 											neverStopRendering="true" />
 									</effect>
-								</image>
+							</image>
 
 						</panel>
 						
