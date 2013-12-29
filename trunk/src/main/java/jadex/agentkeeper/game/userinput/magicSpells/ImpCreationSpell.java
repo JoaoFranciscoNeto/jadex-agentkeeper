@@ -2,6 +2,7 @@ package jadex.agentkeeper.game.userinput.magicSpells;
 
 import jadex.agentkeeper.ai.UpdateStatusTask;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
+import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.IMap;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
@@ -26,50 +27,49 @@ public class ImpCreationSpell {
 		this.spaceObjects = spaceObjects;
 	}
 
-	public void createImp(IVector2 zielpos, int kosten) {
-		if (begehbar((Vector2Int) zielpos)) {
-			String type = "imp";
-			
-			HashMap<String, Object> props = new HashMap<String, Object>();
-			//props.put("type", "imp");
-			props.put("spieler", "1");
-			props.put(jadex.agentkeeper.util.ISpaceObject.Properties.AWAKE, 100.0);
-			props.put(jadex.agentkeeper.util.ISpaceObject.Properties.FED, 100.0);
-			props.put(jadex.agentkeeper.util.ISpaceObject.Properties.HAPPINESS, 100.0);
-			props.put(ISObjStrings.PROPERTY_OWNER, "1");
-			props.put(Space2D.PROPERTY_POSITION, zielpos);
-			props.put(Space2D.PROPERTY_POSITION, new Vector2Double(zielpos.getXAsInteger(), zielpos.getYAsInteger()));
-			props.put(ISObjStrings.PROPERTY_INTPOSITION, zielpos);
-			props.put(ISObjStrings.PROPERTY_LEVEL, "L1");
-			
-			SimpleCreatureState	creatureState =  (SimpleCreatureState) spaceObjects.getProperty(ISpaceStrings.CREATURE_STATE);
-			creatureState.addCreature(IMap.IMP);
-			
-			ArrayList<IObjectTask> list = new ArrayList<IObjectTask>();
-			list.add(new UpdateStatusTask());
+	public void createImp(IVector2 zielpos, int costs) {
+		if (isWalkableSector((Vector2Int) zielpos)) {
+			SimplePlayerState playerState = (SimplePlayerState) spaceObjects.getProperty(jadex.agentkeeper.util.ISpaceObject.Objects.PLAYER_STATE);
+			int new_mana = (int) (playerState.getMana() - costs);
+			if (new_mana > 0) {
+				// change Total Mana Amount
+				playerState.setMana(new_mana);
 
-			// todo: level, owner
-			spaceObjects.createSpaceObject(type, props, list);
-			for(Object obj : spaceObjects.getSpaceObjects()){
-				if (obj instanceof ISpaceObject) {
-					ISpaceObject currentField = (ISpaceObject) obj;
-					if(currentField.getType().equals("imp")){
-						System.out.println(obj);
+				String type = "imp";
+
+				HashMap<String, Object> props = new HashMap<String, Object>();
+				// props.put("type", "imp");
+				props.put("spieler", "1");
+				props.put(jadex.agentkeeper.util.ISpaceObject.Properties.AWAKE, 100.0);
+				props.put(jadex.agentkeeper.util.ISpaceObject.Properties.FED, 100.0);
+				props.put(jadex.agentkeeper.util.ISpaceObject.Properties.HAPPINESS, 100.0);
+				props.put(ISObjStrings.PROPERTY_OWNER, "1");
+				props.put(Space2D.PROPERTY_POSITION, zielpos);
+				props.put(Space2D.PROPERTY_POSITION, new Vector2Double(zielpos.getXAsInteger(), zielpos.getYAsInteger()));
+				props.put(ISObjStrings.PROPERTY_INTPOSITION, zielpos);
+				props.put(ISObjStrings.PROPERTY_LEVEL, "L1");
+
+				SimpleCreatureState creatureState = (SimpleCreatureState) spaceObjects.getProperty(ISpaceStrings.CREATURE_STATE);
+				creatureState.addCreature(IMap.IMP);
+
+				ArrayList<IObjectTask> list = new ArrayList<IObjectTask>();
+				list.add(new UpdateStatusTask());
+
+				// todo: level, owner
+				spaceObjects.createSpaceObject(type, props, list);
+				for (Object obj : spaceObjects.getSpaceObjects()) {
+					if (obj instanceof ISpaceObject) {
+						ISpaceObject currentField = (ISpaceObject) obj;
+						if (currentField.getType().equals("imp")) {
+							System.out.println(obj);
+						}
 					}
 				}
 			}
-//			System.out.println("");
-//			spaceObjects.removeSpaceProcess(spaceObjects.getProperty(ISpaceProcess.ID));
-//			int altmana = (Integer) spaceObjects.getProperty("mana");
-//			int neumana = altmana - kosten;
-//			
-//			// GesamtGold anpassen
-//			spaceObjects.setProperty("mana", neumana);
-			// GUIInformierer.aktuallisierung();
 		}
 	}
 
-	private boolean begehbar(Vector2Int punkt) {
+	private boolean isWalkableSector(Vector2Int punkt) {
 		for (Object o : spaceObjects.getSpaceObjectsByGridPosition(punkt, null)) {
 			if (o instanceof ISpaceObject) {
 				ISpaceObject currentField = (ISpaceObject) o;
