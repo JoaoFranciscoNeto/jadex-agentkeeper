@@ -1,7 +1,10 @@
 package jadex.agentkeeper.ai.imp;
 
+import org.lwjgl.Sys;
+
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.PerformIdle;
+import jadex.agentkeeper.ai.AbstractBeingBDI.PerformIdleForTime;
 import jadex.agentkeeper.ai.base.ClaimSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
@@ -33,7 +36,6 @@ import jadex.micro.annotation.AgentCreated;
  */
 @Agent
 @Plans({
-@Plan(trigger=@Trigger(goals=ImpBDI.PerformImpPatrol.class), body=@Body(PatrolPlan.class)),
 @Plan(trigger=@Trigger(goals=ImpBDI.PerformClaimSector.class), body=@Body(ClaimSectorPlan.class))})
 public class ImpBDI extends AbstractBeingBDI {
 	
@@ -44,59 +46,39 @@ public class ImpBDI extends AbstractBeingBDI {
 //	protected double myTaskStatus = mySpaceObject==null? 100.0: (Double)mySpaceObject.getProperty(ISObjStrings.PROPERTY_FED);
 
 
+	
+	public ImpBDI()
+	{
+		this.mySpeed = 4;
+		this.myWorkspeed = 2;
+	}
+	
 	@AgentBody
-	@Override
 	public void body()
 	{
-		agent.dispatchTopLevelGoal(new PerformImpPatrol());
-		agent.dispatchTopLevelGoal(new PerformClaimSector());
-		System.out.println("dispatch");
-	}
-	
-	/**
-	 *  Initialize the agent.
-	 *  Called at startup.
-	 *  
-	 *  Imp have double Walkspeed from startup
-	 *  
-	 */
-	@AgentCreated
-	@Override
-	public IFuture<Void>	init()
-	{
-		super.init();
-		final Future<Void>	ret	= new Future<Void>();
+		agent.dispatchTopLevelGoal(new PerformIdle());
 
-		mySpeed = 2;
-			
-		ret.setResult(null);
-		return ret;
+		agent.dispatchTopLevelGoal(new PerformClaimSector());
+//		System.out.println("dispatch");
 	}
 	
-	/**
-	 *  Goal that let the Imp perform Patrols.
-	 *  
-	 */
-	@Goal(excludemode=Goal.ExcludeMode.Never, succeedonpassed=false)
-	public class PerformImpPatrol
-	{
-		
-	}
 	
 	/**
-	 *  Goal that let the Imp perform Patrols.
+	 *  Goal that let the Imp claim Sectors.
 	 *  
 	 */
 //	@Goal(excludemode=Goal.ExcludeMode.Never, succeedonpassed=false, randomselection=true)
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), retry=true, retrydelay=1000)
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), excludemode=Goal.ExcludeMode.Never, retry=true, retrydelay=5000, succeedonpassed=false)
 	public class PerformClaimSector
 	{
+
+
 //		@GoalMaintainCondition(beliefs="myTaskStatus")
 //		public boolean checkMaintain()
 //		{
 //			Auftragsverwalter auftraege = (Auftragsverwalter)getMySpaceObject().getProperty("auftraege");
 //			Auftrag  auftrag = auftraege.gibDichtestenAuftrag(new Vector2Int(getMyPosition().getXAsInteger(), getMyPosition().getYAsInteger()));
-//			System.out.println(auftrag);
+//			System.out.println("test");
 //			System.out.println(auftrag!=null);
 //			return auftrag != null;
 //		}
