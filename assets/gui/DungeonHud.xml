@@ -112,6 +112,12 @@
 								<onClick name="hide" targetElement="panel_default"></onClick>
 							</effect>							
 						</image>
+						
+						<control name="button" label="AddImp" id="AddImp"
+								visibleToMouse="true" height="50%" valign="center" align="left">
+								<interact onClick="addImp()" />
+						</control>
+						
 					</panel>
 
 					<panel id="panel_content" width="100%" valign="bottom"
