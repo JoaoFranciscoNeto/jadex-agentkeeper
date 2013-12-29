@@ -100,7 +100,7 @@
 						</image>
 
 						<image id="BuildingsS" filename="/gui/images/new/building.png"
-							height="40px" width="40px" hint="options">
+							height="40px" width="40px" hint="options" margin="0px,5px,0px,0px">
 							<interact onClick="setBuildMode();" />
 							<effect>
 								<onHover name="hint" hintText="Buildings" hintDelay="1000" />
@@ -113,10 +113,20 @@
 							</effect>							
 						</image>
 						
-						<control name="button" label="AddImp" id="AddImp"
-								visibleToMouse="true" height="50%" valign="center" align="left">
-								<interact onClick="addImp()" />
-						</control>
+						
+						<image id="AddImp" filename="/gui/images/new/imp_spell.png"
+							height="40px" width="40px" hint="options">
+							<interact onClick="addImp()" />
+							<effect>
+								<onHover name="hint" hintText="Buildings" hintDelay="1000" />
+								<onHover name="imageOverlay" filename="/gui/images/new/imp_spell_selected.png"
+									post="true" imageMode="normal" height="40px" width="40px"
+									neverStopRendering="true" />
+								<onClick name="show" targetElement="panel_buildings"></onClick>
+								<onClick name="hide" targetElement="panel_units"></onClick>
+								<onClick name="hide" targetElement="panel_default"></onClick>
+							</effect>							
+						</image>
 						
 					</panel>
 

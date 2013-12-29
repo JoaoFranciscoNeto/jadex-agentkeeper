@@ -228,6 +228,7 @@
 					<env:property name="direction" class="double" />
 				</env:actiontype>
 				<env:actiontype name="eat" class="EatAction" />
+			<!-- <env:actiontype name="eat" class="TrainingAction" /> -->	
 			</env:actiontypes>
 
 
@@ -870,7 +871,7 @@
 
 	<componenttypes>
 
-		<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />
+		 <componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" /> 
 		<!-- <componenttype name="Imp" filename="ai/imp/ImpBDI.class" /> -->
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
