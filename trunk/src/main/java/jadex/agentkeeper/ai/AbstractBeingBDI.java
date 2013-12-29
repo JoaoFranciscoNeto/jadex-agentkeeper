@@ -3,6 +3,7 @@ package jadex.agentkeeper.ai;
 
 
 import jadex.agentkeeper.ai.base.IdleForGivenDuration;
+import jadex.agentkeeper.ai.base.IdlePlan;
 import jadex.agentkeeper.ai.base.MoveToGridSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
