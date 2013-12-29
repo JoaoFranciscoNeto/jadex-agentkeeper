@@ -28,6 +28,8 @@ public class ClaimSectorPlan {
 	@PlanBody
 	public IFuture<Void> body()
 	{
+		
+		System.out.println("plan body claim sector");
 		final Future<Void> retb = new Future<Void>();
 		
 		Auftragsverwalter auftraege = (Auftragsverwalter)capa.getEnvironment().getProperty(ISpaceObject.Objects.TaskList);
@@ -35,9 +37,9 @@ public class ClaimSectorPlan {
 			Auftrag  auftrag = auftraege.gibDichtestenAuftrag(new Vector2Int(capa.getMyPosition().getXAsInteger(), capa.getMyPosition().getYAsInteger()));
 			System.out.println("auftrag");
 			System.out.println(auftrag);
-			return retb;
+			retb.setResult(null);
 		}
-		return null;
+		return retb;
 	}
 	
 }

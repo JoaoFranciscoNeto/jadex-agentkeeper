@@ -47,8 +47,8 @@ public class PatrolPlan
 	 */
 	public PatrolPlan()
 	{
-		// System.out.println("create new patrol plan");
-		// getLogger().info("Created: "+this);
+//		 System.out.println("create new patrol plan");
+//		 getLogger().info("Created: "+this);
 	}
 
 	// -------- methods --------
