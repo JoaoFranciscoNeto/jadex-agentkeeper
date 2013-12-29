@@ -5,6 +5,7 @@ import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.task.CreateChickenTask;
+import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
 import jadex.agentkeeper.init.map.process.InitializeHelper;
 import jadex.agentkeeper.init.map.process.PreCreatedSpaceObject;
 import jadex.agentkeeper.util.ISObjStrings;
@@ -308,6 +309,18 @@ public class UserEingabenManager
 
 	}
 
+	
+	public void castSpell(SelectionArea selectionArea, MapType mapType){
+		if( selectionArea.getTiles() == 1){
+			castSpellOnSelectionBox(selectionArea.getWorldstart());
+		}
+	}
+	
+	protected void castSpellOnSelectionBox(Vector2Int positionInt)
+	{
+		ImpCreationSpell impCreationSpell = (ImpCreationSpell) _grid.getProperty(jadex.agentkeeper.util.ISpaceObject.Objects.ImpCreationSpell);
+		impCreationSpell.createImp(positionInt, 200);
+	}
 
 	public void setShowBars(boolean set)
 	{

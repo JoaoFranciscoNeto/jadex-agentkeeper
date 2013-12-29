@@ -1,6 +1,7 @@
 package jadex.agentkeeper.view.selection;
 
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
+import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
 import jadex.agentkeeper.util.ISpaceObject;
 import jadex.agentkeeper.view.GeneralAppState;
 import jadex.agentkeeper.worldmodel.enums.MapType;
@@ -149,7 +150,7 @@ public class SelectionHandler
 				// TODO: Selectionmode
 				if(playerState.getSelectionMode().IsSelectionMatchingToMode(type))
 				{
-
+					
 					if(getSelectionArea() != null)
 					{
 						if(!selectionListener.actionIsPressed && !selectionListener.cancelIsPressed)
@@ -200,7 +201,11 @@ public class SelectionHandler
 		return ret;
 	}
 
-
+	protected void castSpellOnSelectionBox(Vector2Int positionInt)
+	{
+		ImpCreationSpell impCreationSpell = (ImpCreationSpell) app.getSpaceController().getProperty(ISpaceObject.Objects.ImpCreationSpell);
+		impCreationSpell.createImp(positionInt, 200);
+	}
 	
 	protected void placeSelectionBox(float x, float z)
 	{

@@ -26,7 +26,7 @@ public class ImpCreationSpell {
 		this.spaceObjects = spaceObjects;
 	}
 
-	public void zauberImp(IVector2 zielpos, int kosten) {
+	public void createImp(IVector2 zielpos, int kosten) {
 		if (begehbar((Vector2Int) zielpos)) {
 			String type = "imp";
 			
@@ -58,8 +58,8 @@ public class ImpCreationSpell {
 					}
 				}
 			}
-			System.out.println("");
-			spaceObjects.removeSpaceProcess(spaceObjects.getProperty(ISpaceProcess.ID));
+//			System.out.println("");
+//			spaceObjects.removeSpaceProcess(spaceObjects.getProperty(ISpaceProcess.ID));
 //			int altmana = (Integer) spaceObjects.getProperty("mana");
 //			int neumana = altmana - kosten;
 //			

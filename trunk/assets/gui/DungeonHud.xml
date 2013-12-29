@@ -114,17 +114,14 @@
 						</image>
 						
 						
-						<image id="AddImp" filename="/gui/images/new/imp_spell.png"
-							height="40px" width="40px" hint="options">
-							<interact onClick="addImp()" />
+						<image id="CreateImp" filename="/gui/images/new/imp_spell.png"
+							height="40px" width="40px" hint="CreateImp">
+							<interact onClick="createImp()" />
 							<effect>
-								<onHover name="hint" hintText="Buildings" hintDelay="1000" />
+								<onHover name="hint" hintText="Create new Imp by clicking on a sector." hintDelay="500" />
 								<onHover name="imageOverlay" filename="/gui/images/new/imp_spell_selected.png"
 									post="true" imageMode="normal" height="40px" width="40px"
 									neverStopRendering="true" />
-								<onClick name="show" targetElement="panel_buildings"></onClick>
-								<onClick name="hide" targetElement="panel_units"></onClick>
-								<onClick name="hide" targetElement="panel_default"></onClick>
 							</effect>							
 						</image>
 						
