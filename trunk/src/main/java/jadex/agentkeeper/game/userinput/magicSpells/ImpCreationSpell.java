@@ -12,6 +12,7 @@ import jadex.extension.envsupport.environment.ISpaceProcess;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
+import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class ImpCreationSpell {
 			props.put(jadex.agentkeeper.util.ISpaceObject.Properties.HAPPINESS, 100.0);
 			props.put(ISObjStrings.PROPERTY_OWNER, "1");
 			props.put(Space2D.PROPERTY_POSITION, zielpos);
+			props.put(Space2D.PROPERTY_POSITION, new Vector2Double(zielpos.getXAsInteger(), zielpos.getYAsInteger()));
+			props.put(ISObjStrings.PROPERTY_INTPOSITION, zielpos);
 			props.put(ISObjStrings.PROPERTY_LEVEL, "L1");
 			
 			SimpleCreatureState	creatureState =  (SimpleCreatureState) spaceObjects.getProperty(ISpaceStrings.CREATURE_STATE);
