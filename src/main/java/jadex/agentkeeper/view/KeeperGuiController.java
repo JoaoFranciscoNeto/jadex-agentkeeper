@@ -15,6 +15,7 @@ import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.view.selection.SelectionMode;
 import jadex.agentkeeper.log.PerformanceTracker;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.SpellType;
 import jadex.extension.envsupport.environment.ISpaceController;
 import jadex.extension.envsupport.math.Vector2Int;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
@@ -78,6 +79,7 @@ public class KeeperGuiController extends DefaultGuiController
 	
 	private Map<String,List<String>> settingImageMapping = new HashMap<String,List<String>>();
 	
+	private Map<String,List<String>> spellImageMapping = new HashMap<String,List<String>>();
 
 	public KeeperGuiController(SimpleApplication app, ISpaceController spacecontroller)
 	{
@@ -91,6 +93,7 @@ public class KeeperGuiController extends DefaultGuiController
 		tabImageMapping.put(Tabs.SETTINGS, Arrays.asList("auto-repair.png", "auto-repair_selected.png"));
 		tabImageMapping.put(Tabs.CREATURE, Arrays.asList("monsterCreation.png","monsterCreation_selected.png"));
 		tabImageMapping.put(Tabs.BUILDING, Arrays.asList("building.png","building_selected.png"));
+		tabImageMapping.put(Tabs.CREATE_IMP, Arrays.asList("imp_spell.png","imp_spell_selected.png"));
 		
 		buildingImageMapping.put(Buildings.Lair, Arrays.asList("bed.png","bed_selected.png"));
 		buildingImageMapping.put(Buildings.Hatchery, Arrays.asList("hatchery.png","hatchery_selected.png"));
@@ -104,6 +107,7 @@ public class KeeperGuiController extends DefaultGuiController
 		settingImageMapping.put(Settings.Grid, Arrays.asList("grid.png","grid_selected.png"));
 		settingImageMapping.put(Settings.Stats, Arrays.asList("stats.png","stats_selected.png"));
 		
+//		spellImageMapping.put(Spell.CreateImp, Arrays.asList("imp_spell.png","imp_spell_selected.png"));
 	}
 	float testCounter = 0.0f;
 	
@@ -385,9 +389,9 @@ public class KeeperGuiController extends DefaultGuiController
 	}
 	
 	
-	public void addImp(){
-		ImpCreationSpell impCreationSpell = (ImpCreationSpell) spaceController.getProperty(ISpaceObject.Objects.ImpCreationSpell);
-		impCreationSpell.zauberImp(new Vector2Int(18, 17), 200);
+	public void createImp(){
+		playerState.setSpell(SpellType.ImpCreation);
+		setTabSelected( Tabs.CREATE_IMP );
 	}
 	
 	/**
@@ -400,6 +404,7 @@ public class KeeperGuiController extends DefaultGuiController
 		public final static String SETTINGS = "DefaultS";
 		public final static String CREATURE = "UnitsS";
 		public final static String BUILDING = "BuildingsS";
+		public final static String CREATE_IMP= "CreateImp";
 	}
 	
 	/**
@@ -428,5 +433,10 @@ public class KeeperGuiController extends DefaultGuiController
 		public final static String LogChart= "PrintLogAndChat";
 		public final static String Stats= "ShowStatsButton";
 	}
+//	
+//	interface Spell {
+//		public final static String CreateImp= "CreateImp";
+//	}
+
 
 }

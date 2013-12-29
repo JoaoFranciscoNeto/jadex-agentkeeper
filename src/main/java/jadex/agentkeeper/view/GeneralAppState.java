@@ -174,6 +174,8 @@ public class GeneralAppState extends AbstractAppState
 		else if(selectionMode == SelectionMode.BUILDMODE)
 		{
 			usermanager.createBuildings(selectionArea, playerState.getMapType());
+		} else if(selectionMode == SelectionMode.SPELL_MODE){
+			usermanager.castSpell(selectionArea, playerState.getMapType());
 		}
 
 		

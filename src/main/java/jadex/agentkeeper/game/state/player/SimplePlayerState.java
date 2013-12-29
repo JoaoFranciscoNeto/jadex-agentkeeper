@@ -2,6 +2,7 @@ package jadex.agentkeeper.game.state.player;
 
 import jadex.agentkeeper.view.selection.SelectionMode;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.SpellType;
 
 /**
  * Just a first pre-implementation of the Player State, mainly for the GUI
@@ -22,6 +23,8 @@ public class SimplePlayerState
 	
 	/* The Building the Player may want to place */
 	private MapType mapType;
+	
+	private SpellType spellType;
 	
 	/* The Selection Mode */
 	private SelectionMode					selectionMode;
@@ -124,6 +127,12 @@ public class SimplePlayerState
 	{
 		this.setSelectionMode(SelectionMode.BUILDMODE);
 		this.mapType = type;
+	}
+	
+	public void setSpell(SpellType type)
+	{
+		this.setSelectionMode(SelectionMode.SPELL_MODE);
+		this.spellType = type;
 	}
 
 	/**
