@@ -16,6 +16,7 @@ import jadex.agentkeeper.view.selection.SelectionArea;
 import jadex.agentkeeper.worldmodel.enums.CenterPattern;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.SpellType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -319,7 +320,7 @@ public class UserEingabenManager
 	protected void castSpellOnSelectionBox(Vector2Int positionInt)
 	{
 		ImpCreationSpell impCreationSpell = (ImpCreationSpell) _grid.getProperty(jadex.agentkeeper.util.ISpaceObject.Objects.ImpCreationSpell);
-		impCreationSpell.createImp(positionInt, 200);
+		impCreationSpell.createImp(positionInt, SpellType.ImpCreation.getCost());
 	}
 
 	public void setShowBars(boolean set)
