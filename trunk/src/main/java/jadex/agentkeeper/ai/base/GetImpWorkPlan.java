@@ -1,5 +1,7 @@
 package jadex.agentkeeper.ai.base;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +33,7 @@ import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
+import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
@@ -90,7 +93,6 @@ public class GetImpWorkPlan {
 		if (currentImpTaskPosition != null) {
 			Vector2Int reachableSectorForDigingInt =  null;
 			for(ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment)) {
-				System.out.println(spaceObject);
 				if(spaceObject.getType().equals(MapType.CLAIMED_PATH.getName()) || spaceObject.getType().equals(MapType.DIRT_PATH.getName()) ) {
 					reachableSectorForDigingInt = (Vector2Int) spaceObject.getProperty(ISO.Properties.INTPOSITION);
 					break;
@@ -103,9 +105,12 @@ public class GetImpWorkPlan {
 					public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt) {
 						digSector(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
 							public void customResultAvailable(Void result) {
-								
-								
-								TileChanger.changeTile(environment, currentImpTask.getTargetPosition());
+								TileChanger tilechanger = new TileChanger(environment);
+								//String neighborhood = (String)spaceObject.getProperty("neighborhood");
+								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter("status", "byImpCreated").addParameter("clicked", false).
+								addParameter("locked", false); /*.addParameter("neighborhood", neighborhood)*/
+
+								tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 								ret.setResult(null);
 							}

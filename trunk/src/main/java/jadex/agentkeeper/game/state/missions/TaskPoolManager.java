@@ -27,7 +27,6 @@ public class TaskPoolManager implements ITaskPoolManager {
 		this.addTask(new Task(typ, position));
 	}
 
-	@Override
 	public synchronized void addTask(Task taskToAdd) {
 		for (TaskType type : TaskType.values()) {
 			if (type.getName().equals(taskToAdd.getTaskType())) {
@@ -77,16 +76,6 @@ public class TaskPoolManager implements ITaskPoolManager {
 		}
 	}
 
-//	@Override
-//	public void finishTask(String typ, Vector2Int position) {
-//		this.finishTask(new Task(typ, position));
-//	}
-//
-//	@Override
-//	public void finishTask(Task taskToRemove) {
-//		taskPool.removeTask(taskToRemove);
-//	}
-
 	@Override
 	public int getTaskListSize() {
 		return TaskPool.getCountedTasks();
@@ -108,10 +97,6 @@ public class TaskPoolManager implements ITaskPoolManager {
 interface ITaskPoolManager {
 
 	public void addTask(Task taskToAdd);
-
-//	void finishTask(String typ, Vector2Int position);
-//
-//	void finishTask(Task taskToRemove);
 
 	public int getTaskListSize();
 

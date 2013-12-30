@@ -1,12 +1,15 @@
 package jadex.agentkeeper.game.state.missions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.view.selection.SelectionArea;
+import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
@@ -48,14 +51,28 @@ public class DiggingSelectorTaskCreator {
 			for(int y = y_start; y <= y_end; y++)
 			{
 				Vector2Int currentSelectedSektor = new Vector2Int(x, y);
-				Task task = new Task(TaskType.DIG_SECTOR,currentSelectedSektor);
-				boolean reach = Neighborhood.isReachableForDestroy(currentSelectedSektor, grid);
-				task.setConnectedToDungeon(reach);
-				resultTaskList.add(task);
+				if(sectorIsSolid(currentSelectedSektor)) {
+					Task task = new Task(TaskType.DIG_SECTOR,currentSelectedSektor);
+					boolean reach = Neighborhood.isReachableForDestroy(currentSelectedSektor, grid);
+					task.setConnectedToDungeon(reach);
+					resultTaskList.add(task);
+				}
 			}
 		}
 		
 		return resultTaskList;
+	}
+	private boolean sectorIsSolid(Vector2Int currentSelectedSektor){
+		Collection<ISpaceObject> spaceObjectsByGridPosition = grid.getSpaceObjectsByGridPosition(currentSelectedSektor, null);
+		boolean isSolid = false;
+		for(ISpaceObject spaceObject : spaceObjectsByGridPosition){
+			for(MapType mapType : MapType.getOnlySolids()){
+				if(mapType.toString().equals(spaceObject.getType())) {
+					isSolid = true;
+				}
+			}
+		}
+		return isSolid;
 	}
 
 	public synchronized List<Vector2Int> setNewTasksReachable(IVector2 position) {

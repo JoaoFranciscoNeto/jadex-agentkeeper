@@ -1,30 +1,15 @@
 package jadex.agentkeeper.ai.imp;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
-import jadex.agentkeeper.ai.AbstractBeingBDI.PerformIdle;
-import jadex.agentkeeper.ai.AbstractBeingBDI.PerformIdleForTime;
-import jadex.agentkeeper.ai.base.ClaimSectorPlan;
-import jadex.agentkeeper.ai.base.PatrolPlan;
-import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
-import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureFed;
-import jadex.agentkeeper.game.state.missions.Auftrag;
-import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
-import jadex.agentkeeper.util.ISObjStrings;
-import jadex.bdiv3.annotation.Belief;
+import jadex.agentkeeper.ai.base.GetImpWorkPlan;
 import jadex.bdiv3.annotation.Body;
 import jadex.bdiv3.annotation.Deliberation;
 import jadex.bdiv3.annotation.Goal;
-import jadex.bdiv3.annotation.GoalMaintainCondition;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.Plans;
 import jadex.bdiv3.annotation.Trigger;
-import jadex.bdiv3.model.MGoal;
-import jadex.commons.future.Future;
-import jadex.commons.future.IFuture;
-import jadex.extension.envsupport.math.Vector2Int;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
-import jadex.micro.annotation.AgentCreated;
 
 /**
  * The Imp. The main Worker-Creature.
@@ -34,7 +19,7 @@ import jadex.micro.annotation.AgentCreated;
  */
 @Agent
 @Plans({
-@Plan(trigger=@Trigger(goals=ImpBDI.PerformClaimSector.class), body=@Body(ClaimSectorPlan.class))})
+@Plan(trigger=@Trigger(goals=ImpBDI.PerformClaimSector.class), body=@Body(GetImpWorkPlan.class))})
 public class ImpBDI extends AbstractBeingBDI {
 	
 	/** The workingspeed of the "Imp". */
