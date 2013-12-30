@@ -54,7 +54,7 @@ public class GetImpWorkPlan {
 	private Object mtaskid;
 
 	private Object digtaskid;
-	
+
 	Grid2D environment;
 
 	@PlanBody
@@ -65,7 +65,7 @@ public class GetImpWorkPlan {
 
 		TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
 		if (taskPoolManager != null && taskPoolManager.getTaskListSize() > 0) {
-			
+
 			System.out.println(capa.getMySpaceObject().getId());
 			Task newImpTask = taskPoolManager.calculateAndReturnNextTask(new Vector2Int(capa.getMyPosition().getXAsInteger(), capa.getMyPosition().getYAsInteger()));
 			environment = capa.getEnvironment();
@@ -80,37 +80,47 @@ public class GetImpWorkPlan {
 		return retb;
 	}
 
+	SpaceObject currentTaskSpaceObject;
+
 	private IFuture<Void> reachTargetDestination(final Task currentImpTask) {
 		final Future<Void> ret = new Future<Void>();
 
 		final Vector2Int currentImpTaskPosition = currentImpTask.getTargetPosition();
 
 		Collection<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(currentImpTask.getTargetPosition(), null);
-		for(ISpaceObject spaceObject : spaceObjectsByGridPosition){
-			System.out.println("spaceObject.getType()2: "+spaceObject.getType());
+		for (ISpaceObject spaceObject : spaceObjectsByGridPosition) {
+			for (MapType mapType : MapType.getOnlySolids()) {
+				if (mapType.toString().equals(spaceObject.getType())) {
+					currentTaskSpaceObject = (SpaceObject) spaceObject;
+				}
+			}
 		}
-		
+
 		if (currentImpTaskPosition != null) {
-			Vector2Int reachableSectorForDigingInt =  null;
-			for(ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment)) {
-				if(spaceObject.getType().equals(MapType.CLAIMED_PATH.getName()) || spaceObject.getType().equals(MapType.DIRT_PATH.getName()) ) {
+			Vector2Int reachableSectorForDigingInt = null;
+			for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment)) {
+				if (spaceObject.getType().equals(MapType.CLAIMED_PATH.getName()) || spaceObject.getType().equals(MapType.DIRT_PATH.getName())) {
 					reachableSectorForDigingInt = (Vector2Int) spaceObject.getProperty(ISO.Properties.INTPOSITION);
 					break;
 				}
 			}
-			if(reachableSectorForDigingInt != null){
+			if (reachableSectorForDigingInt != null) {
 				IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(reachableSectorForDigingInt));
-	
+
 				fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret) {
 					public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt) {
 						digSector(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
 							public void customResultAvailable(Void result) {
+								
 								TileChanger tilechanger = new TileChanger(environment);
-								//String neighborhood = (String)spaceObject.getProperty("neighborhood");
-								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter("status", "byImpCreated").addParameter("clicked", false).
-								addParameter("locked", false); /*.addParameter("neighborhood", neighborhood)*/
+								String neighborhood = (String) currentTaskSpaceObject.getProperty("neighborhood");
+								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter("status", "byImpCreated").addParameter("clicked", false).addParameter("locked", false)
+										   .addParameter("neighborhood", neighborhood);
 
-								tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
+								tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH,
+										new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
+								Neighborhood.updateMyNeighborsComplexField(currentImpTask.getTargetPosition(), environment);
+								
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 								ret.setResult(null);
 							}
@@ -118,8 +128,10 @@ public class GetImpWorkPlan {
 					}
 				});
 			} else {
-				//TODO: fail!! sector from task should be reachable for destroy => catch
+				// TODO: fail!! sector from task should be reachable for destroy
+				// => catch
 				System.out.println("fail!! sector from task should be reachable for destroy ");
+				rplan.abort();
 			}
 		} else {
 			System.out.println("Task has no Int Position");

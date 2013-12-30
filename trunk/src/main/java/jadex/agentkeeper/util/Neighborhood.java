@@ -300,7 +300,7 @@ public class Neighborhood
 	public static Set<ISpaceObject> getNeighborSpaceObjects(Vector2Int tmppos, Grid2D environment){
 		Set<ISpaceObject> nearFields = new HashSet<ISpaceObject>();
 		if(tmppos != null) {
-			for(Neighborcase neighborcase : Neighborcase.getDefault())
+			for(Neighborcase neighborcase : Neighborcase.getSimple())
 			{
 				Vector2Int tmpVector = (Vector2Int)tmppos.copy().subtract(neighborcase.getVector());
 				for(Object o : environment.getSpaceObjectsByGridPosition(tmpVector, null))
