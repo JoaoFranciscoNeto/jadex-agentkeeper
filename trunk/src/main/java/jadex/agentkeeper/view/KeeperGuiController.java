@@ -10,7 +10,7 @@ import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
-import jadex.agentkeeper.util.ISpaceObject;
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.view.selection.SelectionMode;
 import jadex.agentkeeper.log.PerformanceTracker;

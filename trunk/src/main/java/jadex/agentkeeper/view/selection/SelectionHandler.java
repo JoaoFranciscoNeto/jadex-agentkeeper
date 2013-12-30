@@ -2,7 +2,7 @@ package jadex.agentkeeper.view.selection;
 
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
-import jadex.agentkeeper.util.ISpaceObject;
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.view.GeneralAppState;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
@@ -144,7 +144,7 @@ public class SelectionHandler
 				// System.out.println("selected.getType() " +
 				// selected.getType());
 
-				mystate.updateInfoText(selected.getType() + " x " + type +" "+selected.getProperty(ISpaceObject.Properties.LOCKED)+" "+selected.getProperty(ISpaceObject.Properties.CLICKED) +" "+selected.getProperty(ISpaceObject.Properties.INTPOSITION));
+				mystate.updateInfoText(selected.getType() + " x " + type +" "+selected.getProperty(ISO.Properties.LOCKED)+" "+selected.getProperty(ISO.Properties.CLICKED) +" "+selected.getProperty(ISO.Properties.INTPOSITION));
 
 
 				// TODO: Selectionmode
@@ -203,7 +203,7 @@ public class SelectionHandler
 
 	protected void castSpellOnSelectionBox(Vector2Int positionInt)
 	{
-		ImpCreationSpell impCreationSpell = (ImpCreationSpell) app.getSpaceController().getProperty(ISpaceObject.Objects.ImpCreationSpell);
+		ImpCreationSpell impCreationSpell = (ImpCreationSpell) app.getSpaceController().getProperty(ISO.Objects.ImpCreationSpell);
 		impCreationSpell.createImp(positionInt, 200);
 	}
 	

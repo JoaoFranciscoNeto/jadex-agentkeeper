@@ -1,6 +1,7 @@
 package jadex.agentkeeper.game.state.missions;
 
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.view.selection.SelectionArea;
@@ -68,7 +69,8 @@ public class BreakWallList
 		ArrayList<Auftrag> tmplist = new ArrayList<Auftrag>();
 
 
-		ArrayList<SpaceObject> tmpobjects = new ArrayList<SpaceObject>();
+		ArrayList<SpaceObject> selectDigfieldList = new ArrayList<SpaceObject>();
+		ArrayList<SpaceObject> deselecetFiledList = new ArrayList<SpaceObject>();
 
 		HashMap<Vector2Int, Auftrag> tmptiles_notreachable = new HashMap<Vector2Int, Auftrag>();
 
@@ -85,13 +87,12 @@ public class BreakWallList
 
 				}
 				SpaceObject fieldtype = InitMapProcess.getFieldTypeAtPos(aktpos, grid);
-
 				if(fieldtype != null)
 				{
 					SolidInfo info = SolidInfo.getTileInfo(fieldtype, SolidInfo.class);
 					if(info.isBreakable())
 					{
-						tmpobjects.add(fieldtype);
+						selectDigfieldList.add(fieldtype);
 						Auftrag auf = new Auftrag(Auftragsverwalter.WANDABBAU, aktpos);
 						if(Neighborhood.isReachable(aktpos, grid))
 						{
@@ -110,7 +111,7 @@ public class BreakWallList
 
 		if(ret)
 		{
-			for(SpaceObject ob : tmpobjects)
+			for(SpaceObject ob : selectDigfieldList)
 			{
 				Map props = ob.getProperties();
 				props.put("clicked", true);

@@ -32,7 +32,7 @@ import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
-import jadex.agentkeeper.util.ISpaceObject;
+import jadex.agentkeeper.util.ISO;
 import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
 
 public class PerformanceTracker {
@@ -64,7 +64,7 @@ public class PerformanceTracker {
 		if (frameRateLogCounter == 0) {
 			frameRateLogCounter = 40;
 			rateCounter++;
-			Auftragsverwalter auftragsverwalter = (Auftragsverwalter)app.getSpaceController().getProperty(ISpaceObject.Objects.TaskList);
+			Auftragsverwalter auftragsverwalter = (Auftragsverwalter)app.getSpaceController().getProperty(ISO.Objects.TaskList);
 //			System.out.println(rateCounter + ";" + timerFrameRate + ";" + playerState.getClaimedSectors() + ";" + creatureState.getCreatureCount(InitMapProcess.IMP) + ";"
 //					+ creatureState.getCreatureCount(InitMapProcess.GOBLIN) + ";" + creatureState.getCreatureCount(InitMapProcess.WARLOCK) + ";" + creatureState.getCreatureCount(InitMapProcess.TROLL)
 //					+ ";" + computedFrameRate);

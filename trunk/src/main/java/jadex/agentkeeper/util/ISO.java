@@ -1,6 +1,6 @@
 package jadex.agentkeeper.util;
 
-public interface ISpaceObject {
+public interface ISO {
 	
 	interface Properties {
 		public static final String NEIGHBORHOOD = "neighborhood";

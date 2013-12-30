@@ -8,6 +8,7 @@ import jadex.agentkeeper.game.task.CreateChickenTask;
 import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
 import jadex.agentkeeper.init.map.process.InitializeHelper;
 import jadex.agentkeeper.init.map.process.PreCreatedSpaceObject;
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.util.Neighborcase;
@@ -319,7 +320,7 @@ public class UserEingabenManager
 	
 	protected void castSpellOnSelectionBox(Vector2Int positionInt)
 	{
-		ImpCreationSpell impCreationSpell = (ImpCreationSpell) _grid.getProperty(jadex.agentkeeper.util.ISpaceObject.Objects.ImpCreationSpell);
+		ImpCreationSpell impCreationSpell = (ImpCreationSpell) _grid.getProperty(ISO.Objects.ImpCreationSpell);
 		impCreationSpell.createImp(positionInt, SpellType.ImpCreation.getCost());
 	}
 

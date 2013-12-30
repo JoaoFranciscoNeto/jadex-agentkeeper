@@ -4,12 +4,12 @@ import jadex.agentkeeper.ai.UpdateStatusTask;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.IMap;
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.environment.ISpaceObject;
-import jadex.extension.envsupport.environment.ISpaceProcess;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
@@ -29,7 +29,7 @@ public class ImpCreationSpell {
 
 	public void createImp(IVector2 zielpos, int costs) {
 		if (isWalkableSector((Vector2Int) zielpos)) {
-			SimplePlayerState playerState = (SimplePlayerState) spaceObjects.getProperty(jadex.agentkeeper.util.ISpaceObject.Objects.PLAYER_STATE);
+			SimplePlayerState playerState = (SimplePlayerState) spaceObjects.getProperty(ISO.Objects.PLAYER_STATE);
 			int new_mana = (int) (playerState.getMana() - costs);
 			if (new_mana > 0) {
 				// change Total Mana Amount
@@ -40,9 +40,9 @@ public class ImpCreationSpell {
 				HashMap<String, Object> props = new HashMap<String, Object>();
 				// props.put("type", "imp");
 				props.put("spieler", "1");
-				props.put(jadex.agentkeeper.util.ISpaceObject.Properties.AWAKE, 100.0);
-				props.put(jadex.agentkeeper.util.ISpaceObject.Properties.FED, 100.0);
-				props.put(jadex.agentkeeper.util.ISpaceObject.Properties.HAPPINESS, 100.0);
+				props.put(ISO.Properties.AWAKE, 100.0);
+				props.put(ISO.Properties.FED, 100.0);
+				props.put(ISO.Properties.HAPPINESS, 100.0);
 				props.put(ISObjStrings.PROPERTY_OWNER, "1");
 				props.put(Space2D.PROPERTY_POSITION, zielpos);
 				props.put(Space2D.PROPERTY_POSITION, new Vector2Double(zielpos.getXAsInteger(), zielpos.getYAsInteger()));
@@ -57,14 +57,6 @@ public class ImpCreationSpell {
 
 				// todo: level, owner
 				spaceObjects.createSpaceObject(type, props, list);
-				for (Object obj : spaceObjects.getSpaceObjects()) {
-					if (obj instanceof ISpaceObject) {
-						ISpaceObject currentField = (ISpaceObject) obj;
-						if (currentField.getType().equals("imp")) {
-							System.out.println(obj);
-						}
-					}
-				}
 			}
 		}
 	}

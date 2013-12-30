@@ -8,7 +8,7 @@ import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISObjStrings;
-import jadex.agentkeeper.util.ISpaceObject;
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
@@ -82,7 +82,7 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 			TileInfo tileInfo = TileInfo.getTileInfo(sobj, TileInfo.class);
 			if (tileInfo != null && MapType.DIRT_PATH.equals(tileInfo.getMapType())) {
 				Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty("auftraege");
-				Vector2Double vector2Double = (Vector2Double) sobj.getProperty(ISpaceObject.Properties.DOUBLE_POSITION);
+				Vector2Double vector2Double = (Vector2Double) sobj.getProperty(ISO.Properties.DOUBLE_POSITION);
 				auftraege.neuerAuftrag(Auftragsverwalter.BESETZEN, new Vector2Int(vector2Double.getXAsInteger(), vector2Double.getYAsInteger()));
 			}
 		}
@@ -99,7 +99,7 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 			SpaceObject sobj = (SpaceObject) allSObj[j];
 			TileInfo tileInfo = TileInfo.getTileInfo(sobj, TileInfo.class);
 			if (tileInfo != null && MapType.CLAIMED_PATH.equals(tileInfo.getMapType())) {
-				Vector2Int vector2Int = (Vector2Int) sobj.getProperty(ISpaceObject.Properties.INTPOSITION);
+				Vector2Int vector2Int = (Vector2Int) sobj.getProperty(ISO.Properties.INTPOSITION);
 				
 				Set<TileInfo> test = Neighborhood.getNeighborTiles(vector2Int,environment);
 //				Neighborhood.updateMyNeighborsComplexField(vector2Int, environment);
@@ -116,14 +116,14 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 				for(TileInfo neighbourTile :  test) {
 					if(neighbourTile != null &&  neighbourTile.getMapType().equals(MapType.ROCK)) {
 						jadex.extension.envsupport.environment.ISpaceObject test2 = environment.getSpaceObject(neighbourTile.getSpaceObjectId());
-						boolean clicked = (Boolean) test2.getProperty(ISpaceObject.Properties.CLICKED);
+						boolean clicked = (Boolean) test2.getProperty(ISO.Properties.CLICKED);
 						if( !clicked){
-							test2.setProperty(ISpaceObject.Properties.LOCKED, false);
+							test2.setProperty(ISO.Properties.LOCKED, false);
 						}
-						Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty(ISpaceObject.Objects.TaskList);
+						Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty(ISO.Objects.TaskList);
 						
 						
-						auftraege.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, (Vector2Int) test2.getProperty(ISpaceObject.Properties.INTPOSITION));
+						auftraege.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, (Vector2Int) test2.getProperty(ISO.Properties.INTPOSITION));
 					}
 				}
 			}
