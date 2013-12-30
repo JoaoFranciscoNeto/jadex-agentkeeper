@@ -120,7 +120,6 @@ public class EatPlan
 											{ 
 												public void customResultAvailable(Void result)
 												{
-													
 													spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 													environment.destroySpaceObject(chickenresult.getId());
 													spaceObject.setProperty(ISObjStrings.PROPERTY_FED, 101.0);

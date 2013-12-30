@@ -87,7 +87,6 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalMaintainCondition(beliefs="myAwakeStatus")
 		public boolean checkMaintain()
 		{
-
 			return myAwakeStatus>5.0;
 		}
 		
