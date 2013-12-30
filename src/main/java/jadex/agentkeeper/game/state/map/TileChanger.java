@@ -49,8 +49,9 @@ public class TileChanger {
 			if(isRightType){
 				addNewTileToTileMap(newType, targetPosition);
 				ISpaceObject justcreated = environment.createSpaceObject(newType.name(), parameters, null);
-				environment.destroySpaceObject(spaceObject.getId());
 				((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
+				environment.destroySpaceObject(spaceObject.getId());
+
 				System.out.println("spaceObject.getType(): "+spaceObject.getType());
 			}
 		}
