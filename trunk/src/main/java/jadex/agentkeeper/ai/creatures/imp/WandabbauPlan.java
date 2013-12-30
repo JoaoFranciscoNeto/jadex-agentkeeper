@@ -4,6 +4,7 @@ import java.util.Map;
 
 import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
+import jadex.agentkeeper.game.state.missions.TaskType;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bdi.runtime.IGoal;
@@ -75,6 +76,7 @@ public class WandabbauPlan extends ImpPlan
 
 			IGoal sammele = createGoal(Auftragsverwalter.GOLDSAMMELN);
 			Auftrag auf = new Auftrag(Auftragsverwalter.GOLDSAMMELN, _zielpos);
+			taskPoolManager.addTask(TaskType.COLLECT_GOLD, _zielpos);
 			sammele.getParameter("auftrag").setValue(auf);
 			dispatchSubgoalAndWait(sammele);
 		}
@@ -82,8 +84,9 @@ public class WandabbauPlan extends ImpPlan
 		{
 			setze(_zielpos, MapType.DIRT_PATH, true);
 			auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, _zielpos);
+			taskPoolManager.addTask(TaskType.CLAIM_SECTOR, _zielpos);
 		}
-
+		taskPoolManager.updateReachableSelectedSectors(_zielpos);
 		auftragsverwalter.updatePosition(_zielpos);
 		
 		_ausfuehr = false;
@@ -95,6 +98,7 @@ public class WandabbauPlan extends ImpPlan
 	public void passed()
 	{
 		super.passed();
+		taskPoolManager.addTask(TaskType.CLAIM_SECTOR, _zielpos);
 		auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, _zielpos);
 	}
 

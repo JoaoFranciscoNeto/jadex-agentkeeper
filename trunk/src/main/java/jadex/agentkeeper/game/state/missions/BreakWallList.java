@@ -137,13 +137,8 @@ public class BreakWallList
 				Auftrag auf = tiles_notreachable.get(ziel);
 				reachable_list.add(auf);
 				tiles_notreachable.remove(ziel);
-
 			}
-
-
 		}
-
-
 	}
 
 }

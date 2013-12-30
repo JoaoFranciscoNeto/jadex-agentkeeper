@@ -199,6 +199,7 @@
 			<env:tasktypes>
 				<env:tasktype name="move" class="MoveTask" />
 				<env:tasktype name="updateStatus" class="UpdateStatusTask" />
+				<env:tasktype name="digSectorTask" class="DigSectorTask" />
 				<env:tasktype name="createChickens" class="CreateChickenTask" />
 			</env:tasktypes>	
 
@@ -871,8 +872,8 @@
 
 	<componenttypes>
 
-		 <componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" /> 
-		<!-- <componenttype name="Imp" filename="ai/imp/ImpBDI.class" /> -->
+		<!-- <componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />  -->
+		<componenttype name="Imp" filename="ai/imp/ImpBDI.class" />
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
