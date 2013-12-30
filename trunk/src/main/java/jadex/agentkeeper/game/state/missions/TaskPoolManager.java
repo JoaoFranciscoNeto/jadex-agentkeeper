@@ -76,7 +76,6 @@ public class TaskPoolManager implements ITaskPoolManager {
 		}
 	}
 
-	@Override
 	public int getTaskListSize() {
 		return TaskPool.getCountedTasks();
 	}

@@ -60,14 +60,29 @@ public class TileChanger {
 	
 	public void addNewTileToTileMap(MapType newType, Vector2Int targetPosition){
 		Object tile;
-		try {
-			tile = newType.getPojo().getDeclaredConstructor(MapType.class).newInstance(newType);
-			parameters.put(ISObjStrings.PROPERTY_TILEINFO, tile);
-			mapstate.addType((Vector2Int)targetPosition, tile);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
-		
+			try {
+				tile = newType.getPojo().getDeclaredConstructor(MapType.class).newInstance(newType);
+				parameters.put(ISObjStrings.PROPERTY_TILEINFO, tile);
+				mapstate.addType((Vector2Int)targetPosition, tile);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 }
