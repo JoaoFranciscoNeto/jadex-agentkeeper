@@ -20,6 +20,7 @@ import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SimplePropertyObject;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
 import jadex.extension.envsupport.environment.IObjectTask;
+import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.ISpaceProcess;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
@@ -115,7 +116,7 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 				
 				for(TileInfo neighbourTile :  test) {
 					if(neighbourTile != null &&  neighbourTile.getMapType().equals(MapType.ROCK)) {
-						jadex.extension.envsupport.environment.ISpaceObject test2 = environment.getSpaceObject(neighbourTile.getSpaceObjectId());
+						ISpaceObject test2 = environment.getSpaceObject(neighbourTile.getSpaceObjectId());
 						boolean clicked = (Boolean) test2.getProperty(ISO.Properties.CLICKED);
 						if( !clicked){
 							test2.setProperty(ISO.Properties.LOCKED, false);

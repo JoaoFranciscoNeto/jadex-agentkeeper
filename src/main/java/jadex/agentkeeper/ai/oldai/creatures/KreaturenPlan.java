@@ -3,6 +3,7 @@ package jadex.agentkeeper.ai.oldai.creatures;
 
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
+import jadex.agentkeeper.game.state.missions.TaskPoolManager;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.util.Neighborcase;
@@ -45,6 +46,7 @@ public abstract class KreaturenPlan extends Plan {
 	protected SimpleMapState mapstate;
 	
 	protected Auftragsverwalter auftragsverwalter;
+	protected TaskPoolManager taskPoolManager;
 
 	/**
 	 * Initialisiert die Informationen ueber Karte etc.
@@ -54,6 +56,7 @@ public abstract class KreaturenPlan extends Plan {
 		_verbrauchsgrad = 1;
 		this.grid =  (Grid2D)getBeliefbase().getBelief("environment").getFact();
 		this.auftragsverwalter = (Auftragsverwalter) grid.getProperty("auftraege");
+		this.taskPoolManager = (TaskPoolManager) grid.getProperty(TaskPoolManager.PROPERTY_NAME);
 		_avatar = grid.getAvatar(getComponentDescription());
 		_mypos = (Vector2Double) _avatar.getProperty(Space2D.PROPERTY_POSITION);
 		_myIntPos = (Vector2Int) _avatar.getProperty("intPos");

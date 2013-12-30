@@ -3,6 +3,8 @@ package jadex.agentkeeper.game.userinput;
 import jadex.agentkeeper.game.state.buildings.Treasury;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
+import jadex.agentkeeper.game.state.missions.TaskPoolManager;
+import jadex.agentkeeper.game.state.missions.TaskType;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.task.CreateChickenTask;
 import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
@@ -48,6 +50,7 @@ public class UserEingabenManager
 
 
 	private Auftragsverwalter	_auftraege;
+	private TaskPoolManager	taskPoolManager;
 
 	private IEnvironmentSpace	_space;
 
@@ -65,6 +68,7 @@ public class UserEingabenManager
 		_space2D = (Space2D)_space;
 		_grid = (Grid2D)_space2D;
 		_auftraege = (Auftragsverwalter)_space.getProperty("auftraege");
+		taskPoolManager = (TaskPoolManager)_space.getProperty(TaskPoolManager.PROPERTY_NAME);
 
 	}
 
@@ -72,6 +76,7 @@ public class UserEingabenManager
 	public void destroyWalls(SelectionArea area)
 	{
 		_auftraege.newBreakWalls(area);
+		taskPoolManager.processSelection(area);
 	}
 
 	// Hack for the moment

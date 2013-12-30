@@ -3,6 +3,8 @@ package jadex.agentkeeper.init.map.process;
 import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
+import jadex.agentkeeper.game.state.missions.DiggingSelectorTaskCreator;
+import jadex.agentkeeper.game.state.missions.TaskPoolManager;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.UserEingabenManager;
 import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
@@ -78,8 +80,9 @@ public abstract class AInitMapProcess extends SimplePropertyObject implements IS
 		try
 		{
 			Auftragsverwalter auftragsverwalter = new Auftragsverwalter(grid);
-
 			grid.setProperty("auftraege", auftragsverwalter);
+			TaskPoolManager taskPoolManager = new TaskPoolManager(new DiggingSelectorTaskCreator(grid));
+			grid.setProperty(TaskPoolManager.class.getName(), taskPoolManager);
 
 			uem = new UserEingabenManager(grid);
 
