@@ -53,7 +53,8 @@ public class IdlePlan
 		final Future<Void> ret = new Future<Void>();
 		
 	
-		String status = random > 0.9f ? "Idle" : "Dance";
+		String status = random > 0.9f ? "Dance" : "Idle";
+//		String status = "Dance";
 		
 //		System.out.println("want to set idle/dance");
 		spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, status);
