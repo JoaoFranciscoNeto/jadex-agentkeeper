@@ -41,7 +41,7 @@ public class ImpBDI extends AbstractBeingBDI {
 	{
 		agent.dispatchTopLevelGoal(new PerformIdle());
 
-		agent.dispatchTopLevelGoal(new PerformClaimSector());
+//		agent.dispatchTopLevelGoal(new PerformClaimSector());
 //		System.out.println("dispatch");
 	}
 	
