@@ -4,6 +4,7 @@ import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveClaimSector;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveClaimWall;
+import jadex.agentkeeper.ai.imp.ImpBDI.AchieveCollectGold;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveDigSector;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
@@ -68,6 +69,16 @@ public class ImpTaskPoolPlan {
 
 						@Override
 						public void customResultAvailable(AchieveClaimWall result) {
+							retb.setResult(null);
+							
+						}
+					} );
+				} else if(newImpTask.getTaskType().equals(TaskType.Types.COLLECT_GOLD)){
+					IFuture<AchieveCollectGold> reachWallToClaimFrom = rplan.dispatchSubgoal(impBdi.new AchieveCollectGold(newImpTask));
+					reachWallToClaimFrom.addResultListener(new ExceptionDelegationResultListener<ImpBDI.AchieveCollectGold, Void>(retb){
+
+						@Override
+						public void customResultAvailable(AchieveCollectGold result) {
 							retb.setResult(null);
 							
 						}

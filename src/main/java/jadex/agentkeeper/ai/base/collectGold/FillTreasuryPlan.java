@@ -1,20 +1,20 @@
-package jadex.agentkeeper.ai.base.claimSector;
+package jadex.agentkeeper.ai.base.collectGold;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI;
-import jadex.agentkeeper.ai.imp.ImpBDI.AchieveClaimSector;
+import jadex.agentkeeper.ai.imp.ImpBDI.AchieveFillTreasury;
+import jadex.agentkeeper.ai.pathfinding.AStarSearch;
+import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
-import jadex.agentkeeper.game.state.missions.TaskPoolManager;
-import jadex.agentkeeper.game.state.missions.TaskType;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
-import jadex.agentkeeper.util.Neighborcase;
-import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.structure.TileInfo;
+import jadex.agentkeeper.worldmodel.structure.building.TreasuryInfo;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
@@ -29,6 +29,7 @@ import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
+import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
@@ -39,13 +40,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Plan
-public class ClaimSectorPlan {
-	
+public class FillTreasuryPlan {
+
 	private static final String IMP_LOCAL_TASK = "ImpLocalTask";
 
 	@PlanCapability
 	protected AbstractBeingBDI capa;
-	
+
 	@PlanCapability
 	protected ImpBDI impBdi;
 
@@ -60,22 +61,27 @@ public class ClaimSectorPlan {
 	private Grid2D environment;
 
 	private SpaceObject currentTaskSpaceObject;
-	
+
 	private SimplePlayerState playerState;
+
+	private SimpleMapState mapState;
 	
+	private final int GOLD_AMOUNT_PER_GOLD_VEIN = 1000;
+
 	@PlanReason
-	protected AchieveClaimSector	goal;
+	protected AchieveFillTreasury goal;
 
 	@PlanBody
 	public IFuture<Void> body() {
-		
+
 		final Future<Void> retb = new Future<Void>();
-		
+
 		Task newImpTask = goal.getTarget();
 		if (newImpTask != null) {
 			System.out.println(newImpTask.getTaskType());
 			environment = capa.getEnvironment();
 			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
+			mapState = (SimpleMapState) environment.getProperty(ISO.Objects.MAP_STATE);
 			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 
 			reachTargetDestination(newImpTask).addResultListener(new DelegationResultListener<Void>(retb));
@@ -93,41 +99,44 @@ public class ClaimSectorPlan {
 
 		Collection<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(currentImpTask.getTargetPosition(), null);
 		for (ISpaceObject spaceObject : spaceObjectsByGridPosition) {
-			if (MapType.DIRT_PATH.toString().equals(spaceObject.getType())) {
-				currentTaskSpaceObject = (SpaceObject) spaceObject;
+			for (MapType mapType : MapType.getOnlySolids()) {
+				if (mapType.toString().equals(spaceObject.getType())) {
+					currentTaskSpaceObject = (SpaceObject) spaceObject;
+				}
 			}
 		}
 
-		if (currentImpTaskPosition != null && currentTaskSpaceObject != null) {
+		if (currentImpTaskPosition != null) {
+			
+			final Vector2Int nextTreasureChest = findNextTreasureChest(currentImpTaskPosition, GOLD_AMOUNT_PER_GOLD_VEIN);
+			
 			// went to the position where the imp can dig from
-			if (currentImpTask.getTargetPosition() != null) {
-				IFuture<AchieveMoveToSector> reachSectorToDigFrom = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(currentImpTask.getTargetPosition()));
+			if (nextTreasureChest != null) {
+				IFuture<AchieveMoveToSector> reachSectorToDigFrom = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(nextTreasureChest));
 
 				reachSectorToDigFrom.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret) {
 					public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt) {
-						claimSector(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
+						claimWall(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
 							public void customResultAvailable(Void result) {
-								// add new Tile and remove the old, claim the sector ground
+								// add new Tile and remove the old, claim the
+								// sector ground
+								
+								TreasuryInfo hinfo = (TreasuryInfo)mapState.getTileAtPos((Vector2Int)nextTreasureChest);
+								
 								TileChanger tilechanger = new TileChanger(environment);
-								// TODO: currentTaskSpaceObject can be null!
 								String neighborhood = (String) currentTaskSpaceObject.getProperty(ISO.Properties.NEIGHBORHOOD);
 								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter(ISO.Properties.STATUS, "byImpCreated").addParameter(ISO.Properties.CLICKED, false)
 										.addParameter(ISO.Properties.LOCKED, false).addParameter(ISO.Properties.NEIGHBORHOOD, neighborhood)
 										.addParameter(ISO.Properties.INTPOSITION, currentImpTaskPosition)
 										.addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()))
-										.changeTile(currentImpTask.getTargetPosition(), MapType.CLAIMED_PATH, new ArrayList<MapType>(Arrays.asList(MapType.DIRT_PATH)));
+										.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.GOLD_DROPED)));
 
 								// imp stop claiming the sector ground
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
-								
-								playerState.addClaimedSector();
-								
-								TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
-								for(ISpaceObject neighbour : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment, Neighborcase.getDefault() )) {
-									if(Neighborhood.isClaimableWall(neighbour) && !(Boolean)neighbour.getProperty(ISO.Properties.CLICKED)) {
-										taskPoolManager.addConnectedTask(TaskType.CLAIM_WALL, (Vector2Int) neighbour.getProperty(ISO.Properties.INTPOSITION));
-									}
-								}
+
+								playerState.addGold(GOLD_AMOUNT_PER_GOLD_VEIN);
+								environment.getSpaceObject(hinfo.getSpaceObjectId()).setProperty(ISObjStrings.PROPERTY_STATUS, "hasGold");
+								hinfo.addAmount(GOLD_AMOUNT_PER_GOLD_VEIN);
 
 								ret.setResult(null);
 							}
@@ -137,7 +146,7 @@ public class ClaimSectorPlan {
 			} else {
 				// TODO: fail!! sector from task should be reachable for destroy
 				// => catch
-				System.out.println("fail!! sector from task should be reachable for destroy ");
+				System.out.println("fail!! sector from task should be reachable for clame wall ");
 				capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 				rplan.abort();
 			}
@@ -148,14 +157,14 @@ public class ClaimSectorPlan {
 		return ret;
 	}
 
-	private IFuture<Void> claimSector(final Task currentImpTask) {
+	private IFuture<Void> claimWall(final Task currentImpTask) {
 		final Future<Void> ret = new Future<Void>();
 
 		Map<String, Object> props = new HashMap<String, Object>();
-		props.put(ClaimSectorTask.PROPERTY_DESTINATION, currentImpTask.getTargetPosition());
-		props.put(ClaimSectorTask.PROPERTY_DIG_SPEED, impBdi.getMyWorkingSpeed());
+		props.put(CollectGoldTask.PROPERTY_DESTINATION, currentImpTask.getTargetPosition());
+		props.put(CollectGoldTask.PROPERTY_DIG_SPEED, impBdi.getMyWorkingSpeed());
 
-		digtaskid = capa.getEnvironment().createObjectTask(ClaimSectorTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
+		digtaskid = capa.getEnvironment().createObjectTask(CollectGoldTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
 		iplan.invokeInterruptable(new IResultCommand<IFuture<Void>, Void>() {
 			public IFuture<Void> execute(Void args) {
 				return capa.getEnvironment().waitForTask(digtaskid, capa.getMySpaceObject().getId());
@@ -163,6 +172,36 @@ public class ClaimSectorPlan {
 		}).addResultListener(new DelegationResultListener<Void>(ret));
 
 		return ret;
+	}
+
+	/**
+	 * @param mypos
+	 * @param amount
+	 * @return
+	 */
+	private Vector2Int findNextTreasureChest(IVector2 mypos, int amount) {
+		HashMap<Vector2Int, TileInfo> treasuries = mapState.getTypes(MapType.TREASURY);
+
+		ArrayList<Vector2Int> chests = new ArrayList<Vector2Int>(treasuries.keySet());
+
+		AStarSearch aStarSearch;
+		int minTotalCosts = Integer.MAX_VALUE;
+		int totalCosts;
+		Vector2Int tmp, minCostsChestPosition = null;
+		for (Vector2Int vec : chests) {
+			TreasuryInfo hinfo = (TreasuryInfo) mapState.getTileAtPos((Vector2Int) vec);
+
+			if (hinfo.getAmount() + amount <= TreasuryInfo.MAX_AMOUNT && !hinfo.isLocked()) {
+				aStarSearch = new AStarSearch(mypos, vec, environment, true);
+				totalCosts = aStarSearch.gibPfadKosten();
+				tmp = vec;
+				if (totalCosts < minTotalCosts) {
+					minTotalCosts = totalCosts;
+					minCostsChestPosition = tmp;
+				}
+			}
+		}
+		return minCostsChestPosition;
 	}
 
 }
