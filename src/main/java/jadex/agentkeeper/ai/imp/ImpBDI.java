@@ -1,13 +1,16 @@
 package jadex.agentkeeper.ai.imp;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
-import jadex.agentkeeper.ai.base.GetImpWorkPlan;
+import jadex.agentkeeper.ai.base.ImpTaskPoolPlan;
+import jadex.agentkeeper.ai.base.digSector.DigSectorPlan;
+import jadex.agentkeeper.game.state.missions.Task;
 import jadex.bdiv3.annotation.Body;
 import jadex.bdiv3.annotation.Deliberation;
 import jadex.bdiv3.annotation.Goal;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.Plans;
 import jadex.bdiv3.annotation.Trigger;
+import jadex.extension.envsupport.math.Vector2Int;
 import jadex.micro.annotation.Agent;
 import jadex.micro.annotation.AgentBody;
 
@@ -19,7 +22,9 @@ import jadex.micro.annotation.AgentBody;
  */
 @Agent
 @Plans({
-@Plan(trigger=@Trigger(goals=ImpBDI.PerformClaimSector.class), body=@Body(GetImpWorkPlan.class))})
+@Plan(trigger=@Trigger(goals=ImpBDI.PerformImpTaskPoolGoal.class), body=@Body(ImpTaskPoolPlan.class)),
+@Plan(trigger = @Trigger(goals = ImpBDI.AchieveDigSector.class), body = @Body(DigSectorPlan.class))
+})
 public class ImpBDI extends AbstractBeingBDI {
 	
 	/** The workingspeed of the "Imp". */
@@ -40,7 +45,7 @@ public class ImpBDI extends AbstractBeingBDI {
 	public void body()
 	{
 		agent.dispatchTopLevelGoal(new PerformIdle());
-
+		agent.dispatchTopLevelGoal(new PerformImpTaskPoolGoal());
 //		agent.dispatchTopLevelGoal(new PerformClaimSector());
 //		System.out.println("dispatch");
 	}
@@ -52,7 +57,7 @@ public class ImpBDI extends AbstractBeingBDI {
 	 */
 //	@Goal(excludemode=Goal.ExcludeMode.Never, succeedonpassed=false, randomselection=true)
 	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), excludemode=Goal.ExcludeMode.Never, retry=true, retrydelay=1000, succeedonpassed=false)
-	public class PerformClaimSector
+	public class PerformImpTaskPoolGoal
 	{
 
 
@@ -67,6 +72,34 @@ public class ImpBDI extends AbstractBeingBDI {
 //		}
 		
 		
+	}
+	
+	/**
+	 * The goal is used to move to a specific location ( on the Grid ).
+	 */
+	@Goal
+	public class AchieveDigSector {
+		/** The target. */
+		protected Task target;
+
+		/**
+		 * Create a new goal.
+		 * 
+		 * @param newImpTask
+		 *            The target.
+		 */
+		public AchieveDigSector(Task newImpTask) {
+			this.target = newImpTask;
+		}
+
+		/**
+		 * Get the target.
+		 * 
+		 * @return The target.
+		 */
+		public Task getTarget() {
+			return this.target;
+		}
 	}
 
 }

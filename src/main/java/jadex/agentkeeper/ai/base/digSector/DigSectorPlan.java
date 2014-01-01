@@ -1,8 +1,17 @@
-package jadex.agentkeeper.ai.base;
+package jadex.agentkeeper.ai.base.digSector;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
+import jadex.agentkeeper.ai.imp.ImpBDI.AchieveDigSector;
+import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
@@ -14,6 +23,7 @@ import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
+import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.IResultCommand;
 import jadex.commons.future.DelegationResultListener;
@@ -26,15 +36,9 @@ import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 @Plan
-public class GetImpWorkPlan {
-
+public class DigSectorPlan {
+	
 	private static final String IMP_LOCAL_TASK = "ImpLocalTask";
 
 	@PlanCapability
@@ -49,36 +53,30 @@ public class GetImpWorkPlan {
 	private Object digtaskid;
 
 	private Grid2D environment;
-	
+
 	private SpaceObject currentTaskSpaceObject;
+	
+	@PlanReason
+	protected AchieveDigSector	goal;
 
 	@PlanBody
 	public IFuture<Void> body() {
-
-		// System.out.println("plan body claim sector");
+		
 		final Future<Void> retb = new Future<Void>();
+		
+		Task newImpTask = goal.getTarget();
+		if (newImpTask != null) {
+			System.out.println(newImpTask.getTaskType());
+			environment = capa.getEnvironment();
+			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 
-		TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
-		if (taskPoolManager != null && taskPoolManager.getWorkableTaskListSize() > 0) {
-
-			Task newImpTask = taskPoolManager.calculateAndReturnNextTask(new Vector2Int(capa.getMyPosition().getXAsInteger(), capa.getMyPosition().getYAsInteger()));
-			if(newImpTask != null) {
-				System.out.println(newImpTask);
-				environment = capa.getEnvironment();
-				capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
-	
-				reachTargetDestination(newImpTask).addResultListener(new DelegationResultListener<Void>(retb));
-			}
-			else {
-				retb.setResult(null);
-			}
+			reachTargetDestination(newImpTask).addResultListener(new DelegationResultListener<Void>(retb));
 		} else {
+			System.out.println("The Task was null, this should not happen. But we don't break up.");
 			retb.setResult(null);
 		}
 		return retb;
 	}
-
-
 
 	private IFuture<Void> reachTargetDestination(final Task currentImpTask) {
 		final Future<Void> ret = new Future<Void>();
@@ -96,7 +94,7 @@ public class GetImpWorkPlan {
 
 		if (currentImpTaskPosition != null) {
 			Vector2Int reachableSectorForDigingInt = null;
-			
+
 			// get the position from which the imp can walk to and dig
 			for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment)) {
 				if (Neighborhood.isWalkableForDigging(spaceObject)) {
@@ -112,24 +110,26 @@ public class GetImpWorkPlan {
 					public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt) {
 						digSector(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
 							public void customResultAvailable(Void result) {
-								// add new Tile and remove the old, to break the wall
+								// add new Tile and remove the old, to break the
+								// wall
 								TileChanger tilechanger = new TileChanger(environment);
 								String neighborhood = (String) currentTaskSpaceObject.getProperty(ISO.Properties.NEIGHBORHOOD);
 								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter(ISO.Properties.STATUS, "byImpCreated").addParameter(ISO.Properties.CLICKED, false)
-										   .addParameter(ISO.Properties.LOCKED, false).addParameter(ISO.Properties.NEIGHBORHOOD, neighborhood)
-										   .addParameter(ISO.Properties.INTPOSITION, currentImpTaskPosition).addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()))
-										   .changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH,
-										new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
-								
+										.addParameter(ISO.Properties.LOCKED, false).addParameter(ISO.Properties.NEIGHBORHOOD, neighborhood)
+										.addParameter(ISO.Properties.INTPOSITION, currentImpTaskPosition)
+										.addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()))
+										.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
+
 								// imp stop digging
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
-								
-								// Neighbour update their tile as well, cause they now need to render a wall
+
+								// Neighbour update their tile as well, cause
+								// they now need to render a wall
 								Neighborhood.updateMyNeighborsComplexField(currentImpTask.getTargetPosition(), environment);
-								
+
 								TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
 								taskPoolManager.updateReachableSelectedSectors(Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment));
-								
+
 								ret.setResult(null);
 							}
 						});
@@ -165,4 +165,5 @@ public class GetImpWorkPlan {
 
 		return ret;
 	}
+
 }

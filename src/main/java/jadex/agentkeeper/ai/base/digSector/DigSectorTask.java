@@ -1,4 +1,4 @@
-package jadex.agentkeeper.ai.base;
+package jadex.agentkeeper.ai.base.digSector;
 
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bridge.service.types.clock.IClockService;
