@@ -106,6 +106,14 @@ public enum MapType
 	    return EnumSet.range(IMPENETRABLE_ROCK, HEROTILE);
 	}
 	
+	/**
+	 * @return  get an enum subset of the Solids
+	 */
+	public static EnumSet<MapType> getDiggableWalls()
+	{
+	    return EnumSet.of(REINFORCED_WALL, HEROTILE, ROCK, GOLD);
+	}
+	
 	 /**
 	   * @return  get an enum subset of the Buildings
 	   */

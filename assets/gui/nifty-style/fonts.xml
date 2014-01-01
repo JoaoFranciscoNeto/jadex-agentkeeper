@@ -18,5 +18,11 @@
   
      <style id="arialfont">
     <attributes font="/gui/nifty-style/arial.fnt"/>
+	</style>
+	<style id="vinique-font">
+    <attributes font="/gui/nifty-style/vinique25.fnt"/>
+  </style>
+  <style id="vinique-font-20">
+    <attributes font="/gui/nifty-style/vinique20.fnt"/>
   </style>
 </nifty-styles>

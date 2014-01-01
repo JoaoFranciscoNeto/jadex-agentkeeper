@@ -47,11 +47,17 @@ public class TileChanger {
 				}
 			}
 			if(isRightType){
+				
 				addNewTileToTileMap(newType, targetPosition);
-				ISpaceObject justcreated = environment.createSpaceObject(newType.name(), parameters, null);
-				((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
-				environment.destroySpaceObject(spaceObject.getId());
+				if(!newType.toString().equals(spaceObject.getType())) {
+					ISpaceObject justcreated = environment.createSpaceObject(newType.name(), parameters, null);
+					((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
+				}
+				try {
+					environment.destroySpaceObject(spaceObject.getId());
+				} catch (Exception e) {
 
+				}
 				System.out.println("spaceObject.getType(): "+spaceObject.getType());
 			}
 		}

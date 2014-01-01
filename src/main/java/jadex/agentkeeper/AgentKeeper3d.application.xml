@@ -181,6 +181,15 @@
 					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
 					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
+				<env:objecttype name="hellhound">
+					<env:property name="position" />
+					<env:property name="moral" class="double">100.0</env:property>
+					<env:property name="awake" class="double">100.0</env:property>
+					<env:property name="status" class="String">"Idle"</env:property>
+					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
+					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
+					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
+				</env:objecttype>
 				<env:objecttype name="thief">
 					<env:property name="position" />
 					<env:property name="moral" class="double">100.0</env:property>
@@ -220,6 +229,7 @@
 				<env:avatarmapping componenttype="Troll" objecttype="troll" createcomponent="true"/> 
 				<env:avatarmapping componenttype="Warlock" objecttype="warlock" createcomponent="true"/>
 				<env:avatarmapping componenttype="Thief" objecttype="thief" createcomponent="true"/>
+				<env:avatarmapping componenttype="Hellhound" objecttype="hellhound" createcomponent="true"/>
 <!-- 				<env:avatarmapping componenttype="Chicken" objecttype="chicken" createcomponent="true"/> -->
 			</env:avatarmappings>
 
@@ -740,6 +750,34 @@
 						
 					</env:drawable3d>
 					
+					<env:drawable3d objecttype="hellhound" width="0.03" height="0.03" depth="0.03" isDynamic="true">
+
+					<env:quad color="#00FF00" width="0.75" height="0.04" depth="0.04" x="0" y="2.0" z="0">
+						<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
+						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
+					</env:quad>
+						<env:object3d 
+						width="1" height="1" depth="1"
+						x="0" y="0" z="0"
+						modelpath="/jadex3d/models/characters/medieval/cerberus/cerberus.j3o"
+						>
+						
+							<env:animation name="Walk" channel="chanA" loop="true" speed="2">
+								<env:animationcondition>$object.getProperty("status").equals("Walk")</env:animationcondition>
+							</env:animation>
+							
+							<env:animation name="Idle" channel="chanA" loop="true">
+								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
+							</env:animation>
+							
+							<env:animation name="Attack1" channel="chanA" loop="true" speed="1">
+								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
+							</env:animation>
+							
+						</env:object3d>
+						
+					</env:drawable3d>
+					
 					
 					<env:drawable3d objecttype="warlock" width="1" height="1" depth="1" isDynamic="true">
 					
@@ -874,11 +912,12 @@
 
 	<componenttypes>
 
-		<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" /> 
-<!-- 		<componenttype name="Imp" filename="ai/imp/ImpBDI.class" /> -->
+	<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />
+ 		<!--	<componenttype name="Imp" filename="ai/imp/ImpBDI.class" />  -->
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
+		<componenttype name="Hellhound" filename="ai/creatures/hellhound/HellhoundBDI.class" />
 		<componenttype name="Thief" filename="ai/heroes/thief/ThiefBDI.class" />
 			
 		

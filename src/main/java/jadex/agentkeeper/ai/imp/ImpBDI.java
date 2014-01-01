@@ -51,7 +51,7 @@ public class ImpBDI extends AbstractBeingBDI {
 	 *  
 	 */
 //	@Goal(excludemode=Goal.ExcludeMode.Never, succeedonpassed=false, randomselection=true)
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), excludemode=Goal.ExcludeMode.Never, retry=true, retrydelay=5000, succeedonpassed=false)
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), excludemode=Goal.ExcludeMode.Never, retry=true, retrydelay=1000, succeedonpassed=false)
 	public class PerformClaimSector
 	{
 

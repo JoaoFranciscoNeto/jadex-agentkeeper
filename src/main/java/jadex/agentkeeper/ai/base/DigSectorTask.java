@@ -25,7 +25,6 @@ public class DigSectorTask extends AbstractTask {
 		
 		obj.setProperty(ISObjStrings.PROPERTY_STATUS, "Dig");
 		digTimer++;
-//		System.out.println(clock.getTick() +" "+ clock.getTime() +" "+clock.getDelta());
 		if(digTimer > 50){
 			this.setFinished(space, obj, true);
 		}

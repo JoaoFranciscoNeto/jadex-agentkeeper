@@ -119,7 +119,7 @@ public class MoveToGridSectorPlan
 		{
 			final Vector2Int nextTarget = it.next();
 			
-//			System.out.println("next Target " + nextTarget);
+			System.out.println("next Target " + nextTarget);
 
 			oneStepToTarget(nextTarget).addResultListener(new DelegationResultListener<Void>(ret)
 			{
