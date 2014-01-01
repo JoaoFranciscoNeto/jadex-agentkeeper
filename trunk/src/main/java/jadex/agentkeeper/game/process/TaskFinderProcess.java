@@ -54,8 +54,8 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 
 		if (delta > DELAY_RESET_COUNT) {
 			delta = 0;
-			findNotClaimedSectorsAndCreateNewTask();
-			findNotClaimedWallsAndCreateNewTask();
+//			findNotClaimedSectorsAndCreateNewTask();
+//			findNotClaimedWallsAndCreateNewTask();
 		}
 	}
 

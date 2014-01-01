@@ -120,9 +120,16 @@ public class DigSectorPlan {
 								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter(ISO.Properties.STATUS, "byImpCreated").addParameter(ISO.Properties.CLICKED, false)
 										.addParameter(ISO.Properties.LOCKED, false).addParameter(ISO.Properties.NEIGHBORHOOD, neighborhood)
 										.addParameter(ISO.Properties.INTPOSITION, currentImpTaskPosition)
-										.addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()))
-										.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
-
+										.addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()));
+								
+								boolean isGold = false;
+								
+								if(currentTaskSpaceObject.getType().equals(MapType.ROCK.toString())){
+									tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
+								} else {
+									tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.GOLD_DROPED, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
+									isGold = true;
+								}
 								// imp stop digging
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 
@@ -132,8 +139,11 @@ public class DigSectorPlan {
 
 								TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
 								taskPoolManager.updateReachableSelectedSectors(Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment));
-								
-								taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, currentImpTaskPosition);
+								if(!isGold) {
+									taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, currentImpTaskPosition);
+								} else {
+									taskPoolManager.addConnectedTask(TaskType.COLLECT_GOLD, currentImpTaskPosition);
+								}
 								
 								ret.setResult(null);
 							}

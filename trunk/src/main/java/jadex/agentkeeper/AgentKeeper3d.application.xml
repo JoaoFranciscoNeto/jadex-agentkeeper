@@ -20,6 +20,7 @@
 		<import>jadex.agentkeeper.ai.base.digSector.*</import>
 		<import>jadex.agentkeeper.ai.base.claimSector.*</import>
 		<import>jadex.agentkeeper.ai.base.claimWall.*</import>
+		<import>jadex.agentkeeper.ai.base.collectGold.*</import>
 		<import>jadex.agentkeeper.ai.enums.*</import>
 		<import>jadex.agentkeeper.ai.creatures.*</import>
 		<import>jadex.agentkeeper.ai.oldai.basic.*</import>
@@ -214,6 +215,8 @@
 				<env:tasktype name="digSectorTask" class="DigSectorTask" />
 				<env:tasktype name="claimSectorTask" class="ClaimSectorTask" />
 				<env:tasktype name="claimWallTask" class="ClaimWallTask" />
+				<env:tasktype name="collectGoldTask" class="CollectGoldTask" />
+				<env:tasktype name="fillTreasuryTask" class="FillTreasuryTask" />
 				<env:tasktype name="createChickens" class="CreateChickenTask" />
 			</env:tasktypes>	
 
