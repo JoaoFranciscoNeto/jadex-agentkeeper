@@ -920,8 +920,8 @@
 
 	<componenttypes>
 
-		<!-- <componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />  -->
- 		<componenttype name="Imp" filename="ai/imp/ImpBDI.class" />
+		<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />  
+ 		<!-- <componenttype name="Imp" filename="ai/imp/ImpBDI.class" />-->
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
