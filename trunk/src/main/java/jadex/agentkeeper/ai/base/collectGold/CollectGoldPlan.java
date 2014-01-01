@@ -143,8 +143,10 @@ public class CollectGoldPlan {
 
 								// imp stop claiming the sector ground
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
-//								TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
-//								taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, currentImpTaskPosition);
+								
+								TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
+								taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, currentImpTaskPosition);
+								
 								IFuture<AchieveFillTreasury> fillTreasury = rplan.dispatchSubgoal(impBdi.new AchieveFillTreasury(currentImpTask));
 								fillTreasury.addResultListener(new ExceptionDelegationResultListener<ImpBDI.AchieveFillTreasury, Void>(ret){
 
@@ -154,7 +156,6 @@ public class CollectGoldPlan {
 										
 									}
 								} );
-								ret.setResult(null);
 							}
 						});
 					}

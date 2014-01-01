@@ -81,7 +81,7 @@ public class FillTreasuryPlan {
 			System.out.println(newImpTask.getTaskType());
 			environment = capa.getEnvironment();
 			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
-			mapState = (SimpleMapState) environment.getProperty(ISO.Objects.MAP_STATE);
+			mapState = (SimpleMapState) environment.getProperty(ISO.Objects.BUILDING_STATE);
 			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 
 			reachTargetDestination(newImpTask).addResultListener(new DelegationResultListener<Void>(retb));
@@ -106,10 +106,11 @@ public class FillTreasuryPlan {
 			}
 		}
 
-		if (currentImpTaskPosition != null) {
+		if (currentImpTaskPosition != null && currentTaskSpaceObject != null) {
 			
 			final Vector2Int nextTreasureChest = findNextTreasureChest(currentImpTaskPosition, GOLD_AMOUNT_PER_GOLD_VEIN);
-			
+			final TreasuryInfo hinfo = (TreasuryInfo)mapState.getTileAtPos((Vector2Int)nextTreasureChest);
+			hinfo.setLocked(true);
 			// went to the position where the imp can dig from
 			if (nextTreasureChest != null) {
 				IFuture<AchieveMoveToSector> reachSectorToDigFrom = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(nextTreasureChest));
@@ -121,7 +122,7 @@ public class FillTreasuryPlan {
 								// add new Tile and remove the old, claim the
 								// sector ground
 								
-								TreasuryInfo hinfo = (TreasuryInfo)mapState.getTileAtPos((Vector2Int)nextTreasureChest);
+								
 								
 								TileChanger tilechanger = new TileChanger(environment);
 								String neighborhood = (String) currentTaskSpaceObject.getProperty(ISO.Properties.NEIGHBORHOOD);
@@ -150,6 +151,7 @@ public class FillTreasuryPlan {
 				capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 				rplan.abort();
 			}
+			hinfo.setLocked(false);
 		} else {
 			System.out.println("Task has no Int Position");
 			rplan.abort();
@@ -179,7 +181,7 @@ public class FillTreasuryPlan {
 	 * @param amount
 	 * @return
 	 */
-	private Vector2Int findNextTreasureChest(IVector2 mypos, int amount) {
+	private synchronized  Vector2Int findNextTreasureChest(IVector2 mypos, int amount) {
 		HashMap<Vector2Int, TileInfo> treasuries = mapState.getTypes(MapType.TREASURY);
 
 		ArrayList<Vector2Int> chests = new ArrayList<Vector2Int>(treasuries.keySet());
