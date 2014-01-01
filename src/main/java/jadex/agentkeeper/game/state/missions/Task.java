@@ -118,8 +118,15 @@ public class Task {
 		return isConnectedToDungeon;
 	}
 
-	public void setConnectedToDungeon(boolean isConnectedToDungeon) {
+	public Task setConnectedToDungeon(boolean isConnectedToDungeon) {
 		this.isConnectedToDungeon = isConnectedToDungeon;
+		return this;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Task otherTask = (Task) obj;
+		return this.getTaskType().equals(otherTask.getTaskType()) && this.getTargetPosition().equals(otherTask.getTargetPosition());
 	}
 
 }

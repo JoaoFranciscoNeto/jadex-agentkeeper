@@ -20,18 +20,20 @@ public class TaskPool extends HashMap<Integer, List<Task>> {
 		int priority = taskType.getPriority();
 		if (this.containsKey(priority)) {
 			List<Task> taskList = this.get(priority);
-			taskList.add(task);
-			increaseWorkableCountedTasks(task);
-			countedTasks++;
+			if (!taskList.contains(task)) {
+				taskList.add(task);
+				increaseWorkableCountedTasks(task);
+				countedTasks++;
+			}
 		} else {
 			this.put(priority, new ArrayList<Task>(Arrays.asList(task)));
 			increaseWorkableCountedTasks(task);
 			countedTasks++;
 		}
 	}
-	
+
 	private void increaseWorkableCountedTasks(Task task) {
-		if(task.isConnectedToDungeon()) {
+		if (task.isConnectedToDungeon()) {
 			workableCountedTasks++;
 		}
 	}
@@ -102,19 +104,20 @@ public class TaskPool extends HashMap<Integer, List<Task>> {
 	public synchronized static int getWorkableCountedTasks() {
 		return workableCountedTasks;
 	}
-	
+
 	public synchronized static int getCountedTasks() {
 		return countedTasks;
 	}
 
 	public synchronized void setReachable(TaskType digSector, IVector2 position) {
 		for (Task selectedTask : this.get(digSector.getPriority())) {
-			if(selectedTask.getTargetPosition().equals(position)) {
+			if (selectedTask.getTargetPosition().equals(position)) {
 				boolean oldState = selectedTask.isConnectedToDungeon();
 				selectedTask.setConnectedToDungeon(true);
-				// if the sector was not connected, and now it is, we have a new WorkableSector
-				if(!oldState) {
-					System.out.println("increaaseAt: "+selectedTask.getTargetPosition());
+				// if the sector was not connected, and now it is, we have a new
+				// WorkableSector
+				if (!oldState) {
+					System.out.println("increaaseAt: " + selectedTask.getTargetPosition());
 					increaseWorkableCountedTasks(selectedTask);
 				}
 			}

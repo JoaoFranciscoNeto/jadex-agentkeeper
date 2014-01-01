@@ -114,6 +114,14 @@ public enum MapType
 	    return EnumSet.of(REINFORCED_WALL, HEROTILE, ROCK, GOLD);
 	}
 	
+	/**
+	 * @return  get an enum subset of the Solids
+	 */
+	public static EnumSet<MapType> getClaimableWalls()
+	{
+	    return EnumSet.of(IMPENETRABLE_ROCK, HEROTILE, ROCK );
+	}
+	
 	 /**
 	   * @return  get an enum subset of the Buildings
 	   */

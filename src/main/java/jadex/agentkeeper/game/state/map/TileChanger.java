@@ -38,30 +38,31 @@ public class TileChanger {
 	
 	public void changeTile(Vector2Int targetPosition, MapType newType,  List<MapType> oldTypes){
 		Collection<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(targetPosition, null);
-		for(ISpaceObject spaceObject : spaceObjectsByGridPosition) {
-			boolean isRightType = false;
-			for(MapType oldType : oldTypes){
-				if(oldType.toString().equals(spaceObject.getType())){
-					isRightType = true;
-					break;
+		try {
+			for(ISpaceObject spaceObject : spaceObjectsByGridPosition) {
+				boolean isRightType = false;
+				for(MapType oldType : oldTypes){
+					if(oldType.toString().equals(spaceObject.getType())){
+						isRightType = true;
+						break;
+					}
+				}
+				if(isRightType){
+					addNewTileToTileMap(newType, targetPosition);
+					if(!newType.toString().equals(spaceObject.getType())) {
+						ISpaceObject justcreated = environment.createSpaceObject(newType.name(), parameters, null);
+						((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
+					}
+					try {
+						environment.destroySpaceObject(spaceObject.getId());
+					} catch (Exception e) {
+	
+					}
 				}
 			}
-			if(isRightType){
-				
-				addNewTileToTileMap(newType, targetPosition);
-				if(!newType.toString().equals(spaceObject.getType())) {
-					ISpaceObject justcreated = environment.createSpaceObject(newType.name(), parameters, null);
-					((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
-				}
-				try {
-					environment.destroySpaceObject(spaceObject.getId());
-				} catch (Exception e) {
-
-				}
-				System.out.println("spaceObject.getType(): "+spaceObject.getType());
-			}
+		} catch(Exception e){
+			e.printStackTrace();
 		}
-		
 	}
 	
 	public void addNewTileToTileMap(MapType newType, Vector2Int targetPosition){

@@ -6,7 +6,6 @@ import java.util.Set;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.view.selection.SelectionArea;
 import jadex.extension.envsupport.environment.ISpaceObject;
-import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
 public class TaskPoolManager implements ITaskPoolManager {
@@ -36,6 +35,16 @@ public class TaskPoolManager implements ITaskPoolManager {
 				taskPool.addTask(type, taskToAdd);
 			}
 		}
+	}
+	
+	/**
+	 * Insert a Task in the Pool. Force the state of Connection(true).
+	 * 
+	 * @param typ TaskType
+	 * @param position Vector2Int
+	 */
+	public synchronized void addConnectedTask(TaskType typ, Vector2Int position) {
+		this.addTask(new Task(typ, position).setConnectedToDungeon(true));
 	}
 	
 	

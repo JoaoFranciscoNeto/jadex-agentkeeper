@@ -2,9 +2,12 @@ package jadex.agentkeeper.ai.base;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI;
+import jadex.agentkeeper.ai.imp.ImpBDI.AchieveClaimSector;
+import jadex.agentkeeper.ai.imp.ImpBDI.AchieveClaimWall;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveDigSector;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
+import jadex.agentkeeper.game.state.missions.TaskType;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
@@ -43,13 +46,36 @@ public class ImpTaskPoolPlan {
 			if (newImpTask != null) {
 				System.out.println(newImpTask.getTaskType());
 				capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
-				IFuture<AchieveDigSector> reachSectorToDigFrom = rplan.dispatchSubgoal(impBdi.new AchieveDigSector(newImpTask));
-				reachSectorToDigFrom.addResultListener(new ExceptionDelegationResultListener<ImpBDI.AchieveDigSector, Void>(retb){
-					@Override
-					public void customResultAvailable(AchieveDigSector result) {
-						retb.setResult(null);
-					}
-				} );
+				if(newImpTask.getTaskType().equals(TaskType.Types.DIG_SECTOR)){
+					IFuture<AchieveDigSector> reachSectorToDigFrom = rplan.dispatchSubgoal(impBdi.new AchieveDigSector(newImpTask));
+					reachSectorToDigFrom.addResultListener(new ExceptionDelegationResultListener<ImpBDI.AchieveDigSector, Void>(retb){
+						@Override
+						public void customResultAvailable(AchieveDigSector result) {
+							retb.setResult(null);
+						}
+					} );
+				} else if(newImpTask.getTaskType().equals(TaskType.Types.CLAIM_SECTOR)){
+					IFuture<AchieveClaimSector> reachSectorToClaimFrom = rplan.dispatchSubgoal(impBdi.new AchieveClaimSector(newImpTask));
+					reachSectorToClaimFrom.addResultListener(new ExceptionDelegationResultListener<ImpBDI.AchieveClaimSector, Void>(retb){
+						@Override
+						public void customResultAvailable(AchieveClaimSector result) {
+							retb.setResult(null);
+						}
+					} );
+				} else if(newImpTask.getTaskType().equals(TaskType.Types.CLAIM_WALL)){
+					IFuture<AchieveClaimWall> reachWallToClaimFrom = rplan.dispatchSubgoal(impBdi.new AchieveClaimWall(newImpTask));
+					reachWallToClaimFrom.addResultListener(new ExceptionDelegationResultListener<ImpBDI.AchieveClaimWall, Void>(retb){
+
+						@Override
+						public void customResultAvailable(AchieveClaimWall result) {
+							retb.setResult(null);
+							
+						}
+					} );
+				} else {
+					retb.setResult(null);
+				}
+				
 			} else {
 				System.out.println("The Task was null, this should not happen. But we don't break up.");
 				retb.setResult(null);
@@ -59,5 +85,6 @@ public class ImpTaskPoolPlan {
 		}
 		return retb;
 	}
+
 
 }

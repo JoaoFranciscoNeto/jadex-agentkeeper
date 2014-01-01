@@ -1,16 +1,18 @@
-package jadex.agentkeeper.ai.base.digSector;
+package jadex.agentkeeper.ai.base.claimSector;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI;
-import jadex.agentkeeper.ai.imp.ImpBDI.AchieveDigSector;
+import jadex.agentkeeper.ai.imp.ImpBDI.AchieveClaimSector;
 import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
 import jadex.agentkeeper.game.state.missions.TaskType;
+import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
+import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bdiv3.annotation.Plan;
@@ -37,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Plan
-public class DigSectorPlan {
+public class ClaimSectorPlan {
 	
 	private static final String IMP_LOCAL_TASK = "ImpLocalTask";
 
@@ -59,8 +61,10 @@ public class DigSectorPlan {
 
 	private SpaceObject currentTaskSpaceObject;
 	
+	private SimplePlayerState playerState;
+	
 	@PlanReason
-	protected AchieveDigSector	goal;
+	protected AchieveClaimSector	goal;
 
 	@PlanBody
 	public IFuture<Void> body() {
@@ -71,6 +75,7 @@ public class DigSectorPlan {
 		if (newImpTask != null) {
 			System.out.println(newImpTask.getTaskType());
 			environment = capa.getEnvironment();
+			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
 			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 
 			reachTargetDestination(newImpTask).addResultListener(new DelegationResultListener<Void>(retb));
@@ -88,53 +93,42 @@ public class DigSectorPlan {
 
 		Collection<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(currentImpTask.getTargetPosition(), null);
 		for (ISpaceObject spaceObject : spaceObjectsByGridPosition) {
-			for (MapType mapType : MapType.getOnlySolids()) {
-				if (mapType.toString().equals(spaceObject.getType())) {
-					currentTaskSpaceObject = (SpaceObject) spaceObject;
-				}
+			if (MapType.DIRT_PATH.toString().equals(spaceObject.getType())) {
+				currentTaskSpaceObject = (SpaceObject) spaceObject;
 			}
 		}
 
 		if (currentImpTaskPosition != null) {
-			Vector2Int reachableSectorForDigingInt = null;
-
-			// get the position from which the imp can walk to and dig
-			for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment)) {
-				if (Neighborhood.isWalkableForDigging(spaceObject)) {
-					reachableSectorForDigingInt = (Vector2Int) spaceObject.getProperty(ISO.Properties.INTPOSITION);
-					break;
-				}
-			}
 			// went to the position where the imp can dig from
-			if (reachableSectorForDigingInt != null) {
-				IFuture<AchieveMoveToSector> reachSectorToDigFrom = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(reachableSectorForDigingInt));
+			if (currentImpTask.getTargetPosition() != null) {
+				IFuture<AchieveMoveToSector> reachSectorToDigFrom = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(currentImpTask.getTargetPosition()));
 
 				reachSectorToDigFrom.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret) {
 					public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt) {
-						digSector(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
+						claimSector(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
 							public void customResultAvailable(Void result) {
-								// add new Tile and remove the old, to break the
-								// wall
+								// add new Tile and remove the old, claim the sector ground
 								TileChanger tilechanger = new TileChanger(environment);
+								
 								String neighborhood = (String) currentTaskSpaceObject.getProperty(ISO.Properties.NEIGHBORHOOD);
 								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter(ISO.Properties.STATUS, "byImpCreated").addParameter(ISO.Properties.CLICKED, false)
 										.addParameter(ISO.Properties.LOCKED, false).addParameter(ISO.Properties.NEIGHBORHOOD, neighborhood)
 										.addParameter(ISO.Properties.INTPOSITION, currentImpTaskPosition)
 										.addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()))
-										.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
+										.changeTile(currentImpTask.getTargetPosition(), MapType.CLAIMED_PATH, new ArrayList<MapType>(Arrays.asList(MapType.DIRT_PATH)));
 
-								// imp stop digging
+								// imp stop claiming the sector ground
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
-
-								// Neighbour update their tile as well, cause
-								// they now need to render a wall
-								Neighborhood.updateMyNeighborsComplexField(currentImpTask.getTargetPosition(), environment);
-
+								
+								playerState.addClaimedSector();
+								
 								TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
-								taskPoolManager.updateReachableSelectedSectors(Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment));
-								
-								taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, currentImpTaskPosition);
-								
+								for(ISpaceObject neighbour : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment, Neighborcase.getDefault() )) {
+									if(Neighborhood.isClaimableWall(neighbour) && !(Boolean)neighbour.getProperty(ISO.Properties.CLICKED)) {
+										taskPoolManager.addConnectedTask(TaskType.CLAIM_WALL, (Vector2Int) neighbour.getProperty(ISO.Properties.INTPOSITION));
+									}
+								}
+
 								ret.setResult(null);
 							}
 						});
@@ -154,14 +148,14 @@ public class DigSectorPlan {
 		return ret;
 	}
 
-	private IFuture<Void> digSector(final Task currentImpTask) {
+	private IFuture<Void> claimSector(final Task currentImpTask) {
 		final Future<Void> ret = new Future<Void>();
 
 		Map<String, Object> props = new HashMap<String, Object>();
-		props.put(DigSectorTask.PROPERTY_DESTINATION, currentImpTask.getTargetPosition());
-		props.put(DigSectorTask.PROPERTY_DIG_SPEED, impBdi.getMyWorkingSpeed());
+		props.put(ClaimSectorTask.PROPERTY_DESTINATION, currentImpTask.getTargetPosition());
+		props.put(ClaimSectorTask.PROPERTY_DIG_SPEED, impBdi.getMyWorkingSpeed());
 
-		digtaskid = capa.getEnvironment().createObjectTask(DigSectorTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
+		digtaskid = capa.getEnvironment().createObjectTask(ClaimSectorTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
 		iplan.invokeInterruptable(new IResultCommand<IFuture<Void>, Void>() {
 			public IFuture<Void> execute(Void args) {
 				return capa.getEnvironment().waitForTask(digtaskid, capa.getMySpaceObject().getId());

@@ -1,17 +1,18 @@
-package jadex.agentkeeper.ai.base.digSector;
+package jadex.agentkeeper.ai.base.claimSector;
 
+import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.extension.envsupport.environment.AbstractTask;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
 import jadex.extension.envsupport.environment.ISpaceObject;
 
-public class DigSectorTask extends AbstractTask {
+public class ClaimSectorTask extends AbstractTask {
 
 	private static final int DELAY_RESET_COUNT = 100;
 
 	/** The destination property. */
-	public static final String PROPERTY_TYPENAME = "digSectorTask";
+	public static final String PROPERTY_TYPENAME = "claimSectorTask";
 
 	/** The destination property. */
 	public static final String PROPERTY_DESTINATION = "destination";
@@ -46,7 +47,7 @@ public class DigSectorTask extends AbstractTask {
 
 	@Override
 	public void execute(IEnvironmentSpace space, ISpaceObject obj, long progress, IClockService clock) {
-		obj.setProperty(ISObjStrings.PROPERTY_STATUS, "Dig");
+		obj.setProperty(ISObjStrings.PROPERTY_STATUS, PlanType.Types.DANCE );
 		if(delta > DELAY_RESET_COUNT){
 			delta = 0;
 			this.setFinished(space, obj, true);

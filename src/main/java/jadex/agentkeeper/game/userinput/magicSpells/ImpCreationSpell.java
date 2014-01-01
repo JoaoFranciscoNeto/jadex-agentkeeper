@@ -7,6 +7,7 @@ import jadex.agentkeeper.init.map.process.IMap;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.environment.ISpaceObject;
@@ -65,7 +66,7 @@ public class ImpCreationSpell {
 		for (Object o : spaceObjects.getSpaceObjectsByGridPosition(punkt, null)) {
 			if (o instanceof ISpaceObject) {
 				ISpaceObject currentField = (ISpaceObject) o;
-				if (currentField.getType().equals(MapType.CLAIMED_PATH.name())) {
+				if (Neighborhood.isWalkableForDigging(currentField)) {
 					return true;
 				}
 			}
