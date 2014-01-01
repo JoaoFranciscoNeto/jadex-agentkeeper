@@ -17,43 +17,31 @@ import jadex.extension.envsupport.math.Vector2Int;
 
 public class DiggingSelectorTaskCreator {
 
-	private HashMap<Vector2Int, Task> tiles_notreachable;
-
-	private ArrayList<Task> reachable_list;
-
 	private Grid2D grid;
 
 	public DiggingSelectorTaskCreator(Grid2D grid) {
 		this.grid = grid;
-		this.tiles_notreachable = new HashMap<Vector2Int, Task>();
-
-		this.reachable_list = new ArrayList<Task>();
 	}
 
 	public synchronized List<Task> computeSelectedArea(SelectionArea area){
-		boolean ret = false;
 		Vector2Int endvector = area.getWorldend();
 		Vector2Int startvector = area.getWorldstart();
 
 		List<Task> resultTaskList = new ArrayList<Task>();
 
-
-//		ArrayList<SpaceObject> selectDigfieldList = new ArrayList<SpaceObject>();
-//		ArrayList<SpaceObject> deselecetFiledList = new ArrayList<SpaceObject>();
-
-//		HashMap<Vector2Int, Task> selectedNotReachableTiles = new HashMap<Vector2Int, Task>();
 		int x_start = startvector.getXAsInteger();
 		int y_start = startvector.getYAsInteger();
 		int x_end = endvector.getXAsInteger();
 		int y_end = endvector.getYAsInteger();
+		
 		for(int x = x_start; x <= x_end; x++)
 		{
 			for(int y = y_start; y <= y_end; y++)
 			{
 				Vector2Int currentSelectedSektor = new Vector2Int(x, y);
-				if(sectorIsSolid(currentSelectedSektor)) {
+				if(isSectorDiggalbe(currentSelectedSektor)) {
 					Task task = new Task(TaskType.DIG_SECTOR,currentSelectedSektor);
-					boolean reach = Neighborhood.isReachableForDestroy(currentSelectedSektor, grid);
+					boolean reach = Neighborhood.isSectorReachableForDigging(currentSelectedSektor, grid);
 					task.setConnectedToDungeon(reach);
 					resultTaskList.add(task);
 				}
@@ -62,11 +50,11 @@ public class DiggingSelectorTaskCreator {
 		
 		return resultTaskList;
 	}
-	private boolean sectorIsSolid(Vector2Int currentSelectedSektor){
+	public boolean isSectorDiggalbe(Vector2Int currentSelectedSektor){
 		Collection<ISpaceObject> spaceObjectsByGridPosition = grid.getSpaceObjectsByGridPosition(currentSelectedSektor, null);
 		boolean isSolid = false;
 		for(ISpaceObject spaceObject : spaceObjectsByGridPosition){
-			for(MapType mapType : MapType.getOnlySolids()){
+			for(MapType mapType : MapType.getDiggableWalls()){
 				if(mapType.toString().equals(spaceObject.getType())) {
 					isSolid = true;
 				}
@@ -74,6 +62,8 @@ public class DiggingSelectorTaskCreator {
 		}
 		return isSolid;
 	}
+	
+
 
 	public synchronized List<Vector2Int> setNewTasksReachable(IVector2 position) {
 		List<Vector2Int> newReachableTasks = new ArrayList<Vector2Int>();

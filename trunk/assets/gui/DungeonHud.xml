@@ -21,14 +21,14 @@
 				<panel id="leftinfo" width="50%" padding="10px" childLayout="horizontal"
 					backgroundColor="#0002">
 					<panel id="GoldIcon" backgroundImage="/gui/images/topline/coins.png"
-						height="32px" width="32px" margin="0px,10px,0px,0px" childLayout="horizontal">
+						height="32px" width="32px" margin="0px,6px,0px,0px" childLayout="horizontal">
 						<panel id="GoldIcon_grey" backgroundImage="/gui/images/topline/coins_grey.png"
-						height="32px" width="32px" imageMode="subImage:0,0,32,32"  /><!-- imageMode="subImage:0,0,16,32"  -->
-					</panel>
+						height="32px" width="32px" imageMode="subImage:0,0,32,32"  />
+					</panel>  
 					<text id="goldstatus" style="nifty-arial-label" text="00000000"
-						color="#fd0f" valign="bottom" />
+						color="#fd0f" valign="bottom"/>
 					<image id="ManaIcon" filename="/gui/images/topline/mana_potion.png"
-						height="32px" width="32px" margin="0px,10px,0px,0px" />
+						height="32px" width="32px" margin="0px,5px,0px,15px"/>
 					<panel id="mana" childLayout="vertical" width="70px">
 						<panel id="minusplus" align="left" childLayout="center"
 							width="100%" valign="top">
@@ -38,13 +38,13 @@
 								align="right" valign="top" textHAlign="right" />
 						</panel>
 						<text id="manastatus" style="nifty-arial-label" text="00000000"
-							color="#0dff" valign="bottom" textHAlign="left" />
+							color="#0dff" valign="bottom" textHAlign="left"  margin="0px,0px,0px,15px" />
 					</panel>
 				</panel>
 
 
 				<panel id="rightinfo" width="50%" childLayout="overlay"
-					backgroundColor="#0002">
+					backgroundColor="#0002" margin="5px,0px,0px,0px" >
 
 					<text id="infotext" style="nifty-arial-label" text=" "
 						textHAlign="center" textVAlign="center" height="100%" align="left"

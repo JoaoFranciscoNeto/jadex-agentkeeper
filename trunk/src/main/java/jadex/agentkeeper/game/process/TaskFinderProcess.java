@@ -1,39 +1,21 @@
 package jadex.agentkeeper.game.process;
 
-import jadex.agentkeeper.ai.UpdateStatusTask;
-import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
-import jadex.agentkeeper.game.state.map.SimpleMapState;
-import jadex.agentkeeper.game.state.missions.Auftragsliste;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
-import jadex.agentkeeper.game.state.player.SimplePlayerState;
-import jadex.agentkeeper.init.map.process.InitMapProcess;
-import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISO;
-import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.util.Neighborhood;
-import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
-import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
-import jadex.agentkeeper.worldmodel.structure.solid.DirtPathInfo;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.commons.SimplePropertyObject;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
-import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.ISpaceProcess;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
-import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
-
-import cern.colt.Arrays;
 
 /**
  * Simple Space Process who is responsible for find automaticly in background
@@ -43,7 +25,7 @@ import cern.colt.Arrays;
  */
 public class TaskFinderProcess extends SimplePropertyObject implements ISpaceProcess {
 
-	private SimpleMapState mapState;
+	private static final int DELAY_RESET_COUNT = 60*1;
 
 	private Grid2D environment;
 
@@ -60,15 +42,14 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 
 	public void start(IClockService clock, IEnvironmentSpace space) {
 		this.environment = (Grid2D) space;
-		this.mapState = (SimpleMapState) environment.getProperty(ISpaceStrings.BUILDING_STATE);
 		this.timestamp = clock.getTime();
-		this.delta = 25;
+		this.delta = DELAY_RESET_COUNT-5;
 	}
 
 	public void execute(IClockService clock, IEnvironmentSpace space) {
 		updateProgress(clock);
 
-		if (delta > 30) {
+		if (delta > DELAY_RESET_COUNT) {
 			delta = 0;
 			findNotClaimedSectorsAndCreateNewTask();
 			findNotClaimedWallsAndCreateNewTask();
@@ -103,17 +84,7 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 				Vector2Int vector2Int = (Vector2Int) sobj.getProperty(ISO.Properties.INTPOSITION);
 				
 				Set<TileInfo> test = Neighborhood.getNeighborTiles(vector2Int,environment);
-//				Neighborhood.updateMyNeighborsComplexField(vector2Int, environment);
-//				Neighborhood.reCalculateNeighborhoodNewMethod(Neighborhood, nearFields)
-//				String[] stringtypes = new String[tileInfo.getNeighbors().length];
-//				for(int i = 0; i < tileInfo.getNeighbors().length; i++)
-//				{
-//					stringtypes[i] = tileInfo.getNeighbors()[i].toString();
-//				}
-//				System.out.println(Arrays.toString(stringtypes));
-				
-//				Set<SpaceObject> test = environment.getNearGridObjects(vector2Int, 1, stringtypes);
-				
+
 				for(TileInfo neighbourTile :  test) {
 					if(neighbourTile != null &&  neighbourTile.getMapType().equals(MapType.ROCK)) {
 						ISpaceObject test2 = environment.getSpaceObject(neighbourTile.getSpaceObjectId());

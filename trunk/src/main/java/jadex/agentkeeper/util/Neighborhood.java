@@ -3,6 +3,7 @@ package jadex.agentkeeper.util;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.environment.ISpaceObject;
@@ -69,7 +70,27 @@ public class Neighborhood
 		return ret;
 	}
 
-
+	public static boolean isSectorReachableForDigging(Vector2Int currentSelectedSektor, Grid2D grid) {
+		for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentSelectedSektor, grid)) {
+			TileInfo tileInfo = (TileInfo) spaceObject.getProperty(ISO.Properties.TILEINFO);
+			if (tileInfo != null) {
+				if (tileInfo.getMapType().getWalkType().equals(WalkType.PASSABLE)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isWalkableForDigging(ISpaceObject spaceObject){
+		TileInfo tileInfo = (TileInfo) spaceObject.getProperty(ISO.Properties.TILEINFO);
+		if (tileInfo != null) {
+			if (tileInfo.getMapType().getWalkType().equals(WalkType.PASSABLE)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	
 	/**

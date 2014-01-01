@@ -73,6 +73,8 @@ public class KeeperGuiController extends DefaultGuiController
 	
 	private TextRenderer orcR;
 	
+	private TextRenderer thiefR;
+	
 	private Map<String,List<String>> tabImageMapping = new HashMap<String,List<String>>();
 	
 	private Map<String,List<String>> buildingImageMapping = new HashMap<String,List<String>>();
@@ -85,7 +87,7 @@ public class KeeperGuiController extends DefaultGuiController
 	{
 		this.app = (MonkeyApp)app;
 		rootNode = this.app.getRootNode();
-
+		System.out.println( app.getRenderer().getCaps().toString() );
 		this.spaceController = spacecontroller;
 		this.creatureState = (SimpleCreatureState)spaceController.getProperty(ISpaceStrings.CREATURE_STATE);
 		this.playerState = (SimplePlayerState)spaceController.getProperty(ISpaceStrings.PLAYER_STATE);
@@ -294,17 +296,33 @@ public class KeeperGuiController extends DefaultGuiController
 		}
 		goldStatusRenderer.setText(goldtext);
 		manaStatusRenderer.setText(manatext);
-		impR.setText("" + creatureState.getCreatureCount(InitMapProcess.IMP));
-		goblinR.setText("" + creatureState.getCreatureCount(InitMapProcess.GOBLIN));
-		warlockR.setText("" + creatureState.getCreatureCount(InitMapProcess.WARLOCK));
-		orcR.setText("" + creatureState.getCreatureCount(InitMapProcess.TROLL));
+		setCreatureCount(impR, creatureState.getCreatureCount(InitMapProcess.IMP));
+		setCreatureCount(goblinR, creatureState.getCreatureCount(InitMapProcess.GOBLIN));
+		setCreatureCount(warlockR, creatureState.getCreatureCount(InitMapProcess.WARLOCK));
+		setCreatureCount(orcR, creatureState.getCreatureCount(InitMapProcess.TROLL));
+		setCreatureCount(thiefR, creatureState.getCreatureCount(InitMapProcess.THIEF));
 		claimedTilesRender.setText("+"+playerState.getClaimedSectors());
 		this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("goldstatus");
 		calculateGoldPercentageAndDraw();
 		
 	}
+	/**
+	 * Set Counter of Creature to Gui.
+	 * Insert a space, if the counter is under 10.
+	 * 
+	 * @param creatureTextRenderer
+	 * @param creatureCount
+	 */
+	private void setCreatureCount(TextRenderer creatureTextRenderer, int creatureCount) {
+		String stringSpace = "";
+		if(creatureCount<10){
+			stringSpace = " ";
+		}
+		creatureTextRenderer.setText(stringSpace+creatureCount);
+	}
 
-
+	
+	
 	public void onStartScreen()
 	{
 		
@@ -331,8 +349,8 @@ public class KeeperGuiController extends DefaultGuiController
 		this.orcR = orcT.getRenderer(TextRenderer.class);
 		
 		Element thiefT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("thief_total");
-		TextRenderer thiefR = thiefT.getRenderer(TextRenderer.class);
-		thiefR.setText("" + creatureState.getCreatureCount(InitMapProcess.THIEF));
+		this.thiefR = thiefT.getRenderer(TextRenderer.class);
+		
 		
 		// TODO: Dynamic price in hint of building
 //		Element lairs = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("Build_Lair");

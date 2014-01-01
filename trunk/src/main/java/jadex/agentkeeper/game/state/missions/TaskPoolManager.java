@@ -1,8 +1,11 @@
 package jadex.agentkeeper.game.state.missions;
 
 import java.util.List;
+import java.util.Set;
 
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.view.selection.SelectionArea;
+import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Int;
 
@@ -34,6 +37,8 @@ public class TaskPoolManager implements ITaskPoolManager {
 			}
 		}
 	}
+	
+	
 	
 	public synchronized void processSelection(SelectionArea area){
 		this.addTasks(diggingSelectorTaskCreator.computeSelectedArea(area));
@@ -80,8 +85,19 @@ public class TaskPoolManager implements ITaskPoolManager {
 		return TaskPool.getCountedTasks();
 	}
 	
-	public void updateReachableSelectedSectors(IVector2 position){
-		taskPool.setReachable(TaskType.DIG_SECTOR, position);
+	public int getWorkableTaskListSize() {
+		return TaskPool.getWorkableCountedTasks();
+	}
+	
+	public void updateReachableSelectedSectors(Set<ISpaceObject> set) {
+		for(ISpaceObject spaceObject : set){
+			Vector2Int updatedSectorPosition = (Vector2Int) spaceObject.getProperty(ISO.Properties.INTPOSITION);
+			if(diggingSelectorTaskCreator.isSectorDiggalbe(updatedSectorPosition)){
+				taskPool.setReachable(TaskType.DIG_SECTOR, updatedSectorPosition);
+			}
+		}
+		
+		
 	}
 
 }

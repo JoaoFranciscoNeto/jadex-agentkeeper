@@ -65,10 +65,9 @@ public class MoveTask extends AbstractTask
 
 		if(dist > 0)
 		{
-
+			
 			// Todo: how to handle border conditions!?
 			newloc = (Vector2Double)(dist <= maxdist ? destination.copy() : destination.copy().subtract(loc).normalize().multiply(maxdist).add(loc));
-
 			((Space2D)space).setPosition(obj.getId(), newloc);
 
 		}

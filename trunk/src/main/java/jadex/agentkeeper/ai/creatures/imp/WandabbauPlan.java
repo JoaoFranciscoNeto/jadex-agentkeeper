@@ -86,7 +86,6 @@ public class WandabbauPlan extends ImpPlan
 			auftragsverwalter.neuerAuftrag(Auftragsverwalter.BESETZEN, _zielpos);
 			taskPoolManager.addTask(TaskType.CLAIM_SECTOR, _zielpos);
 		}
-		taskPoolManager.updateReachableSelectedSectors(_zielpos);
 		auftragsverwalter.updatePosition(_zielpos);
 		
 		_ausfuehr = false;
