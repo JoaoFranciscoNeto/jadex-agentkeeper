@@ -16,6 +16,7 @@ import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -86,6 +87,16 @@ public class Neighborhood
 		TileInfo tileInfo = (TileInfo) spaceObject.getProperty(ISO.Properties.TILEINFO);
 		if (tileInfo != null) {
 			if (tileInfo.getMapType().getWalkType().equals(WalkType.PASSABLE)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isClaimableWall(ISpaceObject spaceObject){
+		TileInfo tileInfo = (TileInfo) spaceObject.getProperty(ISO.Properties.TILEINFO);
+		if (tileInfo != null) {
+			if (MapType.getClaimableWalls().contains(tileInfo.getMapType())) {
 				return true;
 			}
 		}
@@ -319,9 +330,14 @@ public class Neighborhood
 	}
 	
 	public static Set<ISpaceObject> getNeighborSpaceObjects(Vector2Int tmppos, Grid2D environment){
+		return getNeighborSpaceObjects(tmppos, environment, Neighborcase.getSimple());
+	}
+	
+	
+	public static Set<ISpaceObject> getNeighborSpaceObjects(Vector2Int tmppos, Grid2D environment, EnumSet<Neighborcase> enumSet){
 		Set<ISpaceObject> nearFields = new HashSet<ISpaceObject>();
 		if(tmppos != null) {
-			for(Neighborcase neighborcase : Neighborcase.getSimple())
+			for(Neighborcase neighborcase : enumSet)
 			{
 				Vector2Int tmpVector = (Vector2Int)tmppos.copy().subtract(neighborcase.getVector());
 				for(Object o : environment.getSpaceObjectsByGridPosition(tmpVector, null))

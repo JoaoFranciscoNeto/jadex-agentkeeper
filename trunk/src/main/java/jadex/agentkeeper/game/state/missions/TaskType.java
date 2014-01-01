@@ -14,7 +14,7 @@ public enum TaskType
 	ATTACK(Types.ATTACK, 5), /*TODO: If there are anytime Opponents , 5 should be 1*/
 	REACH_UNIT(Types.REACH_UNIT, 7);
 
-	interface Types {
+	public interface Types {
 		public static final String DIG_SECTOR = "DigSector";
 		public static final String CLAIM_WALL = "ClaimWall";
 		public static final String COLLECT_GOLD = "CollectGold";

@@ -2,6 +2,8 @@ package jadex.agentkeeper.ai.imp;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.base.ImpTaskPoolPlan;
+import jadex.agentkeeper.ai.base.claimSector.ClaimSectorPlan;
+import jadex.agentkeeper.ai.base.claimWall.ClaimWallPlan;
 import jadex.agentkeeper.ai.base.digSector.DigSectorPlan;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.bdiv3.annotation.Body;
@@ -23,7 +25,9 @@ import jadex.micro.annotation.AgentBody;
 @Agent
 @Plans({
 @Plan(trigger=@Trigger(goals=ImpBDI.PerformImpTaskPoolGoal.class), body=@Body(ImpTaskPoolPlan.class)),
-@Plan(trigger = @Trigger(goals = ImpBDI.AchieveDigSector.class), body = @Body(DigSectorPlan.class))
+@Plan(trigger = @Trigger(goals = ImpBDI.AchieveDigSector.class), body = @Body(DigSectorPlan.class)),
+@Plan(trigger = @Trigger(goals = ImpBDI.AchieveClaimSector.class), body = @Body(ClaimSectorPlan.class)),
+@Plan(trigger = @Trigger(goals = ImpBDI.AchieveClaimWall.class), body = @Body(ClaimWallPlan.class))
 })
 public class ImpBDI extends AbstractBeingBDI {
 	
@@ -46,8 +50,6 @@ public class ImpBDI extends AbstractBeingBDI {
 	{
 		agent.dispatchTopLevelGoal(new PerformIdle());
 		agent.dispatchTopLevelGoal(new PerformImpTaskPoolGoal());
-//		agent.dispatchTopLevelGoal(new PerformClaimSector());
-//		System.out.println("dispatch");
 	}
 	
 	
@@ -55,22 +57,11 @@ public class ImpBDI extends AbstractBeingBDI {
 	 *  Goal that let the Imp claim Sectors.
 	 *  
 	 */
-//	@Goal(excludemode=Goal.ExcludeMode.Never, succeedonpassed=false, randomselection=true)
 	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), excludemode=Goal.ExcludeMode.Never, retry=true, retrydelay=1000, succeedonpassed=false)
 	public class PerformImpTaskPoolGoal
 	{
 
 
-//		@GoalMaintainCondition(beliefs="myTaskStatus")
-//		public boolean checkMaintain()
-//		{
-//			Auftragsverwalter auftraege = (Auftragsverwalter)getMySpaceObject().getProperty("auftraege");
-//			Auftrag  auftrag = auftraege.gibDichtestenAuftrag(new Vector2Int(getMyPosition().getXAsInteger(), getMyPosition().getYAsInteger()));
-//			System.out.println("test");
-//			System.out.println(auftrag!=null);
-//			return auftrag != null;
-//		}
-		
 		
 	}
 	
@@ -100,6 +91,66 @@ public class ImpBDI extends AbstractBeingBDI {
 		public Task getTarget() {
 			return this.target;
 		}
+	}
+	
+	/**
+	 * The goal is used to move to a specific location ( on the Grid ).
+	 */
+	@Goal
+	public class AchieveClaimSector {
+		/** The target. */
+		protected Task target;
+
+		/**
+		 * Create a new goal.
+		 * 
+		 * @param newImpTask
+		 *            The target.
+		 */
+		public AchieveClaimSector(Task newImpTask) {
+			this.target = newImpTask;
+		}
+
+		/**
+		 * Get the target.
+		 * 
+		 * @return The target.
+		 */
+		public Task getTarget() {
+			return this.target;
+		}
+	}
+	
+	/**
+	 * The goal is used to move to a specific location ( on the Grid ).
+	 */
+	@Goal
+	public class AchieveClaimWall {
+		/** The target. */
+		protected Task target;
+
+		/**
+		 * Create a new goal.
+		 * 
+		 * @param newImpTask
+		 *            The target.
+		 */
+		public AchieveClaimWall(Task newImpTask) {
+			this.target = newImpTask;
+		}
+
+		/**
+		 * Get the target.
+		 * 
+		 * @return The target.
+		 */
+		public Task getTarget() {
+			return this.target;
+		}
+	}
+
+	public Object getMyWorkingSpeed() {
+		return myWorkspeed;
 	}
 
 }

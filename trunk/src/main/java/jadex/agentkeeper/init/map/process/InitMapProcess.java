@@ -7,7 +7,6 @@ import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.TypeVariant;
-import jadex.agentkeeper.worldmodel.structure.BuildingInfo;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.bridge.service.types.clock.IClockService;
@@ -113,10 +112,8 @@ public class InitMapProcess extends AInitMapProcess implements ISpaceProcess, IM
 					{
 						for(PreCreatedSpaceObject presobj : hashpre.values())
 						{
-							TileInfo tinfo = null;
 
 							ArrayList<IObjectTask> tasklist = new ArrayList<IObjectTask>();
-
 
 							// If we have an Hatchery....
 							if(presobj.getTypeName().equals(MapType.HATCHERY.toString().toUpperCase()))
