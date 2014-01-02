@@ -28,7 +28,7 @@ public class SimpleMapState
 {
 	private HashMap<MapType, HashMap<Vector2Int, TileInfo>>	typesList	= new HashMap<MapType, HashMap<Vector2Int, TileInfo>>();
 
-	private HashMap<Vector2Int, MapType>					mapTypes	= new HashMap<Vector2Int, MapType>();
+//	private HashMap<Vector2Int, MapType>					mapTypes	= new HashMap<Vector2Int, MapType>();
 
 	private HashMap<Vector2Int, TileInfo>					mapInfo		= new HashMap<Vector2Int, TileInfo>();
 
@@ -62,16 +62,17 @@ public class SimpleMapState
 		myList.put(location, (TileInfo)object);
 		this.typesList.put(info.getMapType(), myList);
 
-		mapTypes.put(location, info.getMapType());
-
 		mapInfo.put(location, (TileInfo)object);
 
 
 	}
+	
+	public synchronized void changeType(Vector2Int location, MapType type)
+	{
+	}
 
 	public synchronized void removeType(Vector2Int location)
 	{
-		mapTypes.remove(location);
 		mapInfo.remove(location);
 	}
 
@@ -136,7 +137,8 @@ public class SimpleMapState
 	 */
 	public MapType getTypeAtPos(Vector2Int pos)
 	{
-		return mapTypes.get(pos);
+		return mapInfo.get(pos).getMapType();
+		
 	}
 
 	/**
@@ -159,7 +161,7 @@ public class SimpleMapState
 	public MapType getTypeAtPos(IVector2 pos)
 	{
 		Vector2Int intpos = new Vector2Int(Math.round(pos.getXAsFloat()), Math.round(pos.getYAsFloat()));
-		return mapTypes.get(intpos);
+		return mapInfo.get(intpos).getMapType();
 	}
 
 
@@ -172,7 +174,7 @@ public class SimpleMapState
 	public void setTypeAtPos(Vector2Int pos, Object object)
 	{
 		TileInfo info = (TileInfo)object;
-		mapTypes.put(pos, info.getMapType());
+//		mapTypes.put(pos, info.getMapType());
 		mapInfo.put(pos, info);
 	}
 
@@ -193,9 +195,9 @@ public class SimpleMapState
 	public boolean isMovable(Vector2Int pos)
 	{
 		boolean ret = false;
-		if(mapTypes.get(pos) != null)
+		if(mapInfo.get(pos) != null)
 		{
-			ret = mapTypes.get(pos).getWalkType() == WalkType.PASSABLE;
+			ret = mapInfo.get(pos).getMapType().getWalkType() == WalkType.PASSABLE;
 		}
 		else
 		{

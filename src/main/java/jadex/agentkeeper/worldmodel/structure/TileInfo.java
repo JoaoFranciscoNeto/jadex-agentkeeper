@@ -8,25 +8,24 @@ import jadex.extension.envsupport.environment.SpaceObject;
 
 public abstract class TileInfo
 {
-	protected  MapType	mapType;
+	protected MapType		mapType;
 
-	protected boolean			hasOwner;
+	protected boolean		hasOwner;
 
-	protected int				hitpoints;
+	protected int			hitpoints;
 
-	protected int				owner	= 0;
+	protected int			owner	= 0;
 
-	protected String			neighbourhood;
+	protected String		neighbourhood;
+
+	protected boolean		locked;
+
+	protected NeighbourType	neighbourType;
+
+	Object					spaceObjectId;
 
 
-	protected boolean			locked;
-
-	protected NeighbourType		neighbourType;
-	
-	Object spaceObjectId;
-
-
-	//TODO: Remove MapType from Constructor
+	// TODO: Remove MapType from Constructor
 	public TileInfo(MapType mapType)
 	{
 		this.hasOwner = false;
