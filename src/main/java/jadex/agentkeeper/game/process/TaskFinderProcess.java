@@ -54,8 +54,8 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 
 		if (delta > DELAY_RESET_COUNT) {
 			delta = 0;
-//			findNotClaimedSectorsAndCreateNewTask();
-//			findNotClaimedWallsAndCreateNewTask();
+			findNotClaimedSectorsAndCreateNewTask();
+			findNotClaimedWallsAndCreateNewTask();
 		}
 	}
 
@@ -67,9 +67,9 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 			TileInfo tileInfo = TileInfo.getTileInfo(sobj, TileInfo.class);
 			if (tileInfo != null && MapType.DIRT_PATH.equals(tileInfo.getMapType())) {
 				
-				TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
-				Vector2Int newClaimingPosition = (Vector2Int) sobj.getProperty(ISO.Properties.INTPOSITION);
-				taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
+//				TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
+//				Vector2Int newClaimingPosition = (Vector2Int) sobj.getProperty(ISO.Properties.INTPOSITION);
+//				taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
 				
 				Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty("auftraege");
 				Vector2Double vector2Double = (Vector2Double) sobj.getProperty(ISO.Properties.DOUBLE_POSITION);

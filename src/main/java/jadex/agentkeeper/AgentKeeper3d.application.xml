@@ -948,7 +948,7 @@
 <!-- 							<env:property name="mapfile">"level/startmap.map" -->
 <!-- 							</env:property> -->
 							
-							<env:property name="mapfile">"level/fourImps.map"
+							<env:property name="mapfile">"level/level01.map"
 							</env:property>
 						</env:process>
 					</env:processes>
@@ -973,7 +973,7 @@
 					width="40" height="40">
 					<env:processes>
 						<env:process type="init">
-							<env:property name="mapfile">"level/startmap.map"
+							<env:property name="mapfile">"level/level01.map"
 							</env:property>
 						</env:process>
 					</env:processes>
