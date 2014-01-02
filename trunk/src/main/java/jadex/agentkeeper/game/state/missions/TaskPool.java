@@ -117,7 +117,6 @@ public class TaskPool extends HashMap<Integer, List<Task>> {
 				// if the sector was not connected, and now it is, we have a new
 				// WorkableSector
 				if (!oldState) {
-					System.out.println("increaaseAt: " + selectedTask.getTargetPosition());
 					increaseWorkableCountedTasks(selectedTask);
 				}
 			}

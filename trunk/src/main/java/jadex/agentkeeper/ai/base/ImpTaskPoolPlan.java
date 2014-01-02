@@ -45,7 +45,6 @@ public class ImpTaskPoolPlan {
 		if (taskPoolManager != null && taskPoolManager.getWorkableTaskListSize() > 0) {
 			Task newImpTask = taskPoolManager.calculateAndReturnNextTask(new Vector2Int(capa.getMyPosition().getXAsInteger(), capa.getMyPosition().getYAsInteger()));
 			if (newImpTask != null) {
-				System.out.println(newImpTask.getTaskType());
 				capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 				if(newImpTask.getTaskType().equals(TaskType.Types.DIG_SECTOR)){
 					IFuture<AchieveDigSector> reachSectorToDigFrom = rplan.dispatchSubgoal(impBdi.new AchieveDigSector(newImpTask));
