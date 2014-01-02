@@ -67,13 +67,18 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 			TileInfo tileInfo = TileInfo.getTileInfo(sobj, TileInfo.class);
 			if (tileInfo != null && MapType.DIRT_PATH.equals(tileInfo.getMapType())) {
 				
-//				TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
-//				Vector2Int newClaimingPosition = (Vector2Int) sobj.getProperty(ISO.Properties.INTPOSITION);
-//				taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
+				Vector2Int newClaimingPosition = (Vector2Int) sobj.getProperty(ISO.Properties.INTPOSITION);
+				if(newClaimingPosition== null){
+					Vector2Double vector2Double = (Vector2Double) sobj.getProperty(ISO.Properties.DOUBLE_POSITION);
+					newClaimingPosition = new Vector2Int(vector2Double.getXAsInteger(), vector2Double.getYAsInteger());
+				}
+				
+				TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
+				taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
 				
 				Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty("auftraege");
-				Vector2Double vector2Double = (Vector2Double) sobj.getProperty(ISO.Properties.DOUBLE_POSITION);
-				auftraege.neuerAuftrag(Auftragsverwalter.BESETZEN, new Vector2Int(vector2Double.getXAsInteger(), vector2Double.getYAsInteger()));
+				
+				auftraege.neuerAuftrag(Auftragsverwalter.BESETZEN, newClaimingPosition);
 			}
 		}
 		} catch(Exception e){

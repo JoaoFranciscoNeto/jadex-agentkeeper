@@ -30,10 +30,20 @@ public class TaskPoolManager implements ITaskPoolManager {
 	}
 
 	public synchronized void addTask(Task taskToAdd) {
+		boolean hasTask = false;
 		for (TaskType type : TaskType.values()) {
 			if (type.getName().equals(taskToAdd.getTaskType())) {
-				taskPool.addTask(type, taskToAdd);
+				if (taskToAdd.getTargetPosition() != null) {
+					taskPool.addTask(type, taskToAdd);
+					hasTask = true;
+				} else {
+					System.out.println("TaskPoolManager: Task with no TargetPosition was tried to add.");
+					throw new NullPointerException("TaskPoolManager: Task with no TargetPosition was tried to add.");
+				}
 			}
+		}
+		if(!hasTask){
+			System.out.println("TaskPoolManager: Unknown TaskType.");
 		}
 	}
 	
