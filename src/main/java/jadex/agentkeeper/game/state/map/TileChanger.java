@@ -3,6 +3,7 @@ package jadex.agentkeeper.game.state.map;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -36,33 +37,38 @@ public class TileChanger {
 	
 	
 	
-	public void changeTile(Vector2Int targetPosition, MapType newType,  List<MapType> oldTypes){
-		Collection<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(targetPosition, null);
-		try {
-			for(ISpaceObject spaceObject : spaceObjectsByGridPosition) {
-				boolean isRightType = false;
-				for(MapType oldType : oldTypes){
-					if(oldType.toString().equals(spaceObject.getType())){
-						isRightType = true;
-						break;
+	public synchronized void changeTile(Vector2Int targetPosition, MapType newType,  List<MapType> oldTypes){
+		Iterator<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(targetPosition, null).iterator();
+		ISpaceObject foundedSpaceObject = null;
+			try {
+				while(spaceObjectsByGridPosition.hasNext()) {
+					ISpaceObject spaceObject = spaceObjectsByGridPosition.next();
+					boolean isRightType = false;
+					for(MapType oldType : oldTypes){
+						if(oldType.toString().equals(spaceObject.getType())){
+							isRightType = true;
+							break;
+						}
+					}
+					if(isRightType){
+						foundedSpaceObject = spaceObject;
 					}
 				}
-				if(isRightType){
+				if(foundedSpaceObject != null){
 					addNewTileToTileMap(newType, targetPosition);
-					if(!newType.toString().equals(spaceObject.getType())) {
+					if(!newType.toString().equals(foundedSpaceObject.getType())) {
 						ISpaceObject justcreated = environment.createSpaceObject(newType.name(), parameters, null);
 						((TileInfo)justcreated.getProperty(ISObjStrings.PROPERTY_TILEINFO)).setSpaceObjectId(justcreated.getId());
 					}
 					try {
-						environment.destroySpaceObject(spaceObject.getId());
+						environment.destroySpaceObject(foundedSpaceObject.getId());
 					} catch (Exception e) {
 	
 					}
 				}
+			} catch(Exception e){
+				e.printStackTrace();
 			}
-		} catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 	
 	public void addNewTileToTileMap(MapType newType, Vector2Int targetPosition){

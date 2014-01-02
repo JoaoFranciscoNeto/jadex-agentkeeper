@@ -124,11 +124,12 @@ public class DigSectorPlan {
 								
 								boolean isGold = false;
 								
-								if(currentTaskSpaceObject.getType().equals(MapType.ROCK.toString())){
-									tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
-								} else {
+								if(currentTaskSpaceObject.getType().equals(MapType.GOLD.toString())){
 									tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.GOLD_DROPED, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
 									isGold = true;
+								} else {
+									tilechanger.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
+
 								}
 								// imp stop digging
 								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");

@@ -112,14 +112,13 @@ public class CollectGoldPlan {
 			}
 		}
 
-		if (currentImpTaskPosition != null) {
+		if (currentImpTaskPosition != null && currentTaskSpaceObject != null) {
 			Vector2Int reachableSectorForDigingInt = null;
 
 			// get the position from which the imp can walk to and dig
 			for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment, Neighborcase.getDefault())) {
 				if (Neighborhood.isWalkableForDigging(spaceObject)) {
 					reachableSectorForDigingInt = (Vector2Int) spaceObject.getProperty(ISO.Properties.INTPOSITION);
-					System.out.println("reachableSectorForDigingInt" + reachableSectorForDigingInt);
 					break;
 				}
 			}
@@ -169,7 +168,7 @@ public class CollectGoldPlan {
 				rplan.abort();
 			}
 		} else {
-			System.out.println("Task has no Int Position");
+			System.out.println("Task has no current Object Space or IntPostion (ColledtGold)");
 			rplan.abort();
 		}
 		return ret;
