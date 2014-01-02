@@ -1,4 +1,4 @@
-package jadex.agentkeeper.ai.oldai.basic;
+ package jadex.agentkeeper.ai.oldai.basic;
 
 import jadex.agentkeeper.ai.oldai.creatures.KreaturenPlan;
 import jadex.agentkeeper.game.state.missions.Auftrag;
