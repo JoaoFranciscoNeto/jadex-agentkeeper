@@ -138,7 +138,8 @@ public class FillTreasuryPlan {
 								playerState.addGold(GOLD_AMOUNT_PER_GOLD_VEIN);
 								environment.getSpaceObject(hinfo.getSpaceObjectId()).setProperty(ISObjStrings.PROPERTY_STATUS, "hasGold");
 								hinfo.addAmount(GOLD_AMOUNT_PER_GOLD_VEIN);
-
+								
+								hinfo.setLocked(false);
 								ret.setResult(null);
 							}
 						});
@@ -151,7 +152,7 @@ public class FillTreasuryPlan {
 				capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 				rplan.abort();
 			}
-			hinfo.setLocked(false);
+			
 		} else {
 			System.out.println("Task has no Int Position");
 			rplan.abort();
