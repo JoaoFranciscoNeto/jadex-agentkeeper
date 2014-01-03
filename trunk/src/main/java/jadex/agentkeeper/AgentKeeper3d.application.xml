@@ -570,7 +570,7 @@
 							materialpath="models/tilesets/buildings/border/default.j3m">
 						</env:object3d>
 						
-						<env:object3d width="0.1" height="0.1" depth="0.1" x="0" y="0" z="0" 
+						<!-- <env:object3d width="0.1" height="0.1" depth="0.1" x="0" y="0" z="0" 
 						modelpath="models/buildings/training/Box01.j3o" 
 						materialpath="models/props/pole/trainingpole.j3m"
 						rotation="rota">
@@ -578,7 +578,7 @@
 							$object.getProperty("rnd")>0.5 &amp;&amp; ((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
 						</env:drawcondition>
 
-						</env:object3d>
+						</env:object3d> 
 						
 						<env:object3d width="0.2" height="0.2" depth="0.2" x="0" y="0" z="0" 
 						modelpath="models/buildings/training/trainingpole.j3o" 
@@ -587,6 +587,21 @@
 						<env:drawcondition>
 							0.5>$object.getProperty("rnd") &amp;&amp; ((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
 						</env:drawcondition>
+						</env:object3d> -->
+						
+						<env:object3d width="0.8" height="0.8" depth="0.8" x="0" y="0" z="0" 
+						modelpath="models/buildings/training/trainingPuppet.j3o" 
+						
+						rotation="rota">
+							<!-- <env:drawcondition>
+								((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
+							</env:drawcondition> -->
+							
+							<env:animation name="Rotate" channel="chanA" loop="true" speed="1">
+							<env:animationcondition>true</env:animationcondition>
+									<!--  <env:animationcondition>$object.getProperty("status").equals("Rotate")</env:animationcondition>-->
+							</env:animation>
+						
 						</env:object3d>
 
 					</env:drawable3d>
@@ -920,8 +935,8 @@
 
 	<componenttypes>
 
-		<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" /> 
- 	<!--	 <componenttype name="Imp" filename="ai/imp/ImpBDI.class" /> -->
+		<!-- <componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />  -->
+     	<componenttype name="Imp" filename="ai/imp/ImpBDI.class" /> 
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
@@ -948,7 +963,7 @@
 <!-- 							<env:property name="mapfile">"level/startmap.map" -->
 <!-- 							</env:property> -->
 							
-							<env:property name="mapfile">"level/level01.map"
+							<env:property name="mapfile">"level/trainingRoomTest.map"
 							</env:property>
 						</env:process>
 					</env:processes>
