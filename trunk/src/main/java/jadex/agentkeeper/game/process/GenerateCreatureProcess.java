@@ -93,29 +93,29 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 			int goblins = creatureState.getCreatureCount(InitMapProcess.GOBLIN);
 			int warlocks = creatureState.getCreatureCount(InitMapProcess.WARLOCK);
 			int trolls = creatureState.getCreatureCount(InitMapProcess.TROLL);
-			int hellhound = creatureState.getCreatureCount(InitMapProcess.HELLHOUND);
-
-			//Al least 5 free Lair-Tiles
-			if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+trolls+warlocks)>5)
-			{
-				//If we have enough free Librarytiles, create Warlocks
-				if(librarytiles>=9&&librarytiles-warlocks*5>=9)
+//			int hellhound = creatureState.getCreatureCount(InitMapProcess.HELLHOUND);
+			if(portalcenter != null){
+				//Al least 5 free Lair-Tiles
+				if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+trolls+warlocks)>5)
 				{
-					createMonster(InitMapProcess.WARLOCK, portalcenter);
+					//If we have enough free Librarytiles, create Warlocks
+					if(librarytiles>=9&&librarytiles-warlocks*5>=9)
+					{
+						createMonster(InitMapProcess.WARLOCK, portalcenter);
+					}
+					else if(trainingroomtiles>=9&&trainingroomtiles-trolls>=9)
+					{
+						createMonster(InitMapProcess.TROLL, portalcenter);
+					}
+					else
+					{
+						createMonster(InitMapProcess.GOBLIN, portalcenter);
+					}
+	
+				} else {
+					//createMonster(InitMapProcess.HELLHOUND, portalcenter);
 				}
-				else if(trainingroomtiles>=9&&trainingroomtiles-trolls>=9)
-				{
-					createMonster(InitMapProcess.TROLL, portalcenter);
-				}
-				else
-				{
-					createMonster(InitMapProcess.GOBLIN, portalcenter);
-				}
-
-			} else {
-				createMonster(InitMapProcess.HELLHOUND, portalcenter);
-			}
-			
+		  }
 		}
 
 

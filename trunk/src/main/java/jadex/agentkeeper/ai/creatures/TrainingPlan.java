@@ -3,6 +3,7 @@ package jadex.agentkeeper.ai.creatures;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.base.MoveTask;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureFed;
+import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureTraining;
 import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
@@ -43,7 +44,7 @@ public class TrainingPlan {
 	protected IPlan					rplan;
 
 	@PlanReason
-	protected MaintainCreatureFed	goal;
+	protected MaintainCreatureTraining	goal;
 
 	protected SpaceObject			spaceObject;
 
@@ -84,14 +85,14 @@ public class TrainingPlan {
 		// TODO: Only get closest
 		final Vector2Int targetTrainingsRoom = buildingState.getClosestTrainigsRoomWithTrainingObject(capa.getMyPosition(), environment);
 
-
+		System.out.println("reachTrainingsRoom");
 		if(targetTrainingsRoom != null)
 		{
 			final TrainingRoomInfo info = (TrainingRoomInfo)buildingState.getTileAtPos(targetTrainingsRoom);
 
 			spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.EAT);
-			IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(targetTrainingsRoom));
-			// System.out.println("- - - - - start walking to bed - - - - - ");
+			IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(targetTrainingsRoom,new Vector2Double(0.00, -0.45)));
+			
 			fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
 			{
 				public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
@@ -100,27 +101,13 @@ public class TrainingPlan {
 					// System.out.println("at pos");
 					rplan.waitFor(100).addResultListener(new DelegationResultListener<Void>(ret)
 					{
-						
 						public void customResultAvailable(Void result)
 						{
 							spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Attack");
-							DelegationResultListener<SpaceObject> eatlistener = new DelegationResultListener<SpaceObject>(myChicken)
-							{
-								public void customResultAvailable(final SpaceObject chickenresult) {
-									
-									spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Attack");
-									ret.setResult(null);
-								}
-
-							};
-
-//							Map<String,Object> params = new HashMap<String,Object>();
-//							params.put("Monster", spaceObject);
-//							params.put("Target", info);
-//
-//							environment.performSpaceAction("eat", params, eatlistener);
-
-
+							Double experience = (Double) spaceObject.getProperty(ISObjStrings.PROPERTY_EXPERIENCE);
+							experience += 0.1;
+							spaceObject.setProperty(ISObjStrings.PROPERTY_EXPERIENCE, experience);
+							ret.setResult(null);
 						}
 
 					});
