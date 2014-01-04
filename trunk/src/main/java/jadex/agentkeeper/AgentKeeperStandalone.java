@@ -11,6 +11,7 @@ import jadex.commons.future.IResultListener;
 import jadex.commons.future.ThreadSuspendable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,8 +23,12 @@ import java.util.Set;
  */
 public class AgentKeeperStandalone
 {
+	private static final String DEFAULT_JADEX_AGENTKEEPER_AGENT_KEEPER3D_APPLICATION_XML = "jadex/agentkeeper/AgentKeeper3d.application.xml";
+	private static final String DEFAULT_JADEX_AGENTKEEPER_AGENT_KEEPER3D_APPLICATION_XML2 = "jadex/agentkeeper/AgentKeeper3d.application2-Test.xml";
 	/** The config file argument. */
 	public static final String CFG_FILE = "-cfgfile";
+	
+	public static final String AGENT_APPLICATION_XML_ARGUMENT = "-keeperConfig";
 
 	
 	
@@ -35,8 +40,12 @@ public class AgentKeeperStandalone
 	{
 		Set<String> reserved = new HashSet<String>();
 		reserved.add(CFG_FILE);
+		
+		Set<String> agentKeeperReserved = new HashSet<String>(Arrays.asList(AGENT_APPLICATION_XML_ARGUMENT));
+		
 		List<String> jargs = new ArrayList<String>(); // Jadex args
 		List<String> bargs = new ArrayList<String>(); // Backup args
+		Map<String, String> keeperArgs = new HashMap<String, String>(); // Backup args
 		
 		for(int i=0; i<args.length; i++)
 		{
@@ -44,8 +53,9 @@ public class AgentKeeperStandalone
 			{
 				bargs.add(args[i++]);
 				bargs.add(args[i]);
-			}
-			else
+			} else if(agentKeeperReserved.contains(args[i])) {
+				keeperArgs.put(args[i], args[++i]);
+			} else
 			{
 				jargs.add(args[i++]);
 				jargs.add(args[i]);
@@ -56,7 +66,7 @@ public class AgentKeeperStandalone
 		String[] defargs = new String[]
 		{
 //			"-logging", "true",
-			"-gui", "false",
+			"-gui", "true",
 			"-welcome", "false",
 			"-cli", "false",
 			"-printpass", "false",
@@ -76,7 +86,7 @@ public class AgentKeeperStandalone
 		baargs.put("cmdargs", (String[])bargs.toArray(new String[bargs.size()]));
 		CreationInfo ci = new CreationInfo(baargs);
 		cms.createComponent(null, "jadex/bdiv3/KernelBDIV3.component.xml", null, null).get(sus);
-		cms.createComponent(null, "jadex/agentkeeper/AgentKeeper3d.application.xml", ci, null).get(sus);
+		cms.createComponent(null, getKeeperConfig(keeperArgs.get(AGENT_APPLICATION_XML_ARGUMENT)), ci, null).get(sus);
 		
 		SServiceProvider.getService(platform.getServiceProvider(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)
 			.addResultListener(new IResultListener<IClockService>()
@@ -90,5 +100,12 @@ public class AgentKeeperStandalone
 			{
 			}
 		});
+	}
+	
+	public static String getKeeperConfig(String argumentApplicationXML) {
+		if(argumentApplicationXML!= null) {
+			return argumentApplicationXML;
+		}
+		return DEFAULT_JADEX_AGENTKEEPER_AGENT_KEEPER3D_APPLICATION_XML;
 	}
 }

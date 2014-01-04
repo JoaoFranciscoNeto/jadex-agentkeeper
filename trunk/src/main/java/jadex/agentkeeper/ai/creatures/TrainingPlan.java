@@ -68,7 +68,6 @@ public class TrainingPlan {
 
 		environment = capa.getEnvironment();
 
-		// TODO: get this more Elegant
 		buildingState = (SimpleMapState)environment.getProperty(ISpaceStrings.BUILDING_STATE);
 
 		reachTrainingsRoom(buildingState).addResultListener(new DelegationResultListener<Void>(ret));
