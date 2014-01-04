@@ -6,7 +6,7 @@
 	                    http://jadex.sourceforge.net/jadex-application-2.3.xsd
 	                    http://jadex.sourceforge.net/jadex-envspace 
 	                    http://jadex.sourceforge.net/jadex-envspace-2.3.xsd"
-	name="AgentKeeper3d" package="jadex.agentkeeper">
+	name="AgentKeeper3d" package="jadex.agentkeeper.config">
 
 	<imports>
 		<import>jadex.extension.envsupport.environment.space2d.*</import>
@@ -937,8 +937,8 @@
 
 	<componenttypes>
 
-		<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" /> 
-     	<!-- <componenttype name="Imp" filename="ai/imp/ImpBDI.class" />  -->
+	<!-- 	<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />  --> 
+     	<componenttype name="Imp" filename="ai/imp/ImpBDI.class" /> 
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
@@ -962,10 +962,7 @@
 					width="30" height="30">
 					<env:processes>
 						<env:process type="init">
-<!-- 							<env:property name="mapfile">"level/startmap.map" -->
-<!-- 							</env:property> -->
-							
-							<env:property name="mapfile">"level/level01.map"
+							<env:property name="mapfile">"level/oneImp.map"
 							</env:property>
 						</env:process>
 					</env:processes>

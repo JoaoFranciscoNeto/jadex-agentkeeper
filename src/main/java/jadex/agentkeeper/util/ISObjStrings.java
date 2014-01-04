@@ -15,10 +15,13 @@ public interface ISObjStrings {
 	public static final String PROPERTY_AWAKE = "awake";
 	public static final String PROPERTY_FED = "fed";
 	public static final String PROPERTY_HAPPINESS = "happiness";
+	public static final String PROPERTY_EXPERIENCE = "experience";
 	
 	public static final String PROPERTY_MORAL = "moral";
 	
 	public static final String PROPERTY_GOAL = "goal";
+	
+	
 	
 
 	

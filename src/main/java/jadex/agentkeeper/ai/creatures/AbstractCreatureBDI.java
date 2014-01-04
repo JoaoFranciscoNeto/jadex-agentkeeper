@@ -27,6 +27,7 @@ import jadex.micro.annotation.AgentBody;
 @Plans({
 @Plan(trigger = @Trigger(goals = AbstractCreatureBDI.MaintainCreatureAwake.class), body = @Body(SleepPlan.class)),
 @Plan(trigger = @Trigger(goals = AbstractCreatureBDI.MaintainCreatureFed.class), body = @Body(EatPlan.class)),
+@Plan(trigger = @Trigger(goals = AbstractCreatureBDI.MaintainCreatureTraining.class), body = @Body(TrainingPlan.class)),
 @Plan(trigger = @Trigger(goals = AbstractCreatureBDI.PerformOccupyLair.class), body = @Body(OccupyLairPlan.class))})
 public class AbstractCreatureBDI extends AbstractBeingBDI
 {
@@ -50,6 +51,10 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/** the moral-status of the "Being" */
 	@Belief(dynamic=true)
 	protected double myMoralStatus = mySpaceObject==null? 100.0: (Double)mySpaceObject.getProperty(ISObjStrings.PROPERTY_MORAL);
+	
+	/** the moral-status of the "Being" */
+	@Belief(dynamic=true)
+	protected double myExperience = mySpaceObject==null? 100.0: (Double)mySpaceObject.getProperty(ISObjStrings.PROPERTY_EXPERIENCE);
 
 	/**
 	 * The agent body.
@@ -62,6 +67,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		agent.dispatchTopLevelGoal(new PerformOccupyLair());
 		agent.dispatchTopLevelGoal(new MaintainCreatureAwake());
 		agent.dispatchTopLevelGoal(new MaintainCreatureFed());
+		agent.dispatchTopLevelGoal(new MaintainCreatureTraining());
 	}
 
 	/**
@@ -77,7 +83,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 *  Goal for keeping the Creature awake.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureFed.class}))
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureFed.class, MaintainCreatureTraining.class}))
 	public class MaintainCreatureAwake
 	{
 		/**
@@ -106,7 +112,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 *  Goal for keeping the Creature feeded.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class}), retry=true, retrydelay=1000)
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class, MaintainCreatureTraining.class}), retry=true, retrydelay=1000)
 	public class MaintainCreatureFed
 	{
 		/**
@@ -130,6 +136,23 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		}
 	}
 	
+	
+	/**
+	 *  TODO: refactor MaintainCreatureTraining
+	 */
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class, MaintainCreatureFed.class}), retry=true, retrydelay=1000)
+	public class MaintainCreatureTraining
+	{
+		/**
+		 *  TODO: refactor MaintainCreatureTraining
+		 */
+		@GoalMaintainCondition(beliefs="myExperience")
+		public boolean checkMaintain()
+		{
+			return myExperience<100.0;
+		}
+		
+	}
 	
 	
 	
