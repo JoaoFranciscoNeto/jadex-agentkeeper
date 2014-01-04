@@ -164,6 +164,7 @@ public class MoveToGridSectorPlan
 		Map<String, Object> props = new HashMap<String, Object>();
 		props.put(MoveTask.PROPERTY_DESTINATION, nextTarget);
 		props.put(MoveTask.PROPERTY_SPEED, capa.getMySpeed());
+		props.put(MoveTask.TARGET_POSITION_OFFSET, goal.getOffsetFromTargetPoint());
 
 		this.mtaskid = capa.getEnvironment().createObjectTask(MoveTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
 

@@ -135,7 +135,6 @@ public class SimpleMapState
 		for(Vector2Int pos : trainingRoomList)
 		{
 			for(ISpaceObject spaceObject :  environment.getSpaceObjectsByGridPosition(pos, null)) {
-				System.out.println("training?: "+spaceObject);
 				if(spaceObject.getProperty("status").equals("Rotate")){
 					spaceObject.setProperty("status", "Rota423te2");
 				} else{

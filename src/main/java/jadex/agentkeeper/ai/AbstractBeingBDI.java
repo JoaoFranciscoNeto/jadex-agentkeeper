@@ -129,15 +129,25 @@ public class AbstractBeingBDI
 	{
 		/** The target. */
 		protected Vector2Int	target;
+		
+		/** The offset from Target Point. */
+		protected Vector2Double	offsetFromTargetPoint;
 
+		public AchieveMoveToSector(Vector2Int target)
+		{
+			this.target = target;
+			this.offsetFromTargetPoint = new Vector2Double(0.0 ,0.0);
+		}
+		
 		/**
 		 * Create a new goal.
 		 * 
 		 * @param target The target.
 		 */
-		public AchieveMoveToSector(Vector2Int target)
+		public AchieveMoveToSector(Vector2Int target, Vector2Double offsetFromTargetPoint)
 		{
 			this.target = target;
+			this.offsetFromTargetPoint = offsetFromTargetPoint;
 		}
 
 		/**
@@ -161,6 +171,12 @@ public class AbstractBeingBDI
 		{
 			return this.target;
 		}
+		
+
+		public Vector2Double getOffsetFromTargetPoint() {
+			return offsetFromTargetPoint;
+		}
+
 	}
 	
 	/**

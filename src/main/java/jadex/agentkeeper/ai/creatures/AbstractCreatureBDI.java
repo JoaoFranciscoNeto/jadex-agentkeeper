@@ -21,6 +21,7 @@ import jadex.micro.annotation.AgentBody;
  * Creatures that Belong to the Player. A "Creature" can be any Creature, like
  * Goblin, Imp, Orc and so on
  * 
+
  * @author Philip Willuweit p.willuweit@gmx.de
  */
 @Agent

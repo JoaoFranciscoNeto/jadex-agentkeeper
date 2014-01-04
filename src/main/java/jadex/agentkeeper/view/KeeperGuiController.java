@@ -358,7 +358,6 @@ public class KeeperGuiController extends DefaultGuiController
 //        effect.init( lairs, null, null, new TimeProvider(), new LinkedList() );
 //        lairs.registerEffect(EffectEventId.onStartHover, effect);
 //		System.out.println( lairs.registerEffect(theId, e); );
-
 	}
 
 	public void onEndScreen()

@@ -74,7 +74,7 @@ public class AgentKeeperStandalone
 			String[] defargs = new String[]
 			{
 	//			"-logging", "true",
-				"-gui", "false",
+				"-gui", "true",
 				"-welcome", "false",
 				"-cli", "false",
 				"-printpass", "false",

@@ -27,6 +27,9 @@ public class MoveTask extends AbstractTask
 
 	/** The speed property of the moving object (units per second). */
 	public static final String	PROPERTY_SPEED			= "speed";
+	
+	public static final String	TARGET_POSITION_OFFSET			= "targetPositionOffset";
+	
 
 	/** Backup Exit for Problems */
 	private int					maxCounter = 0;
@@ -47,9 +50,8 @@ public class MoveTask extends AbstractTask
 
 		
 		IVector2 idis = (IVector2)getProperty(PROPERTY_DESTINATION);
-		
 //		System.out.println("move task " + idis );
-
+		
 		double speed = ((Number)getProperty(PROPERTY_SPEED)).doubleValue();
 
 		double gamespeed = (Double)space.getProperty(ISpaceStrings.GAME_SPEED);
@@ -57,17 +59,20 @@ public class MoveTask extends AbstractTask
 		double maxdist = progress * gamespeed * speed * 0.001;
 
 		IVector2 loc = (IVector2)obj.getProperty(Space2D.PROPERTY_POSITION);
+		IVector2 offsetToTargetPosition = (Vector2Double)getProperty(TARGET_POSITION_OFFSET);
 
-		double dist = ((Space2D)space).getDistance(loc, idis).getAsDouble();
+		Vector2Double newidis = new Vector2Double((idis.getXAsDouble()+offsetToTargetPosition.getXAsDouble()),( idis.getYAsDouble()+offsetToTargetPosition.getYAsDouble()));
+		double dist = ((Space2D)space).getDistance(loc, newidis).getAsDouble();
 		IVector2 newloc;
 
-		Vector2Double destination = new Vector2Double(idis.getXAsDouble(), idis.getYAsDouble());
+		Vector2Double destination = new Vector2Double(newidis.getXAsDouble(), newidis.getYAsDouble());
 
 		if(dist > 0)
 		{
 			
 			// Todo: how to handle border conditions!?
 			newloc = (Vector2Double)(dist <= maxdist ? destination.copy() : destination.copy().subtract(loc).normalize().multiply(maxdist).add(loc));
+			
 			((Space2D)space).setPosition(obj.getId(), newloc);
 
 		}
