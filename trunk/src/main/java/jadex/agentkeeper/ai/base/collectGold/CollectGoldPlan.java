@@ -116,15 +116,15 @@ public class CollectGoldPlan {
 			Vector2Int reachableSectorForDigingInt = null;
 
 			// get the position from which the imp can walk to and dig
-			for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment, Neighborcase.getDefault())) {
-				if (Neighborhood.isWalkableForDigging(spaceObject)) {
-					reachableSectorForDigingInt = (Vector2Int) spaceObject.getProperty(ISO.Properties.INTPOSITION);
-					break;
-				}
-			}
+//			for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment, Neighborcase.getDefault())) {
+//				if (Neighborhood.isWalkableForDigging(spaceObject)) {
+//					reachableSectorForDigingInt = (Vector2Int) spaceObject.getProperty(ISO.Properties.INTPOSITION);
+//					break;
+//				}
+//			}
 			// went to the position where the imp can dig from
-			if (reachableSectorForDigingInt != null) {
-				IFuture<AchieveMoveToSector> reachSectorToDigFrom = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(reachableSectorForDigingInt));
+			if (currentImpTask.getTargetPosition() != null) {
+				IFuture<AchieveMoveToSector> reachSectorToDigFrom = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(currentImpTask.getTargetPosition()));
 
 				reachSectorToDigFrom.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret) {
 					public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt) {
@@ -152,7 +152,6 @@ public class CollectGoldPlan {
 									@Override
 									public void customResultAvailable(AchieveFillTreasury result) {
 										ret.setResult(null);
-										
 									}
 								} );
 							}

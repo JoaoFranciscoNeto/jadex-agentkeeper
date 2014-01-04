@@ -93,7 +93,7 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 			int goblins = creatureState.getCreatureCount(InitMapProcess.GOBLIN);
 			int warlocks = creatureState.getCreatureCount(InitMapProcess.WARLOCK);
 			int trolls = creatureState.getCreatureCount(InitMapProcess.TROLL);
-//			int hellhound = creatureState.getCreatureCount(InitMapProcess.HELLHOUND);
+			int hellhound = creatureState.getCreatureCount(InitMapProcess.HELLHOUND);
 
 			//Al least 5 free Lair-Tiles
 			if(hatcherytiles>=9&&lairtiles>5&&lairtiles-(goblins+trolls+warlocks)>5)
@@ -113,7 +113,7 @@ public class GenerateCreatureProcess extends SimplePropertyObject implements ISp
 				}
 
 			} else {
-//				createMonster(InitMapProcess.HELLHOUND, portalcenter);
+				createMonster(InitMapProcess.HELLHOUND, portalcenter);
 			}
 			
 		}

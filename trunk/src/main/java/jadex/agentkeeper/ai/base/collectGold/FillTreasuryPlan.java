@@ -154,7 +154,7 @@ public class FillTreasuryPlan {
 			}
 			
 		} else {
-			System.out.println("Task has no Int Position");
+			System.out.println("FillTreasury: Task has no Int Position");
 			rplan.abort();
 		}
 		return ret;

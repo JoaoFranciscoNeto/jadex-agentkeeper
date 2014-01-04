@@ -795,7 +795,7 @@
 							</env:animation>
 							
 							<env:animation name="Attack1" channel="chanA" loop="true" speed="1">
-								<env:animationcondition>$object.getProperty("status").equals("Dance")</env:animationcondition>
+								<env:animationcondition>$object.getProperty("status").equals("Attack")</env:animationcondition>
 							</env:animation>
 							
 						</env:object3d>
