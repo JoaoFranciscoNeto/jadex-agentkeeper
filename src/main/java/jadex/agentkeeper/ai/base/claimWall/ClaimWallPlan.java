@@ -151,7 +151,7 @@ public class ClaimWallPlan {
 				rplan.abort();
 			}
 		} else {
-			System.out.println("Task has no Int Position");
+			System.out.println("ClaimWallPlan: Task has no Int Position");
 			rplan.abort();
 		}
 		return ret;

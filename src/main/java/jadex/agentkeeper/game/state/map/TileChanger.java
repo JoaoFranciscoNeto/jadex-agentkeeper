@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
@@ -37,15 +38,15 @@ public class TileChanger {
 	
 	
 	
-	public synchronized void changeTile(Vector2Int targetPosition, MapType newType,  List<MapType> oldTypes){
+	public synchronized void changeTile(Vector2Int targetPosition, MapType newType,  List<MapType> oldTypes) {
 		Iterator<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(targetPosition, null).iterator();
 		ISpaceObject foundedSpaceObject = null;
 			try {
 				while(spaceObjectsByGridPosition.hasNext()) {
 					ISpaceObject spaceObject = spaceObjectsByGridPosition.next();
 					boolean isRightType = false;
-					for(MapType oldType : oldTypes){
-						if(oldType.toString().equals(spaceObject.getType())){
+					for(MapType oldType : oldTypes) {
+						if(oldType.toString().equals(spaceObject.getType())) {
 							isRightType = true;
 							break;
 						}
@@ -66,7 +67,7 @@ public class TileChanger {
 	
 					}
 				}
-			} catch(Exception e){
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 	}
@@ -94,6 +95,8 @@ public class TileChanger {
 				e.printStackTrace();
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch(Exception e) {
 				e.printStackTrace();
 			}
 	}

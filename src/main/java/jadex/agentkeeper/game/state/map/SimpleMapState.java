@@ -6,6 +6,9 @@ import jadex.agentkeeper.worldmodel.enums.WalkType;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
+import jadex.agentkeeper.worldmodel.structure.building.TrainingRoomInfo;
+import jadex.extension.envsupport.environment.ISpaceObject;
+import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector1;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector1Double;
@@ -113,6 +116,50 @@ public class SimpleMapState
 			}
 
 		}
+		return ret;
+	}
+	
+	String status = "Rotate";
+	
+	public synchronized Vector2Int getClosestTrainigsRoomWithTrainingObject(Vector2Double creaturePos, Grid2D environment)
+	{
+		HashMap<Vector2Int, TileInfo> trainingRooms = getTypes(MapType.TRAININGROOM);
+		Set<Vector2Int> trainingRoomPositions= trainingRooms.keySet();
+		ArrayList<Vector2Int> trainingRoomList = new ArrayList<Vector2Int>();
+		trainingRoomList.addAll(trainingRoomPositions);
+
+		Vector2Int ret = null;
+
+
+		Vector1Double lastdistance = new Vector1Double(999999999);
+		for(Vector2Int pos : trainingRoomList)
+		{
+			for(ISpaceObject spaceObject :  environment.getSpaceObjectsByGridPosition(pos, null)) {
+				System.out.println("training?: "+spaceObject);
+				if(spaceObject.getProperty("status").equals("Rotate")){
+					spaceObject.setProperty("status", "Rota423te2");
+				} else{
+					spaceObject.setProperty("status", "Rotate");
+				}
+				
+			}
+			TrainingRoomInfo info = (TrainingRoomInfo)getTileAtPos(pos);
+			// Is the Hatchery Center? And has it Chickens?
+			if(((ACenterBuildingInfo)info).getCenterType() == CenterType.CENTER)
+			{
+
+				Vector1Double distance = (Vector1Double)pos.getDistance(creaturePos);
+
+				if(distance.less(lastdistance))
+				{
+					lastdistance = distance;
+					ret = pos;
+				}
+
+			}
+
+		}
+		
 		return ret;
 	}
 

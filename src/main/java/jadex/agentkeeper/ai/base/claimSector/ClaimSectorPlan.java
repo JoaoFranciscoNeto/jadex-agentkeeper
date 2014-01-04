@@ -142,7 +142,7 @@ public class ClaimSectorPlan {
 				rplan.abort();
 			}
 		} else {
-			System.out.println("Task has no Int Position");
+			System.out.println("ClaimSectorPlan: Task has no Int Position");
 			rplan.abort();
 		}
 		return ret;
