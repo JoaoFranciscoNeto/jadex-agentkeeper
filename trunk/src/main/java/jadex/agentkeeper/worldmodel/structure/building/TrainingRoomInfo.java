@@ -14,5 +14,7 @@ public class TrainingRoomInfo extends ACenterBuildingInfo
 		this.centerPattern = CenterPattern.ONE_BORDER_1;
 		this.hitpoints = centerType == CenterType.CENTER ? 60 : 30;
 	}
+	
+	
 
 }
