@@ -27,8 +27,8 @@
 					</panel>  
 					<text id="goldstatus" style="nifty-arial-label" text="00000000"
 						color="#fd0f" valign="bottom"/>
-					<image id="ManaIcon" filename="/gui/images/topline/mana_potion.png"
-						height="32px" width="32px" margin="0px,5px,0px,15px"/>
+					<image id="ManaIcon" filename="/gui/images/topline/mana_potion2.png"
+						height="32px" width="32px" margin="5px,5px,0px,15px"/>
 					<panel id="mana" childLayout="vertical" width="70px">
 						<panel id="minusplus" align="left" childLayout="center"
 							width="100%" valign="top">
