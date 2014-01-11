@@ -107,7 +107,7 @@ public class TaskPoolManager implements ITaskPoolManager {
 	
 	public synchronized void finishTask(Task finishedTask){
 		unfinishedTasks.remove(finishedTask);
-		System.out.println("Task:"+finishedTask+" finished");
+//		System.out.println("Task:"+finishedTask+" finished");
 	}
 
 	public int getTaskListSize() {
@@ -115,7 +115,7 @@ public class TaskPoolManager implements ITaskPoolManager {
 	}
 	
 	public synchronized int getWorkableTaskListSize() {
-		System.out.println(taskPool.countWorkableCountedTasks() +" "+ TaskPool.getWorkableCountedTasks());
+//		System.out.println(taskPool.countWorkableCountedTasks() +" "+ TaskPool.getWorkableCountedTasks());
 		return taskPool.countWorkableCountedTasks();
 	}
 	
@@ -128,8 +128,16 @@ public class TaskPoolManager implements ITaskPoolManager {
 		}
 	}
 	
-	public boolean hasTaskOnPosition(Vector2Int askedPosition){
-		return taskPool.hasTaskOnPosition(askedPosition);	
+	public synchronized boolean hasTaskOnPosition(Vector2Int askedPosition){
+		boolean positionHasTask = taskPool.hasTaskOnPosition(askedPosition);
+		for(Task unfinischedTask : unfinishedTasks) {
+			if(unfinischedTask != null) {
+				if(unfinischedTask.getTargetPosition().equals(askedPosition)) {
+					positionHasTask = true;
+				}
+			}
+		}
+		return positionHasTask;	
 	}
 
 }

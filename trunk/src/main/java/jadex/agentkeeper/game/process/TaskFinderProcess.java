@@ -55,8 +55,8 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 
 		if (delta > DELAY_RESET_COUNT) {
 			delta = 0;
-//			findNotClaimedSectorsAndCreateNewTask();
-//			findNotClaimedWallsAndCreateNewTask();
+			findNotClaimedSectorsAndCreateNewTask();
+			findNotClaimedWallsAndCreateNewTask();
 //			findTrainingsObject();
 		}
 	}
@@ -83,6 +83,7 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 				TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
 				// for the safty of no crossworking Tasks
 				if(!taskPoolManager.hasTaskOnPosition(newClaimingPosition)) {
+					System.out.println("claim:"+newClaimingPosition);
 					taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
 				}
 			}
