@@ -114,8 +114,9 @@ public class TaskPoolManager implements ITaskPoolManager {
 		return TaskPool.getCountedTasks();
 	}
 	
-	public int getWorkableTaskListSize() {
-		return TaskPool.getWorkableCountedTasks();
+	public synchronized int getWorkableTaskListSize() {
+		System.out.println(taskPool.countWorkableCountedTasks() +" "+ TaskPool.getWorkableCountedTasks());
+		return taskPool.countWorkableCountedTasks();
 	}
 	
 	public void updateReachableSelectedSectors(Set<ISpaceObject> set) {
@@ -125,8 +126,10 @@ public class TaskPoolManager implements ITaskPoolManager {
 				taskPool.setReachable(TaskType.DIG_SECTOR, updatedSectorPosition);
 			}
 		}
-		
-		
+	}
+	
+	public boolean hasTaskOnPosition(Vector2Int askedPosition){
+		return taskPool.hasTaskOnPosition(askedPosition);	
 	}
 
 }
