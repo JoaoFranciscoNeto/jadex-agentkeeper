@@ -148,6 +148,7 @@
 				<env:objecttype name="imp">
 					<env:property name="position" />
 					<env:property name="moral" class="double">100.0</env:property>
+					<env:property name="experience" class="double">0.0</env:property>
 					<env:property name="geschlagen">false</env:property>
 					<env:property name="direction">0.0</env:property>
 					<env:property name="level" class="int">1</env:property>
@@ -162,6 +163,7 @@
 					<env:property name="position" />
 					<env:property name="moral" class="double">100.0</env:property>
 					<env:property name="awake" class="double">100.0</env:property>
+					<env:property name="experience" class="double">0.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
 					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
@@ -171,6 +173,7 @@
 					<env:property name="position" />
 					<env:property name="moral" class="double">100.0</env:property>
 					<env:property name="awake" class="double">100.0</env:property>
+					<env:property name="experience" class="double">0.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
 					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
@@ -180,6 +183,7 @@
 					<env:property name="position" />
 					<env:property name="moral" class="double">100.0</env:property>
 					<env:property name="awake" class="double">100.0</env:property>
+					<env:property name="experience" class="double">0.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="awakesize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("awake"))/133,0.02,0.02)</env:property>
 					<env:property name="fedsize" class="Vector3Double" dynamic="true">new Vector3Double(((double)$object.getProperty("fed"))/133,0.02,0.02)</env:property>
@@ -199,6 +203,7 @@
 					<env:property name="position" />
 					<env:property name="moral" class="double">100.0</env:property>
 					<env:property name="awake" class="double">100.0</env:property>
+					<env:property name="experience" class="double">0.0</env:property>
 					<env:property name="status" class="String">"Idle"</env:property>
 					<env:property name="goal" class="PlanType">PlanType.WALK</env:property>
 				</env:objecttype>
@@ -220,7 +225,10 @@
 				<env:tasktype name="fillTreasuryTask" class="FillTreasuryTask" />
 				<env:tasktype name="createChickens" class="CreateChickenTask" />
 				<env:tasktype name="changeTileTask" class="ChangeTileTask" />
-				
+				<env:tasktype name="claimSectorChangeTileTask" class="ClaimSectorChangeTileTask" />
+				<env:tasktype name="claimWallChangeTileTask" class="ClaimWallChangeTileTask" />
+				<env:tasktype name="fillTreasuryChangeTileTask" class="FillTreasuryChangeTileTask" />
+				<env:tasktype name="collectGoldChangeTileTask" class="CollectGoldChangeTileTask" />
 			</env:tasktypes>	
 
 			<env:processtypes>
@@ -876,7 +884,9 @@
 							<env:animation name="Idle" channel="chanA" loop="true">
 								<env:animationcondition>$object.getProperty("status").equals("Idle")</env:animationcondition>
 							</env:animation>
-							
+							<env:animation name="Attack1" channel="chanA" loop="true">
+								<env:animationcondition>$object.getProperty("status").equals("Attack")</env:animationcondition>
+							</env:animation>
 							<env:animation name="Idle" channel="chanA" loop="true">
 								<env:animationcondition>$object.getProperty("status").equals("Sleeping")</env:animationcondition>
 							</env:animation>
@@ -939,8 +949,8 @@
 
 	<componenttypes>
 
-		<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" /> 
-     	<!-- <componenttype name="Imp" filename="ai/imp/ImpBDI.class" />  -->
+	<!-- 	<componenttype name="Imp" filename="jadex/agentkeeper/ai/creatures/imp/imp.agent.xml" />  --> 
+     	<componenttype name="Imp" filename="ai/imp/ImpBDI.class" /> 
 		<componenttype name="Goblin" filename="ai/creatures/goblin/GoblinBDI.class" />
 		<componenttype name="Troll" filename="ai/creatures/troll/TrollBDI.class" />
 		<componenttype name="Warlock" filename="ai/creatures/warlock/WarlockBDI.class" />
