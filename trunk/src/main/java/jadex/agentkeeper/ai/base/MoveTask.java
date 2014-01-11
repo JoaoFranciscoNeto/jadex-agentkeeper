@@ -60,7 +60,9 @@ public class MoveTask extends AbstractTask
 
 		IVector2 loc = (IVector2)obj.getProperty(Space2D.PROPERTY_POSITION);
 		IVector2 offsetToTargetPosition = (Vector2Double)getProperty(TARGET_POSITION_OFFSET);
-
+		if(offsetToTargetPosition == null) {
+			offsetToTargetPosition = new Vector2Double(0,0);
+		}
 		Vector2Double newidis = new Vector2Double((idis.getXAsDouble()+offsetToTargetPosition.getXAsDouble()),( idis.getYAsDouble()+offsetToTargetPosition.getYAsDouble()));
 		double dist = ((Space2D)space).getDistance(loc, newidis).getAsDouble();
 		IVector2 newloc;

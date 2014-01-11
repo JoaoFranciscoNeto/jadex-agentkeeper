@@ -1,5 +1,6 @@
 package jadex.agentkeeper.game.state.missions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,8 @@ public class TaskPoolManager implements ITaskPoolManager {
 	public DiggingSelectorTaskCreator diggingSelectorTaskCreator;
 
 	public static final String PROPERTY_NAME = TaskPoolManager.class.getName();
+	
+	List<Task> unfinishedTasks = new ArrayList<Task>();
 	
 	TaskPool taskPool = new TaskPool();
 	
@@ -79,9 +82,11 @@ public class TaskPoolManager implements ITaskPoolManager {
 				Task taskInNeighbourHood = taskPool.checkNeighborfields(position);
 				if(taskInNeighbourHood != null) {
 					loading = false;
+					unfinishedTasks.add(taskInNeighbourHood);
 					return taskInNeighbourHood;
 				}
 				Task withNearestTaskWithGreatPrio = taskPool.getNextTaskToPositionButDependOnPriority(position);
+				unfinishedTasks.add(withNearestTaskWithGreatPrio);
 				if(withNearestTaskWithGreatPrio != null) {
 					loading = false;
 					return withNearestTaskWithGreatPrio;
@@ -98,6 +103,11 @@ public class TaskPoolManager implements ITaskPoolManager {
 
 			return null;
 		}
+	}
+	
+	public synchronized void finishTask(Task finishedTask){
+		unfinishedTasks.remove(finishedTask);
+		System.out.println("Task:"+finishedTask+" finished");
 	}
 
 	public int getTaskListSize() {

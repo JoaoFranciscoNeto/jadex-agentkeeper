@@ -2,12 +2,14 @@ package jadex.agentkeeper.game.userinput;
 
 import jadex.agentkeeper.game.state.buildings.Treasury;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
+import jadex.agentkeeper.game.state.missions.Auftrag;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
 import jadex.agentkeeper.game.state.missions.TaskType;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.task.CreateChickenTask;
 import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
+import jadex.agentkeeper.init.map.process.InitMapProcess;
 import jadex.agentkeeper.init.map.process.InitializeHelper;
 import jadex.agentkeeper.init.map.process.PreCreatedSpaceObject;
 import jadex.agentkeeper.util.ISO;
@@ -20,6 +22,7 @@ import jadex.agentkeeper.worldmodel.enums.CenterPattern;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.agentkeeper.worldmodel.enums.SpellType;
+import jadex.agentkeeper.worldmodel.structure.SolidInfo;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.agentkeeper.worldmodel.structure.building.ACenterBuildingInfo;
 import jadex.extension.envsupport.environment.IEnvironmentSpace;
@@ -75,8 +78,57 @@ public class UserEingabenManager
 
 	public void destroyWalls(SelectionArea area)
 	{
-		_auftraege.newBreakWalls(area);
+		selectTilesIn3DGui(area);
 		taskPoolManager.processSelection(area);
+	}
+	
+	
+	public boolean selectTilesIn3DGui(SelectionArea area)
+	{
+		boolean ret = false;
+		Vector2Int endvector = area.getWorldend();
+		Vector2Int startvector = area.getWorldstart();
+
+		ArrayList<SpaceObject> selectDigfieldList = new ArrayList<SpaceObject>();
+
+		for(int x = startvector.getXAsInteger(); x <= endvector.getXAsInteger(); x++)
+		{
+			for(int y = startvector.getYAsInteger(); y <= endvector.getYAsInteger(); y++)
+			{
+
+				Vector2Int aktpos = new Vector2Int(x, y);
+				boolean reach = Neighborhood.isReachableForDestroy(aktpos, _grid);
+				if(reach)
+				{
+					ret = true;
+
+				}
+				SpaceObject fieldtype = InitMapProcess.getFieldTypeAtPos(aktpos, _grid);
+				if(fieldtype != null)
+				{
+					SolidInfo info = SolidInfo.getTileInfo(fieldtype, SolidInfo.class);
+					if(info.isBreakable())
+					{
+						selectDigfieldList.add(fieldtype);	
+					}
+				}
+			}
+		}
+
+		if(ret)
+		{
+			for(SpaceObject ob : selectDigfieldList)
+			{
+				Map props = ob.getProperties();
+				props.put("clicked", true);
+				String type = ob.getType();
+				_grid.createSpaceObject(type, props, null);
+				_grid.destroySpaceObject(ob.getId());
+			}
+		}
+
+		return ret;
+
 	}
 
 	// Hack for the moment

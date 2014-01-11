@@ -2,6 +2,7 @@ package jadex.agentkeeper.ai.base.collectGold;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
+import jadex.agentkeeper.ai.base.claimSector.ClaimSectorChangeTileTask;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveFillTreasury;
@@ -55,8 +56,11 @@ public class FillTreasuryPlan {
 
 	@PlanAPI
 	protected IPlan rplan;
+	
+	@PlanAPI
+	protected IPlan cplan;
 
-	private Object digtaskid;
+	private Object digtaskid, claimtaskid;
 
 	private Grid2D environment;
 
@@ -78,7 +82,6 @@ public class FillTreasuryPlan {
 
 		Task newImpTask = goal.getTarget();
 		if (newImpTask != null) {
-			System.out.println(newImpTask.getTaskType());
 			environment = capa.getEnvironment();
 			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
 			mapState = (SimpleMapState) environment.getProperty(ISO.Objects.BUILDING_STATE);
@@ -123,23 +126,17 @@ public class FillTreasuryPlan {
 								// sector ground
 								
 								
+								Map<String, Object> props = new HashMap<String, Object>();
+								props.put("Task", currentImpTask);
+								props.put("TreasuryInfo", hinfo);
+								props.put(ClaimSectorChangeTileTask.PROPERTY_DESTINATION, currentImpTask.getTargetPosition());
+								claimtaskid = capa.getEnvironment().createObjectTask(FillTreasuryChangeTileTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
+								cplan.invokeInterruptable(new IResultCommand<IFuture<Void>, Void>() {
+									public IFuture<Void> execute(Void args) {
+										return capa.getEnvironment().waitForTask(claimtaskid, capa.getMySpaceObject().getId());
+									}
+								}).addResultListener(new DelegationResultListener<Void>(ret));
 								
-								TileChanger tilechanger = new TileChanger(environment);
-								String neighborhood = (String) currentTaskSpaceObject.getProperty(ISO.Properties.NEIGHBORHOOD);
-								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter(ISO.Properties.STATUS, "byImpCreated").addParameter(ISO.Properties.CLICKED, false)
-										.addParameter(ISO.Properties.LOCKED, false).addParameter(ISO.Properties.NEIGHBORHOOD, neighborhood)
-										.addParameter(ISO.Properties.INTPOSITION, currentImpTaskPosition)
-										.addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()))
-										.changeTile(currentImpTask.getTargetPosition(), MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.GOLD_DROPED)));
-
-								// imp stop claiming the sector ground
-								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
-
-								playerState.addGold(GOLD_AMOUNT_PER_GOLD_VEIN);
-								environment.getSpaceObject(hinfo.getSpaceObjectId()).setProperty(ISObjStrings.PROPERTY_STATUS, "hasGold");
-								hinfo.addAmount(GOLD_AMOUNT_PER_GOLD_VEIN);
-								
-								hinfo.setLocked(false);
 								ret.setResult(null);
 							}
 						});

@@ -3,6 +3,7 @@ package jadex.agentkeeper.ai.creatures;
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.base.MoveTask;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureFed;
+import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureTraining;
 import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
