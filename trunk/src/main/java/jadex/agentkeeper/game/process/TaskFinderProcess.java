@@ -80,13 +80,11 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 					Vector2Double vector2Double = (Vector2Double) sobj.getProperty(ISO.Properties.DOUBLE_POSITION);
 					newClaimingPosition = new Vector2Int(vector2Double.getXAsInteger(), vector2Double.getYAsInteger());
 				}
-				
 				TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
-				taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
-				
-//				Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty("auftraege");
-//				
-//				auftraege.neuerAuftrag(Auftragsverwalter.BESETZEN, newClaimingPosition);
+				// for the safty of no crossworking Tasks
+				if(!taskPoolManager.hasTaskOnPosition(newClaimingPosition)) {
+					taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
+				}
 			}
 		}
 		} catch(Exception e){
@@ -110,16 +108,15 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 					if(neighbourTile != null &&  neighbourTile.getMapType().equals(MapType.ROCK)) {
 						ISpaceObject currentSpaceTile = environment.getSpaceObject(neighbourTile.getSpaceObjectId());
 						boolean clicked = (Boolean) currentSpaceTile.getProperty(ISO.Properties.CLICKED);
-						if( !clicked){
-							currentSpaceTile.setProperty(ISO.Properties.LOCKED, false);
+						if(!clicked) {
+							TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
+							Vector2Int newTaskPostion = (Vector2Int) currentSpaceTile.getProperty(ISO.Properties.INTPOSITION);
+							// for the safty of no crossworking Tasks
+							if(!taskPoolManager.hasTaskOnPosition(newTaskPostion)) {
+								currentSpaceTile.setProperty(ISO.Properties.LOCKED, false);
+								taskPoolManager.addConnectedTask(TaskType.CLAIM_WALL,newTaskPostion);
+							}
 						}
-						TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
-						taskPoolManager.addConnectedTask(TaskType.CLAIM_WALL,(Vector2Int) currentSpaceTile.getProperty(ISO.Properties.INTPOSITION));
-						
-//						Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty(ISO.Objects.TaskList);
-//						
-//						
-//						auftraege.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, (Vector2Int) test2.getProperty(ISO.Properties.INTPOSITION));
 					}
 				}
 			}

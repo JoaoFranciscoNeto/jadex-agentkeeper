@@ -10,6 +10,8 @@ import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
+import jadex.agentkeeper.game.state.missions.TaskPoolManager;
+import jadex.agentkeeper.game.state.missions.TaskType;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
@@ -135,9 +137,13 @@ public class FillTreasuryPlan {
 									public IFuture<Void> execute(Void args) {
 										return capa.getEnvironment().waitForTask(claimtaskid, capa.getMySpaceObject().getId());
 									}
-								}).addResultListener(new DelegationResultListener<Void>(ret));
-								
-								ret.setResult(null);
+								}).addResultListener(new DelegationResultListener<Void>(ret) {
+									public void customResultAvailable(Void result) {
+										TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
+										taskPoolManager.finishTask(currentImpTask);
+										taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, currentImpTask.getTargetPosition());
+										ret.setResult(null);
+									}});
 							}
 						});
 					}

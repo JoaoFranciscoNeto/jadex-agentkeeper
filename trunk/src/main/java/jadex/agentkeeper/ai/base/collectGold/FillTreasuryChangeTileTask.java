@@ -70,9 +70,6 @@ public class FillTreasuryChangeTileTask extends AbstractTask {
 		hinfo.addAmount(GOLD_AMOUNT_PER_GOLD_VEIN);
 		
 		hinfo.setLocked(false);
-		TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
-		taskPoolManager.finishTask((Task)getProperty("Task"));
-		taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, targetPosition);
 		
 		this.setFinished(environment, obj, true);
 	}

@@ -100,6 +100,35 @@ public class TaskPool extends HashMap<Integer, List<Task>> {
 			}
 		}
 	}
+	
+	
+	public int countWorkableCountedTasks() {
+		int counter =0;
+		for (Integer priority : this.keySet()) {
+			List<Task> listOfTasksInPriority = this.get(priority);
+			for(Task task : listOfTasksInPriority) {
+				if(task.isConnectedToDungeon()){
+					counter++;
+				}
+			}
+		}
+		return counter;
+	}
+	
+	public boolean hasTaskOnPosition(Vector2Int askedPosition){
+		for (Integer priority : this.keySet()) {
+			List<Task> listOfTasksInPriority = this.get(priority);
+			if (listOfTasksInPriority.size() > 0) {
+				for (Task task : listOfTasksInPriority) {
+					if(askedPosition.equals(task.getTargetPosition())){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 
 	public synchronized static int getWorkableCountedTasks() {
 		return workableCountedTasks;
