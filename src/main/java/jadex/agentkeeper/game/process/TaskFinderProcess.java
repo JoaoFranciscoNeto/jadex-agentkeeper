@@ -1,5 +1,6 @@
 package jadex.agentkeeper.game.process;
 
+import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.game.state.missions.Auftragsverwalter;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
@@ -54,11 +55,18 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 
 		if (delta > DELAY_RESET_COUNT) {
 			delta = 0;
-			findNotClaimedSectorsAndCreateNewTask();
-			findNotClaimedWallsAndCreateNewTask();
+//			findNotClaimedSectorsAndCreateNewTask();
+//			findNotClaimedWallsAndCreateNewTask();
+//			findTrainingsObject();
 		}
 	}
 
+	
+	private void findTrainingsObject(){
+		SimpleMapState mapState = (SimpleMapState) environment.getProperty(ISO.Objects.BUILDING_STATE);
+//		System.out.println(mapState.getClosestTrainigsRoomWithTrainingObject(new Vector2Double(4,5), environment));
+	}
+	
 	private void findNotClaimedSectorsAndCreateNewTask() {
 		try{
 		Object[] allSObj = environment.getSpaceObjects();
@@ -76,9 +84,9 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 				TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
 				taskPoolManager.addConnectedTask(TaskType.CLAIM_SECTOR, newClaimingPosition);
 				
-				Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty("auftraege");
-				
-				auftraege.neuerAuftrag(Auftragsverwalter.BESETZEN, newClaimingPosition);
+//				Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty("auftraege");
+//				
+//				auftraege.neuerAuftrag(Auftragsverwalter.BESETZEN, newClaimingPosition);
 			}
 		}
 		} catch(Exception e){
@@ -100,15 +108,18 @@ public class TaskFinderProcess extends SimplePropertyObject implements ISpacePro
 
 				for(TileInfo neighbourTile :  test) {
 					if(neighbourTile != null &&  neighbourTile.getMapType().equals(MapType.ROCK)) {
-						ISpaceObject test2 = environment.getSpaceObject(neighbourTile.getSpaceObjectId());
-						boolean clicked = (Boolean) test2.getProperty(ISO.Properties.CLICKED);
+						ISpaceObject currentSpaceTile = environment.getSpaceObject(neighbourTile.getSpaceObjectId());
+						boolean clicked = (Boolean) currentSpaceTile.getProperty(ISO.Properties.CLICKED);
 						if( !clicked){
-							test2.setProperty(ISO.Properties.LOCKED, false);
+							currentSpaceTile.setProperty(ISO.Properties.LOCKED, false);
 						}
-						Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty(ISO.Objects.TaskList);
+						TaskPoolManager taskPoolManager = (TaskPoolManager) environment.getProperty(TaskPoolManager.PROPERTY_NAME);
+						taskPoolManager.addConnectedTask(TaskType.CLAIM_WALL,(Vector2Int) currentSpaceTile.getProperty(ISO.Properties.INTPOSITION));
 						
-						
-						auftraege.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, (Vector2Int) test2.getProperty(ISO.Properties.INTPOSITION));
+//						Auftragsverwalter auftraege = (Auftragsverwalter) environment.getProperty(ISO.Objects.TaskList);
+//						
+//						
+//						auftraege.neuerAuftrag(Auftragsverwalter.VERSTAERKEWAND, (Vector2Int) test2.getProperty(ISO.Properties.INTPOSITION));
 					}
 				}
 			}

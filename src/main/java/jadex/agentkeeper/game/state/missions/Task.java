@@ -126,7 +126,11 @@ public class Task {
 	@Override
 	public boolean equals(Object obj) {
 		Task otherTask = (Task) obj;
-		return this.getTaskType().equals(otherTask.getTaskType()) && this.getTargetPosition().equals(otherTask.getTargetPosition());
+		if(otherTask != null) {
+			return this.getTaskType().equals(otherTask.getTaskType()) && this.getTargetPosition().equals(otherTask.getTargetPosition());
+		} else {
+			return false;
+		}
 	}
 
 }

@@ -219,6 +219,8 @@
 				<env:tasktype name="collectGoldTask" class="CollectGoldTask" />
 				<env:tasktype name="fillTreasuryTask" class="FillTreasuryTask" />
 				<env:tasktype name="createChickens" class="CreateChickenTask" />
+				<env:tasktype name="changeTileTask" class="ChangeTileTask" />
+				
 			</env:tasktypes>	
 
 			<env:processtypes>

@@ -139,18 +139,24 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	
 	
 	/**
-	 *  TODO: refactor MaintainCreatureTraining
+	 * Goal for train the Creatures.
 	 */
 	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class, MaintainCreatureFed.class}), retry=true, retrydelay=1000)
 	public class MaintainCreatureTraining
 	{
 		/**
-		 *  TODO: refactor MaintainCreatureTraining
+		 *  
 		 */
 		@GoalMaintainCondition(beliefs="myExperience")
 		public boolean checkMaintain()
 		{
 			return myExperience<100.0;
+		}
+		
+		@GoalTargetCondition(beliefs="myExperience")
+		public boolean checkTarget()
+		{
+			return myFedStatus>=100.0;
 		}
 		
 	}

@@ -53,9 +53,15 @@ public class ClaimSectorPlan {
 	protected IPlan iplan;
 
 	@PlanAPI
+	protected IPlan cplan;
+
+	@PlanAPI
 	protected IPlan rplan;
 
+	private Object claimtaskid;
+	
 	private Object digtaskid;
+	
 
 	private Grid2D environment;
 
@@ -73,7 +79,6 @@ public class ClaimSectorPlan {
 		
 		Task newImpTask = goal.getTarget();
 		if (newImpTask != null) {
-			System.out.println(newImpTask.getTaskType());
 			environment = capa.getEnvironment();
 			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
 			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
@@ -108,27 +113,17 @@ public class ClaimSectorPlan {
 						claimSector(currentImpTask).addResultListener(new DelegationResultListener<Void>(ret) {
 							public void customResultAvailable(Void result) {
 								// add new Tile and remove the old, claim the sector ground
-								TileChanger tilechanger = new TileChanger(environment);
-								// TODO: currentTaskSpaceObject can be null!
-								String neighborhood = (String) currentTaskSpaceObject.getProperty(ISO.Properties.NEIGHBORHOOD);
-								tilechanger.addParameter("bearbeitung", new Integer(0)).addParameter(ISO.Properties.STATUS, "byImpCreated").addParameter(ISO.Properties.CLICKED, false)
-										.addParameter(ISO.Properties.LOCKED, false).addParameter(ISO.Properties.NEIGHBORHOOD, neighborhood)
-										.addParameter(ISO.Properties.INTPOSITION, currentImpTaskPosition)
-										.addParameter(ISO.Properties.DOUBLE_POSITION, new Vector2Double(currentImpTaskPosition.getXAsDouble(), currentImpTaskPosition.getYAsDouble()))
-										.changeTile(currentImpTask.getTargetPosition(), MapType.CLAIMED_PATH, new ArrayList<MapType>(Arrays.asList(MapType.DIRT_PATH)));
-
-								// imp stop claiming the sector ground
-								capa.getMySpaceObject().setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
 								
-								playerState.addClaimedSector();
-								
-								TaskPoolManager taskPoolManager = (TaskPoolManager) capa.getEnvironment().getProperty(TaskPoolManager.PROPERTY_NAME);
-								for(ISpaceObject neighbour : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment, Neighborcase.getDefault() )) {
-									if(Neighborhood.isClaimableWall(neighbour) && !(Boolean)neighbour.getProperty(ISO.Properties.CLICKED)) {
-										taskPoolManager.addConnectedTask(TaskType.CLAIM_WALL, (Vector2Int) neighbour.getProperty(ISO.Properties.INTPOSITION));
+								Map<String, Object> props = new HashMap<String, Object>();
+								props.put("Task", currentImpTask);
+								props.put(ClaimSectorChangeTileTask.PROPERTY_DESTINATION, currentImpTask.getTargetPosition());
+								claimtaskid = capa.getEnvironment().createObjectTask(ClaimSectorChangeTileTask.PROPERTY_TYPENAME, props, capa.getMySpaceObject().getId());
+								cplan.invokeInterruptable(new IResultCommand<IFuture<Void>, Void>() {
+									public IFuture<Void> execute(Void args) {
+										return capa.getEnvironment().waitForTask(claimtaskid, capa.getMySpaceObject().getId());
 									}
-								}
-
+								}).addResultListener(new DelegationResultListener<Void>(ret));
+								
 								ret.setResult(null);
 							}
 						});
