@@ -25,8 +25,6 @@ import java.util.Collection;
 
 public class ClaimSectorChangeTileTask extends AbstractTask {
 
-	private static final int DELAY_RESET_COUNT = 100;
-
 	/** The destination property. */
 	public static final String PROPERTY_TYPENAME = "claimSectorChangeTileTask";
 

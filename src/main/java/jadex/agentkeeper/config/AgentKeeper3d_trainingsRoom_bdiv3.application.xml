@@ -620,12 +620,15 @@
 					
 					<env:drawable3d objecttype="DUNGEONHEART" width="1" height="1" depth="1" isDynamic="true">
 						
-						<env:object3d width="0.43" height="0.43" depth="0.43" x="1" y="1" z="1" 
-						modelpath="models/buildings/dungeonheart/newDungeonHeart6.j3o" >
-						<env:drawcondition>
+						<env:object3d width="0.39" height="0.5" depth="0.39" x="0" y="-0.1" z="0"
+						modelpath="models/heart_7/heart_7.j3o" >
+						 <env:drawcondition>
 							((ACenterBuildingInfo)$object.getProperty("tileInfo")).getCenterType() == CenterType.CENTER
-						</env:drawcondition>
+						</env:drawcondition> 
+						<env:animation name="Heart2" channel="chanA" loop="true" speed="0.05">
+						</env:animation>
 						<!-- 
+							<env:materialfile part="Heart_Icosphere1" path="models/buildings/dungeonheart/heat_5_1.j3m" />
 						 	<env:materialfile part="plate" path="models/buildings/dungeonheart/dungeonheart_ground.j3m" />
 							<env:materialfile part="units" path="models/buildings/dungeonheart/dungeonheart.j3m" />
 							<env:materialfile part="stuff" path="models/buildings/dungeonheart/dungeonheart.j3m" />

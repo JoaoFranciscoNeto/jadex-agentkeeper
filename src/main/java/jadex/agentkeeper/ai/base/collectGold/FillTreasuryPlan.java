@@ -8,11 +8,9 @@ import jadex.agentkeeper.ai.imp.ImpBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveFillTreasury;
 import jadex.agentkeeper.ai.pathfinding.AStarSearch;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
-import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
 import jadex.agentkeeper.game.state.missions.TaskType;
-import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.worldmodel.enums.MapType;
@@ -33,11 +31,9 @@ import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
 import jadex.extension.envsupport.math.IVector2;
-import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -68,7 +64,6 @@ public class FillTreasuryPlan {
 
 	private SpaceObject currentTaskSpaceObject;
 
-	private SimplePlayerState playerState;
 
 	private SimpleMapState mapState;
 	
@@ -85,7 +80,6 @@ public class FillTreasuryPlan {
 		Task newImpTask = goal.getTarget();
 		if (newImpTask != null) {
 			environment = capa.getEnvironment();
-			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
 			mapState = (SimpleMapState) environment.getProperty(ISO.Objects.BUILDING_STATE);
 			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 
