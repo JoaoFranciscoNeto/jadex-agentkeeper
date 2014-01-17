@@ -6,14 +6,11 @@ import jadex.agentkeeper.ai.base.claimSector.ClaimSectorChangeTileTask;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveClaimWall;
-import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
-import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
-import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
@@ -26,14 +23,9 @@ import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.ISpaceObject;
-import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
-import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,10 +56,6 @@ public class ClaimWallPlan {
 
 	private Grid2D environment;
 
-	private SpaceObject currentTaskSpaceObject;
-	
-	private SimplePlayerState playerState;
-	
 	@PlanReason
 	protected AchieveClaimWall	goal;
 
@@ -80,7 +68,6 @@ public class ClaimWallPlan {
 		if (newImpTask != null) {
 			System.out.println(newImpTask.getTaskType());
 			environment = capa.getEnvironment();
-			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
 			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 
 			reachTargetDestination(newImpTask).addResultListener(new DelegationResultListener<Void>(retb));
@@ -95,15 +82,6 @@ public class ClaimWallPlan {
 		final Future<Void> ret = new Future<Void>();
 
 		final Vector2Int currentImpTaskPosition = currentImpTask.getTargetPosition();
-
-		Collection<ISpaceObject> spaceObjectsByGridPosition = environment.getSpaceObjectsByGridPosition(currentImpTask.getTargetPosition(), null);
-		for (ISpaceObject spaceObject : spaceObjectsByGridPosition) {
-			for (MapType mapType : MapType.getOnlySolids()) {
-				if (mapType.toString().equals(spaceObject.getType())) {
-					currentTaskSpaceObject = (SpaceObject) spaceObject;
-				}
-			}
-		}
 
 		if (currentImpTaskPosition != null) {
 			Vector2Int reachableSectorForDigingInt = null;

@@ -3,12 +3,9 @@ package jadex.agentkeeper.ai.base.claimWall;
 import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
 import jadex.agentkeeper.game.state.missions.TaskPoolManager;
-import jadex.agentkeeper.game.state.missions.TaskType;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
-import jadex.agentkeeper.util.Neighborhood;
-import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.worldmodel.enums.MapType;
 import jadex.bridge.service.types.clock.IClockService;
 import jadex.extension.envsupport.environment.AbstractTask;
@@ -24,8 +21,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class ClaimWallChangeTileTask extends AbstractTask {
-
-	private static final int DELAY_RESET_COUNT = 100;
 
 	/** The destination property. */
 	public static final String PROPERTY_TYPENAME = "claimWallChangeTileTask";

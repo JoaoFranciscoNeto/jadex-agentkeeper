@@ -7,20 +7,9 @@ import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveCollectGold;
 import jadex.agentkeeper.ai.imp.ImpBDI.AchieveFillTreasury;
-import jadex.agentkeeper.ai.pathfinding.AStarSearch;
-import jadex.agentkeeper.game.state.map.SimpleMapState;
-import jadex.agentkeeper.game.state.map.TileChanger;
 import jadex.agentkeeper.game.state.missions.Task;
-import jadex.agentkeeper.game.state.missions.TaskPoolManager;
-import jadex.agentkeeper.game.state.missions.TaskType;
-import jadex.agentkeeper.game.state.player.SimplePlayerState;
-import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
-import jadex.agentkeeper.util.Neighborcase;
-import jadex.agentkeeper.util.Neighborhood;
 import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.agentkeeper.worldmodel.structure.TileInfo;
-import jadex.agentkeeper.worldmodel.structure.building.TreasuryInfo;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
 import jadex.bdiv3.annotation.PlanBody;
@@ -35,12 +24,8 @@ import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
-import jadex.extension.envsupport.math.IVector2;
-import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,10 +60,6 @@ public class CollectGoldPlan {
 
 	private SpaceObject currentTaskSpaceObject;
 
-	private SimplePlayerState playerState;
-
-	private SimpleMapState mapState;
-
 	@PlanReason
 	protected AchieveCollectGold goal;
 
@@ -90,8 +71,6 @@ public class CollectGoldPlan {
 		Task newImpTask = goal.getTarget();
 		if (newImpTask != null) {
 			environment = capa.getEnvironment();
-			playerState = (SimplePlayerState) environment.getProperty(ISO.Objects.PLAYER_STATE);
-			mapState = (SimpleMapState) environment.getProperty(ISO.Objects.MAP_STATE);
 			capa.getMySpaceObject().setProperty(IMP_LOCAL_TASK, newImpTask);
 
 			reachTargetDestination(newImpTask).addResultListener(new DelegationResultListener<Void>(retb));
@@ -117,7 +96,6 @@ public class CollectGoldPlan {
 		}
 
 		if (currentImpTaskPosition != null && currentTaskSpaceObject != null) {
-			Vector2Int reachableSectorForDigingInt = null;
 
 			// get the position from which the imp can walk to and dig
 //			for (ISpaceObject spaceObject : Neighborhood.getNeighborSpaceObjects(currentImpTaskPosition, environment, Neighborcase.getDefault())) {
