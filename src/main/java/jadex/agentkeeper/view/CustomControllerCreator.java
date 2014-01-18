@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
+import com.jme3.cursors.plugins.JmeCursor;
 
 import de.lessvoid.nifty.screen.ScreenController;
 import jadex.agentkeeper.view.camera.AgentKeeperCameraState;
@@ -39,6 +40,7 @@ public class CustomControllerCreator implements ICustomStateCreator
 	public CustomControllerCreator(SimpleApplication app, ISpaceController spaceController)
 	{
 		this.app = app;
+		
 		this.controller = new KeeperGuiController(app, spaceController);
 		this.generalAppState = new GeneralAppState();
 		this.cameraState = new AgentKeeperCameraState();

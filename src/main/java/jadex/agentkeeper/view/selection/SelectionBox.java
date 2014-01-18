@@ -179,6 +179,7 @@ public class SelectionBox extends AbstractBox
         }else {
             selectionArea = new SelectionArea(new Vector2f(0, 0), new Vector2f(0, 0));
         }
+        
         VertexBuffer buffer = geo.getMesh().getBuffer(Type.Position);
         float[] vertexArray = BufferUtils.getFloatArray((FloatBuffer) buffer.getData());
         //System.out.println(selectionArea.start + " : " + selectionArea.end);

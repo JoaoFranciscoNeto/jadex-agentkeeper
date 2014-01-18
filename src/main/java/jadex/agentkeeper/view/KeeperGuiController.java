@@ -1,25 +1,22 @@
 package jadex.agentkeeper.view;
 
+import jadex.agentkeeper.game.state.buildings.Treasury;
+import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
+import jadex.agentkeeper.game.state.player.SimplePlayerState;
+import jadex.agentkeeper.init.map.process.InitMapProcess;
+import jadex.agentkeeper.log.PerformanceTracker;
+import jadex.agentkeeper.util.ISpaceStrings;
+import jadex.agentkeeper.view.selection.SelectionMode;
+import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.SpellType;
+import jadex.extension.envsupport.environment.ISpaceController;
+import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
+import jadex.extension.envsupport.observer.graphics.jmonkey.appstate.gui.DefaultGuiController;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import jadex.agentkeeper.game.state.buildings.Treasury;
-import jadex.agentkeeper.game.state.creatures.SimpleCreatureState;
-import jadex.agentkeeper.game.state.player.SimplePlayerState;
-import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
-import jadex.agentkeeper.init.map.process.InitMapProcess;
-import jadex.agentkeeper.util.ISO;
-import jadex.agentkeeper.util.ISpaceStrings;
-import jadex.agentkeeper.view.selection.SelectionMode;
-import jadex.agentkeeper.log.PerformanceTracker;
-import jadex.agentkeeper.worldmodel.enums.MapType;
-import jadex.agentkeeper.worldmodel.enums.SpellType;
-import jadex.extension.envsupport.environment.ISpaceController;
-import jadex.extension.envsupport.math.Vector2Int;
-import jadex.extension.envsupport.observer.graphics.jmonkey.MonkeyApp;
-import jadex.extension.envsupport.observer.graphics.jmonkey.appstate.gui.DefaultGuiController;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.StatsAppState;
@@ -82,10 +79,13 @@ public class KeeperGuiController extends DefaultGuiController
 	private Map<String,List<String>> settingImageMapping = new HashMap<String,List<String>>();
 	
 	private Map<String,List<String>> spellImageMapping = new HashMap<String,List<String>>();
+	
+	CostUpdater costUpdate = new CostUpdater();
 
 	public KeeperGuiController(SimpleApplication app, ISpaceController spacecontroller)
 	{
 		this.app = (MonkeyApp)app;
+		
 		rootNode = this.app.getRootNode();
 		System.out.println( app.getRenderer().getCaps().toString() );
 		this.spaceController = spacecontroller;
@@ -171,7 +171,8 @@ public class KeeperGuiController extends DefaultGuiController
 
 	public void options()
 	{
-		
+		CostUpdater.setGoldCostsInVisible();
+		CostUpdater.setManaCostsInVisible();
 		// spaceController.getSpaceObjectsByGridPosition(new Vector2Int(10, 10),
 		// null);
 	}
@@ -180,6 +181,8 @@ public class KeeperGuiController extends DefaultGuiController
 	{
 		setTabSelected( Tabs.CREATURE );
 		this.playerState.setSelectionMode(SelectionMode.IMPMODE);
+		CostUpdater.setGoldCostsInVisible();
+		CostUpdater.setManaCostsInVisible();
 	}
 	
 	
@@ -187,6 +190,8 @@ public class KeeperGuiController extends DefaultGuiController
 	{
 		setTabSelected( Tabs.BUILDING);
 		deselectOtherSelections("noSelection", buildingImageMapping);
+		CostUpdater.setGoldCostsInVisible();
+		CostUpdater.setManaCostsInVisible();
 		// TODO: set BuildMode, reason to do that is not clear ..., cause the buildings do that ?
 	}
 	
@@ -194,30 +199,45 @@ public class KeeperGuiController extends DefaultGuiController
 	{
 		this.playerState.setBuilding(MapType.LAIR);
 		setBuildingSelected( Buildings.Lair);
+		CostUpdater.setGoldCostsVisible();
+		CostUpdater.setManaCostsInVisible();
+		CostUpdater.updateGoldCosts(MapType.LAIR.getCost());
 	}
 	
 	public void selectTreasury()
 	{
 		this.playerState.setBuilding(MapType.TREASURY);
 		setBuildingSelected(Buildings.Treasury);
+		CostUpdater.setGoldCostsVisible();
+		CostUpdater.setManaCostsInVisible();
+		CostUpdater.updateGoldCosts(MapType.TREASURY.getCost());
 	}
 	
 	public void selectHatchery()
 	{
 		this.playerState.setBuilding(MapType.HATCHERY);
 		setBuildingSelected(Buildings.Hatchery);
+		CostUpdater.setGoldCostsVisible();
+		CostUpdater.setManaCostsInVisible();
+		CostUpdater.updateGoldCosts(MapType.HATCHERY.getCost());
 	}
 	
 	public void selectTrainingroom()
 	{
 		this.playerState.setBuilding(MapType.TRAININGROOM);
 		setBuildingSelected( Buildings.Trainingsroom);
+		CostUpdater.setGoldCostsVisible();
+		CostUpdater.setManaCostsInVisible();
+		CostUpdater.updateGoldCosts(MapType.TRAININGROOM.getCost());
 	}
 	
 	public void selectLibrary()
 	{
 		this.playerState.setBuilding(MapType.LIBRARY);
 		setBuildingSelected(Buildings.Library);
+		CostUpdater.setGoldCostsVisible();
+		CostUpdater.setManaCostsInVisible();
+		CostUpdater.updateGoldCosts(MapType.LIBRARY.getCost());
 	}
 	
 	public void setPerform()
@@ -280,6 +300,8 @@ public class KeeperGuiController extends DefaultGuiController
 
     }
     
+    
+
 
 	private void updateGuiElements()
 	{
@@ -322,13 +344,21 @@ public class KeeperGuiController extends DefaultGuiController
 	}
 
 	
-	
 	public void onStartScreen()
 	{
 		
 		Element goldT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("goldstatus");
 		this.goldStatusRenderer = goldT.getRenderer(TextRenderer.class);
 		
+//		goldCosts = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("goldcosts");
+//		
+//		this.currentGoldCosts = goldCosts.getRenderer(TextRenderer.class);
+//		
+//		manaCosts = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("manacosts");
+//		this.currentManaCosts = manaCosts.getRenderer(TextRenderer.class);
+		
+		
+		CostUpdater.initStatitCostElements(this.app.getNiftyDisplay().getNifty().getCurrentScreen());
 		
 		Element manaT = this.app.getNiftyDisplay().getNifty().getCurrentScreen().findElementByName("manastatus");
 		this.manaStatusRenderer = manaT.getRenderer(TextRenderer.class);
@@ -409,7 +439,20 @@ public class KeeperGuiController extends DefaultGuiController
 	public void createImp(){
 		playerState.setSpell(SpellType.ImpCreation);
 		setTabSelected( Tabs.CREATE_IMP );
+		CostUpdater.setGoldCostsInVisible();
+		CostUpdater.setManaCostsVisible();
+		CostUpdater.updateManaCosts(SpellType.ImpCreation.getCost());
+		
+		
+		
 	}
+	
+	public void setSettingsTab(){
+		setTabSelected(Tabs.SETTINGS);
+		CostUpdater.setManaCostsInVisible();
+		CostUpdater.setGoldCostsInVisible();
+	}
+	
 	
 	/**
 	 * All available menu-tabs in Gui.
@@ -455,5 +498,6 @@ public class KeeperGuiController extends DefaultGuiController
 //		public final static String CreateImp= "CreateImp";
 //	}
 
+	
 
 }

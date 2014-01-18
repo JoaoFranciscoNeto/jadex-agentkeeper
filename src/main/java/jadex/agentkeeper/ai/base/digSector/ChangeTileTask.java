@@ -56,12 +56,11 @@ public class ChangeTileTask extends AbstractTask {
 		
 		boolean isGold = false;
 		
-		if(currentTaskSpaceObject.getType().equals(MapType.GOLD.toString())){
+		if (currentTaskSpaceObject.getType().equals(MapType.GOLD.toString())) {
 			tilechanger.changeTile(targetPosition, MapType.GOLD_DROPED, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
 			isGold = true;
 		} else {
 			tilechanger.changeTile(targetPosition, MapType.DIRT_PATH, new ArrayList<MapType>(Arrays.asList(MapType.ROCK, MapType.GOLD, MapType.REINFORCED_WALL)));
-
 		}
 		// imp stop digging
 		obj.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");

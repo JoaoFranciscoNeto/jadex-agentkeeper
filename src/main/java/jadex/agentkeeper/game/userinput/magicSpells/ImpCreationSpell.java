@@ -8,7 +8,7 @@ import jadex.agentkeeper.util.ISO;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.util.Neighborhood;
-import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.SpellType;
 import jadex.extension.envsupport.environment.IObjectTask;
 import jadex.extension.envsupport.environment.ISpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
@@ -16,6 +16,7 @@ import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.IVector2;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
+import jadex.agentkeeper.view.CostUpdater;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,8 @@ public class ImpCreationSpell {
 			if (new_mana > 0) {
 				// change Total Mana Amount
 				playerState.setMana(new_mana);
-
+				SpellType.ImpCreation.setCost(SpellType.ImpCreation.getCost()*2);
+				CostUpdater.updateManaCosts(SpellType.ImpCreation.getCost());
 				String type = "imp";
 
 				HashMap<String, Object> props = new HashMap<String, Object>();
