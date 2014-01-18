@@ -31,7 +31,7 @@ public enum MapType
 	PORTAL(TypeVariant.BUILDING, WalkType.PASSABLE, PortalInfo.class, true, 0), 
 	TORTURE(TypeVariant.BUILDING, WalkType.PASSABLE, TortureInfo.class, true, 1500),
 	TREASURY(TypeVariant.BUILDING, WalkType.PASSABLE, TreasuryInfo.class, true, 200), 
-	DUNGEONHEART(TypeVariant.BUILDING, WalkType.PASSABLE, DungeonHeartInfo.class, true, 0), 
+	DUNGEONHEART(TypeVariant.BUILDING, WalkType.IMPASSABLE, DungeonHeartInfo.class, true, 0), 
 	TRAININGROOM(TypeVariant.BUILDING, WalkType.PASSABLE, TrainingRoomInfo.class, true, 500), 
 	
 	//Solid Types

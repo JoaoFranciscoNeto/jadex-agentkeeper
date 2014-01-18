@@ -17,6 +17,7 @@ import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
 import jadex.agentkeeper.util.Neighborcase;
 import jadex.agentkeeper.util.Neighborhood;
+import jadex.agentkeeper.view.CostUpdater;
 import jadex.agentkeeper.view.selection.SelectionArea;
 import jadex.agentkeeper.worldmodel.enums.CenterPattern;
 import jadex.agentkeeper.worldmodel.enums.CenterType;
@@ -140,6 +141,7 @@ public class UserEingabenManager
 		int price = area.getTiles() * playerState.getMapType().getCost();
 
 		System.out.println("area pirce " + price);
+		
 		
 		Treasury.synchronizeTreasuriesWithPlayerGold(price, buildingState, _grid);
 
@@ -272,8 +274,8 @@ public class UserEingabenManager
 
 
 		}
-
-
+		// reset current Costs of Building
+		CostUpdater.updateGoldCosts(playerState.getMapType().getCost());
 		// _auftraege.newBreakWalls(area);
 	}
 
@@ -379,6 +381,7 @@ public class UserEingabenManager
 	{
 		ImpCreationSpell impCreationSpell = (ImpCreationSpell) _grid.getProperty(ISO.Objects.ImpCreationSpell);
 		impCreationSpell.createImp(positionInt, SpellType.ImpCreation.getCost());
+		
 	}
 
 	public void setShowBars(boolean set)

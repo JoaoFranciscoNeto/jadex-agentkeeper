@@ -25,20 +25,28 @@
 						<panel id="GoldIcon_grey" backgroundImage="/gui/images/topline/coins_grey.png"
 						height="32px" width="32px" imageMode="subImage:0,0,32,32"  />
 					</panel>  
+					<panel id="gold" childLayout="vertical" textHAlign="right" align="right">
 					<text id="goldstatus" style="nifty-arial-label" text="00000000"
-						color="#fd0f" valign="bottom"/>
+						color="#fd0f" valign="bottom" margin="20px,0px,0px,0px"/>
+					<text visible="false" id="goldcosts" style="nifty-arial-label" text="00000000"
+							color="#f00f" valign="bottom" align="right" textHAlign="right"  margin="0px,0px,0px,0px" />
+					</panel>
 					<image id="ManaIcon" filename="/gui/images/topline/mana_potion2.png"
 						height="32px" width="32px" margin="5px,5px,0px,15px"/>
 					<panel id="mana" childLayout="vertical" width="70px">
 						<panel id="minusplus" align="left" childLayout="center"
-							width="100%" valign="top">
+							width="100%" valign="bottom" margin="0px,0px,0px,16px">
 							<text id="claimedtiles" style="nifty-label" text="+000"
 								color="#0f0f" align="left" valign="top" textHAlign="left" />
 							<text id="manacost" style="nifty-label" text="-000" color="#f00f"
 								align="right" valign="top" textHAlign="right" />
 						</panel>
+						<panel id="mana2" childLayout="vertical" textHAlign="right" align="right" margin="0px,0px,0px,32px">
 						<text id="manastatus" style="nifty-arial-label" text="00000000"
-							color="#0dff" valign="bottom" textHAlign="left"  margin="0px,0px,0px,15px" />
+							color="#0dff" valign="bottom" align="right" textHAlign="right"   />
+						<text visible="false" id="manacosts" style="nifty-arial-label" text="00000000"
+							color="#f00f" valign="bottom" align="right" textHAlign="right"  margin="0px,0px,0px,0px" />
+						</panel>
 					</panel>
 				</panel>
 
@@ -73,7 +81,7 @@
 
 						<image id="DefaultS" filename="/gui/images/new/auto-repair.png"
 							height="40px" width="40px" hint="options" margin="0px,5px,0px,5px">
-							<interact onClick="setTabSelected(DefaultS)" />
+							<interact onClick="setSettingsTab();" />
 							<effect>
 								<onHover name="hint" hintText="Options" hintDelay="1000" />
 								<onHover name="imageOverlay" filename="/gui/images/new/auto-repair_selected.png"

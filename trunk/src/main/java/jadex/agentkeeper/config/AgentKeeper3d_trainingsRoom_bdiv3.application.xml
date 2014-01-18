@@ -632,7 +632,7 @@
 						 	<env:materialfile part="plate" path="models/buildings/dungeonheart/dungeonheart_ground.j3m" />
 							<env:materialfile part="units" path="models/buildings/dungeonheart/dungeonheart.j3m" />
 							<env:materialfile part="stuff" path="models/buildings/dungeonheart/dungeonheart.j3m" />
- -->
+                        -->
 						 </env:object3d>
 						 
 						<env:object3d width="0.79998" height="1" depth="0.79998" x="0" y="0" z="0" 
@@ -721,6 +721,9 @@
 						<env:drawcondition>$space.getProperty("showBars")</env:drawcondition>
 						<env:spatialcontroler classpath="jadex.agentkeeper.view.controller.LifeBarControl"></env:spatialcontroler>
 					</env:quad>
+					<env:text3d color="Black" text="Hallo" x="5" y="5" z="5" width="100" height="100">
+						
+						</env:text3d>
 						<env:property name="level" dynamic="true">$object.getProperty("level").toString()
 						</env:property>
 						<env:property name="lifesize" dynamic="true">new

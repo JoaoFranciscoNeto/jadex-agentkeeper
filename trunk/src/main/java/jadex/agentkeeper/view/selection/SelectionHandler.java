@@ -3,8 +3,10 @@ package jadex.agentkeeper.view.selection;
 import jadex.agentkeeper.game.state.player.SimplePlayerState;
 import jadex.agentkeeper.game.userinput.magicSpells.ImpCreationSpell;
 import jadex.agentkeeper.util.ISO;
+import jadex.agentkeeper.view.CostUpdater;
 import jadex.agentkeeper.view.GeneralAppState;
 import jadex.agentkeeper.worldmodel.enums.MapType;
+import jadex.agentkeeper.worldmodel.enums.TypeVariant;
 import jadex.agentkeeper.worldmodel.structure.TileInfo;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.math.IVector3;
@@ -56,6 +58,8 @@ public class SelectionHandler
 	protected SelectionArea					selectionArea;
 
 	protected Vector2f						selectionStart	= new Vector2f(Vector2f.ZERO);
+	
+	protected boolean hasSelectedArea = false;
 
 	/* The Playerstate */
 	private SimplePlayerState				playerState;
@@ -145,8 +149,18 @@ public class SelectionHandler
 				// selected.getType());
 
 				mystate.updateInfoText(selected.getType() + " x " + type +" "+selected.getProperty(ISO.Properties.LOCKED)+" "+selected.getProperty(ISO.Properties.CLICKED) +" "+selected.getProperty(ISO.Properties.INTPOSITION));
-
-
+				
+				if(hasSelectedArea){
+					// Update Costs of Building, if more then one tile is selected
+					if(getSelectionArea() != null && playerState.getMapType() != null) {
+						if(getSelectionArea().getTiles() >=1){
+							// update Costs per Tile, if it is a Building
+							if(playerState.getMapType().getVariant().equals(TypeVariant.BUILDING)){
+								CostUpdater.updateGoldCosts(playerState.getMapType().getCost()*getSelectionArea().getTiles());
+							}
+						}
+					}
+				}
 				// TODO: Selectionmode
 				if(playerState.getSelectionMode().IsSelectionMatchingToMode(type))
 				{
@@ -157,7 +171,7 @@ public class SelectionHandler
 						{
 							placeSelectionBox(getRounded2dMousePos().x, getRounded2dMousePos().y);
 						}
-						updateSelectionBox();
+						updateSelectionBox(null);
 					}
 					else
 					{
@@ -212,8 +226,13 @@ public class SelectionHandler
 		if(isOnView())
 		{
 			selectionStart.set(x, z);
+			hasSelectedArea = true;
 		}
 
+	}
+	
+	protected void setNoSelectedArea() {
+		hasSelectedArea = false;
 	}
 	
 	protected boolean isOnView()
@@ -223,9 +242,9 @@ public class SelectionHandler
 
 	protected SelectionArea getSelectionArea()
 	{
-
 		if(isOnView() && getRounded2dMousePos() != null)
 		{
+			
 			if(getRounded2dMousePos().x < selectionStart.x)
 			{
 				selectionArea.start.x = getRounded2dMousePos().x;
@@ -251,15 +270,15 @@ public class SelectionHandler
 		return null;
 	}
 
-	public void updateSelectionBox()
+	public void updateSelectionBox(SelectionArea selectionArea2)
 	{
 		if(isOnView())
 		{
 			visualSelectionBox.updateSelectionBoxVertices(getSelectionArea());
+			
 
 			int minusx = Math.round(selectionArea.getDeltaXaxis() / appScaled);
 			int minusy = Math.round(selectionArea.getDeltaYaxis() / appScaled);
-
 			wireBoxGeo.setLocalTranslation(selectionArea.start.x + appScaled / 2 * (minusx), appScaled / 2, selectionArea.start.y + appScaled / 2 * (minusy));
 			wireBox.updatePositions(appScaled / 2 * minusx, appScaled, appScaled / 2 * minusy);
 

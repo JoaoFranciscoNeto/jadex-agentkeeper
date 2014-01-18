@@ -19,6 +19,7 @@ public class SelectionHandlingKeyListener implements ActionListener
 	{
 		this.handler = handler;
 	}
+	
 
 	public void onAction(String name, boolean keyPressed, float tpf)
 	{
@@ -32,7 +33,8 @@ public class SelectionHandlingKeyListener implements ActionListener
 				{
 					handler.placeSelectionBox(handler.getRounded2dMousePos().x, handler.getRounded2dMousePos().y);
 				}
-				handler.updateSelectionBox();
+				handler.updateSelectionBox(handler.getSelectionArea());
+				
 			}
 			else
 			{
@@ -41,10 +43,9 @@ public class SelectionHandlingKeyListener implements ActionListener
 				{
 					handler.userSubmit(handler.getSelectionArea());
 				}
+				handler.setNoSelectedArea();
 			}
 		}
-
-
 	}
 
 }
