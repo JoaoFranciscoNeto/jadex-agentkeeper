@@ -150,13 +150,13 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 		@GoalMaintainCondition(beliefs="myExperience")
 		public boolean checkMaintain()
 		{
-			return myExperience<100.0;
+			return myExperience>=100.0;
 		}
 		
 		@GoalTargetCondition(beliefs="myExperience")
 		public boolean checkTarget()
 		{
-			return myFedStatus>=100.0;
+			return myExperience>=100.0;
 		}
 		
 	}
