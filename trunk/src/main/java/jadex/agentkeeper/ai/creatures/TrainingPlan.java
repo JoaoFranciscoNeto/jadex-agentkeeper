@@ -64,7 +64,7 @@ public class TrainingPlan {
 	public IFuture<Void> body()
 	{
 		final Future<Void> ret = new Future<Void>();
-
+		System.out.println("training");
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
 
 		environment = capa.getEnvironment();
@@ -90,7 +90,7 @@ public class TrainingPlan {
 		{
 			final TrainingRoomInfo info = (TrainingRoomInfo)buildingState.getTileAtPos(targetTrainingsRoom);
 
-			spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.EAT);
+			//spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.EAT);
 			IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(targetTrainingsRoom,new Vector2Double(0.00, -0.45)));
 			
 			fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)

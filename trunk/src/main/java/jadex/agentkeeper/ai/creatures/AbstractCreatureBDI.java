@@ -76,7 +76,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	 */
 	
 	@Goal(excludemode = Goal.ExcludeMode.WhenSucceeded, succeedonpassed = true, 
-			deliberation=@Deliberation(inhibits={PerformIdle.class,  MaintainCreatureAwake.class, MaintainCreatureFed.class}))
+			deliberation=@Deliberation(inhibits={PerformIdle.class,  MaintainCreatureAwake.class, MaintainCreatureFed.class, MaintainCreatureTraining.class}))
 	public class PerformOccupyLair
 	{
 	}
@@ -84,7 +84,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 *  Goal for keeping the Creature awake.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureFed.class, MaintainCreatureTraining.class}))
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureFed.class, MaintainCreatureTraining.class, MaintainCreatureTraining.class}))
 	public class MaintainCreatureAwake
 	{
 		/**
@@ -141,7 +141,7 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	/**
 	 * Goal for train the Creatures.
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class, MaintainCreatureFed.class}), retry=true, retrydelay=1000)
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), retry=true, retrydelay=1000)
 	public class MaintainCreatureTraining
 	{
 		/**
