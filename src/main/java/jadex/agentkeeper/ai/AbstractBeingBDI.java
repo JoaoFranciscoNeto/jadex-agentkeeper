@@ -190,7 +190,7 @@ public class AbstractBeingBDI
 	{
 		public PerformIdle()
 		{
-//			System.out.println("new perform idle");
+			System.out.println("new perform idle");
 		}
 	}
 	
@@ -207,6 +207,7 @@ public class AbstractBeingBDI
 		
 		public PerformIdleForTime(int duration)
 		{
+			System.out.println("new perform idle"+duration);
 			this.duration = duration;
 		}
 
