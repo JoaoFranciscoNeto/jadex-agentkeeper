@@ -60,7 +60,7 @@ public class PatrolPlan
 	public IFuture<Void> body()
 	{
 		environment = capa.getEnvironment();
-		System.out.println("Patol "+ capa.getMySpaceObject().getType());
+//		System.out.println("Patol "+ capa.getMySpaceObject().getType());
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
 
 		spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.PATROL);

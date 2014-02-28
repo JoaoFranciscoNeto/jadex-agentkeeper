@@ -6,6 +6,7 @@ import jadex.agentkeeper.ai.base.IdleForGivenDuration;
 import jadex.agentkeeper.ai.base.IdlePlan;
 import jadex.agentkeeper.ai.base.MoveToGridSectorPlan;
 import jadex.agentkeeper.ai.base.PatrolPlan;
+import jadex.agentkeeper.ai.creatures.TrainingPlan;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureAwake;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureFed;
 import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.PerformOccupyLair;
@@ -191,6 +192,19 @@ public class AbstractBeingBDI
 		public PerformIdle()
 		{
 			System.out.println("new perform idle");
+		}
+	}
+	
+	/**
+	 *  Goal that lets the Being perform a patrol.
+	 *  
+	 */
+	@Goal(excludemode=Goal.ExcludeMode.Never)
+	public class PerformPatrol
+	{
+		public PerformPatrol()
+		{
+			System.out.println("new perform patrol");
 		}
 	}
 	
