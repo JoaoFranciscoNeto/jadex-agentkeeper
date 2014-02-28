@@ -1,14 +1,12 @@
 package jadex.agentkeeper.ai.creatures;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
-import jadex.agentkeeper.ai.base.MoveTask;
-import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureFed;
-import jadex.agentkeeper.ai.creatures.AbstractCreatureBDI.MaintainCreatureTraining;
-import jadex.agentkeeper.ai.enums.PlanType;
+import jadex.agentkeeper.ai.AbstractBeingBDI.PerformIdle;
+import jadex.agentkeeper.ai.AbstractBeingBDI.PerformPatrol;
+import jadex.agentkeeper.ai.base.PatrolPlan;
 import jadex.agentkeeper.game.state.map.SimpleMapState;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
-import jadex.agentkeeper.worldmodel.structure.building.HatcheryInfo;
 import jadex.agentkeeper.worldmodel.structure.building.TrainingRoomInfo;
 import jadex.bdiv3.annotation.Plan;
 import jadex.bdiv3.annotation.PlanAPI;
@@ -18,24 +16,20 @@ import jadex.bdiv3.annotation.PlanCapability;
 import jadex.bdiv3.annotation.PlanFailed;
 import jadex.bdiv3.annotation.PlanReason;
 import jadex.bdiv3.runtime.IPlan;
-import jadex.commons.IResultCommand;
 import jadex.commons.future.DelegationResultListener;
 import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.SpaceObject;
 import jadex.extension.envsupport.environment.space2d.Grid2D;
-import jadex.extension.envsupport.environment.space2d.Space2D;
 import jadex.extension.envsupport.math.Vector2Double;
 import jadex.extension.envsupport.math.Vector2Int;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Plan
-public class TrainingPlan {
+public class TrainingPlan
+{
 
-	
 
 	@PlanCapability
 	protected AbstractCreatureBDI	capa;
@@ -44,7 +38,7 @@ public class TrainingPlan {
 	protected IPlan					rplan;
 
 	@PlanReason
-	protected MaintainCreatureTraining	goal;
+	protected PerformIdle			goal;
 
 	protected SpaceObject			spaceObject;
 
@@ -64,7 +58,7 @@ public class TrainingPlan {
 	public IFuture<Void> body()
 	{
 		final Future<Void> ret = new Future<Void>();
-		System.out.println("training");
+		System.out.println("training plan ! !");
 		spaceObject = (SpaceObject)capa.getMySpaceObject();
 
 		environment = capa.getEnvironment();
@@ -90,24 +84,40 @@ public class TrainingPlan {
 		{
 			final TrainingRoomInfo info = (TrainingRoomInfo)buildingState.getTileAtPos(targetTrainingsRoom);
 
-			//spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL, PlanType.EAT);
-			IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(targetTrainingsRoom,new Vector2Double(0.00, -0.45)));
-			
+			// spaceObject.setProperty(ISObjStrings.PROPERTY_GOAL,
+			// PlanType.EAT);
+			IFuture<AchieveMoveToSector> fut = rplan.dispatchSubgoal(capa.new AchieveMoveToSector(targetTrainingsRoom, new Vector2Double(0.00, -0.45)));
+
 			fut.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.AchieveMoveToSector, Void>(ret)
 			{
 				public void customResultAvailable(AbstractCreatureBDI.AchieveMoveToSector amt)
 				{
-					spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Idle");
+					spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Attack");
 					// System.out.println("at pos");
-					rplan.waitFor(100).addResultListener(new DelegationResultListener<Void>(ret)
+					rplan.waitFor(1000).addResultListener(new DelegationResultListener<Void>(ret)
 					{
 						public void customResultAvailable(Void result)
 						{
 							spaceObject.setProperty(ISObjStrings.PROPERTY_STATUS, "Attack");
-							Double experience = (Double) spaceObject.getProperty(ISObjStrings.PROPERTY_EXPERIENCE);
+							Double experience = (Double)spaceObject.getProperty(ISObjStrings.PROPERTY_EXPERIENCE);
 							experience += 0.1;
 							spaceObject.setProperty(ISObjStrings.PROPERTY_EXPERIENCE, experience);
-							ret.setResult(null);
+
+							IFuture<PerformPatrol> fut2 = rplan.dispatchSubgoal(capa.new PerformPatrol());
+
+							fut2.addResultListener(new ExceptionDelegationResultListener<AbstractCreatureBDI.PerformPatrol, Void>(ret)
+							{
+								@Override
+								public void customResultAvailable(PerformPatrol result)
+								{
+									System.out.println("now we make the patrol plan");
+									ret.setResult(null);
+
+								}
+
+							});
+
+
 						}
 
 					});
@@ -134,5 +144,5 @@ public class TrainingPlan {
 			capa.getEnvironment().removeObjectTask(mtaskid, spaceObject.getId());
 		}
 	}
-	
+
 }

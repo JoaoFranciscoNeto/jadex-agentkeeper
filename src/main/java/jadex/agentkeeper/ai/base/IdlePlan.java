@@ -1,6 +1,7 @@
 package jadex.agentkeeper.ai.base;
 
 import jadex.agentkeeper.ai.AbstractBeingBDI;
+import jadex.agentkeeper.ai.AbstractBeingBDI.AchieveMoveToSector;
 import jadex.agentkeeper.ai.enums.PlanType;
 import jadex.agentkeeper.util.ISObjStrings;
 import jadex.agentkeeper.util.ISpaceStrings;
@@ -10,6 +11,7 @@ import jadex.bdiv3.annotation.PlanBody;
 import jadex.bdiv3.annotation.PlanCapability;
 import jadex.bdiv3.runtime.IPlan;
 import jadex.commons.future.DelegationResultListener;
+import jadex.commons.future.ExceptionDelegationResultListener;
 import jadex.commons.future.Future;
 import jadex.commons.future.IFuture;
 import jadex.extension.envsupport.environment.ISpaceObject;
@@ -52,7 +54,6 @@ public class IdlePlan
 	{
 		final Future<Void> ret = new Future<Void>();
 		
-	
 		String status = random > 0.9f ? "Dance" : "Idle";
 //		String status = "Dance";
 		
