@@ -46,6 +46,7 @@ public class AgentKeeperStandalone
 		Set<String> agentKeeperReserved = new HashSet<String>(Arrays.asList(AGENT_APPLICATION_XML_ARGUMENT, HELP_ARGUMENT_1, HELP_ARGUMENT_2));
 		
 		List<String> jargs = new ArrayList<String>(); // Jadex args
+		
 		List<String> bargs = new ArrayList<String>(); // Backup args
 		Map<String, String> keeperArgs = new HashMap<String, String>(); // Backup args
 		
@@ -74,7 +75,7 @@ public class AgentKeeperStandalone
 			String[] defargs = new String[]
 			{
 	//			"-logging", "true",
-				"-gui", "true",
+				"-gui", "false",
 				"-welcome", "false",
 				"-cli", "false",
 				"-printpass", "false",
