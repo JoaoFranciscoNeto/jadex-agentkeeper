@@ -1,6 +1,6 @@
 package jadex.agentkeeper.ai.oldai.basic;
 
-import jadex.bdi.runtime.IBDIExternalAccess;
+import jadex.kernelbase.ExternalAccess;
 import jadex.bdi.runtime.IBDIInternalAccess;
 import jadex.bridge.IComponentStep;
 import jadex.bridge.IInternalAccess;
@@ -56,7 +56,7 @@ public class MoveTask extends AbstractTask
 	public void execute(IEnvironmentSpace space, ISpaceObject obj, long progress, IClockService clock)
 	{
 		IVector2 destination = (IVector2)getProperty(PROPERTY_DESTINATION);
-		final IBDIExternalAccess agent = (IBDIExternalAccess)getProperty(PROPERTY_SCOPE);
+		final ExternalAccess agent = (ExternalAccess)getProperty(PROPERTY_SCOPE);
 
 		double	speed	= ((Number)obj.getProperty(PROPERTY_SPEED)).doubleValue();
 		

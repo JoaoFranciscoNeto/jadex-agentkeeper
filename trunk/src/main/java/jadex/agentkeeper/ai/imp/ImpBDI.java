@@ -60,7 +60,7 @@ public class ImpBDI extends AbstractBeingBDI {
 	 *  Goal that let the Imp claim Sectors.
 	 *  
 	 */
-	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), excludemode=Goal.ExcludeMode.Never, retry=true, retrydelay=1000, succeedonpassed=false)
+	@Goal(deliberation=@Deliberation(inhibits={PerformIdle.class}), excludemode=Goal.ExcludeMode.Never, retry=true, retrydelay=1000, orsuccess=false)
 	public class PerformImpTaskPoolGoal
 	{
 
