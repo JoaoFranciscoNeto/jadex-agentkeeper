@@ -79,13 +79,13 @@ public class AbstractCreatureBDI extends AbstractBeingBDI
 	 * Goal that lets the Creature occupy a bed.
 	 */
 	
-	@Goal(excludemode = Goal.ExcludeMode.WhenSucceeded, succeedonpassed = true, 
+	@Goal(excludemode = Goal.ExcludeMode.WhenSucceeded, orsuccess = true, 
 			deliberation=@Deliberation(inhibits={PerformTraining.class, PerformIdle.class,  MaintainCreatureAwake.class, MaintainCreatureFed.class, MaintainCreatureTraining.class}))
 	public class PerformOccupyLair
 	{
 	}
 	
-	@Goal(retrydelay=10000, excludemode=Goal.ExcludeMode.Never, succeedonpassed=false, randomselection=true, deliberation=@Deliberation(inhibits={PerformIdle.class,  MaintainCreatureAwake.class, MaintainCreatureFed.class, MaintainCreatureTraining.class}))
+	@Goal(retrydelay=10000, excludemode=Goal.ExcludeMode.Never, orsuccess=false, randomselection=true, deliberation=@Deliberation(inhibits={PerformIdle.class,  MaintainCreatureAwake.class, MaintainCreatureFed.class, MaintainCreatureTraining.class}))
 	public class PerformTraining
 	{
 	}

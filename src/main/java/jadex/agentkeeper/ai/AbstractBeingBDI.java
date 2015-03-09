@@ -186,7 +186,7 @@ public class AbstractBeingBDI
 	 *  Because the Goal has two Plans (IdlePlan and PatrolPlan) and we use randomselection
 	 *  the Agent just Idles or Patrols
 	 */
-	@Goal(excludemode=Goal.ExcludeMode.Never, succeedonpassed=false, randomselection=true)
+	@Goal(excludemode=Goal.ExcludeMode.Never, orsuccess=false, randomselection=true)
 	public class PerformIdle
 	{
 		public PerformIdle()
@@ -214,7 +214,7 @@ public class AbstractBeingBDI
 	 *  Because the Goal hast two Plans (IdlePlan and PatrolPlan) and we use randomselection
 	 *  the Agent just Idles or Patrols
 	 */
-	@Goal(excludemode=Goal.ExcludeMode.WhenSucceeded, succeedonpassed=true, deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class, PerformOccupyLair.class}))
+	@Goal(excludemode=Goal.ExcludeMode.WhenSucceeded, orsuccess=true, deliberation=@Deliberation(inhibits={PerformIdle.class, MaintainCreatureAwake.class, PerformOccupyLair.class}))
 	public class PerformIdleForTime
 	{
 		private int duration;
